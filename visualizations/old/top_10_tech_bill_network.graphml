@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d2" for="edge" attr.name="weight" attr.type="double"/>
+<key id="d1" for="node" attr.name="node_type" attr.type="string"/>
+<key id="d0" for="node" attr.name="bipartite" attr.type="long"/>
+<graph edgedefault="directed"><node id="AT&amp;T">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="hr1668-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="s734-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="s748-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="AMAZON">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="hr5-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="s788-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="hr3494-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="hr2013-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="s189-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="hr1044-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="hr2820-116">
+  <data key="d0">1</data>
+  <data key="d1">bill</data>
+</node>
+<node id="CARDINAL HEALTH">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="GENERAL ELECTRIC">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="KROGER">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="ALPHABET">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="GENERAL MOTORS">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="VERIZON">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<node id="APPLE">
+  <data key="d0">0</data>
+  <data key="d1">corporation</data>
+</node>
+<edge source="AT&amp;T" target="hr1668-116">
+  <data key="d2">26320000.0</data>
+</edge>
+<edge source="AT&amp;T" target="s734-116">
+  <data key="d2">26320000.0</data>
+</edge>
+<edge source="AT&amp;T" target="s748-116">
+  <data key="d2">26402500.0</data>
+</edge>
+<edge source="AT&amp;T" target="s189-116">
+  <data key="d2">30000.0</data>
+</edge>
+<edge source="AT&amp;T" target="hr1044-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="AT&amp;T" target="hr5-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="AT&amp;T" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="AT&amp;T" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="AT&amp;T" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="AT&amp;T" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="AMAZON" target="hr5-116">
+  <data key="d2">34000000.0</data>
+</edge>
+<edge source="AMAZON" target="s788-116">
+  <data key="d2">30110000.0</data>
+</edge>
+<edge source="AMAZON" target="hr3494-116">
+  <data key="d2">30110000.0</data>
+</edge>
+<edge source="AMAZON" target="hr2013-116">
+  <data key="d2">30110000.0</data>
+</edge>
+<edge source="AMAZON" target="s189-116">
+  <data key="d2">30110000.0</data>
+</edge>
+<edge source="AMAZON" target="s748-116">
+  <data key="d2">26100000.0</data>
+</edge>
+<edge source="AMAZON" target="hr1668-116">
+  <data key="d2">25370000.0</data>
+</edge>
+<edge source="AMAZON" target="s734-116">
+  <data key="d2">25370000.0</data>
+</edge>
+<edge source="AMAZON" target="hr1044-116">
+  <data key="d2">30110000.0</data>
+</edge>
+<edge source="AMAZON" target="hr2820-116">
+  <data key="d2">30110000.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="hr5-116">
+  <data key="d2">4510000.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="hr1044-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="hr1668-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="s734-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="CARDINAL HEALTH" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="hr1668-116">
+  <data key="d2">1660000.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="hr1044-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="hr5-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="s734-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL ELECTRIC" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="hr2013-116">
+  <data key="d2">1520000.0</data>
+</edge>
+<edge source="KROGER" target="hr1044-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="hr1668-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="hr5-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="s734-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="KROGER" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="hr1044-116">
+  <data key="d2">15980000.0</data>
+</edge>
+<edge source="ALPHABET" target="hr1668-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="hr5-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="s734-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="ALPHABET" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="hr5-116">
+  <data key="d2">7000000.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="s788-116">
+  <data key="d2">7000000.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="hr1044-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="hr1668-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="s734-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="GENERAL MOTORS" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="hr1668-116">
+  <data key="d2">5457000.0</data>
+</edge>
+<edge source="VERIZON" target="s734-116">
+  <data key="d2">5457000.0</data>
+</edge>
+<edge source="VERIZON" target="hr1044-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="hr5-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="VERIZON" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="hr1044-116">
+  <data key="d2">1540000.0</data>
+</edge>
+<edge source="APPLE" target="hr1668-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="hr5-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="s734-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="s748-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="s788-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="hr2013-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="s189-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="hr2820-116">
+  <data key="d2">0.0</data>
+</edge>
+<edge source="APPLE" target="hr3494-116">
+  <data key="d2">0.0</data>
+</edge>
+</graph></graphml>

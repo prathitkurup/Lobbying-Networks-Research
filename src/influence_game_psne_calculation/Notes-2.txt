@@ -1,0 +1,11 @@
+Computing Equilibria of Influence Games
+==============================================
+
+This is the simpler version of the equilibrium computation algorithm. It doesn't use divide-and-conquer and is relatively slow. For the divide-and-conquer version, follow the instructions in Notes-1.txt. Send your questions to Mohammad Irfan <mirfan@bowdoin.edu>.
+
+Here's how to use the codes (I'm using a 20-player example game "graph_test.txt" included in the attachment. All game/graph files must have the number of players in the first line):
+
+g++ -o influence_simple.o influence_simple.cpp
+./influence_simple.o graph_test.txt
+
+This completes the computation of equilibria. You'll see the equilibrium count on screen. All equilibria can be found in the file "graph_test_equilibria.txt". Note that the only parameter here is the graph file name WITH the .txt extension. The program will produce 1134 equilibria for the graph_test.txt input file.
