@@ -5,7 +5,6 @@
 import pandas as pd
 import re
 
-# TODO: double check that all variations accounted for (bc only 86 unqiue clients appear)
 # Mapping of Fortune 500 companies to their known name variations in LobbyView data
 fortune_500_names = {
     "WALMART":["WAL-MART STORES INC"],
@@ -41,14 +40,14 @@ fortune_500_names = {
     "MARATHON PETROLEUM":["MARATHON PETROLEUM" "MARATHON PETROLEUM CORPORATION"],
     "COMCAST":["COMCAST","COMCAST CORP (THROUGH FTI GOVERNMENT AFFAIRS)","COMCAST CORPORATION"],
     "ANTHEM":["ANTHEM","ANTHEM ONE, INC","ANTHEM INC"],
-    "DELL TECHNOLOGIES":["DELL TECHNOLOGIES"],
-    "DUPONT DE NEMOURS":["DUPONT DE NEMOURS"],
+    "DELL TECHNOLOGIES":["DELL TECHNOLOGIES","EMC CORPORATION"],
+    "DUPONT DE NEMOURS":["DUPONT DE NEMOURS", "DUPONT"],
     "STATE FARM INSURANCE":["STATE FARM INSURANCE","STATE FARM INSURANCE COMPANIES","NATL ASSN OF STATE FARM AGENTS"],
     "JOHNSON & JOHNSON":["JOHNSON & JOHNSON","JOHNSON & JOHNSON INC"],
     "IBM":["IBM","IBM(FORMERLY HEALTHLINK INC)"],
-    "TARGET":["TARGET"],
+    "TARGET":["TARGET", "TARGET CORPORATION"],
     "FREDDIE MAC":["FREDDIE MAC"],
-    "UNITED PARCEL SERVICE":["UNITED PARCEL SERVICE","C2 GROUP (ON BEHALF OF UNITED PARCEL SERVICE)","DOTCHIN & ASSOCIATES ON BEHALF OF UNITED PARCEL SERVICE","RAFFANIELLO & ASSOCIATES ON BEHALF OF UNITED PARCEL SERVICE"],
+    "UNITED PARCEL SERVICE":["UPS", "UNITED PARCEL SERVICE","C2 GROUP (ON BEHALF OF UNITED PARCEL SERVICE)","DOTCHIN & ASSOCIATES ON BEHALF OF UNITED PARCEL SERVICE","RAFFANIELLO & ASSOCIATES ON BEHALF OF UNITED PARCEL SERVICE"],
     "LOWE'S":["LOWE'S","LOWE'S COMPANIES INC."],
     "INTEL":["INTEL","INTEL CORPORATION"],
     "METLIFE":["METLIFE"],
@@ -62,7 +61,7 @@ fortune_500_names = {
     "ALBERTSONS":["ALBERTSONS","ALBERTSONS COMPANIES, INC."],
     "WALT DISNEY":["WALT DISNEY","THE WALT DISNEY COMPANY"],
     "SYSCO":["SYSCO","SYSCO CORP"],
-    "HP":["HP"],
+    "HP":["HP", "HEWLETT PACKARD ENTERPRISE COMPANY"],
     "HUMANA":["HUMANA","HUMANA MILITARY"],
     "FACEBOOK":["FACEBOOK"],
     "CATERPILLAR":["CATERPILLAR","CATERPILLAR INC","CATERPILLAR DEFENSE PRODUCTS"],
@@ -96,7 +95,7 @@ fortune_500_names = {
     "CONOCOPHILLIPS":["CONOCOPHILLIPS"],
     "DEERE":["DEERE","JOHN DEERE"],
     "TECH DATA":["TECH DATA"],
-    "ENTERPRISE PRODUCTS PARTNERS":["ENTERPRISE PRODUCTS PARTNERS"],
+    "ENTERPRISE PRODUCTS PARTNERS":["ENTERPRISE PRODUCTS PARTNERS", "ENTERPRISE PRODUCTS OPERATING LLC"],
     "NIKE":["NIKE","NIKE, INC."],
     "PUBLIX SUPER MARKETS":["PUBLIX SUPER MARKETS","PUBLIX SUPER MARKETS, INC."],
     "GENERAL DYNAMICS":["GENERAL DYNAMICS","GENERAL DYNAMICS ARMAMENT SYSTEMS - SACO OPERATIONS"],
@@ -110,8 +109,8 @@ fortune_500_names = {
     "COCA-COLA":["COCA-COLA","THE COCA-COLA COMPANY"],
     "USAA":["USAA"],
     "HEWLETT PACKARD ENTERPRISE":["HEWLETT PACKARD ENTERPRISE","HEWLETT PACKARD ENTERPRISE COMPANY"],
-    "ABBOTT LABORATORIES":["ABBOTT LABORATORIES"],
-    "TWENTY-FIRST CENTURY FOX":["TWENTY-FIRST CENTURY FOX"],
+    "ABBOTT LABORATORIES":["ABBOTT LABORATORIES", "ROSS ABBOTT LABS","ABBOTT DIABETES CARE"],
+    "TWENTY-FIRST CENTURY FOX":["TWENTY-FIRST CENTURY FOX", "FOX CORPORATION","21ST CENTURY FOX"],
     "MICRON TECHNOLOGY":["MICRON TECHNOLOGY","MICRON TECHNOLOGY, INC."],
     "TRAVELERS":["TRAVELERS","THE TRAVELERS COMPANIES, INC. AND SUBSIDIARIES"],
     "RITE AID":["RITE AID","RITE AID CORPORATION"],
@@ -157,8 +156,6 @@ fortune_500_names = {
     "LEAR":["LEAR","LEAR CORPORATION"],
     "WHIRLPOOL":["WHIRLPOOL","WHIRLPOOL CORPORATION"],
     "MCDONALD'S":["MCDONALD'S","MCDONALD'S CORPORATION"],
-
-
     "BROADCOM":["BROADCOM","BROADCOM INC."],
     "MARRIOTT INTERNATIONAL":["MARRIOTT INTERNATIONAL","MARRIOTT INTERNATIONAL, INC."],
     "WESTERN DIGITAL":["WESTERN DIGITAL","WESTERN DIGITAL CORPORATION"],
@@ -278,8 +275,7 @@ fortune_500_names = {
     "MGM RESORTS INTERNATIONAL":["MGM RESORTS INTERNATIONAL"],
     "TENNECO":["TENNECO"],
     "NVIDIA":["NVIDIA","NVIDIA CORPORATION"],
-    "SEMPRA ENERGY":["SEMPRA ENERGY"]
-        ,
+    "SEMPRA ENERGY":["SEMPRA ENERGY"],
     "FARMERS INSURANCE EXCHANGE":["FARMERS INSURANCE EXCHANGE"],
     "BALL":["BALL"],
     "GROUP 1 AUTOMOTIVE":["GROUP 1 AUTOMOTIVE"],
@@ -373,7 +369,6 @@ fortune_500_names = {
     "GENWORTH FINANCIAL":["GENWORTH FINANCIAL","GENWORTH FINANCIAL, INC."],
     "FIDELITY NATIONAL INFORMATION SERVICES":["FIDELITY NATIONAL INFORMATION SERVICES","FIDELITY CHARITABLE GIFT FUND","FIDELITY SECURITY LIFE INSURANCE COMPANY"],
     "YUM CHINA HOLDINGS":["YUM CHINA HOLDINGS","YUM CHINA HOLDINGS, INC."],
-    #HERE
     "RYDER SYSTEM":["RYDER SYSTEM"],
     "ANIXTER INTERNATIONAL":["ANIXTER INTERNATIONAL"],
     "CAESARS ENTERTAINMENT":["CAESARS ENTERTAINMENT"],
@@ -518,12 +513,10 @@ fortune_lob_ids = set()
 lob_id_to_company = {}
 
 # Step 1: Load data from the LobbyView datasets 
-clients = pd.read_csv("data/lobbyview_clients.csv")
-reports = pd.read_csv("data/lobbyview_reports.csv")
-issues  = pd.read_csv("data/lobbyview_issue_text.csv")
-bills   = pd.read_csv("data/lobbyview_bills.csv")
-
-CLIENT_NAME_COL = "client_name"
+clients = pd.read_csv("../data/LobbyView/lobbyview_clients.csv")
+reports = pd.read_csv("../data/LobbyView/lobbyview_reports.csv")
+issues  = pd.read_csv("../data/LobbyView/lobbyview_issue_text.csv")
+bills   = pd.read_csv("../data/LobbyView/lobbyview_bills.csv")
 
 # We need to expand the bill_id_agg column into individual bill_ids
 issues_long = issues.copy()
@@ -557,9 +550,10 @@ ib_reports = issue_bills_116.merge(
     how="left"
 )
 
+# TODO: Some client names in the clients db are in quotes so might need to strip
 # Step 4: Join in the client information for the bills we filtered to
 ib_clients = ib_reports.merge(
-    clients[["lob_id", CLIENT_NAME_COL]],
+    clients[["lob_id", "client_name"]],
     on="lob_id",
     how="left"
 )
@@ -600,7 +594,7 @@ final = (
     .drop_duplicates()
 )
 
-final.to_csv("/Users/vfigueroa/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Prathit/Lobbying-Networks-Research/data/fortune500_lda_reports.csv", index=False)
+final.to_csv("../data/fortune500_lda_reports.csv", index=False)
 
 # Print stats
 print(f"Total records: {len(final)}")
