@@ -1,11 +1,21 @@
-# Prathit Kurup, Victoria Figueroa
-# 02/03/2026
-# This script extracts the LobbyView data for Fortune 500 companies in the 116th Congress
+'''
+Prathit Kurup, Victoria Figueroa
+02/12/2026
+
+Extract lobbying activity for Fortune 500 companies from LobbyView,
+normalize client identities, expand bill associations, filter to a
+specific Congress, and produce a bill-level lobbying dataset with
+correctly allocated spending.
+'''
 
 import pandas as pd
 import re
 
-# Mapping of Fortune 500 companies to their known name variations in LobbyView data
+DATA_PATH = "../data/LobbyView"
+OUTPUT_PATH = "../data/fortune500_lda_reports.csv"
+TARGET_CONGRESS = 116
+
+# FORTUNE 500 NAME MAPPINGS
 fortune_500_names = {
     "WALMART":["WAL-MART STORES INC"],
     "EXXONMOBIL":["EXXON MOBIL CORPORATION","EXXON MOBILE","EXXON USA","EXXONMOBIL CHEMICAL CO"],
@@ -509,94 +519,170 @@ fortune_500_names = {
     "LEVI STRAUSS":["LEVI STRAUSS","LEVI STRAUSS & CO"]
 }
 
-fortune_lob_ids = set()
-lob_id_to_company = {}
+# DATA LOADING
+def load_lobbyview_data():
+    """Load LobbyView CSV datasets."""
+    clients = pd.read_csv(f"{DATA_PATH}/lobbyview_clients.csv")
+    reports = pd.read_csv(f"{DATA_PATH}/lobbyview_reports.csv")
+    issues  = pd.read_csv(f"{DATA_PATH}/lobbyview_issue_text.csv")
+    bills   = pd.read_csv(f"{DATA_PATH}/lobbyview_bills.csv")
+    return clients, reports, issues, bills
 
-# Step 1: Load data from the LobbyView datasets 
-clients = pd.read_csv("../data/LobbyView/lobbyview_clients.csv")
-reports = pd.read_csv("../data/LobbyView/lobbyview_reports.csv")
-issues  = pd.read_csv("../data/LobbyView/lobbyview_issue_text.csv")
-bills   = pd.read_csv("../data/LobbyView/lobbyview_bills.csv")
 
-# We need to expand the bill_id_agg column into individual bill_ids
-issues_long = issues.copy()
-issues_long["bill_id_agg"] = (
-    issues_long["bill_id_agg"]
-      .fillna("")                                   # handle NaNs
-      .astype(str)
-      .str.replace(r'[{}\"]', '', regex=True)
-      .str.replace(r'^\s*nan\s*$', '', regex=True)  # guard against string "nan"
-)
+# BILL PARSING AND EXPANSION
+def clean_bill_aggregation_column(issues_df):
+    """Normalize and clean aggregated bill column."""
+    df = issues_df.copy()
+    
+    df["bill_id_agg"] = (
+        df["bill_id_agg"]
+            .fillna("")
+            .astype(str)
+            .str.replace(r'[{}\"]', '', regex=True)
+            .str.replace(r'^\s*nan\s*$', '', regex=True)
+    )
+    return df
 
-# Explode the bill_id_agg column into individual bill_ids
-issues_long = issues_long.assign(
-    bill_id=issues_long["bill_id_agg"].str.split(",")
-).explode("bill_id")
-issues_long["bill_id"] = issues_long["bill_id"].str.strip()
-issues_long = issues_long[issues_long["bill_id"] != ""]
+def explode_bills(issues_df):
+    """Expand aggregated bill lists into individual bill rows."""
+    df = issues_df.copy()
+    
+    df = df.assign(bill_id=df["bill_id_agg"].str.split(",")).explode("bill_id")
+    df["bill_id"] = df["bill_id"].str.strip()
+    df = df[df["bill_id"] != ""]
+    
+    return df
 
-# Step 2: Join the issues_long dataframe to the bills dataframe and filter to the 116th Congress
-issue_bills = issues_long.merge(
-    bills[["bill_id", "congress_number", "bioguide_id"]],
-    on="bill_id",
-    how="left"
-)
-issue_bills_116 = issue_bills[issue_bills["congress_number"] == 116].copy()
 
-# Step 3: Join in the lobbying reports
-ib_reports = issue_bills_116.merge(
-    reports[["report_uuid", "lob_id", "amount"]],
-    on="report_uuid",
-    how="left"
-)
+# JOIN BILLS DATA FOR SPECIFIC CONGRESS
+def join_bill_metadata(issues_df, bills_df):
+    """join bill metadata including congress number."""
+    return issues_df.merge(
+        bills_df[["bill_id", "congress_number", "bioguide_id"]],
+        on="bill_id",
+        how="left"
+    )
 
-# TODO: Some client names in the clients db are in quotes so might need to strip
-# Step 4: Join in the client information for the bills we filtered to
-ib_clients = ib_reports.merge(
-    clients[["lob_id", "client_name"]],
-    on="lob_id",
-    how="left"
-)
+def filter_by_congress(df, congress):
+    """Filter dataset to a specific Congress."""
+    filtered = df[df["congress_number"] == congress].copy()
+    return filtered
 
-# Use exact matching to get just the clients we are itnerested in
-def normalize_name(name):
+
+# JOIN REPORTS AND SPLIT AMOUNTS
+def join_reports(df, reports_df):
+    """join lobbying report metadata."""
+    return df.merge(
+        reports_df[["report_uuid", "lob_id", "amount"]],
+        on="report_uuid",
+        how="left"
+    )
+
+def split_amount_across_bills(df):
+    """
+    Evenly allocate report-level spending across associated bills.
+    """
+    bill_counts = (
+        df.groupby("report_uuid")["bill_id"]
+          .nunique()
+          .reset_index(name="num_bills")
+    )
+
+    df = df.merge(bill_counts, on="report_uuid", how="left")
+    df["amount_per_bill"] = df["amount"] / df["num_bills"]
+    
+    return df
+
+# JOIN CLIENTS AND NORMALIZE NAMES
+def join_clients(df: pd.DataFrame, clients_df: pd.DataFrame) -> pd.DataFrame:
+    """Join client metadata to report-bill records."""
+    return df.merge(
+        clients_df[["lob_id", "client_name"]],
+        on="lob_id",
+        how="left"
+    )
+
+def normalize_name(name, mapping):
+    """Map raw client name to canonical Fortune 500 name."""
     if not isinstance(name, str):
-        return None 
+        return None
+    
     name_upper = name.upper().strip()
     
-    for key, variations in fortune_500_names.items():
-        if name_upper == key:              # allow matching canonical names
-            return key
-        for variation in variations:
-            if name_upper == variation:
-                return key
+    for canonical, variations in mapping.items():
+        if name_upper == canonical:
+            return canonical
+        if name_upper in variations:
+            return canonical
+    
     return None
 
-unique_clients = ib_clients[["lob_id", "client_name"]].drop_duplicates()
+def map_fortune_clients(df, fortune_map):
+    """Map lob_ids to canonical Fortune 500 identities."""
+    lob_id_to_company = {}
 
-# Map each unique client to its normalized fortune 500 name from our list and store lob_ids
-for _, row in unique_clients.iterrows():
-    client_name = row["client_name"]
-    lob_id = row["lob_id"]
-    client_name_norm = normalize_name(client_name)
-    if client_name_norm:
-        fortune_lob_ids.add(lob_id)
-        lob_id_to_company[lob_id] = client_name_norm
+    unique_clients = df[["lob_id", "client_name"]].drop_duplicates()
 
-# Step 5: Map each lob_id to its normalized fortune 500 company name
-ib_clients["fortune_client_name"] = ib_clients["lob_id"].map(lob_id_to_company)
-filtered = ib_clients[ib_clients["fortune_client_name"].notna()].copy()
-filtered["client_name"] = filtered["fortune_client_name"]
+    for _, row in unique_clients.iterrows():
+        norm = normalize_name(row["client_name"], fortune_map)
+        if norm:
+            lob_id_to_company[row["lob_id"]] = norm
 
-# Here is the final output for the cleaned csv file of Fortune 500 LDA reports for the 116th Congress
-final = (
-    filtered[["client_name", "lob_id", "report_uuid", "bill_id", "amount"]]
-    .drop_duplicates()
-)
+    df = df.copy()
+    df["fortune_client_name"] = df["lob_id"].map(lob_id_to_company)
+    
+    return df, lob_id_to_company
 
-final.to_csv("../data/fortune500_lda_reports.csv", index=False)
 
-# Print stats
-print(f"Total records: {len(final)}")
-print(f"Unique clients: {final['client_name'].nunique()}")
-print(f"Unique bills: {final['bill_id'].nunique()}")
+def filter_fortune_clients(df):
+    """Restrict dataset to Fortune 500 companies only."""
+    df = df[df["fortune_client_name"].notna()].copy()
+    df["client_name"] = df["fortune_client_name"]
+    return df
+
+
+# FINAL DATASET
+def build_final_dataset(df):
+    """Construct final export schema."""
+    return (
+        df[[
+            "client_name",
+            "lob_id",
+            "report_uuid",
+            "bill_id",
+            "amount_per_bill"
+        ]]
+        .drop_duplicates()
+        .rename(columns={"amount_per_bill": "amount"})
+    )
+
+def main():
+    # Load data
+    clients, reports, issues, bills = load_lobbyview_data()
+
+    # Join bills
+    issues_clean = clean_bill_aggregation_column(issues)
+    issues_exploded = explode_bills(issues_clean)
+    issue_bills = join_bill_metadata(issues_exploded, bills)
+    issue_bills = filter_by_congress(issue_bills, TARGET_CONGRESS)
+
+    # Join reports
+    issue_reports = join_reports(issue_bills, reports)
+    issue_reports = split_amount_across_bills(issue_reports)
+
+    # Join clients
+    issue_clients = join_clients(issue_reports, clients)
+    issue_clients, lob_map = map_fortune_clients(issue_clients, fortune_500_names)
+    fortune_only = filter_fortune_clients(issue_clients)
+
+    # Final output
+    final = build_final_dataset(fortune_only)
+    final.to_csv(OUTPUT_PATH, index=False)
+
+    print(f"Total bill-level records:     {len(final):,}")
+    print(f"Unique Fortune 500 clients:   {final['client_name'].nunique():,}")
+    print(f"Unique lobbying reports:      {final['report_uuid'].nunique():,}")
+    print(f"Unique bills referenced:      {final['bill_id'].nunique():,}")
+
+if __name__ == "__main__":
+    main()
