@@ -16,15 +16,13 @@ from d3graph import d3graph, vec2adjmat
 DATA_PATH = "../data/fortune500_lda_reports.csv"
 EDGE_OUTPUT_PATH = "fortune500_shared_bills.csv"
 ADJMAT_OUTPUT_PATH = "fortune500_shared_bills_adjmat.csv"
-THRESHOLD_TXT_PATH = "fortune500_lobbying_threshold_input.txt"
+PSNE_ADJMAT_TXT_PATH = "./influence_game_psne_calculation/fortune500_psne_game_input.txt"
 GML_OUTPUT_PATH = "../visualizations/fortune_500_lobbying_affiliation_network.gml"
 PNG_OUTPUT_PATH = "../visualizations/fortune_500_lobbying_affiliation_network.png"
 
 # CREATE AFFILIATION NETWORK AND ADJACENCY MATRIX
 def company_bill_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
-    """
-    Create pairwise company edges from shared bills. Each shared bill generates a complete subgraph.
-    """
+    """Create pairwise company edges from shared bills. Each shared bill generates a complete subgraph."""
     # For each bill, collect all companies that lobbied on it
     bill_company_df = dataset_df.groupby("bill_id")["client_name"].apply(list).reset_index(name="companies")
     
@@ -47,7 +45,6 @@ def company_bill_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
     aggregate_edges = edges_df.groupby(["source", "target"]).size().reset_index(name="weight")
     aggregate_edges["weight"] = pd.to_numeric(aggregate_edges["weight"], errors="coerce")
     aggregate_edges = aggregate_edges[aggregate_edges["weight"] > 0]
-
     aggregate_edges.to_csv(edge_list_path, index=False)
 
     return aggregate_edges
@@ -64,7 +61,7 @@ def build_adjacency_matrix(edge_df, adjmat_output_path=ADJMAT_OUTPUT_PATH):
     return adjmat
 
 def build_d3_graph(adjmat: pd.DataFrame):
-    """(Experimental) Interactive D3 visualization."""
+    """Interactive D3 visualization."""
     d3 = d3graph()
     d3.graph(adjmat)
     d3.set_edge_properties(directed=False)
@@ -72,19 +69,34 @@ def build_d3_graph(adjmat: pd.DataFrame):
 
 
 # COMPUTE THRESHOLDS FOR INFLUENCE GAME PSNE CALCULATION
-def compute_thresholds(adjmat):
-    """Influence threshold computation for PSNE calculation."""
-    for i in range(adjmat.shape[0]):
-        total_weight = adjmat.iloc[i, :].sum()
-        avg_weight = total_weight / (adjmat.shape[0] - 1)
-        company = adjmat.index[i]
-        print(f"{company}: {avg_weight:.4f}")
+def compute_thresholds(adjmat, percentile=75):
+    """
+    Influence threshold computation for PSNE calculation using percentiles, where
+        threshold_i = percentile_p({ w_ij | w_ij > 0 })
+    """
+    thresholds = {}
 
-def save_threshold_input(adjmat, threshold_txt_path=THRESHOLD_TXT_PATH):
-    """Save adjacency matrix as tab-separated text (for PSNE calculation input format)"""
+    for i in range(adjmat.shape[0]):
+        company = adjmat.index[i]
+        row_vals = adjmat.iloc[i, :].values
+        nonzero_weights = row_vals[row_vals > 0]
+
+        # If no connections, set threshold to 0; otherwise compute percentile
+        if len(nonzero_weights) == 0:
+            threshold = 0.0
+        else:
+            threshold = np.percentile(nonzero_weights, percentile)
+        thresholds[company] = threshold
+
+    return thresholds
+
+def save_psne_input_with_threshold(adjmat, thresholds, threshold_txt_path=PSNE_ADJMAT_TXT_PATH):
+    """Save adjacency matrix as tab-separated text (for PSNE calculation input format) with thresholds in last column."""
     with open(threshold_txt_path, "w") as f:
         for i in range(adjmat.shape[0]):
+            company = adjmat.index[i]
             row_vals = [str(adjmat.iloc[i, j]) for j in range(adjmat.shape[1])]
+            row_vals.append(str(thresholds[company]))
             f.write("\t".join(row_vals) + "\n")
 
 
@@ -177,7 +189,10 @@ def main():
     company_bill_df = company_bill_edges(df)
     adjmat = build_adjacency_matrix(company_bill_df)
     # build_d3_graph(adjmat)
-    # save_threshold_input(adjmat, THRESHOLD_TXT_PATH)
+
+    # print("\nComputing thresholds and adjmat for PSNE input...")
+    # thresholds = compute_thresholds(adjmat, percentile=75)
+    # save_psne_input_with_threshold(adjmat, thresholds, PSNE_ADJMAT_TXT_PATH)
 
     print("\nBuilding graph...")
     G = build_networkx_graph(company_bill_df)
