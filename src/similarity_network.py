@@ -29,7 +29,7 @@ def company_bill_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
     """
 
     '''
-    FRACTIONAL CO-INVESTMENT
+    FRACTIONAL CO-INVESTMENT 
     '''
 
     # ---- 1. Compute total spend per bill ----
@@ -67,13 +67,21 @@ def company_bill_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
 
                 if c1 != c2:
                     # fractional co-investment weight
-                    pair_weight = min(f1, f2)
+                    # pair_weight = min(f1, f2)
 
+                    # edge_records.append({
+                    #     "source": c1,
+                    #     "target": c2,
+                    #     "bill_id": bill_id,
+                    #     "weight": pair_weight
+                    # })
+
+                    bc_similarity = 1 - abs(f1 - f2) / (f1 + f2)
                     edge_records.append({
                         "source": c1,
                         "target": c2,
                         "bill_id": bill_id,
-                        "weight": pair_weight
+                        "weight": bc_similarity
                     })
 
     # ---- 6. Aggregate across bills ----
