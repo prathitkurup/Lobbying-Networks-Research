@@ -46,6 +46,7 @@ def company_bill_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
     aggregate_edges["weight"] = pd.to_numeric(aggregate_edges["weight"], errors="coerce")
     aggregate_edges = aggregate_edges[aggregate_edges["weight"] > 0]
     aggregate_edges.to_csv(edge_list_path, index=False)
+    # print(aggregate_edges["weight"].describe())
 
     return aggregate_edges
 
@@ -201,9 +202,9 @@ def main():
     print("\nPlotting network...")
     plot_affiliation_network(H, png_path=PNG_OUTPUT_PATH, gml_path=GML_OUTPUT_PATH)
 
-    print("\nComputing centralities...")
-    centralities = compute_centralities(G)
-    print_top_centralities(centralities)
+    # print("\nComputing centralities...")
+    # centralities = compute_centralities(G)
+    # print_top_centralities(centralities)
 
 if __name__ == "__main__":
     main()
