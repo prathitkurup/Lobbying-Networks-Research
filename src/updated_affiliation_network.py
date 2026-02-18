@@ -12,65 +12,99 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from d3graph import d3graph, vec2adjmat
+from sklearn.metrics.pairwise import cosine_similarity
 
 DATA_PATH = "../data/fortune500_lda_reports.csv"
-EDGE_OUTPUT_PATH = "fortune500_shared_bills.csv"
-ADJMAT_OUTPUT_PATH = "fortune500_shared_bills_adjmat.csv"
-THRESHOLD_TXT_PATH = "fortune500_lobbying_threshold_input.txt"
-GML_OUTPUT_PATH = "../visualizations/fortune_500_lobbying_affiliation_network.gml"
-PNG_OUTPUT_PATH = "../visualizations/fortune_500_lobbying_affiliation_network.png"
+EDGE_OUTPUT_PATH = "fortune500_bills_similarity.csv"
+ADJMAT_OUTPUT_PATH = "fortune500_similarity_adjmat.csv"
+THRESHOLD_TXT_PATH = "fortune500_lobbying__similarity_threshold_input.txt"
+GML_OUTPUT_PATH = "../visualizations/fortune_500_lobbying_similarity_network.gml"
+PNG_OUTPUT_PATH = "../visualizations/fortune_500_lobbying_similarity_network.png"
 
 # CREATE AFFILIATION NETWORK AND ADJACENCY MATRIX
 def company_bill_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
     """
-    Create pairwise company edges from shared bills. Each shared bill generates a complete subgraph.
+    Create company affiliation edges using cosine similarity
+    over company spending vectors across bills.
     """
-    # For each bill, collect all companies that lobbied on it
-    bill_company_df = dataset_df.groupby("bill_id")[["client_name", "amount"]] \
-        .apply(lambda x: list(zip(x["client_name"], x["amount"]))) \
-        .reset_index(name="company_amounts")
 
-    # Generate edges for each bill's company list (complete subgraph)
-    edge_records = []
-    for _, row in bill_company_df.iterrows():
-        pairs = row["company_amounts"]
-        bill_id = row["bill_id"]
-
-        for i in range(len(pairs)):
-            for j in range(i + 1, len(pairs)):
-                c1, a1 = pairs[i]
-                c2, a2 = pairs[j]
-                if c1 != c2 and (a1 + a2) > 0:
-                    similarity = 1 - abs(a1 - a2) / (a1 + a2)   # per-bill similarity score
-                    edge_records.append({
-                        "source": c1,
-                        "target": c2,
-                        "bill_id": bill_id,
-                        "similarity": similarity
-                    })
-    
-    # Aggregate shared bills into weighted edges, where weight = number of shared bills
-    edges_df = pd.DataFrame(edge_records)
-    bill_counts = dataset_df.groupby("client_name")["bill_id"].nunique().to_dict()
-
-    # aggregate similarity
-    agg = edges_df.groupby(["source", "target"]).agg(
-        mean_similarity=("similarity", "mean"),
-        shared_bills=("bill_id", "nunique")
-    ).reset_index()
-
-    # overlap factor
-    agg["overlap"] = agg.apply(
-        lambda r: r["shared_bills"] / min(bill_counts.get(r["source"], 1), bill_counts.get(r["target"], 1)),
-        axis=1
+    # Build company × bill spending matrix
+    company_bill_matrix = (
+        dataset_df
+        .groupby(["client_name", "bill_id"])["amount"]
+        .sum()
+        .unstack(fill_value=0)
     )
+
+    companies = company_bill_matrix.index.tolist()
+    spending_vectors = company_bill_matrix.values
+
+    # Compute cosine similarity matrix
+    sim_matrix = cosine_similarity(spending_vectors)
+
+    edge_records = []
+
+    for i in range(len(companies)):
+        for j in range(i + 1, len(companies)):
+            sim = sim_matrix[i, j]
+            if sim > 0:
+                edge_records.append({
+                    "source": companies[i],
+                    "target": companies[j],
+                    "weight": sim
+                })
+
+    edges_df = pd.DataFrame(edge_records)
+    edges_df.to_csv(edge_list_path, index=False)
+
+    return edges_df
+
+    # # For each bill, collect all companies that lobbied on it
+    # bill_company_df = dataset_df.groupby("bill_id")[["client_name", "amount"]] \
+    #     .apply(lambda x: list(zip(x["client_name"], x["amount"]))) \
+    #     .reset_index(name="company_amounts")
+
+    # # Generate edges for each bill's company list (complete subgraph)
+    # edge_records = []
+    # for _, row in bill_company_df.iterrows():
+    #     pairs = row["company_amounts"]
+    #     bill_id = row["bill_id"]
+
+    #     for i in range(len(pairs)):
+    #         for j in range(i + 1, len(pairs)):
+    #             c1, a1 = pairs[i]
+    #             c2, a2 = pairs[j]
+    #             if c1 != c2 and (a1 + a2) > 0:
+    #                 similarity = (2 * min(a1, a2)) / (a1 + a2)   # per-bill similarity score
+    #                 edge_records.append({
+    #                     "source": c1,
+    #                     "target": c2,
+    #                     "bill_id": bill_id,
+    #                     "similarity": similarity
+    #                 })
     
-    # final weighted similarity
-    agg["weight"] = agg["mean_similarity"] * agg["overlap"]
-    aggregate_edges = agg[["source", "target", "weight"]]
-    aggregate_edges = aggregate_edges[aggregate_edges["weight"] > 0]
-    aggregate_edges.to_csv(edge_list_path, index=False)
-    return aggregate_edges
+    # # Aggregate shared bills into weighted edges, where weight = number of shared bills
+    # edges_df = pd.DataFrame(edge_records)
+    # bill_counts = dataset_df.groupby("client_name")["bill_id"].nunique().to_dict()
+
+    # # aggregate similarity
+    # agg = edges_df.groupby(["source", "target"]).agg(
+    #     mean_similarity=("similarity", "mean"),
+    #     shared_bills=("bill_id", "nunique")
+    # ).reset_index()
+
+    # # overlap factor
+    # agg["overlap"] = agg.apply(
+    #     lambda r: r["shared_bills"] / min(bill_counts.get(r["source"], 1), bill_counts.get(r["target"], 1)),
+    #     axis=1
+    # )
+    
+    # # final weighted similarity
+    # agg["weight"] = agg["mean_similarity"] * agg["overlap"]
+    # aggregate_edges = agg[["source", "target", "weight"]]
+    # aggregate_edges = aggregate_edges[aggregate_edges["weight"] > 0]
+    # aggregate_edges.to_csv(edge_list_path, index=False)
+    # return aggregate_edges
 
 def build_adjacency_matrix(edge_df, adjmat_output_path=ADJMAT_OUTPUT_PATH):
     """Construct undirected weighted adjacency matrix."""
@@ -167,11 +201,11 @@ def plot_affiliation_network(H, png_path=PNG_OUTPUT_PATH, gml_path=GML_OUTPUT_PA
         ax=ax
     )
 
-    ax.set_title("Top 20 Fortune 500 Lobbying Affiliation Network (by weighted degree)", fontsize=18, fontweight="bold")
+    ax.set_title("Top 20 Fortune 500 Lobbying Affiliation Network (by similarity score)", fontsize=18, fontweight="bold")
     ax.axis("off")
     plt.tight_layout()
     plt.savefig(png_path, dpi=300, bbox_inches="tight")
-    plt.show()
+    # plt.show()
 
 
 # CENTRALITY MEASURES

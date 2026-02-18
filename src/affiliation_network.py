@@ -1,6 +1,6 @@
 '''
 Prathit Kurup, Victoria Figueroa
-02/12/2026
+02/17/2026
 
 Build a company-to-company affiliation network based on shared bill lobbying.
 Produce adjacency matrix (and threshold calculations for PSNE), 
@@ -147,11 +147,11 @@ def plot_affiliation_network(H, png_path=PNG_OUTPUT_PATH, gml_path=GML_OUTPUT_PA
         ax=ax
     )
 
-    ax.set_title("Top 20 Fortune 500 Lobbying Affiliation Network (by weighted degree)", fontsize=18, fontweight="bold")
+    ax.set_title("Top 20 Fortune 500 Lobbying Affiliation Network", fontsize=18, fontweight="bold")
     ax.axis("off")
     plt.tight_layout()
     plt.savefig(png_path, dpi=300, bbox_inches="tight")
-    plt.show()
+    # plt.show()
 
 
 # CENTRALITY MEASURES
