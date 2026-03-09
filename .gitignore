@@ -1,4 +1,7 @@
 data/LobbyView
 .DS_Store
 visualizations/.DS_Store
+src/.DS_Store
+data/.DS_Store
+data/OpenSecrets
 

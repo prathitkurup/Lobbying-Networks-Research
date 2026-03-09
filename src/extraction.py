@@ -573,7 +573,7 @@ def filter_by_congress(df, congress):
 def join_reports(df, reports_df):
     """join lobbying report metadata."""
     return df.merge(
-        reports_df[["report_uuid", "lob_id", "amount"]],
+        reports_df[["report_uuid", "lob_id", "amount", "filing_year", "is_self_filer", "registrant_id", "registrant_name"]],
         on="report_uuid",
         how="left"
     )
@@ -650,7 +650,11 @@ def build_final_dataset(df):
             "lob_id",
             "report_uuid",
             "bill_id",
-            "amount_per_bill"
+            "amount_per_bill",
+            "filing_year", 
+            "is_self_filer", 
+            "registrant_id", 
+            "registrant_name"
         ]]
         .drop_duplicates()
         .rename(columns={"amount_per_bill": "amount"})
