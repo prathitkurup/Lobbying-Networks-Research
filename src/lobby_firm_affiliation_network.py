@@ -1,223 +1,158 @@
-'''
+"""
 Prathit Kurup, Victoria Figueroa
-02/26/2026
 
-Build a company-to-company affiliation network based on shared lobbying firms,
-Produce adjacency matrix (and threshold calculations for PSNE), 
-NetworkX graph, and centrality measures.
-'''
+Company-to-company affiliation network based on shared lobbying firms (registrants).
+Edge weight = number of unique registrants retained by both companies.
 
+Self-filers (companies lobbying for themselves without an external firm) are
+excluded; shared self-filer registrant IDs carry no information about
+organizational ties through external lobbying firms.
+
+Usage:
+  python lobby_firm_affiliation_network.py [options]
+
+  --top-k K          Top-K subgraph for plot (default 20; 0 = skip plot)
+  --centrality-k K   Firms printed per centrality metric (default 10; 0 = skip)
+  --no-gml           Do not write a GML file
+  --no-sweep         Skip the Leiden resolution sweep
+  --resolution γ     Leiden resolution parameter (default 1.0)
+"""
+
+import argparse
+import sys
 import pandas as pd
 import networkx as nx
-import matplotlib.pyplot as plt
-import numpy as np
-from d3graph import d3graph, vec2adjmat
 
-DATA_PATH = "../data/fortune500_lda_reports.csv"
-EDGE_OUTPUT_PATH = "fortune500_shared_lobby_firm.csv"
-# ADJMAT_OUTPUT_PATH = "fortune500_shared_lobby_firm_adjmat.csv"
-# PSNE_ADJMAT_TXT_PATH = "./influence_game_psne_calculation/fortune500_psne_game_input.txt"
-GML_OUTPUT_PATH = "../visualizations/fortune_500_lobby_firm_affiliation_network.gml"
-PNG_OUTPUT_PATH = "../visualizations/fortune_500_lobby_firm_affiliation_network.png"
+sys.path.insert(0, ".")
+from config import DATA_DIR, ROOT
+from utils.data_loading import load_lobby_firm_data
+from utils.network_building import (build_graph, write_gml_with_communities,
+                                    _cent_df_to_attrs, top_k_subgraph,
+                                    edge_weight_stats)
+from utils.visualization import plot_circular
+from utils.centrality import (compute_community_centralities,
+                               print_community_centralities)
+from utils.community import detect_communities, print_community_summary, sweep_resolution
 
-# CREATE AFFILIATION NETWORK AND ADJACENCY MATRIX
-def company_registrant_edges(dataset_df, edge_list_path=EDGE_OUTPUT_PATH):
-    """Create pairwise company edges from shared registrants. Each shared registrant generates a complete subgraph."""
-    # For each registrant, collect all companies that lobbied on it
-    registrant_company_df = (
-        dataset_df.groupby("registrant_id")["client_name"]
-        .apply(lambda x: list(set(x)))
-        .reset_index(name="companies")
+GML_PATH = str(ROOT / "visualizations" / "gml" / "lobby_firm_affiliation_network.gml")
+PNG_PATH = str(ROOT / "visualizations" / "png" / "lobby_firm_affiliation_network.png")
+
+LEIDEN_RESOLUTION = 1.0
+
+
+# -- Edge construction --
+
+def company_registrant_edges(df):
+    """
+    For each registrant, create a complete subgraph over all companies that
+    retained it. Aggregate across registrants: edge weight = shared registrant count.
+
+    Data note:
+      list(set(x)) deduplicates companies per registrant (a firm can appear
+      multiple times in a registrant's filings across reports). Canonical pair
+      ordering is required because set() iteration is non-deterministic, so
+      (A,B) and (B,A) can appear from different registrants and be stored as
+      separate rows in the groupby without it.
+    """
+    registrant_companies = (
+        df.groupby("registrant_id")["client_name"]
+          .apply(lambda x: list(set(x)))
     )
 
-    # Generate edges for each registrant's company list (complete subgraph)
-    edge_records = []
-    for _, row in registrant_company_df.iterrows():
-        companies = row["companies"]
-        registrant_id = row["registrant_id"]
+    records = []
+    for reg_id, companies in registrant_companies.items():
         for i in range(len(companies)):
             for j in range(i + 1, len(companies)):
                 if companies[i] != companies[j]:
-                    edge_records.append({
-                        "source": companies[i],
-                        "target": companies[j],
-                        "registrant_id": registrant_id
-                    })
-    
-    # Aggregate shared registrants into weighted edges, where weight = number of shared registrants
-    edges_df = pd.DataFrame(edge_records)
-    aggregate_edges = edges_df.groupby(["source", "target"]).size().reset_index(name="weight")
-    aggregate_edges["weight"] = pd.to_numeric(aggregate_edges["weight"], errors="coerce")
-    aggregate_edges = aggregate_edges[aggregate_edges["weight"] > 0]
-    aggregate_edges.to_csv(edge_list_path, index=False)
-    # print(aggregate_edges["weight"].describe())
+                    src, tgt = ((companies[i], companies[j])
+                                if companies[i] < companies[j]
+                                else (companies[j], companies[i]))
+                    records.append({"source": src, "target": tgt})
 
-    return aggregate_edges
-
-# def build_adjacency_matrix(edge_df, adjmat_output_path=ADJMAT_OUTPUT_PATH):
-#     """Construct undirected weighted adjacency matrix."""
-#     adjmat = vec2adjmat(
-#         edge_df["source"].tolist(),
-#         edge_df["target"].tolist(),
-#         weight=edge_df["weight"].tolist()
-#     )
-#     adjmat = adjmat + adjmat.T  # Enforce adjmat symmetry (make into undirected graph)
-#     adjmat.to_csv(adjmat_output_path)
-#     return adjmat
-
-# def build_d3_graph(adjmat: pd.DataFrame):
-#     """Interactive D3 visualization."""
-#     d3 = d3graph()
-#     d3.graph(adjmat)
-#     d3.set_edge_properties(directed=False)
-#     d3.set_node_properties(size='degree')
+    if not records:
+        return pd.DataFrame(columns=["source", "target", "weight"])
+    edges = (pd.DataFrame(records)
+               .groupby(["source", "target"])
+               .size()
+               .reset_index(name="weight"))
+    edges["weight"] = pd.to_numeric(edges["weight"], errors="coerce")
+    return edges[edges["weight"] > 0]
 
 
-# COMPUTE THRESHOLDS FOR INFLUENCE GAME PSNE CALCULATION
-# def compute_thresholds(adjmat, percentile=75):
-#     """
-#     Influence threshold computation for PSNE calculation using percentiles, where
-#         threshold_i = percentile_p({ w_ij | w_ij > 0 })
-#     """
-#     thresholds = {}
+# -- CLI --
 
-#     for i in range(adjmat.shape[0]):
-#         company = adjmat.index[i]
-#         row_vals = adjmat.iloc[i, :].values
-#         nonzero_weights = row_vals[row_vals > 0]
-
-#         # If no connections, set threshold to 0; otherwise compute percentile
-#         if len(nonzero_weights) == 0:
-#             threshold = 0.0
-#         else:
-#             threshold = np.percentile(nonzero_weights, percentile)
-#         thresholds[company] = threshold
-
-#     return thresholds
-
-# def save_psne_input_with_threshold(adjmat, thresholds, threshold_txt_path=PSNE_ADJMAT_TXT_PATH):
-#     """Save adjacency matrix as tab-separated text (for PSNE calculation input format) with thresholds in last column."""
-#     with open(threshold_txt_path, "w") as f:
-#         for i in range(adjmat.shape[0]):
-#             company = adjmat.index[i]
-#             row_vals = [str(adjmat.iloc[i, j]) for j in range(adjmat.shape[1])]
-#             row_vals.append(str(thresholds[company]))
-#             f.write("\t".join(row_vals) + "\n")
-
-
-# CONSTRUCT NETWORKX GRAPH
-def build_networkx_graph(edge_df, gml_output_path=GML_OUTPUT_PATH):
-    """Build NetworkX graph from weighted edge list."""
-    G = nx.Graph()
-    for _, row in edge_df.iterrows():
-        G.add_edge(row["source"], row["target"], weight=row["weight"])
-    # nx.write_gml(G, gml_output_path)
-    return G
-
-def extract_top_k_subgraph(G, gml_output_path=GML_OUTPUT_PATH, k=20):
-    """Extract subgraph of top-k nodes by weighted degree (node strength)."""
-    strengths = {node: G.degree(node, weight="weight") for node in G.nodes()}
-    top_nodes = [
-        node for node, _ in
-        sorted(strengths.items(), key=lambda x: x[1], reverse=True)[:k]
-    ]
-    H = G.subgraph(top_nodes).copy()
-    nx.write_gml(H, gml_output_path)
-    return H
-
-
-# VISUALIZATION
-def plot_affiliation_network(H, png_path=PNG_OUTPUT_PATH, gml_path=GML_OUTPUT_PATH):
-    """Visualize top-k affiliation network."""
-    pos = nx.circular_layout(H)
-
-    # Node sizing (weighted degree)
-    strengths = np.array([H.degree(n, weight="weight") for n in H.nodes()])
-    node_sizes = 800 + 3000 * (strengths - strengths.min()) / (strengths.max() - strengths.min() + 1)
-
-    # Edge widths
-    edges = list(H.edges())
-    weights = np.array([H[u][v]["weight"] for u, v in edges]) if edges else np.array([])
-    if weights.size:
-        edge_widths = 1 + 20 * (weights - weights.min()) / (weights.max() - weights.min() + 1)
-    else:
-        edge_widths = []
-
-    # Plot nodes
-    fig, ax = plt.subplots(figsize=(16, 16))
-    nx.draw_networkx_nodes(
-        H, pos,
-        node_size=node_sizes,
-        node_color="#337aff",
-        edgecolors="black",
-        linewidths=1.5,
-        ax=ax
+def parse_args():
+    p = argparse.ArgumentParser(
+        description="Build Fortune 500 lobby-firm affiliation network."
     )
+    p.add_argument("--top-k",        type=int,   default=20,
+                   help="Nodes in the top-k subgraph/plot (0 = skip plot).")
+    p.add_argument("--centrality-k", type=int,   default=10,
+                   help="Firms printed per centrality metric (0 = skip all centrality).")
+    p.add_argument("--no-gml",       action="store_true",
+                   help="Do not write the GML file.")
+    p.add_argument("--no-sweep",     action="store_true",
+                   help="Skip the Leiden resolution sweep.")
+    p.add_argument("--resolution",   type=float, default=LEIDEN_RESOLUTION,
+                   help=f"Leiden resolution gamma (default {LEIDEN_RESOLUTION}).")
+    return p.parse_args()
 
-    # Plot weighted edges (if exist)
-    if edges:
-        nx.draw_networkx_edges(H, pos, width=edge_widths, alpha=0.7, edge_color="gray", ax=ax)
-    nx.draw_networkx_labels(
-        H, pos,
-        font_size=12,
-        font_weight="bold",
-        bbox=dict(facecolor="white", edgecolor="none", alpha=0.7),
-        ax=ax
+
+# -- Main --
+
+def main(args):
+    df = load_lobby_firm_data(DATA_DIR / "fortune500_lda_reports.csv")
+
+    print(f"Registrants: {df['registrant_id'].nunique():,}  |  "
+          f"Companies: {df['client_name'].nunique():,}")
+
+    edges = company_registrant_edges(df)
+    edge_weight_stats(edges, "shared registrants")
+
+    G = build_graph(edges)
+
+    # -- Leiden community detection --
+    if not args.no_sweep:
+        print(f"\n-- Resolution sweep (lobby firm affiliation) --")
+        sweep_resolution(G, resolutions=[0.5, 0.75, 1.0, 1.15, 1.25], seed=42)
+
+    partition, Q, comm_summary = detect_communities(
+        G, resolution=args.resolution, seed=42
     )
+    print(f"\n  Leiden (gamma={args.resolution})  Q={Q:.4f}")
+    print_community_summary(comm_summary, partition, G, label="lobby firm affiliation")
 
-    ax.set_title("Top 20 Fortune 500 Lobby Firm Affiliation Network", fontsize=18, fontweight="bold")
-    ax.axis("off")
-    plt.tight_layout()
-    plt.savefig(png_path, dpi=300, bbox_inches="tight")
-    # plt.show()
+    comm_df = (
+        pd.DataFrame([{"client_name": n, "community_lobby": cid}
+                      for n, cid in partition.items()])
+        .sort_values(["community_lobby", "client_name"])
+        .reset_index(drop=True)
+    )
+    comm_df.to_csv(DATA_DIR / "communities_lobby_firm.csv", index=False)
+    print(f"  Community assignments -> {DATA_DIR / 'communities_lobby_firm.csv'}")
 
+    # -- Centrality (computed before GML so attrs can be embedded) --
+    cent_df = None
+    if not args.no_gml or args.centrality_k > 0:
+        cent_df = compute_community_centralities(G, partition)
+        if args.centrality_k > 0:
+            print_community_centralities(cent_df, k=args.centrality_k)
+            cent_df.to_csv(DATA_DIR / "centrality_lobby_firm.csv", index=False)
+            print(f"  Centrality -> {DATA_DIR / 'centrality_lobby_firm.csv'}")
 
-# CENTRALITY MEASURES
-def compute_centralities(G):
-    """Compute standard network centralities."""
-    return {
-        "degree": nx.degree_centrality(G),
-        "betweenness": nx.betweenness_centrality(G, weight="weight"),
-        "closeness": nx.closeness_centrality(G, distance="weight"),
-        "eigenvector": nx.eigenvector_centrality(G, weight="weight"),
-    }
+    # -- GML with enriched node attributes --
+    if not args.no_gml:
+        node_attrs = _cent_df_to_attrs(cent_df) or {}
+        node_attrs["kcore"] = nx.core_number(G)
+        write_gml_with_communities(G, partition, GML_PATH, node_attrs)
+    # --
 
-def print_top_centralities(centralities, k=10):
-    for name, values in centralities.items():
-        print(f"\nTop {k} by {name.upper()} centrality:")
-        for node, val in sorted(values.items(), key=lambda x: x[1], reverse=True)[:k]:
-            print(f"{node}: {val:.4f}")
+    if args.top_k > 0:
+        H = top_k_subgraph(G, k=args.top_k)
+        plot_circular(H,
+                      title=f"Top {args.top_k} Fortune 500 Lobby Firm Affiliation Network",
+                      path=PNG_PATH)
 
-def main():
-    df = pd.read_csv(DATA_PATH)
-    df = df[
-        (
-            (df["is_self_filer"] == "f") |
-            (df["is_self_filer"].isna()) |
-            (df["is_self_filer"] == "")
-        )
-    ]
-    df = df.dropna(subset=["registrant_id", "client_name"])
-    print("Number of Registrants:", df["registrant_id"].nunique())
-
-    company_registrant_df = company_registrant_edges(df)
-    # adjmat = build_adjacency_matrix(company_registrant_df)
-    # build_d3_graph(adjmat)
-
-    # print("\nComputing thresholds and adjmat for PSNE input...")
-    # thresholds = compute_thresholds(adjmat, percentile=75)
-    # save_psne_input_with_threshold(adjmat, thresholds, PSNE_ADJMAT_TXT_PATH)
-
-    print("\nBuilding graph...")
-    G = build_networkx_graph(company_registrant_df)
-    H = extract_top_k_subgraph(G, k=20)
-
-    print("\nPlotting network...")
-    plot_affiliation_network(H, png_path=PNG_OUTPUT_PATH, gml_path=GML_OUTPUT_PATH)
-
-    print("\nComputing centralities...")
-    centralities = compute_centralities(G)
-    print_top_centralities(centralities)
 
 if __name__ == "__main__":
-    main()
+    main(parse_args())

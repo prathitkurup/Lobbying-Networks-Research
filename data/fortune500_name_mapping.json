@@ -1,0 +1,3668 @@
+{
+  "WALMART": {
+    "variations": [
+      "WAL-MART STORES INC"
+    ],
+    "subsidiaries": []
+  },
+  "EXXONMOBIL": {
+    "variations": [
+      "EXXON MOBIL CORPORATION",
+      "EXXON MOBILE",
+      "EXXON USA",
+      "EXXONMOBIL CHEMICAL CO"
+    ],
+    "subsidiaries": []
+  },
+  "APPLE": {
+    "variations": [
+      "APPLE INC."
+    ],
+    "subsidiaries": []
+  },
+  "BERKSHIRE HATHAWAY": {
+    "variations": [
+      "BERKSHIRE HATHAWAY ENERGY",
+      "BERKSHIRE CAPITAL MANAGEMENT CO., INC."
+    ],
+    "subsidiaries": [
+      "Pilot Travel Centers LLC",
+      "Titanium Metals Corporation",
+      "Shaw Industries Group, Inc.",
+      "BNSF Railway Company",
+      "Benjamin Moore & Co.",
+      "PacifiCorp",
+      "Forest River, Inc.",
+      "FlightSafety International Inc.",
+      "Johns Manville"
+    ]
+  },
+  "AMAZON": {
+    "variations": [
+      "AMAZON.COM (FRA PILLPACK AN AMAZON COMPANY)",
+      "AMAZON.COM SERVICES LLC",
+      "AMAZON WEB SERVICES"
+    ],
+    "subsidiaries": [
+      "Amazon.com Services LLC"
+    ]
+  },
+  "UNITED HEALTH GROUP": {
+    "variations": [
+      "UNITEDHEALTH GROUP",
+      "INGENIX / UNITEDHEALTH GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "MCKESSON": {
+    "variations": [
+      "MCKESSON CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "CVS HEALTH": {
+    "variations": [
+      "CVS HEALTH"
+    ],
+    "subsidiaries": []
+  },
+  "AT&T": {
+    "variations": [
+      "AT&T",
+      "ANDERSON & BAKER (AT&T)"
+    ],
+    "subsidiaries": []
+  },
+  "AMERISOURCEBERGEN": {
+    "variations": [
+      "AMERISOURCEBERGEN CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "FORD": {
+    "variations": [
+      "FORD MOTOR COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "GENERAL MOTORS": {
+    "variations": [
+      "GENERAL MOTORS COMPANY",
+      "DUTKO GRAYLING ON BEHALF OF GENERAL MOTORS",
+      "SATURN CORPORATION C/O GENERAL MOTORS CORPORATION",
+      "GENERAL MOTORS ACCEPTANCE CORP"
+    ],
+    "subsidiaries": [
+      "GM Defense LLC",
+      "Cruise LLC",
+      "Ultium Cells LLC"
+    ]
+  },
+  "COSTCO": {
+    "variations": [
+      "COSTCO WHOLESALE CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ALPHABET": {
+    "variations": [
+      "GOOGLE, INC.",
+      "GOOGLE, INC. ON BEHALF OF X"
+    ],
+    "subsidiaries": []
+  },
+  "CARDINAL HEALTH": {
+    "variations": [
+      "CARDINAL HEALTH",
+      "THORSEN FRENCH ADVOCACY ON BEHALF OF CARDINAL HEALTH INC"
+    ],
+    "subsidiaries": []
+  },
+  "WALGREENS BOOTS ALLIANCE": {
+    "variations": [
+      "WALGREEN CO.",
+      "WALGREENS BOOTS ALLIANCE"
+    ],
+    "subsidiaries": []
+  },
+  "JPMORGAN CHASE & CO.": {
+    "variations": [
+      "JPMORGAN CHASE & CO.",
+      "JPMORGAN CHASE HOLDINGS LLC",
+      "JP MORGAN CHASE HOLDINGS"
+    ],
+    "subsidiaries": [
+      "JPMorgan Chase Holdings LLC"
+    ]
+  },
+  "VERIZON": {
+    "variations": [
+      "VERIZON COMMUNICATIONS",
+      "CAUTHEN FORBES & WILLIAMS ON BEHALF OF VERIZON",
+      "TELESECTOR RESOURCES INC D/B/A VERIZON SERVICES GROUP INC",
+      "MICKEY IBARRA & ASSOC (VERIZON COMMUNICATIONS)"
+    ],
+    "subsidiaries": []
+  },
+  "KROGER": {
+    "variations": [
+      "THE KROGER CO."
+    ],
+    "subsidiaries": []
+  },
+  "GENERAL ELECTRIC": {
+    "variations": [
+      "GENERAL ELECTRIC COMPANY",
+      "ENERAL ELECTRIC APPLIANCES",
+      "GENERAL ELECTRIC TRANSPORTATION"
+    ],
+    "subsidiaries": []
+  },
+  "CHEVRON": {
+    "variations": [
+      "CHEVRON",
+      "CHEVRON TEXACO",
+      "CHEVRONTEXACO INC",
+      "CHEVRON PHILLIPS CHEMICAL COMPANY LP",
+      "CHEVRON CHEMICAL CO LLC -- ORONITE ADDITIVES DIVISION"
+    ],
+    "subsidiaries": [
+      "Renewable Energy Group, Inc.",
+      "Hess Corporation"
+    ]
+  },
+  "FANNIE MAE": {
+    "variations": [
+      "FANNIE MAE"
+    ],
+    "subsidiaries": []
+  },
+  "PHILLIPS 66": {
+    "variations": [
+      "PHILLIPS 66"
+    ],
+    "subsidiaries": []
+  },
+  "VALERO ENERGY": {
+    "variations": [
+      "VALERO ENERGY",
+      "VALERO ENERGY CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "BANK OF AMERICA": {
+    "variations": [
+      "BANK OF AMERICA",
+      "THE SMITH-FREE GROUP (ON BEHALF OF BANK OF AMERICA)"
+    ],
+    "subsidiaries": []
+  },
+  "MICROSOFT": {
+    "variations": [
+      "MICROSOFT",
+      "MICROSOFT CORPORATION"
+    ],
+    "subsidiaries": [
+      "Activision Blizzard, Inc.",
+      "LinkedIn Corporation"
+    ]
+  },
+  "HOME DEPOT": {
+    "variations": [
+      "HOME DEPOT"
+    ],
+    "subsidiaries": []
+  },
+  "BOEING": {
+    "variations": [
+      "BOEING",
+      "BOEING-SVS INC",
+      "AVIATION PARTNERS BOEING",
+      "BOEING EMPLOYEES' CREDIT UNION",
+      "BOEING COMPANY"
+    ],
+    "subsidiaries": [
+      "Spirit AeroSystems, Inc.",
+      "Insitu, Inc."
+    ]
+  },
+  "WELLS FARGO": {
+    "variations": [
+      "WELLS FARGO",
+      "WELLS FARGO ADVISORS, LLC",
+      "WELLS FARGO & COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "CITIGROUP": {
+    "variations": [
+      "CITIGROUP",
+      "TWINLOGIC (ON BEHALF OF CITIGROUP MANAGEMENT CORP.)"
+    ],
+    "subsidiaries": []
+  },
+  "MARATHON PETROLEUM": {
+    "variations": [
+      "MARATHON PETROLEUMMARATHON PETROLEUM CORPORATION",
+      "Marathon Petroleum Corporation"
+    ],
+    "subsidiaries": [
+      "Tesoro Companies, Inc."
+    ]
+  },
+  "COMCAST": {
+    "variations": [
+      "COMCAST",
+      "COMCAST CORP (THROUGH FTI GOVERNMENT AFFAIRS)",
+      "COMCAST CORPORATION"
+    ],
+    "subsidiaries": [
+      "BluVector, Inc."
+    ]
+  },
+  "ANTHEM": {
+    "variations": [
+      "ANTHEM",
+      "ANTHEM ONE, INC",
+      "ANTHEM INC"
+    ],
+    "subsidiaries": []
+  },
+  "DELL TECHNOLOGIES": {
+    "variations": [
+      "DELL TECHNOLOGIES",
+      "EMC CORPORATION"
+    ],
+    "subsidiaries": [
+      "EMC Corporation"
+    ]
+  },
+  "DUPONT DE NEMOURS": {
+    "variations": [
+      "DUPONT DE NEMOURS",
+      "DUPONT"
+    ],
+    "subsidiaries": []
+  },
+  "STATE FARM INSURANCE": {
+    "variations": [
+      "STATE FARM INSURANCE",
+      "STATE FARM INSURANCE COMPANIES",
+      "NATL ASSN OF STATE FARM AGENTS"
+    ],
+    "subsidiaries": []
+  },
+  "JOHNSON & JOHNSON": {
+    "variations": [
+      "JOHNSON & JOHNSON",
+      "JOHNSON & JOHNSON INC"
+    ],
+    "subsidiaries": [
+      "SterilMed, Inc.",
+      "ABIOMED, Inc.",
+      "Momenta Pharmaceuticals, Inc.",
+      "Intra-Cellular Therapies, Inc."
+    ]
+  },
+  "IBM": {
+    "variations": [
+      "IBM",
+      "IBM(FORMERLY HEALTHLINK INC)"
+    ],
+    "subsidiaries": []
+  },
+  "TARGET": {
+    "variations": [
+      "TARGET",
+      "TARGET CORPORATION"
+    ],
+    "subsidiaries": [
+      "Target Corporation"
+    ]
+  },
+  "FREDDIE MAC": {
+    "variations": [
+      "FREDDIE MAC"
+    ],
+    "subsidiaries": []
+  },
+  "UNITED PARCEL SERVICE": {
+    "variations": [
+      "UPS",
+      "UNITED PARCEL SERVICE",
+      "C2 GROUP (ON BEHALF OF UNITED PARCEL SERVICE)",
+      "DOTCHIN & ASSOCIATES ON BEHALF OF UNITED PARCEL SERVICE",
+      "RAFFANIELLO & ASSOCIATES ON BEHALF OF UNITED PARCEL SERVICE"
+    ],
+    "subsidiaries": []
+  },
+  "LOWE'S": {
+    "variations": [
+      "LOWE'S",
+      "LOWE'S COMPANIES INC."
+    ],
+    "subsidiaries": []
+  },
+  "INTEL": {
+    "variations": [
+      "INTEL",
+      "INTEL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "METLIFE": {
+    "variations": [
+      "METLIFE"
+    ],
+    "subsidiaries": [
+      "Metropolitan Life Insurance Co"
+    ]
+  },
+  "PROCTER & GAMBLE": {
+    "variations": [
+      "PROCTER & GAMBLE",
+      "PROCTER & GAMBLE INC (ALLIANCE FOR BETTER BONE HEALTH)"
+    ],
+    "subsidiaries": [
+      "New Chapter, Inc."
+    ]
+  },
+  "UNITED TECHNOLOGIES": {
+    "variations": [
+      "UNITED TECHNOLOGIES"
+    ],
+    "subsidiaries": []
+  },
+  "FEDEX": {
+    "variations": [
+      "FEDEX",
+      "FEDEX CORPORATION",
+      "FEDEX CORPORATION (THROUGH O'MELVENY & MYERS LLP)"
+    ],
+    "subsidiaries": []
+  },
+  "PEPSICO": {
+    "variations": [
+      "PEPSICO"
+    ],
+    "subsidiaries": [
+      "Sabra Dipping Company, LLC",
+      "Frito-Lay, Inc."
+    ]
+  },
+  "ARCHER DANIELS MIDLAND": {
+    "variations": [
+      "ARCHER DANIELS MIDLAND",
+      "ARCHER DANIELS MIDLAND COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "PRUDENTIAL FINANCIAL": {
+    "variations": [
+      "PRUDENTIAL FINANCIAL",
+      "PRUDENTIAL PLC"
+    ],
+    "subsidiaries": []
+  },
+  "CENTENE": {
+    "variations": [
+      "CENTENE",
+      "CENTENE CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ALBERTSONS": {
+    "variations": [
+      "ALBERTSONS",
+      "ALBERTSONS COMPANIES, INC."
+    ],
+    "subsidiaries": [
+      "ALBERTSONS COMPANIES, INC."
+    ]
+  },
+  "WALT DISNEY": {
+    "variations": [
+      "WALT DISNEY",
+      "THE WALT DISNEY COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "SYSCO": {
+    "variations": [
+      "SYSCO",
+      "SYSCO CORP"
+    ],
+    "subsidiaries": []
+  },
+  "HP": {
+    "variations": [
+      "HP",
+      "HEWLETT PACKARD ENTERPRISE COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "HUMANA": {
+    "variations": [
+      "HUMANA",
+      "HUMANA MILITARY"
+    ],
+    "subsidiaries": [
+      "Harden Healthcare, LLC"
+    ]
+  },
+  "FACEBOOK": {
+    "variations": [
+      "FACEBOOK"
+    ],
+    "subsidiaries": []
+  },
+  "CATERPILLAR": {
+    "variations": [
+      "CATERPILLAR",
+      "CATERPILLAR INC",
+      "CATERPILLAR DEFENSE PRODUCTS"
+    ],
+    "subsidiaries": []
+  },
+  "ENERGY TRANSFER": {
+    "variations": [
+      "ENERGY TRANSFER"
+    ],
+    "subsidiaries": [
+      "Lake Charles Exports, LLC",
+      "Aloha Petroleum, Ltd.",
+      "Crestwood Midstream Partners LP"
+    ]
+  },
+  "LOCKHEED MARTIN": {
+    "variations": [
+      "LOCKHEED MARTIN",
+      "LOCKHEED MARTIN CORPORATION",
+      "LOCKHEED MARTIN HANFORD",
+      "LOCKHEED MARTIN VENTURE STAR",
+      "SENECA GROUP LLC ON BEHALF OF LOCKHEED MARTIN"
+    ],
+    "subsidiaries": []
+  },
+  "PFIZER": {
+    "variations": [
+      "PFIZER",
+      "PFIZER AUSTRALIA PTY LTD",
+      "ALPHARMA INC/PFIZER ANIMAL HEALTH (FORMERLY KNOWN AS ALPHARMA INC )"
+    ],
+    "subsidiaries": [
+      "Pfizer",
+      "Pfizer Australia Pty Ltd"
+    ]
+  },
+  "GOLDMAN SACHS GROUP": {
+    "variations": [
+      "GOLDMAN SACHS GROUP",
+      "GOLDMAN SACHS & CO"
+    ],
+    "subsidiaries": []
+  },
+  "MORGAN STANLEY": {
+    "variations": [
+      "MORGAN STANLEY",
+      "MORGAN STANLEY DEAN WITTER"
+    ],
+    "subsidiaries": [
+      "Morgan Stanley"
+    ]
+  },
+  "CISCO SYSTEMS": {
+    "variations": [
+      "CISCO SYSTEMS",
+      "CISCO SYSTEMS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "CIGNA": {
+    "variations": [
+      "CIGNA",
+      "THE CIGNA GROUP AND SUBSIDIARIES",
+      "CIGNA CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "AIG": {
+    "variations": [
+      "AIG",
+      "AIG SHAREHOLDERS GROUP (AD HOC COALITION)",
+      "AIG TECHNICAL SERVICES"
+    ],
+    "subsidiaries": []
+  },
+  "HCA HEALTHCARE": {
+    "variations": [
+      "HCA HEALTHCARE",
+      "HCA-HEALTHONE LLC DBA ROSE MEDICAL CENTER"
+    ],
+    "subsidiaries": []
+  },
+  "AMERICAN AIRLINES GROUP": {
+    "variations": [
+      "AMERICAN AIRLINES GROUP",
+      "AMERICAN AIRLINES"
+    ],
+    "subsidiaries": []
+  },
+  "DELTA AIR LINES": {
+    "variations": [
+      "DELTA AIR LINES"
+    ],
+    "subsidiaries": [
+      "Monroe Energy, LLC"
+    ]
+  },
+  "CHARTER COMMUNICATIONS": {
+    "variations": [
+      "CHARTER COMMUNICATIONS"
+    ],
+    "subsidiaries": []
+  },
+  "NEW YORK LIFE INSURANCE": {
+    "variations": [
+      "NEW YORK LIFE INSURANCE",
+      "NEW YORK LIFE INSURANCE COMPANY"
+    ],
+    "subsidiaries": [
+      "The New York Times Company"
+    ]
+  },
+  "AMERICAN EXPRESS": {
+    "variations": [
+      "AMERICAN EXPRESS",
+      "AMERICAN EXPRESS COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "NATIONWIDE": {
+    "variations": [
+      "NATIONWIDE",
+      "NATIONWIDE GLOBAL",
+      "NATIONWIDE INSURANCE"
+    ],
+    "subsidiaries": []
+  },
+  "BEST BUY": {
+    "variations": [
+      "BEST BUY"
+    ],
+    "subsidiaries": []
+  },
+  "LIBERTY MUTUAL INSURANCE GROUP": {
+    "variations": [
+      "LIBERTY MUTUAL INSURANCE GROUP",
+      "LIBERTY MUTUAL GROUP",
+      "LIBERTY MUTUAL INSURANCE"
+    ],
+    "subsidiaries": []
+  },
+  "MERCK": {
+    "variations": [
+      "MERCK",
+      "CAUTHEN FORBES & WILLIAMS ON BEHALF OF MERCK",
+      "MERCK-MEDCO MANAGED CARE",
+      "MERCK & CO"
+    ],
+    "subsidiaries": [
+      "Intervet Inc."
+    ]
+  },
+  "HONEYWELL INTERNATIONAL": {
+    "variations": [
+      "HONEYWELL INTERNATIONAL",
+      "INTELLIGRATED SYSTEMS, INC. DBA HONEYWELL INTELLIGRATED",
+      "HONEYWELL INTERNATIONAL"
+    ],
+    "subsidiaries": [
+      "Rocky Research",
+      "Vocollect, Inc."
+    ]
+  },
+  "UNITED CONTINENTAL HOLDINGS": {
+    "variations": [
+      "UNITED CONTINENTAL HOLDINGS"
+    ],
+    "subsidiaries": [
+      "United Airlines"
+    ]
+  },
+  "TIAA": {
+    "variations": [
+      "TIAA",
+      "THE LIVINGSTON GROUP (ON BEHALF OF TIAA-CREF)"
+    ],
+    "subsidiaries": []
+  },
+  "TYSON FOODS": {
+    "variations": [
+      "TYSON FOODS",
+      "TYSON FOODS INC"
+    ],
+    "subsidiaries": []
+  },
+  "ORACLE": {
+    "variations": [
+      "ORACLE",
+      "ORACLE CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ALLSTATE": {
+    "variations": [
+      "ALLSTATE",
+      "ALLSTATE INSURANCE COMPANY"
+    ],
+    "subsidiaries": [
+      "Allstate Insurance Company"
+    ]
+  },
+  "WORLD FUEL SERVICES": {
+    "variations": [
+      "WORLD FUEL SERVICES",
+      "WORLD FUEL SERVICES CORP"
+    ],
+    "subsidiaries": []
+  },
+  "MASSACHUSETTS MUTUAL LIFE INSURANCE": {
+    "variations": [
+      "MASSACHUSETTS MUTUAL LIFE INSURANCE",
+      "MASSACHUSETTS MUTUAL LIFE INSURANCE COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "TJX": {
+    "variations": [
+      "TJX",
+      "TJX COS INC"
+    ],
+    "subsidiaries": []
+  },
+  "CONOCOPHILLIPS": {
+    "variations": [
+      "CONOCOPHILLIPS"
+    ],
+    "subsidiaries": []
+  },
+  "DEERE": {
+    "variations": [
+      "DEERE",
+      "JOHN DEERE"
+    ],
+    "subsidiaries": []
+  },
+  "TECH DATA": {
+    "variations": [
+      "TECH DATA"
+    ],
+    "subsidiaries": []
+  },
+  "ENTERPRISE PRODUCTS PARTNERS": {
+    "variations": [
+      "ENTERPRISE PRODUCTS PARTNERS",
+      "ENTERPRISE PRODUCTS OPERATING LLC"
+    ],
+    "subsidiaries": []
+  },
+  "NIKE": {
+    "variations": [
+      "NIKE",
+      "NIKE, INC."
+    ],
+    "subsidiaries": []
+  },
+  "PUBLIX SUPER MARKETS": {
+    "variations": [
+      "PUBLIX SUPER MARKETS",
+      "PUBLIX SUPER MARKETS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "GENERAL DYNAMICS": {
+    "variations": [
+      "GENERAL DYNAMICS",
+      "GENERAL DYNAMICS ARMAMENT SYSTEMS - SACO OPERATIONS"
+    ],
+    "subsidiaries": [
+      "Metro Machine Corp.",
+      "GPS Source, Inc."
+    ]
+  },
+  "EXELON": {
+    "variations": [
+      "EXELON",
+      "EXELON CORPORATION"
+    ],
+    "subsidiaries": [
+      "Delmarva Power & Light Company",
+      "Atlantic City Electric Company"
+    ]
+  },
+  "PLAINS GP HOLDINGS": {
+    "variations": [
+      "PLAINS GP HOLDINGS"
+    ],
+    "subsidiaries": [
+      "Plains All American Pipeline, L.P."
+    ]
+  },
+  "3M": {
+    "variations": [
+      "3M",
+      "MINNESOTA MINING AND MANUFACTURING COMPANY (3M) ON BEHALF OF AKIN GUMP",
+      "3M COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "ABBVIE": {
+    "variations": [
+      "ABBVIE"
+    ],
+    "subsidiaries": []
+  },
+  "CHS": {
+    "variations": [
+      "CHS",
+      "CHS, Inc."
+    ],
+    "subsidiaries": []
+  },
+  "CAPITAL ONE FINANCIAL": {
+    "variations": [
+      "CAPITAL ONE FINANCIAL",
+      "CAPITAL ONE FINANCIAL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "PROGRESSIVE": {
+    "variations": [
+      "PROGRESSIVE"
+    ],
+    "subsidiaries": []
+  },
+  "COCA-COLA": {
+    "variations": [
+      "COCA-COLA",
+      "THE COCA-COLA COMPANY"
+    ],
+    "subsidiaries": [
+      "The Coca-Cola Company"
+    ]
+  },
+  "USAA": {
+    "variations": [
+      "USAA",
+      "United Services Automobile Association"
+    ],
+    "subsidiaries": []
+  },
+  "HEWLETT PACKARD ENTERPRISE": {
+    "variations": [
+      "HEWLETT PACKARD ENTERPRISE",
+      "HEWLETT PACKARD ENTERPRISE COMPANY",
+      "Hewlett Packard Enterprise Company"
+    ],
+    "subsidiaries": [
+      "SAUDI ARABIA"
+    ]
+  },
+  "ABBOTT LABORATORIES": {
+    "variations": [
+      "ABBOTT LABORATORIES",
+      "ROSS ABBOTT LABS",
+      "ABBOTT DIABETES CARE"
+    ],
+    "subsidiaries": []
+  },
+  "TWENTY-FIRST CENTURY FOX": {
+    "variations": [
+      "TWENTY-FIRST CENTURY FOX",
+      "FOX CORPORATION",
+      "21ST CENTURY FOX"
+    ],
+    "subsidiaries": []
+  },
+  "MICRON TECHNOLOGY": {
+    "variations": [
+      "MICRON TECHNOLOGY",
+      "MICRON TECHNOLOGY, INC."
+    ],
+    "subsidiaries": []
+  },
+  "TRAVELERS": {
+    "variations": [
+      "TRAVELERS",
+      "THE TRAVELERS COMPANIES, INC. AND SUBSIDIARIES"
+    ],
+    "subsidiaries": []
+  },
+  "RITE AID": {
+    "variations": [
+      "RITE AID",
+      "RITE AID CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "NORTHROP GRUMMAN": {
+    "variations": [
+      "NORTHROP GRUMMAN",
+      "NORTHROP GRUMMAN CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ARROW ELECTRONICS": {
+    "variations": [
+      "ARROW ELECTRONICS"
+    ],
+    "subsidiaries": [
+      "immixGroup, Inc."
+    ]
+  },
+  "PHILIP MORRIS INTERNATIONAL": {
+    "variations": [
+      "PHILIP MORRIS INTERNATIONAL"
+    ],
+    "subsidiaries": []
+  },
+  "NORTHWESTERN MUTUAL": {
+    "variations": [
+      "NORTHWESTERN MUTUAL",
+      "THE NORTHWESTERN MUTUAL LIFE INSURANCE COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "INTL FCSTONE": {
+    "variations": [
+      "INTL FCSTONE",
+      "INTL FCSTONE INC."
+    ],
+    "subsidiaries": []
+  },
+  "PBF ENERGY": {
+    "variations": [
+      "PBF ENERGY"
+    ],
+    "subsidiaries": [
+      "PBF Holding Company LLC"
+    ]
+  },
+  "RAYTHEON": {
+    "variations": [
+      "RAYTHEON",
+      "RAYTHEON COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "KRAFT HEINZ": {
+    "variations": [
+      "KRAFT HEINZ"
+    ],
+    "subsidiaries": []
+  },
+  "MONDELEZ INTERNATIONAL": {
+    "variations": [
+      "MONDELEZ INTERNATIONAL",
+      "MONDELEZ GLOBAL LLC"
+    ],
+    "subsidiaries": [
+      "Mondelez Global LLC"
+    ]
+  },
+  "U.S. BANCORP": {
+    "variations": [
+      "U.S. BANCORP"
+    ],
+    "subsidiaries": []
+  },
+  "MACY'S": {
+    "variations": [
+      "MACY'S",
+      "MACY'S INC."
+    ],
+    "subsidiaries": []
+  },
+  "DOLLAR GENERAL": {
+    "variations": [
+      "DOLLAR GENERAL",
+      "DOLLAR GENERAL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "NUCOR": {
+    "variations": [
+      "NUCOR",
+      "NUCOR CORPORATION"
+    ],
+    "subsidiaries": [
+      "California Steel Industries, Inc."
+    ]
+  },
+  "STARBUCKS": {
+    "variations": [
+      "STARBUCKS",
+      "STARBUCKS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "DXC TECHNOLOGY": {
+    "variations": [
+      "DXC TECHNOLOGY"
+    ],
+    "subsidiaries": [
+      "Computer Sciences Corporation"
+    ]
+  },
+  "ELI LILLY": {
+    "variations": [
+      "ELI LILLY",
+      "ELI LILLY AND COMPANY"
+    ],
+    "subsidiaries": [
+      "Akouos, Inc."
+    ]
+  },
+  "THERMO FISHER SCIENTIFIC": {
+    "variations": [
+      "THERMO FISHER SCIENTIFIC",
+      "BLUEBIRD STRATEGIES (ON BEHALF OF THERMO FISHER SCIENTIFIC)",
+      "HAMILTON PLACE STRATEGIES (ON BEHALF OF THERMO FISHER SCIENTIFIC)"
+    ],
+    "subsidiaries": [
+      "IntegenX, Inc.",
+      "Patheon Pharmaceuticals Services Inc.",
+      "FEI Company"
+    ]
+  },
+  "US FOODS HOLDING": {
+    "variations": [
+      "US FOODS HOLDING"
+    ],
+    "subsidiaries": []
+  },
+  "DUKE ENERGY": {
+    "variations": [
+      "DUKE ENERGY"
+    ],
+    "subsidiaries": []
+  },
+  "HALLIBURTON": {
+    "variations": [
+      "HALLIBURTON",
+      "HALLIBURTON COMPANY"
+    ],
+    "subsidiaries": [
+      "HALLIBURTON COMPANY"
+    ]
+  },
+  "CUMMINS": {
+    "variations": [
+      "CUMMINS",
+      "CUMMINS-ALLISON CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "AMGEN": {
+    "variations": [
+      "AMGEN"
+    ],
+    "subsidiaries": [
+      "Horizon Therapeutics USA, Inc."
+    ]
+  },
+  "PACCAR": {
+    "variations": [
+      "PACCAR"
+    ],
+    "subsidiaries": []
+  },
+  "SOUTHERN": {
+    "variations": [
+      "SOUTHERN"
+    ],
+    "subsidiaries": [
+      "Southern Company Gas"
+    ]
+  },
+  "CENTURYLINK": {
+    "variations": [
+      "CENTURYLINK"
+    ],
+    "subsidiaries": []
+  },
+  "INTERNATIONAL PAPER": {
+    "variations": [
+      "INTERNATIONAL PAPER",
+      "INTERNATIONAL PAPER COMPANY"
+    ],
+    "subsidiaries": [
+      "United Corrstack LLC"
+    ]
+  },
+  "UNION PACIFIC": {
+    "variations": [
+      "UNION PACIFIC"
+    ],
+    "subsidiaries": []
+  },
+  "DOLLAR TREE": {
+    "variations": [
+      "DOLLAR TREE",
+      "DOLLAR TREE STORES INC"
+    ],
+    "subsidiaries": [
+      "Dollar Tree Stores, Inc."
+    ]
+  },
+  "PENSKE AUTOMOTIVE GROUP": {
+    "variations": [
+      "PENSKE AUTOMOTIVE GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "QUALCOMM": {
+    "variations": [
+      "QUALCOMM",
+      "QUALCOMM INCORPORATED",
+      "PAUL, WEISS, RIFKIND, WHARTON & GARRISON LLP ON BEHALF OF QUALCOMM INCORPORATED"
+    ],
+    "subsidiaries": []
+  },
+  "BRISTOL-MYERS SQUIBB": {
+    "variations": [
+      "BRISTOL-MYERS SQUIBB",
+      "BRISTOL-MYERS SQUIBB CO"
+    ],
+    "subsidiaries": [
+      "Karuna Therapeutics, Inc.",
+      "Abraxis BioScience, Inc.",
+      "Celgene Corporation",
+      "iPierian, Inc."
+    ]
+  },
+  "GILEAD SCIENCES": {
+    "variations": [
+      "GILEAD SCIENCES",
+      "GILEAD SCIENCES, INC."
+    ],
+    "subsidiaries": [
+      "Kite Pharma, Inc."
+    ]
+  },
+  "JABIL": {
+    "variations": [
+      "JABIL",
+      "JABIL, INC."
+    ],
+    "subsidiaries": []
+  },
+  "MANPOWERGROUP": {
+    "variations": [
+      "MANPOWERGROUP"
+    ],
+    "subsidiaries": [
+      "TAPFIN LLC"
+    ]
+  },
+  "SOUTHWEST AIRLINES": {
+    "variations": [
+      "SOUTHWEST AIRLINES",
+      "SOUTHWEST AIRLINES PILOTS' ASSOCIATION",
+      "MCCARTHY ADVANCED CONSULTING, LLC (ON BEHALF OF SOUTHWEST AIRLINES PILOTS ASSN.)"
+    ],
+    "subsidiaries": []
+  },
+  "AFLAC": {
+    "variations": [
+      "AFLAC"
+    ],
+    "subsidiaries": []
+  },
+  "TESLA": {
+    "variations": [
+      "TESLA",
+      "TESLA, INC.",
+      "TESLA LABORATORIES"
+    ],
+    "subsidiaries": []
+  },
+  "AUTONATION": {
+    "variations": [
+      "AUTONATION"
+    ],
+    "subsidiaries": []
+  },
+  "CBRE GROUP": {
+    "variations": [
+      "CBRE GROUP"
+    ],
+    "subsidiaries": [
+      "Industrious National Management Company LLC"
+    ]
+  },
+  "LEAR": {
+    "variations": [
+      "LEAR",
+      "LEAR CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "WHIRLPOOL": {
+    "variations": [
+      "WHIRLPOOL",
+      "WHIRLPOOL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "MCDONALD'S": {
+    "variations": [
+      "MCDONALD'S",
+      "MCDONALD'S CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "BROADCOM": {
+    "variations": [
+      "BROADCOM",
+      "BROADCOM INC."
+    ],
+    "subsidiaries": []
+  },
+  "MARRIOTT INTERNATIONAL": {
+    "variations": [
+      "MARRIOTT INTERNATIONAL",
+      "MARRIOTT INTERNATIONAL, INC."
+    ],
+    "subsidiaries": []
+  },
+  "WESTERN DIGITAL": {
+    "variations": [
+      "WESTERN DIGITAL",
+      "WESTERN DIGITAL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "VISA": {
+    "variations": [
+      "VISA"
+    ],
+    "subsidiaries": [
+      "Visa USA Inc"
+    ]
+  },
+  "LENNAR": {
+    "variations": [
+      "LENNAR",
+      "LENNAR CORPORATION"
+    ],
+    "subsidiaries": [
+      "Treasure\u00a0Island\u00a0Community\u00a0Development,\u00a0LLC",
+      "Len-Angeline,\u00a0LLC"
+    ]
+  },
+  "WELLCARE HEALTH PLANS": {
+    "variations": [
+      "WELLCARE HEALTH PLANS",
+      "WELLCARE HEALTH PLANS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "KOHL'S": {
+    "variations": [
+      "KOHL'S",
+      "KOHL'S DEPARTMENT STORES, INC."
+    ],
+    "subsidiaries": []
+  },
+  "AECOM": {
+    "variations": [
+      "AECOM",
+      "ALPINE GROUP, INC. ON BEHALF OF AECOM"
+    ],
+    "subsidiaries": []
+  },
+  "SYNNEX": {
+    "variations": [
+      "SYNNEX"
+    ],
+    "subsidiaries": []
+  },
+  "PNC FINANCIAL SERVICES": {
+    "variations": [
+      "PNC FINANCIAL SERVICES",
+      "THE PNC FINANCIAL SERVICES GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "DANAHER": {
+    "variations": [
+      "DANAHER",
+      "DANAHER CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "HARTFORD FINANCIAL SERVICES": {
+    "variations": [
+      "HARTFORD FINANCIAL SERVICES",
+      "HARTFORD FINANCIAL SERVICES GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "ALTRIA GROUP": {
+    "variations": [
+      "ALTRIA GROUP",
+      "ALTRIA CLIENT SERVICES LLC"
+    ],
+    "subsidiaries": []
+  },
+  "BANK OF NEW YORK MELLON": {
+    "variations": [
+      "BANK OF NEW YORK MELLON"
+    ],
+    "subsidiaries": []
+  },
+  "FLUOR": {
+    "variations": [
+      "FLUOR",
+      "FLUOR CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "AVNET": {
+    "variations": [
+      "AVNET"
+    ],
+    "subsidiaries": []
+  },
+  "ICAHN ENTERPRISES": {
+    "variations": [
+      "ICAHN ENTERPRISES",
+      "ICAHN INSTITUTE FOR GENOMICS AND MULTISCALE BIOLOGY",
+      "ICAHN ASSOCIATES LLC"
+    ],
+    "subsidiaries": [
+      "CVR Services, LLC"
+    ]
+  },
+  "OCCIDENTAL PETROLEUM": {
+    "variations": [
+      "OCCIDENTAL PETROLEUM",
+      "OCCIDENTAL PETROLEUM CORPORATION"
+    ],
+    "subsidiaries": [
+      "Occidental Petroleum Corporation"
+    ]
+  },
+  "MOLINA HEALTHCARE": {
+    "variations": [
+      "MOLINA HEALTHCARE",
+      "MOLINA HEALTHCARE, INC."
+    ],
+    "subsidiaries": []
+  },
+  "GENUINE PARTS": {
+    "variations": [
+      "GENUINE PARTS"
+    ],
+    "subsidiaries": []
+  },
+  "FREEPORT-MCMORAN": {
+    "variations": [
+      "FREEPORT-MCMORAN",
+      "FM SERVICES COMPANY (FREEPORT MCMORAN)"
+    ],
+    "subsidiaries": []
+  },
+  "KIMBERLY-CLARK": {
+    "variations": [
+      "KIMBERLY-CLARK",
+      "KIMBERLY-CLARK CORPORATION"
+    ],
+    "subsidiaries": [
+      "KIMBERLY-CLARK CORPORATION"
+    ]
+  },
+  "TENET HEALTHCARE": {
+    "variations": [
+      "TENET HEALTHCARE",
+      "TENET HEALTHCARE CORPORATION"
+    ],
+    "subsidiaries": [
+      "Southwest Orthopedic and Spine Hospital, LLC",
+      "Conifer Health Solutions, LLC"
+    ]
+  },
+  "SYNCHRONY FINANCIAL": {
+    "variations": [
+      "SYNCHRONY FINANCIAL"
+    ],
+    "subsidiaries": []
+  },
+  "CARMAX": {
+    "variations": [
+      "CARMAX",
+      "CARMAX INC"
+    ],
+    "subsidiaries": []
+  },
+  "HOLLYFRONTIER": {
+    "variations": [
+      "HOLLYFRONTIER",
+      "HAUCK STRATEGIES, LLC (OBO HOLLYFRONTIER CORPORATION)"
+    ],
+    "subsidiaries": []
+  },
+  "PERFORMANCE FOOD GROUP": {
+    "variations": [
+      "PERFORMANCE FOOD GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "SHERWIN-WILLIAMS": {
+    "variations": [
+      "SHERWIN-WILLIAMS",
+      "THE SHERWIN-WILLIAMS COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "EMERSON ELECTRIC": {
+    "variations": [
+      "EMERSON ELECTRIC",
+      "EMERSON ELECTRIC CO."
+    ],
+    "subsidiaries": []
+  },
+  "NGL ENERGY PARTNERS": {
+    "variations": [
+      "NGL ENERGY PARTNERS"
+    ],
+    "subsidiaries": []
+  },
+  "XPO LOGISTICS": {
+    "variations": [
+      "XPO LOGISTICS",
+      "WIGGIN AND DANA LLP (ON BEHALF OF XPO LOGISTICS, INC.)"
+    ],
+    "subsidiaries": []
+  },
+  "EOG RESOURCES": {
+    "variations": [
+      "EOG RESOURCES"
+    ],
+    "subsidiaries": []
+  },
+  "APPLIED MATERIALS": {
+    "variations": [
+      "APPLIED MATERIALS",
+      "APPLIED MATERIALS, INC."
+    ],
+    "subsidiaries": [
+      "Varian Semiconductor Equipment Associates, Inc."
+    ]
+  },
+  "PG&E": {
+    "variations": [
+      "PG&E"
+    ],
+    "subsidiaries": [
+      "Pacific Gas and Electric Company"
+    ]
+  },
+  "NEXTERA ENERGY": {
+    "variations": [
+      "NEXTERA ENERGY",
+      "NEXTERA ENERGY, INC."
+    ],
+    "subsidiaries": []
+  },
+  "C.H. ROBINSON WORLDWIDE": {
+    "variations": [
+      "C.H. ROBINSON WORLDWIDE",
+      "C.H. ROBINSON WORLDWIDE, INC."
+    ],
+    "subsidiaries": []
+  },
+  "GAP": {
+    "variations": [
+      "GAP",
+      "GAP INC."
+    ],
+    "subsidiaries": []
+  },
+  "LINCOLN NATIONAL": {
+    "variations": [
+      "LINCOLN NATIONAL"
+    ],
+    "subsidiaries": []
+  },
+  "DAVITA": {
+    "variations": [
+      "DAVITA",
+      "DAVITA INC"
+    ],
+    "subsidiaries": []
+  },
+  "JONES LANG LASALLE": {
+    "variations": [
+      "JONES LANG LASALLE",
+      "JONES LANG LASALLE AMERICAS INC"
+    ],
+    "subsidiaries": [
+      "Jones Lang LaSalle Americas, Inc."
+    ]
+  },
+  "WESTROCK": {
+    "variations": [
+      "WESTROCK",
+      "WESTROCK (FORMERLY ROCKTENN)"
+    ],
+    "subsidiaries": []
+  },
+  "CDW": {
+    "variations": [
+      "CDW"
+    ],
+    "subsidiaries": []
+  },
+  "AMERICAN ELECTRIC POWER": {
+    "variations": [
+      "AMERICAN ELECTRIC POWER"
+    ],
+    "subsidiaries": []
+  },
+  "COGNIZANT TECHNOLOGY SOLUTIONS": {
+    "variations": [
+      "COGNIZANT TECHNOLOGY SOLUTIONS"
+    ],
+    "subsidiaries": []
+  },
+  "D.R. HORTON": {
+    "variations": [
+      "D.R. HORTON"
+    ],
+    "subsidiaries": [
+      "Vidler Water Company Inc."
+    ]
+  },
+  "BECTON DICKINSON": {
+    "variations": [
+      "BECTON DICKINSON",
+      "BECTON, DICKINSON AND COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "NORDSTROM": {
+    "variations": [
+      "NORDSTROM"
+    ],
+    "subsidiaries": []
+  },
+  "NETFLIX": {
+    "variations": [
+      "NETFLIX",
+      "NETFLIX, INC."
+    ],
+    "subsidiaries": []
+  },
+  "ARAMARK": {
+    "variations": [
+      "ARAMARK"
+    ],
+    "subsidiaries": []
+  },
+  "TEXAS INSTRUMENTS": {
+    "variations": [
+      "TEXAS INSTRUMENTS",
+      "TEXAS INSTRUMENTS INCORPORATED"
+    ],
+    "subsidiaries": []
+  },
+  "GENERAL MILLS": {
+    "variations": [
+      "GENERAL MILLS"
+    ],
+    "subsidiaries": []
+  },
+  "SUPERVALU": {
+    "variations": [
+      "SUPERVALU",
+      "SUPERVALU INC"
+    ],
+    "subsidiaries": []
+  },
+  "COLGATE-PALMOLIVE": {
+    "variations": [
+      "COLGATE-PALMOLIVE",
+      "COLGATE-PALMOLIVE CO"
+    ],
+    "subsidiaries": []
+  },
+  "GOODYEAR TIRE & RUBBER": {
+    "variations": [
+      "GOODYEAR TIRE & RUBBER",
+      "THE GOODYEAR TIRE & RUBBER COMPANY",
+      "RETIREES OF THE GOODYEAR TIRE & RUBBER COMPANY HEALTH CARE TRUST"
+    ],
+    "subsidiaries": []
+  },
+  "PAYPAL HOLDINGS": {
+    "variations": [
+      "PAYPAL HOLDINGS",
+      "PAYPAL"
+    ],
+    "subsidiaries": []
+  },
+  "PPG INDUSTRIES": {
+    "variations": [
+      "PPG INDUSTRIES",
+      "PPG INDUSTRIES, INC."
+    ],
+    "subsidiaries": []
+  },
+  "OMNICOM GROUP": {
+    "variations": [
+      "OMNICOM GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "CELGENE": {
+    "variations": [
+      "CELGENE",
+      "CELGENE CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "JACOBS ENGINEERING GROUP": {
+    "variations": [
+      "JACOBS ENGINEERING GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "ROSS STORES": {
+    "variations": [
+      "ROSS STORES"
+    ],
+    "subsidiaries": []
+  },
+  "MARSH & MCLENNAN": {
+    "variations": [
+      "MARSH & MCLENNAN",
+      "MARSH & MCLENNAN COMPANIES, INC."
+    ],
+    "subsidiaries": []
+  },
+  "MASTERCARD": {
+    "variations": [
+      "MASTERCARD",
+      "MASTERCARD WORLDWIDE",
+      "TOWER 19 ON BEHALF OF MASTERCARD INC.",
+      "FTI GOVERNMENT AFFAIRS ON BEHALF OF MASTERCARD"
+    ],
+    "subsidiaries": []
+  },
+  "LAND O'LAKES": {
+    "variations": [
+      "LAND O'LAKES",
+      "LAND O'LAKES INC"
+    ],
+    "subsidiaries": []
+  },
+  "WASTE MANAGEMENT": {
+    "variations": [
+      "WASTE MANAGEMENT",
+      "ADVANTEK WASTE MANAGEMENT SERVICES LLC"
+    ],
+    "subsidiaries": []
+  },
+  "ILLINOIS TOOL WORKS": {
+    "variations": [
+      "ILLINOIS TOOL WORKS"
+    ],
+    "subsidiaries": [
+      "MTS Systems Corporation"
+    ]
+  },
+  "ECOLAB": {
+    "variations": [
+      "ECOLAB"
+    ],
+    "subsidiaries": []
+  },
+  "BOOKING HOLDINGS": {
+    "variations": [
+      "BOOKING HOLDINGS",
+      "BOOKING HOLDINGS INC. F/K/A/BOOKING.COM CONSULTING SERVICES (USA), INC."
+    ],
+    "subsidiaries": [
+      "Booking.com B.V."
+    ]
+  },
+  "CBS": {
+    "variations": [
+      "CBS",
+      "CBS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "PARKER-HANNIFIN": {
+    "variations": [
+      "PARKER-HANNIFIN"
+    ],
+    "subsidiaries": [
+      "LORD Corporation"
+    ]
+  },
+  "PRINCIPAL FINANCIAL": {
+    "variations": [
+      "PRINCIPAL FINANCIAL",
+      "PRINCIPAL FINANCIAL GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "DTE ENERGY": {
+    "variations": [
+      "DTE ENERGY"
+    ],
+    "subsidiaries": []
+  },
+  "BLACKROCK": {
+    "variations": [
+      "BLACKROCK",
+      "BLACKROCK FUND SERVICES GROUP, LLC",
+      "BLACKROCK MICROSYSTEMS"
+    ],
+    "subsidiaries": []
+  },
+  "UNITED STATES STEEL": {
+    "variations": [
+      "UNITED STATES STEEL",
+      "UNITED STATES STEEL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "COMMUNITY HEALTH SYSTEMS": {
+    "variations": [
+      "COMMUNITY HEALTH SYSTEMS"
+    ],
+    "subsidiaries": []
+  },
+  "KINDER MORGAN": {
+    "variations": [
+      "KINDER MORGAN"
+    ],
+    "subsidiaries": []
+  },
+  "QURATE RETAIL": {
+    "variations": [
+      "QURATE RETAIL",
+      "QURATE RETAIL INC F/K/A LIBERTY INTERACTIVE CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "LOEWS": {
+    "variations": [
+      "LOEWS",
+      "LOEWS CORPORATION"
+    ],
+    "subsidiaries": [
+      "Continental Casualty Company"
+    ]
+  },
+  "ARCONIC": {
+    "variations": [
+      "ARCONIC",
+      "HOWMET AEROSPACE INC FORMALLY KNOWN AS ARCONIC INC"
+    ],
+    "subsidiaries": []
+  },
+  "STANLEY BLACK & DECKER": {
+    "variations": [
+      "STANLEY BLACK & DECKER"
+    ],
+    "subsidiaries": [
+      "MTD Products Inc."
+    ]
+  },
+  "TEXTRON": {
+    "variations": [
+      "TEXTRON",
+      "TEXTRON INC."
+    ],
+    "subsidiaries": []
+  },
+  "LAS VEGAS SANDS": {
+    "variations": [
+      "LAS VEGAS SANDS",
+      "LAS VEGAS SANDS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ESTEE LAUDER": {
+    "variations": [
+      "ESTEE LAUDER",
+      "THE ESTEE LAUDER COMPANIES, INC"
+    ],
+    "subsidiaries": []
+  },
+  "DISH NETWORK": {
+    "variations": [
+      "DISH NETWORK",
+      "DISH NETWORK LLC"
+    ],
+    "subsidiaries": []
+  },
+  "STRYKER": {
+    "variations": [
+      "STRYKER",
+      "STRYKER CORPORATION"
+    ],
+    "subsidiaries": [
+      "Wright Medical Technology, Inc."
+    ]
+  },
+  "KELLOGG": {
+    "variations": [
+      "KELLOGG",
+      "KELLOGG CO",
+      "KELLANOVA F/K/A KELLOGG COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "BIOGEN": {
+    "variations": [
+      "BIOGEN"
+    ],
+    "subsidiaries": []
+  },
+  "ALCOA": {
+    "variations": [
+      "ALCOA"
+    ],
+    "subsidiaries": []
+  },
+  "ANADARKO PETROLEUM": {
+    "variations": [
+      "ANADARKO PETROLEUM",
+      "ANADARKO PETROLEUM CORPORATION (FORMERLY KERR MCGEE CORPORATION)"
+    ],
+    "subsidiaries": [
+      "Tesoro Companies, Inc."
+    ]
+  },
+  "DOMINION ENERGY": {
+    "variations": [
+      "DOMINION ENERGY"
+    ],
+    "subsidiaries": [
+      "SCANA Corporation"
+    ]
+  },
+  "ADP": {
+    "variations": [
+      "ADP",
+      "FUNDACION ACCION DEMOCRATICO PUERTORRIQUENA (ADP)"
+    ],
+    "subsidiaries": []
+  },
+  "SALESFORCE.COM": {
+    "variations": [
+      "SALESFORCE.COM",
+      "SALESFORCE.COM, INC."
+    ],
+    "subsidiaries": []
+  },
+  "L BRANDS": {
+    "variations": [
+      "L BRANDS",
+      "L BRANDS INC FORMERLY KNOWN AS LIMITED BRANDS INC"
+    ],
+    "subsidiaries": []
+  },
+  "HENRY SCHEIN": {
+    "variations": [
+      "HENRY SCHEIN"
+    ],
+    "subsidiaries": []
+  },
+  "NEWELL BRANDS": {
+    "variations": [
+      "NEWELL BRANDS",
+      "NEWELL BRANDS INC."
+    ],
+    "subsidiaries": [
+      "Graco Children's Products Inc."
+    ]
+  },
+  "GUARDIAN LIFE INS. CO. OF AMERICA": {
+    "variations": [
+      "GUARDIAN LIFE INS. CO. OF AMERICA",
+      "GUARDIAN LIFE INSURANCE COMPANY OF AMERICA"
+    ],
+    "subsidiaries": []
+  },
+  "BJ'S WHOLESALE CLUB": {
+    "variations": [
+      "BJ'S WHOLESALE CLUB"
+    ],
+    "subsidiaries": []
+  },
+  "BB&T CORP.": {
+    "variations": [
+      "BB&T CORP."
+    ],
+    "subsidiaries": []
+  },
+  "STATE STREET CORP.": {
+    "variations": [
+      "STATE STREET CORP."
+    ],
+    "subsidiaries": [
+      "State Street Bank and Trust Company"
+    ]
+  },
+  "VIACOM": {
+    "variations": [
+      "VIACOM",
+      "AMERICAN CONTINENTAL GROUP ON BEHALF OF VIACOM"
+    ],
+    "subsidiaries": []
+  },
+  "AMERIPRISE FINANCIAL": {
+    "variations": [
+      "AMERIPRISE FINANCIAL"
+    ],
+    "subsidiaries": []
+  },
+  "CORE-MARK HOLDING": {
+    "variations": [
+      "CORE-MARK HOLDING"
+    ],
+    "subsidiaries": []
+  },
+  "REINSURANCE GROUP OF AMERICA": {
+    "variations": [
+      "REINSURANCE GROUP OF AMERICA"
+    ],
+    "subsidiaries": []
+  },
+  "VF": {
+    "variations": [
+      "VF",
+      "VF SERVICES, LLC"
+    ],
+    "subsidiaries": []
+  },
+  "DISCOVER FINANCIAL SERVICES": {
+    "variations": [
+      "DISCOVER FINANCIAL SERVICES"
+    ],
+    "subsidiaries": []
+  },
+  "GLOBAL PARTNERS": {
+    "variations": [
+      "GLOBAL PARTNERS"
+    ],
+    "subsidiaries": [
+      "Global Companies\u00a0LLC"
+    ]
+  },
+  "EDISON INTERNATIONAL": {
+    "variations": [
+      "EDISON INTERNATIONAL"
+    ],
+    "subsidiaries": [
+      "Edison International"
+    ]
+  },
+  "ONEOK": {
+    "variations": [
+      "ONEOK",
+      "ONEOK, INC."
+    ],
+    "subsidiaries": []
+  },
+  "MURPHY USA": {
+    "variations": [
+      "MURPHY USA"
+    ],
+    "subsidiaries": []
+  },
+  "BED BATH & BEYOND": {
+    "variations": [
+      "BED BATH & BEYOND"
+    ],
+    "subsidiaries": []
+  },
+  "CONSOLIDATED EDISON": {
+    "variations": [
+      "CONSOLIDATED EDISON",
+      " CONSOLIDATED EDISON SOLUTIONS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "CSX": {
+    "variations": [
+      "CSX",
+      "CSX CORPORATION",
+      "CSX WORLD TERMINALS"
+    ],
+    "subsidiaries": []
+  },
+  "J.C. PENNEY": {
+    "variations": [
+      "J.C. PENNEY"
+    ],
+    "subsidiaries": []
+  },
+  "LKQ": {
+    "variations": [
+      "LKQ",
+      "LKQ CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "FIRSTENERGY": {
+    "variations": [
+      "FIRSTENERGY"
+    ],
+    "subsidiaries": []
+  },
+  "STEEL DYNAMICS": {
+    "variations": [
+      "STEEL DYNAMICS",
+      "STEEL DYNAMICS INC"
+    ],
+    "subsidiaries": [
+      "Vulcan Threaded Products, Inc."
+    ]
+  },
+  "LITHIA MOTORS": {
+    "variations": [
+      "LITHIA MOTORS"
+    ],
+    "subsidiaries": []
+  },
+  "MGM RESORTS INTERNATIONAL": {
+    "variations": [
+      "MGM RESORTS INTERNATIONAL"
+    ],
+    "subsidiaries": [
+      "MGM Public Policy, LLC"
+    ]
+  },
+  "TENNECO": {
+    "variations": [
+      "TENNECO"
+    ],
+    "subsidiaries": []
+  },
+  "NVIDIA": {
+    "variations": [
+      "NVIDIA",
+      "NVIDIA CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "SEMPRA ENERGY": {
+    "variations": [
+      "SEMPRA ENERGY"
+    ],
+    "subsidiaries": [
+      "Southern California Gas Company"
+    ]
+  },
+  "FARMERS INSURANCE EXCHANGE": {
+    "variations": [
+      "FARMERS INSURANCE EXCHANGE"
+    ],
+    "subsidiaries": []
+  },
+  "BALL": {
+    "variations": [
+      "BALL"
+    ],
+    "subsidiaries": [
+      "Ball Corporation"
+    ]
+  },
+  "GROUP 1 AUTOMOTIVE": {
+    "variations": [
+      "GROUP 1 AUTOMOTIVE"
+    ],
+    "subsidiaries": []
+  },
+  "UNUM GROUP": {
+    "variations": [
+      "UNUM GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "XCEL ENERGY": {
+    "variations": [
+      "XCEL ENERGY"
+    ],
+    "subsidiaries": []
+  },
+  "RELIANCE STEEL & ALUMINUM": {
+    "variations": [
+      "RELIANCE STEEL & ALUMINUM"
+    ],
+    "subsidiaries": []
+  },
+  "HUNTSMAN": {
+    "variations": [
+      "HUNTSMAN",
+      "HUNTSMAN CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "NORFOLK SOUTHERN": {
+    "variations": [
+      "NORFOLK SOUTHERN",
+      "NORFOLK SOUTHERN CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "LABORATORY CORP. OF AMERICA": {
+    "variations": [
+      "LABORATORY CORP. OF AMERICA",
+      "Laboratory Corporation of America"
+    ],
+    "subsidiaries": []
+  },
+  "CORNING": {
+    "variations": [
+      "CORNING",
+      "CORNING INC"
+    ],
+    "subsidiaries": []
+  },
+  "EXPEDIA GROUP": {
+    "variations": [
+      "EXPEDIA GROUP"
+    ],
+    "subsidiaries": [
+      "Expedia, Inc.",
+      "Cruise, LLC"
+    ]
+  },
+  "AUTOZONE": {
+    "variations": [
+      "AUTOZONE"
+    ],
+    "subsidiaries": []
+  },
+  "W.W. GRAINGER": {
+    "variations": [
+      "W.W. GRAINGER",
+      "W.W. GRAINGER, INC."
+    ],
+    "subsidiaries": []
+  },
+  "QUANTA SERVICES": {
+    "variations": [
+      "QUANTA SERVICES",
+      "DMM STRATEGIES ON BEHALF OF QUANTA SERVICES",
+      "QUANTA SERVICES, INC."
+    ],
+    "subsidiaries": []
+  },
+  "CROWN HOLDINGS": {
+    "variations": [
+      "CROWN HOLDINGS",
+      "STRATHSPEY CROWN HOLDINGS, LLC"
+    ],
+    "subsidiaries": []
+  },
+  "OFFICE DEPOT": {
+    "variations": [
+      "OFFICE DEPOT"
+    ],
+    "subsidiaries": []
+  },
+  "BAXTER INTERNATIONAL": {
+    "variations": [
+      "BAXTER INTERNATIONAL"
+    ],
+    "subsidiaries": [
+      "Baxter Healthcare Corporation"
+    ]
+  },
+  "LAM RESEARCH": {
+    "variations": [
+      "LAM RESEARCH",
+      "LAM RESEARCH CORP."
+    ],
+    "subsidiaries": []
+  },
+  "ENTERGY": {
+    "variations": [
+      "ENTERGY",
+      "ENTERGY SERVICES LLC"
+    ],
+    "subsidiaries": [
+      "Entergy Services, LLC"
+    ]
+  },
+  "CHARLES SCHWAB": {
+    "variations": [
+      "CHARLES SCHWAB",
+      "CHARLES SCHWAB & CO INC"
+    ],
+    "subsidiaries": []
+  },
+  "L3 TECHNOLOGIES": {
+    "variations": [
+      "L3 TECHNOLOGIES"
+    ],
+    "subsidiaries": []
+  },
+  "NRG ENERGY": {
+    "variations": [
+      "NRG ENERGY",
+      "PETRA NOVA, A SUBSIDIARY OF NRG ENERGY, INC.",
+      "NRG ENERGY, INC."
+    ],
+    "subsidiaries": [
+      "Direct Energy, LP",
+      "NRG Energy, Inc."
+    ]
+  },
+  "LIVE NATION ENTERTAINMENT": {
+    "variations": [
+      "LIVE NATION ENTERTAINMENT",
+      "Live Nation Entertainment, Inc."
+    ],
+    "subsidiaries": []
+  },
+  "UNIVERSAL HEALTH SERVICES": {
+    "variations": [
+      "UNIVERSAL HEALTH SERVICES"
+    ],
+    "subsidiaries": [
+      "Two Rivers Psychiatric Hospital, Inc."
+    ]
+  },
+  "MOLSON COORS BREWING": {
+    "variations": [
+      "MOLSON COORS BREWING"
+    ],
+    "subsidiaries": []
+  },
+  "EBAY": {
+    "variations": [
+      "EBAY",
+      "EBAY INC."
+    ],
+    "subsidiaries": []
+  },
+  "AES": {
+    "variations": [
+      "AES",
+      "AES DRILLING FLUIDS, LLC",
+      "AES SPARROWS POINT LNG",
+      "AES TELECOM"
+    ],
+    "subsidiaries": [
+      "AES Puerto Rico, L.P.",
+      "Dominican Power Partners",
+      "Indianapolis Power & Light Company",
+      "The AES Corporation"
+    ]
+  },
+  "DEVON ENERGY": {
+    "variations": [
+      "DEVON ENERGY",
+      "DEVON ENERGY CORPORATION"
+    ],
+    "subsidiaries": [
+      "DEVON ENERGY CORPORATION"
+    ]
+  },
+  "PACIFIC LIFE": {
+    "variations": [
+      "PACIFIC LIFE",
+      "PACIFIC LIFE INSURANCE COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "CENTERPOINT ENERGY": {
+    "variations": [
+      "CENTERPOINT ENERGY",
+      "CENTERPOINT PROPERTIES",
+      "SONNY CALLAHAN & ASSOCIATES LLC (ON BEHALF OF CENTERPOINT MANUFACTURING INC )"
+    ],
+    "subsidiaries": []
+  },
+  "DISCOVERY": {
+    "variations": [
+      "DISCOVERY"
+    ],
+    "subsidiaries": [
+      "Discovery Communications, LLC"
+    ]
+  },
+  "BORGWARNER": {
+    "variations": [
+      "BORGWARNER",
+      "BORGWARNER INC.",
+      "ARMITAGE CONSULTING, LLC (0N BEHALF OF BORGWARNER, INC.)",
+      "BORGWARNER INC."
+    ],
+    "subsidiaries": []
+  },
+  "TARGA RESOURCES": {
+    "variations": [
+      "TARGA RESOURCES"
+    ],
+    "subsidiaries": []
+  },
+  "ALLY FINANCIAL": {
+    "variations": [
+      "ALLY FINANCIAL",
+      "ALLY FINANCIAL INC."
+    ],
+    "subsidiaries": []
+  },
+  "SUNTRUST BANKS": {
+    "variations": [
+      "SUNTRUST BANKS"
+    ],
+    "subsidiaries": []
+  },
+  "IQVIA HOLDINGS": {
+    "variations": [
+      "IQVIA HOLDINGS",
+      "IQVIA"
+    ],
+    "subsidiaries": []
+  },
+  "AMERICAN FAMILY INSURANCE GROUP": {
+    "variations": [
+      "AMERICAN FAMILY INSURANCE GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "DELEK US HOLDINGS": {
+    "variations": [
+      "DELEK US HOLDINGS",
+      "DELEK US HOLDINGS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "NAVISTAR INTERNATIONAL": {
+    "variations": [
+      "NAVISTAR INTERNATIONAL"
+    ],
+    "subsidiaries": [
+      "Edison International",
+      "Navistar, Inc.",
+      "Navistar Defense, LLC"
+    ]
+  },
+  "CHESAPEAKE ENERGY": {
+    "variations": [
+      "CHESAPEAKE ENERGY",
+      "CHESAPEAKE ENERGY CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "UNITED NATURAL FOODS": {
+    "variations": [
+      "UNITED NATURAL FOODS",
+      "UNITED NATURAL FOODS, INC."
+    ],
+    "subsidiaries": [
+      "SUPERVALU INC."
+    ]
+  },
+  "LEIDOS HOLDINGS": {
+    "variations": [
+      "LEIDOS HOLDINGS"
+    ],
+    "subsidiaries": [
+      "Dynetics, Inc."
+    ]
+  },
+  "PULTEGROUP": {
+    "variations": [
+      "PULTEGROUP",
+      "PULTEGROUP INC"
+    ],
+    "subsidiaries": []
+  },
+  "EASTMAN CHEMICAL": {
+    "variations": [
+      "EASTMAN CHEMICAL",
+      "EASTMAN CHEMICAL COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "REPUBLIC SERVICES": {
+    "variations": [
+      "REPUBLIC SERVICES"
+    ],
+    "subsidiaries": [
+      "RCS, Inc."
+    ]
+  },
+  "MOHAWK INDUSTRIES": {
+    "variations": [
+      "MOHAWK INDUSTRIES"
+    ],
+    "subsidiaries": []
+  },
+  "SONIC AUTOMOTIVE": {
+    "variations": [
+      "SONIC AUTOMOTIVE"
+    ],
+    "subsidiaries": []
+  },
+  "OWENS & MINOR": {
+    "variations": [
+      "OWENS & MINOR",
+      "OWENS & MINOR, INC."
+    ],
+    "subsidiaries": []
+  },
+  "XEROX": {
+    "variations": [
+      "XEROX",
+      "XEROX CORPORATION"
+    ],
+    "subsidiaries": [
+      "Xerox Corporation"
+    ]
+  },
+  "BOSTON SCIENTIFIC": {
+    "variations": [
+      "BOSTON SCIENTIFIC",
+      "BOSTON SCIENTIFIC CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "DCP MIDSTREAM": {
+    "variations": [
+      "DCP MIDSTREAM"
+    ],
+    "subsidiaries": []
+  },
+  "AUTOLIV": {
+    "variations": [
+      "AUTOLIV",
+      "AUTOLIV ASP, INC."
+    ],
+    "subsidiaries": []
+  },
+  "INTERPUBLIC GROUP": {
+    "variations": [
+      "INTERPUBLIC GROUP",
+      "INTERPUBLIC GROUP OF COMPANIES"
+    ],
+    "subsidiaries": []
+  },
+  "PUBLIC SERVICE ENTERPRISE GROUP": {
+    "variations": [
+      "PUBLIC SERVICE ENTERPRISE GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "PVH": {
+    "variations": [
+      "PVH",
+      "PVH CORP."
+    ],
+    "subsidiaries": []
+  },
+  "MOSAIC": {
+    "variations": [
+      "MOSAIC",
+      "MOSAIC MICROSYSTEMS",
+      "THE MOSAIC COMPANY"
+    ],
+    "subsidiaries": [
+      "The Mosaic Company"
+    ]
+  },
+  "ADVANCE AUTO PARTS": {
+    "variations": [
+      "ADVANCE AUTO PARTS",
+      "ADVANCE AUTO PARTS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "ALTICE USA": {
+    "variations": [
+      "ALTICE USA",
+      "Cablevision Systems Corporation"
+    ],
+    "subsidiaries": []
+  },
+  "HORMEL FOODS": {
+    "variations": [
+      "HORMEL FOODS",
+      "HORMEL FOODS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "O'REILLY AUTOMOTIVE": {
+    "variations": [
+      "O'REILLY AUTOMOTIVE"
+    ],
+    "subsidiaries": []
+  },
+  "CALPINE": {
+    "variations": [
+      "CALPINE",
+      "CALPINE CORP"
+    ],
+    "subsidiaries": []
+  },
+  "HERTZ GLOBAL HOLDINGS": {
+    "variations": [
+      "HERTZ GLOBAL HOLDINGS",
+      "THE HERTZ CORPORATION"
+    ],
+    "subsidiaries": [
+      "The Hertz Corporation"
+    ]
+  },
+  "FIRST DATA": {
+    "variations": [
+      "FIRST DATA",
+      "FIRST DATA CORPORATION",
+      "CARD & ASSOCIATES (ON BEHALF OF FIRST DATA CORP )"
+    ],
+    "subsidiaries": []
+  },
+  "PIONEER NATURAL RESOURCES": {
+    "variations": [
+      "PIONEER NATURAL RESOURCES"
+    ],
+    "subsidiaries": []
+  },
+  "COTY": {
+    "variations": [
+      "COTY"
+    ],
+    "subsidiaries": []
+  },
+  "AGCO": {
+    "variations": [
+      "AGCO",
+      "AGCO CORPORATION"
+    ],
+    "subsidiaries": [
+      "Appareo Systems, LLC"
+    ]
+  },
+  "MUTUAL OF OMAHA INSURANCE": {
+    "variations": [
+      "MUTUAL OF OMAHA INSURANCE",
+      "Mutual of Omaha"
+    ],
+    "subsidiaries": []
+  },
+  "VISTRA ENERGY": {
+    "variations": [
+      "VISTRA ENERGY",
+      "VISTRA ENERGY CORP (FORMERLY ENERGY FUTURE HOLDINGS)"
+    ],
+    "subsidiaries": []
+  },
+  "AVIS BUDGET GROUP": {
+    "variations": [
+      "AVIS BUDGET GROUP",
+      "AVIS BUDGET GROUP, INC."
+    ],
+    "subsidiaries": []
+  },
+  "ADOBE": {
+    "variations": [
+      "ADOBE",
+      "ADOBE INC."
+    ],
+    "subsidiaries": []
+  },
+  "PETER KIEWIT SONS'": {
+    "variations": [
+      "PETER KIEWIT SONS'"
+    ],
+    "subsidiaries": []
+  },
+  "NEWS CORP.": {
+    "variations": [
+      "NEWS CORP."
+    ],
+    "subsidiaries": [
+      "Dow Jones & Company, Inc."
+    ]
+  },
+  "BRIGHTHOUSE FINANCIAL": {
+    "variations": [
+      "BRIGHTHOUSE FINANCIAL"
+    ],
+    "subsidiaries": []
+  },
+  "VOYA FINANCIAL": {
+    "variations": [
+      "VOYA FINANCIAL"
+    ],
+    "subsidiaries": [
+      "Voya Services Company"
+    ]
+  },
+  "AIR PRODUCTS & CHEMICALS": {
+    "variations": [
+      "AIR PRODUCTS & CHEMICALS"
+    ],
+    "subsidiaries": [
+      "SAUDI ARABIA"
+    ]
+  },
+  "HILTON WORLDWIDE HOLDINGS": {
+    "variations": [
+      "HILTON WORLDWIDE HOLDINGS",
+      "HILTON WORLDWIDE",
+      "HILTON GRAND VACATIONS"
+    ],
+    "subsidiaries": []
+  },
+  "GAMESTOP": {
+    "variations": [
+      "GAMESTOP"
+    ],
+    "subsidiaries": []
+  },
+  "VERITIV": {
+    "variations": [
+      "VERITIV"
+    ],
+    "subsidiaries": []
+  },
+  "WILLIAMS": {
+    "variations": [
+      "WILLIAMS"
+    ],
+    "subsidiaries": [
+      "LongPath Technologies, Inc."
+    ]
+  },
+  "CAMPBELL SOUP": {
+    "variations": [
+      "CAMPBELL SOUP",
+      "CAMPBELL SOUP COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "ROCKWELL COLLINS": {
+    "variations": [
+      "ROCKWELL COLLINS",
+      "ROCKWELL COLLINS (FORMERLY ITAC)"
+    ],
+    "subsidiaries": []
+  },
+  "THRIVENT FINANCIAL FOR LUTHERANS": {
+    "variations": [
+      "THRIVENT FINANCIAL FOR LUTHERANS"
+    ],
+    "subsidiaries": []
+  },
+  "WESTLAKE CHEMICAL": {
+    "variations": [
+      "WESTLAKE CHEMICAL",
+      "WESTLAKE CHEMICAL PARTNERS LP"
+    ],
+    "subsidiaries": []
+  },
+  "UNIVAR": {
+    "variations": [
+      "UNIVAR"
+    ],
+    "subsidiaries": []
+  },
+  "J.B. HUNT TRANSPORT SERVICES": {
+    "variations": [
+      "J.B. HUNT TRANSPORT SERVICES"
+    ],
+    "subsidiaries": []
+  },
+  "FRONTIER COMMUNICATIONS": {
+    "variations": [
+      "FRONTIER COMMUNICATIONS"
+    ],
+    "subsidiaries": []
+  },
+  "JONES FINANCIAL (EDWARD JONES)": {
+    "variations": [
+      "JONES FINANCIAL (EDWARD JONES)"
+    ],
+    "subsidiaries": []
+  },
+  "NATIONAL OILWELL VARCO": {
+    "variations": [
+      "NATIONAL OILWELL VARCO"
+    ],
+    "subsidiaries": []
+  },
+  "EVERSOURCE ENERGY": {
+    "variations": [
+      "EVERSOURCE ENERGY",
+      "Northeast Utilities"
+    ],
+    "subsidiaries": []
+  },
+  "DICK'S SPORTING GOODS": {
+    "variations": [
+      "DICK'S SPORTING GOODS",
+      "DICK'S SPORTING GOODS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "GENWORTH FINANCIAL": {
+    "variations": [
+      "GENWORTH FINANCIAL",
+      "GENWORTH FINANCIAL, INC."
+    ],
+    "subsidiaries": []
+  },
+  "FIDELITY NATIONAL INFORMATION SERVICES": {
+    "variations": [
+      "FIDELITY NATIONAL INFORMATION SERVICES",
+      "FIDELITY CHARITABLE GIFT FUND",
+      "FIDELITY SECURITY LIFE INSURANCE COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "YUM CHINA HOLDINGS": {
+    "variations": [
+      "YUM CHINA HOLDINGS",
+      "YUM CHINA HOLDINGS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "RYDER SYSTEM": {
+    "variations": [
+      "RYDER SYSTEM"
+    ],
+    "subsidiaries": []
+  },
+  "ANIXTER INTERNATIONAL": {
+    "variations": [
+      "ANIXTER INTERNATIONAL"
+    ],
+    "subsidiaries": [
+      "Edison International"
+    ]
+  },
+  "CAESARS ENTERTAINMENT": {
+    "variations": [
+      "CAESARS ENTERTAINMENT"
+    ],
+    "subsidiaries": [
+      "Caesars Enterprise Services, LLC"
+    ]
+  },
+  "MASCO": {
+    "variations": [
+      "MASCO",
+      "MASCO CORPORATION",
+      "MEDICAL ACADEMIC AND SCIENTIFIC COMMUNITY ORGANIZATION, INC. (MASCO)",
+      "MASCOMA CORP"
+    ],
+    "subsidiaries": []
+  },
+  "THOR INDUSTRIES": {
+    "variations": [
+      "THOR INDUSTRIES"
+    ],
+    "subsidiaries": []
+  },
+  "ALASKA AIR GROUP": {
+    "variations": [
+      "ALASKA AIR GROUP"
+    ],
+    "subsidiaries": [
+      "Alaska Airlines"
+    ]
+  },
+  "AMPHENOL": {
+    "variations": [
+      "AMPHENOL",
+      "AMPHENOL BORISCH TECHNOLOGIES (FORMERLY BORISCH MANUFACTURING CORPORATION)"
+    ],
+    "subsidiaries": [
+      "LifeSync Corporation"
+    ]
+  },
+  "WESCO INTERNATIONAL": {
+    "variations": [
+      "WESCO INTERNATIONAL",
+      "WESCO INTERNATIONAL, INC."
+    ],
+    "subsidiaries": []
+  },
+  "HUNTINGTON INGALLS INDUSTRIES": {
+    "variations": [
+      "HUNTINGTON INGALLS INDUSTRIES",
+      "DAHLBERG STRATEGIC ON BEHALF OF HUNTINGTON INGALLS"
+    ],
+    "subsidiaries": [
+      "Huntington Ingalls Incorporated",
+      "Gray Research, Inc."
+    ]
+  },
+  "JEFFERIES FINANCIAL GROUP": {
+    "variations": [
+      "JEFFERIES FINANCIAL GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "DANA": {
+    "variations": [
+      "DANA"
+    ],
+    "subsidiaries": []
+  },
+  "EXPEDITORS INTL. OF WASHINGTON": {
+    "variations": [
+      "EXPEDITORS INTL. OF WASHINGTON"
+    ],
+    "subsidiaries": []
+  },
+  "EMCOR GROUP": {
+    "variations": [
+      "EMCOR GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "DARDEN RESTAURANTS": {
+    "variations": [
+      "DARDEN RESTAURANTS"
+    ],
+    "subsidiaries": []
+  },
+  "SPARTANNASH": {
+    "variations": [
+      "SPARTANNASH"
+    ],
+    "subsidiaries": []
+  },
+  "ASSURANT": {
+    "variations": [
+      "ASSURANT",
+      "ASSURANT, INC."
+    ],
+    "subsidiaries": []
+  },
+  "UNITED RENTALS": {
+    "variations": [
+      "UNITED RENTALS"
+    ],
+    "subsidiaries": []
+  },
+  "LIBERTY MEDIA": {
+    "variations": [
+      "LIBERTY MEDIA",
+      "LIBERTY MEDIA CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ERIE INSURANCE GROUP": {
+    "variations": [
+      "ERIE INSURANCE GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "AUTO-OWNERS INSURANCE": {
+    "variations": [
+      "AUTO-OWNERS INSURANCE"
+    ],
+    "subsidiaries": []
+  },
+  "CHENIERE ENERGY": {
+    "variations": [
+      "CHENIERE ENERGY",
+      "CHENIERE ENERGY, INC."
+    ],
+    "subsidiaries": []
+  },
+  "FIFTH THIRD BANCORP": {
+    "variations": [
+      "FIFTH THIRD BANCORP"
+    ],
+    "subsidiaries": []
+  },
+  "FOOT LOCKER": {
+    "variations": [
+      "FOOT LOCKER"
+    ],
+    "subsidiaries": []
+  },
+  "CONAGRA BRANDS": {
+    "variations": [
+      "CONAGRA BRANDS",
+      "CONAGRA"
+    ],
+    "subsidiaries": []
+  },
+  "ZIMMER BIOMET HOLDINGS": {
+    "variations": [
+      "ZIMMER BIOMET HOLDINGS",
+      "ZIMMER",
+      "SOC-USA, A DAY & ZIMMERMAN COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "TRACTOR SUPPLY": {
+    "variations": [
+      "TRACTOR SUPPLY",
+      "TRACTOR SUPPLY COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "BERRY GLOBAL GROUP": {
+    "variations": [
+      "BERRY GLOBAL GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "ALLIANCE DATA SYSTEMS": {
+    "variations": [
+      "ALLIANCE DATA SYSTEMS"
+    ],
+    "subsidiaries": [
+      "UNION TELEPHONE COMPANY",
+      "AIRADIGM COMMUNICATIONS, INC."
+    ]
+  },
+  "HERSHEY": {
+    "variations": [
+      "HERSHEY",
+      "HERSHEY FOODS CORP",
+      "HERSHEY ENTERTAINMENT & RESORTS COMPANY FORMERLY KNOWN AS HERSHEY TRUST COMPANY",
+      "HERSHEY ENTERTAINMENT & RESORTS COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "PPL": {
+    "variations": [
+      "PPL",
+      "PPL CORPORATION"
+    ],
+    "subsidiaries": [
+      "LG&E and KU Energy LLC",
+      "PPL Corporation"
+    ]
+  },
+  "DEAN FOODS": {
+    "variations": [
+      "DEAN FOODS",
+      "DEAN FOODS CO",
+      "OFFICIAL COMMITTEE OF UNSECURED CREDITORS OF SOUTHERN FOODS DBA DEAN FOODS",
+      "DEAN FOODS AD HOC BONDHOLDERS GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "BUILDERS FIRSTSOURCE": {
+    "variations": [
+      "BUILDERS FIRSTSOURCE"
+    ],
+    "subsidiaries": []
+  },
+  "OSHKOSH": {
+    "variations": [
+      "OSHKOSH",
+      "OSHKOSH CORPORATION"
+    ],
+    "subsidiaries": [
+      "JLG Industries, Inc."
+    ]
+  },
+  "ENLINK MIDSTREAM": {
+    "variations": [
+      "ENLINK MIDSTREAM"
+    ],
+    "subsidiaries": []
+  },
+  "W.R. BERKLEY": {
+    "variations": [
+      "W.R. BERKLEY",
+      "W.R. BERKLEY CORPORATION"
+    ],
+    "subsidiaries": [
+      "Nano-Tex LLC"
+    ]
+  },
+  "WEC ENERGY GROUP": {
+    "variations": [
+      "WEC ENERGY GROUP"
+    ],
+    "subsidiaries": [
+      "ATC Management Inc."
+    ]
+  },
+  "JETBLUE AIRWAYS": {
+    "variations": [
+      "JETBLUE AIRWAYS",
+      "JTR STRATEGIES ON BEHALF OF JETBLUE AIRWAYS CORPORATION",
+      "JETBLUE AIRWAYS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "UGI": {
+    "variations": [
+      "UGI",
+      "UGI UTILITIES"
+    ],
+    "subsidiaries": [
+      "UGI Sunbury, LLC",
+      "UGI ENERGY SERVICES, LLC"
+    ]
+  },
+  "A-MARK PRECIOUS METALS": {
+    "variations": [
+      "A-MARK PRECIOUS METALS"
+    ],
+    "subsidiaries": []
+  },
+  "FIDELITY NATIONAL FINANCIAL": {
+    "variations": [
+      "FIDELITY NATIONAL FINANCIAL"
+    ],
+    "subsidiaries": []
+  },
+  "CONSTELLATION BRANDS": {
+    "variations": [
+      "CONSTELLATION BRANDS",
+      "CONSTELLATION BRANDS BEER DIVISION (FORMERLY KNOWN AS CROWN IMPORTS)",
+      "CONSTELLATION BRANDS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "QUEST DIAGNOSTICS": {
+    "variations": [
+      "QUEST DIAGNOSTICS",
+      "QUEST DIAGNOSTICS INCORPORATED"
+    ],
+    "subsidiaries": []
+  },
+  "ACTIVISION BLIZZARD": {
+    "variations": [
+      "ACTIVISION BLIZZARD",
+      "ACTIVISION BLIZZARD, INC."
+    ],
+    "subsidiaries": []
+  },
+  "WEYERHAEUSER": {
+    "variations": [
+      "WEYERHAEUSER",
+      "WEYERHAEUSER COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "RAYMOND JAMES FINANCIAL": {
+    "variations": [
+      "RAYMOND JAMES FINANCIAL"
+    ],
+    "subsidiaries": [
+      "TriState Capital Bank"
+    ]
+  },
+  "CASEY'S GENERAL STORES": {
+    "variations": [
+      "CASEY'S GENERAL STORES"
+    ],
+    "subsidiaries": []
+  },
+  "KEURIG DR PEPPER": {
+    "variations": [
+      "KEURIG DR PEPPER",
+      "KEURIG DR PEPPER INC."
+    ],
+    "subsidiaries": []
+  },
+  "AMERICAN TOWER": {
+    "variations": [
+      "AMERICAN TOWER",
+      "AMERICAN TOWER CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "APACHE": {
+    "variations": [
+      "APACHE",
+      "APACHE CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "DOVER": {
+    "variations": [
+      "DOVER",
+      "DOVER INTL SPEEDWAY",
+      "DOVER CORP",
+      "DOVER KNOLLS DEVELOPMENT COMPANY II, LLC"
+    ],
+    "subsidiaries": []
+  },
+  "KEYCORP": {
+    "variations": [
+      "KEYCORP"
+    ],
+    "subsidiaries": []
+  },
+  "J.M. SMUCKER": {
+    "variations": [
+      "J.M. SMUCKER",
+      "THE J.M. SMUCKER COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "CITIZENS FINANCIAL GROUP": {
+    "variations": [
+      "CITIZENS FINANCIAL GROUP",
+      "CITIZENS FINANCIAL GROUP INC"
+    ],
+    "subsidiaries": [
+      "Citizens Financial Group, Inc."
+    ]
+  },
+  "MOTOROLA SOLUTIONS": {
+    "variations": [
+      "MOTOROLA SOLUTIONS",
+      "MOTOROLA SOLUTIONS, INC."
+    ],
+    "subsidiaries": [
+      "MOTOROLA SOLUTIONS, INC.",
+      "Rave Wireless, Inc."
+    ]
+  },
+  "MAGELLAN HEALTH": {
+    "variations": [
+      "MAGELLAN HEALTH",
+      "MAGELLAN HEALTH SERVICES"
+    ],
+    "subsidiaries": []
+  },
+  "AMERICAN AXLE & MANUFACTURING": {
+    "variations": [
+      "AMERICAN AXLE & MANUFACTURING"
+    ],
+    "subsidiaries": []
+  },
+  "NEWMONT GOLDCORP": {
+    "variations": [
+      "NEWMONT GOLDCORP"
+    ],
+    "subsidiaries": [
+      "Goldcorp Inc."
+    ]
+  },
+  "SPIRIT AEROSYSTEMS HOLDINGS": {
+    "variations": [
+      "SPIRIT AEROSYSTEMS HOLDINGS"
+    ],
+    "subsidiaries": [
+      "Spirit AeroSystems, Inc."
+    ]
+  },
+  "WESTERN & SOUTHERN FINANCIAL GROUP": {
+    "variations": [
+      "WESTERN & SOUTHERN FINANCIAL GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "FORTIVE": {
+    "variations": [
+      "FORTIVE"
+    ],
+    "subsidiaries": [
+      "Fluke Corporation"
+    ]
+  },
+  "GRAYBAR ELECTRIC": {
+    "variations": [
+      "GRAYBAR ELECTRIC"
+    ],
+    "subsidiaries": []
+  },
+  "NVR": {
+    "variations": [
+      "NVR",
+      "NVR INC"
+    ],
+    "subsidiaries": []
+  },
+  "AVERY DENNISON": {
+    "variations": [
+      "AVERY DENNISON"
+    ],
+    "subsidiaries": []
+  },
+  "CELANESE": {
+    "variations": [
+      "CELANESE",
+      "CELANESE CORP"
+    ],
+    "subsidiaries": []
+  },
+  "AMERICAN FINANCIAL GROUP": {
+    "variations": [
+      "AMERICAN FINANCIAL GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "TOLL BROTHERS": {
+    "variations": [
+      "TOLL BROTHERS",
+      "TOLL BROTHERS INC"
+    ],
+    "subsidiaries": []
+  },
+  "SANMINA": {
+    "variations": [
+      "SANMINA",
+      "SANMINA CORPORATION"
+    ],
+    "subsidiaries": [
+      "SCI Technology, Inc."
+    ]
+  },
+  "INSIGHT ENTERPRISES": {
+    "variations": [
+      "INSIGHT ENTERPRISES"
+    ],
+    "subsidiaries": []
+  },
+  "OWENS CORNING": {
+    "variations": [
+      "OWENS CORNING",
+      "OWENS CORNING FIREBOARD ASBESTOS PERSONAL INJURY"
+    ],
+    "subsidiaries": []
+  },
+  "PACKAGING CORP. OF AMERICA": {
+    "variations": [
+      "PACKAGING CORP. OF AMERICA"
+    ],
+    "subsidiaries": []
+  },
+  "TRAVELCENTERS OF AMERICA": {
+    "variations": [
+      "TRAVELCENTERS OF AMERICA",
+      "TRAVELCENTERS OF AMERICA INC."
+    ],
+    "subsidiaries": []
+  },
+  "OLIN": {
+    "variations": [
+      "OLIN",
+      "OLIN CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ARTHUR J. GALLAGHER": {
+    "variations": [
+      "ARTHUR J. GALLAGHER",
+      "Arthur J Gallagher & Co"
+    ],
+    "subsidiaries": []
+  },
+  "MASTEC": {
+    "variations": [
+      "MASTEC"
+    ],
+    "subsidiaries": []
+  },
+  "ALLEGHANY": {
+    "variations": [
+      "ALLEGHANY",
+      "ALLEGHANY COUNTY ECONOMIC DEVELOPMENT CORPORATION",
+      "ALLEGHANY COUNTY",
+      "ALLEGHANY PROPERTIES"
+    ],
+    "subsidiaries": []
+  },
+  "OWENS-ILLINOIS": {
+    "variations": [
+      "OWENS-ILLINOIS",
+      "OWENS-ILLINOIS INC"
+    ],
+    "subsidiaries": []
+  },
+  "ASBURY AUTOMOTIVE GROUP": {
+    "variations": [
+      "ASBURY AUTOMOTIVE GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "CMS ENERGY": {
+    "variations": [
+      "CMS ENERGY",
+      "CMS ENERGY CORP"
+    ],
+    "subsidiaries": [
+      "Consumers Power"
+    ]
+  },
+  "MARKEL": {
+    "variations": [
+      "MARKEL",
+      "MARKEL CORPORATION"
+    ],
+    "subsidiaries": [
+      "FirstComp Insurance Company"
+    ]
+  },
+  "BLACKSTONE GROUP": {
+    "variations": [
+      "BLACKSTONE GROUP",
+      "The Blackstone Group"
+    ],
+    "subsidiaries": []
+  },
+  "AK STEEL HOLDING": {
+    "variations": [
+      "AK STEEL HOLDING",
+      "AK STEEL HOLDING CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "HANESBRANDS": {
+    "variations": [
+      "HANESBRANDS",
+      "HANESBRANDS INC"
+    ],
+    "subsidiaries": []
+  },
+  "R.R. DONNELLEY & SONS": {
+    "variations": [
+      "R.R. DONNELLEY & SONS"
+    ],
+    "subsidiaries": []
+  },
+  "WAYFAIR": {
+    "variations": [
+      "WAYFAIR"
+    ],
+    "subsidiaries": []
+  },
+  "REGIONS FINANCIAL": {
+    "variations": [
+      "REGIONS FINANCIAL",
+      "REGIONS FINANCIAL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "WYNN RESORTS": {
+    "variations": [
+      "WYNN RESORTS",
+      "WYNN RESORTS, LTD."
+    ],
+    "subsidiaries": []
+  },
+  "ULTA BEAUTY": {
+    "variations": [
+      "ULTA BEAUTY"
+    ],
+    "subsidiaries": []
+  },
+  "REGENERON PHARMACEUTICALS": {
+    "variations": [
+      "REGENERON PHARMACEUTICALS",
+      "REGENERON PHARMACEUTICALS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "BURLINGTON STORES": {
+    "variations": [
+      "BURLINGTON STORES"
+    ],
+    "subsidiaries": []
+  },
+  "ROCKWELL AUTOMATION": {
+    "variations": [
+      "ROCKWELL AUTOMATION"
+    ],
+    "subsidiaries": []
+  },
+  "NORTHERN TRUST": {
+    "variations": [
+      "NORTHERN TRUST"
+    ],
+    "subsidiaries": []
+  },
+  "CHEMOURS": {
+    "variations": [
+      "CHEMOURS",
+      "THE CHEMOURS COMPANY"
+    ],
+    "subsidiaries": []
+  },
+  "SEABOARD": {
+    "variations": [
+      "SEABOARD",
+      "SEABOARD CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "MARATHON OIL": {
+    "variations": [
+      "MARATHON OIL",
+      "MARATHON OIL COMPANY"
+    ],
+    "subsidiaries": [
+      "Tesoro Companies, Inc."
+    ]
+  },
+  "ASCENA RETAIL GROUP": {
+    "variations": [
+      "ASCENA RETAIL GROUP"
+    ],
+    "subsidiaries": []
+  },
+  "DILLARD'S": {
+    "variations": [
+      "DILLARD'S",
+      "DILLARD'S INC"
+    ],
+    "subsidiaries": []
+  },
+  "CINTAS": {
+    "variations": [
+      "CINTAS",
+      "CINTAS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ADVANCED MICRO DEVICES": {
+    "variations": [
+      "ADVANCED MICRO DEVICES"
+    ],
+    "subsidiaries": []
+  },
+  "HESS": {
+    "variations": [
+      "HESS",
+      "HESS CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "M&T BANK CORP.": {
+    "variations": [
+      "M&T BANK CORP.",
+      "M&T BANK CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "ABM INDUSTRIES": {
+    "variations": [
+      "ABM INDUSTRIES",
+      "ABM INDUSTRIES, INC."
+    ],
+    "subsidiaries": []
+  },
+  "BEACON ROOFING SUPPLY": {
+    "variations": [
+      "BEACON ROOFING SUPPLY"
+    ],
+    "subsidiaries": []
+  },
+  "NCR": {
+    "variations": [
+      "NCR",
+      "NCR CORP"
+    ],
+    "subsidiaries": [
+      "Cardtronics USA, Inc."
+    ]
+  },
+  "IHEARTMEDIA": {
+    "variations": [
+      "IHEARTMEDIA",
+      "IHEARTMEDIA INC"
+    ],
+    "subsidiaries": []
+  },
+  "FRANKLIN RESOURCES": {
+    "variations": [
+      "FRANKLIN RESOURCES",
+      "FRANKLIN RESOURCES, INC."
+    ],
+    "subsidiaries": [
+      "Legg Mason, Inc.",
+      "Franklin Advisers, Inc.",
+      "Clarion Partners, LLC"
+    ]
+  },
+  "AMEREN": {
+    "variations": [
+      "AMEREN",
+      "AMEREN SERVICES"
+    ],
+    "subsidiaries": []
+  },
+  "INTERCONTINENTAL EXCHANGE": {
+    "variations": [
+      "INTERCONTINENTAL EXCHANGE"
+    ],
+    "subsidiaries": []
+  },
+  "S&P GLOBAL": {
+    "variations": [
+      "S&P GLOBAL"
+    ],
+    "subsidiaries": [
+      "IHS Inc.",
+      "Carfax, Inc."
+    ]
+  },
+  "POST HOLDINGS": {
+    "variations": [
+      "POST HOLDINGS",
+      "POST HOLDINGS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "ANALOG DEVICES": {
+    "variations": [
+      "ANALOG DEVICES",
+      "ANALOG DEVICES, INC."
+    ],
+    "subsidiaries": []
+  },
+  "RALPH LAUREN": {
+    "variations": [
+      "RALPH LAUREN",
+      "POLO RALPH LAUREN"
+    ],
+    "subsidiaries": []
+  },
+  "L3HARRIS TECHNOLOGIES": {
+    "variations": [
+      "L3HARRIS TECHNOLOGIES"
+    ],
+    "subsidiaries": []
+  },
+  "BOOZ ALLEN HAMILTON": {
+    "variations": [
+      "BOOZ ALLEN HAMILTON"
+    ],
+    "subsidiaries": []
+  },
+  "POLARIS INDUSTRIES": {
+    "variations": [
+      "POLARIS INDUSTRIES"
+    ],
+    "subsidiaries": []
+  },
+  "CLOROX": {
+    "variations": [
+      "CLOROX",
+      "CLOROX SERVICES COMPANY"
+    ],
+    "subsidiaries": [
+      "Clorox Services Company"
+    ]
+  },
+  "REALOGY HOLDINGS": {
+    "variations": [
+      "REALOGY HOLDINGS"
+    ],
+    "subsidiaries": []
+  },
+  "HD SUPPLY HOLDINGS": {
+    "variations": [
+      "HD SUPPLY HOLDINGS"
+    ],
+    "subsidiaries": []
+  },
+  "GRAPHIC PACKAGING HOLDING": {
+    "variations": [
+      "GRAPHIC PACKAGING HOLDING"
+    ],
+    "subsidiaries": []
+  },
+  "OLD REPUBLIC INTERNATIONAL": {
+    "variations": [
+      "OLD REPUBLIC INTERNATIONAL"
+    ],
+    "subsidiaries": []
+  },
+  "INTUIT": {
+    "variations": [
+      "INTUIT",
+      "INTUIT, INC. AND AFFILIATES (FORMERLY INTUIT, INC.)"
+    ],
+    "subsidiaries": []
+  },
+  "NETAPP": {
+    "variations": [
+      "NETAPP"
+    ],
+    "subsidiaries": []
+  },
+  "TAPESTRY": {
+    "variations": [
+      "TAPESTRY",
+      "TAPESTRY, INC."
+    ],
+    "subsidiaries": []
+  },
+  "ON SEMICONDUCTOR": {
+    "variations": [
+      "ON SEMICONDUCTOR"
+    ],
+    "subsidiaries": []
+  },
+  "INGREDION": {
+    "variations": [
+      "INGREDION"
+    ],
+    "subsidiaries": [
+      "PureCircle USA Inc."
+    ]
+  },
+  "ZOETIS": {
+    "variations": [
+      "ZOETIS",
+      "ZOETIS INC."
+    ],
+    "subsidiaries": []
+  },
+  "FISERV": {
+    "variations": [
+      "FISERV"
+    ],
+    "subsidiaries": [
+      "First Data Corporation"
+    ]
+  },
+  "TREEHOUSE FOODS": {
+    "variations": [
+      "TREEHOUSE FOODS",
+      "TREEHOUSE FOODS, INC."
+    ],
+    "subsidiaries": []
+  },
+  "ROBERT HALF INTERNATIONAL": {
+    "variations": [
+      "ROBERT HALF INTERNATIONAL",
+      "ROBERT HALF INTERNATIONAL, INC."
+    ],
+    "subsidiaries": []
+  },
+  "FIRST AMERICAN FINANCIAL": {
+    "variations": [
+      "FIRST AMERICAN FINANCIAL",
+      "FIRST AMERICAN FINANCIAL CORPORATION"
+    ],
+    "subsidiaries": []
+  },
+  "HARLEY-DAVIDSON": {
+    "variations": [
+      "HARLEY-DAVIDSON",
+      "HARLEY-DAVIDSON MOTOR COMPANY INC",
+      "HARLEY-DAVIDSON FINANCIAL SERVICES, INC."
+    ],
+    "subsidiaries": [
+      "Harley-Davidson Financial Services, Inc.",
+      "Harley-Davidson Motor Company, Inc."
+    ]
+  },
+  "WINDSTREAM HOLDINGS": {
+    "variations": [
+      "WINDSTREAM HOLDINGS"
+    ],
+    "subsidiaries": [
+      "Windstream Services LLC"
+    ]
+  },
+  "YUM BRANDS": {
+    "variations": [
+      "YUM BRANDS",
+      "Yum! Brands"
+    ],
+    "subsidiaries": []
+  },
+  "WILLIAMS-SONOMA": {
+    "variations": [
+      "WILLIAMS-SONOMA"
+    ],
+    "subsidiaries": []
+  },
+  "SIMON PROPERTY GROUP": {
+    "variations": [
+      "SIMON PROPERTY GROUP",
+      "SIMON PROPERTY GROUP, INC."
+    ],
+    "subsidiaries": []
+  },
+  "NAVIENT": {
+    "variations": [
+      "NAVIENT"
+    ],
+    "subsidiaries": []
+  },
+  "WESTERN UNION": {
+    "variations": [
+      "WESTERN UNION"
+    ],
+    "subsidiaries": []
+  },
+  "PEABODY ENERGY": {
+    "variations": [
+      "PEABODY ENERGY"
+    ],
+    "subsidiaries": []
+  },
+  "LEVI STRAUSS": {
+    "variations": [
+      "LEVI STRAUSS",
+      "LEVI STRAUSS & CO"
+    ],
+    "subsidiaries": []
+  }
+}

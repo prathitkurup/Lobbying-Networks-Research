@@ -1,0 +1,151 @@
+"""
+01_extraction_audit.py
+Prathit Kurup, Victoria Figueroa
+
+PURPOSE
+-------
+Audit the raw output of extraction.py to understand the data structure before
+any network construction. This script documents WHY there are multiple rows per
+(client_name, bill_id) pair and quantifies the extent of duplication.
+
+BACKGROUND
+----------
+extraction.py's join_reports() function splits each LDA filing's reported spend
+equally across all bills mentioned in that report. A single report mentioning
+N bills produces N rows, each carrying (total_spend / N). A firm that files
+multiple reports mentioning the same bill therefore accumulates one row per
+report — not one row per (firm, bill). This is correct and intentional for
+spend accounting, but must be handled before network construction:
+
+  - For affiliation networks: drop_duplicates() reduces to presence/absence.
+  - For BC similarity: groupby().sum() collapses to total allocated spend per
+    (firm, bill), which is the correct economic quantity for frac computation.
+
+DESIGN DECISION DOCUMENTED
+--------------------------
+The raw data format (one row per bill per report) is correct for tracking how
+spend was allocated across filing periods. Aggregation before network construction
+is a pre-processing step, not a fix to extraction.py.
+
+OUTPUT
+------
+Writes a human-readable audit report to validations/outputs/01_extraction_audit.txt
+"""
+
+import sys
+import os
+import pandas as pd
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from config import DATA_DIR
+
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs", "01_extraction_audit.txt")
+
+
+def run_audit(df):
+    lines = []
+    lines.append("=" * 70)
+    lines.append("EXTRACTION AUDIT: fortune500_lda_reports.csv")
+    lines.append("=" * 70)
+
+    # Basic dimensions
+    lines.append(f"\n-- Raw Data Dimensions --")
+    lines.append(f"  Total rows:             {len(df):,}")
+    lines.append(f"  Unique firms:           {df['client_name'].nunique():,}")
+    lines.append(f"  Unique bill IDs:        {df['bill_id'].nunique():,}")
+    lines.append(f"  Unique (firm, bill) pairs: {df.groupby(['client_name','bill_id']).ngroups:,}")
+
+    # Column overview
+    lines.append(f"\n-- Columns --")
+    for col in df.columns:
+        n_null = df[col].isna().sum()
+        lines.append(f"  {col:<30}  dtype={str(df[col].dtype):<10}  nulls={n_null:,}")
+
+    # Spending overview
+    lines.append(f"\n-- Spend Distribution --")
+    lines.append(f"  Total reported spend:   ${df['amount'].sum():,.0f}")
+    lines.append(f"  Mean per row:           ${df['amount'].mean():,.2f}")
+    lines.append(f"  Median per row:         ${df['amount'].median():,.2f}")
+    lines.append(f"  Rows with $0 spend:     {(df['amount'] == 0).sum():,}  "
+                 f"({100*(df['amount']==0).mean():.1f}%)")
+
+    # Duplication: multiple rows per (firm, bill)
+    pair_counts = df.groupby(["client_name", "bill_id"]).size()
+    lines.append(f"\n-- (Firm, Bill) Pair Duplication --")
+    lines.append(f"  Unique pairs:           {len(pair_counts):,}")
+    lines.append(f"  Pairs with 1 row:       {(pair_counts == 1).sum():,}  "
+                 f"({100*(pair_counts==1).mean():.1f}%)")
+    lines.append(f"  Pairs with 2–5 rows:    {((pair_counts>=2)&(pair_counts<=5)).sum():,}  "
+                 f"({100*((pair_counts>=2)&(pair_counts<=5)).mean():.1f}%)")
+    lines.append(f"  Pairs with 6–10 rows:   {((pair_counts>5)&(pair_counts<=10)).sum():,}  "
+                 f"({100*((pair_counts>5)&(pair_counts<=10)).mean():.1f}%)")
+    lines.append(f"  Pairs with >10 rows:    {(pair_counts>10).sum():,}  "
+                 f"({100*(pair_counts>10).mean():.1f}%)")
+    lines.append(f"  Max rows per pair:      {pair_counts.max()}")
+    lines.append(f"  Mean rows per pair (multi only): "
+                 f"{pair_counts[pair_counts > 1].mean():.2f}")
+
+    # Why duplication exists: bills per report
+    # (proxy: rows per report, averaged over firms)
+    lines.append(f"\n-- Why Duplication Exists: Bills per Report --")
+    lines.append(f"  extraction.py splits report spend equally across all bills.")
+    lines.append(f"  A firm mentioning the same bill in 3 different reports produces")
+    lines.append(f"  3 rows for that (firm, bill) pair.")
+
+    # Show a concrete example: firm with most duplicates
+    worst_pair = pair_counts.idxmax()
+    worst_count = pair_counts.max()
+    lines.append(f"\n  Worst case: {worst_pair[0]} × {worst_pair[1]}")
+    lines.append(f"    → {worst_count} rows for this single (firm, bill) pair")
+    example_rows = df[(df["client_name"] == worst_pair[0]) &
+                      (df["bill_id"] == worst_pair[1])][["amount"]].reset_index(drop=True)
+    lines.append(f"    Row amounts: {list(example_rows['amount'].round(0).astype(int))}")
+    lines.append(f"    Sum (true total allocated spend): "
+                 f"${example_rows['amount'].sum():,.0f}")
+
+    # Firms with zero total budget
+    firm_totals = df.groupby("client_name")["amount"].sum()
+    zero_budget_firms = firm_totals[firm_totals == 0].index.tolist()
+    lines.append(f"\n-- Zero-Budget Firms --")
+    lines.append(f"  Firms with total reported spend = $0:  {len(zero_budget_firms)}")
+    if zero_budget_firms:
+        for firm in zero_budget_firms:
+            n_bills = df[df["client_name"] == firm]["bill_id"].nunique()
+            lines.append(f"    {firm}  ({n_bills} unique bills filed)")
+    lines.append(f"  → These firms produce NaN fracs and are excluded before")
+    lines.append(f"    BC similarity computation (see draft_similarity_network_bc.py).")
+
+    # Post-aggregation check
+    df_agg = df.groupby(["client_name", "bill_id"], as_index=False)["amount"].sum()
+    lines.append(f"\n-- Post-Aggregation (groupby sum) --")
+    lines.append(f"  Rows after aggregation: {len(df_agg):,}")
+    lines.append(f"  (was {len(df):,} rows — {len(df)/len(df_agg):.1f}x reduction)")
+    lines.append(f"  Total spend preserved:  ${df_agg['amount'].sum():,.0f}  "
+                 f"(should match raw = ${df['amount'].sum():,.0f})")
+
+    lines.append(f"\n-- Summary --")
+    lines.append(f"  Raw data has {len(df):,} rows for {len(pair_counts):,} unique (firm, bill)")
+    lines.append(f"  pairs — an average of {len(df)/len(pair_counts):.2f} rows per pair.")
+    lines.append(f"  This is correct: extraction.py creates one row per bill per report.")
+    lines.append(f"  Aggregation before network construction collapses to true totals.")
+    lines.append(f"\n  See design_decisions.md §1 for full rationale.")
+    lines.append("=" * 70)
+
+    return "\n".join(lines)
+
+
+def main():
+    print("Loading data...")
+    df = pd.read_csv(DATA_DIR / "fortune500_lda_reports.csv")
+
+    report = run_audit(df)
+    print(report)
+
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    with open(OUTPUT_PATH, "w") as f:
+        f.write(report + "\n")
+    print(f"\nReport written to {OUTPUT_PATH}")
+
+
+if __name__ == "__main__":
+    main()

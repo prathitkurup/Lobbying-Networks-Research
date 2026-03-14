@@ -1,7 +1,10 @@
 data/LobbyView
 .DS_Store
-visualizations/.DS_Store
-src/.DS_Store
-data/.DS_Store
 data/OpenSecrets
+data/bc_edges.csv
+data/cosine_edges.csv
+data/rbo_edges.csv
+src/__pycache__/
+src/validations/outputs
+visualizations/gephi
 
