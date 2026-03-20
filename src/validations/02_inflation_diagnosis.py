@@ -11,7 +11,7 @@ edge weights.
 THE BUG
 -------
 The original company_bill_edges() called:
-    df.groupby("bill_id")["client_name"].apply(list)
+    df.groupby("bill_number")["fortune_name"].apply(list)
 
 on the raw (un-aggregated) DataFrame. When firm A has R_A rows for bill b and
 firm B has R_B rows, the list for bill b contains R_A copies of A and R_B copies
@@ -31,11 +31,11 @@ At the median, this produced an inflation factor of ~6x
 THE FIX
 -------
 For the affiliation network:
-    df = df.drop_duplicates(subset=["client_name", "bill_id"])
+    df = df.drop_duplicates(subset=["fortune_name", "bill_number"])
     → reduces each (firm, bill) pair to a single presence/absence row
 
-For the BC similarity network:
-    df = df.groupby(["client_name","bill_id"], as_index=False)["amount"].sum()
+For cosine and RBO similarity networks:
+    df = df.groupby(["fortune_name","bill_number"], as_index=False)["amount_allocated"].sum()
     → collapses to true total allocated spend per (firm, bill)
 
 ALSO FIXED: canonical pair ordering
@@ -60,9 +60,9 @@ OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs", "02_inflation_d
 
 def build_edges_buggy(df):
     """Original (buggy) implementation — no deduplication, no canonical ordering."""
-    bill_companies = df.groupby("bill_id")["client_name"].apply(list)
+    bill_companies = df.groupby("bill_number")["fortune_name"].apply(list)
     records = []
-    for bill_id, companies in bill_companies.items():
+    for bill_number, companies in bill_companies.items():
         for i in range(len(companies)):
             for j in range(i + 1, len(companies)):
                 if companies[i] != companies[j]:
@@ -75,10 +75,10 @@ def build_edges_buggy(df):
 
 def build_edges_fixed(df):
     """Fixed implementation — deduplication + canonical ordering."""
-    df = df.drop_duplicates(subset=["client_name", "bill_id"])
-    bill_companies = df.groupby("bill_id")["client_name"].apply(list)
+    df = df.drop_duplicates(subset=["fortune_name", "bill_number"])
+    bill_companies = df.groupby("bill_number")["fortune_name"].apply(list)
     records = []
-    for bill_id, companies in bill_companies.items():
+    for bill_number, companies in bill_companies.items():
         for i in range(len(companies)):
             for j in range(i + 1, len(companies)):
                 if companies[i] != companies[j]:
@@ -99,7 +99,7 @@ def run_diagnosis(df):
     lines.append("=" * 70)
 
     lines.append(f"\n-- Step 1: Quantify Raw Duplication --")
-    pair_counts = df.groupby(["client_name", "bill_id"]).size()
+    pair_counts = df.groupby(["fortune_name", "bill_number"]).size()
     lines.append(f"  Rows per (firm, bill) pair:")
     lines.append(f"    Mean:   {pair_counts.mean():.2f}")
     lines.append(f"    Median: {pair_counts.median():.1f}")
@@ -157,9 +157,9 @@ def run_diagnosis(df):
     lines.append(f"  Fixed output: 0 non-canonical pairs (guaranteed by src<tgt constraint).")
 
     lines.append(f"\n-- Summary of Fixes --")
-    lines.append(f"  1. drop_duplicates(subset=['client_name','bill_id'])")
+    lines.append(f"  1. drop_duplicates(subset=['fortune_name','bill_number'])")
     lines.append(f"     Reduces {len(df):,} raw rows to "
-                 f"{df.drop_duplicates(['client_name','bill_id']).shape[0]:,} unique (firm, bill) pairs.")
+                 f"{df.drop_duplicates(['fortune_name','bill_number']).shape[0]:,} unique (firm, bill) pairs.")
     lines.append(f"  2. src, tgt = (a,b) if a<b else (b,a)")
     lines.append(f"     Canonical ordering ensures (A,B) and (B,A) always merge.")
     lines.append(f"  Result: median shared-bill count corrected from "
@@ -172,7 +172,7 @@ def run_diagnosis(df):
 
 def main():
     print("Loading data...")
-    df = pd.read_csv(DATA_DIR / "fortune500_lda_reports.csv")
+    df = pd.read_csv(DATA_DIR / "opensecrets_lda_reports.csv")
 
     report = run_diagnosis(df)
     print(report)

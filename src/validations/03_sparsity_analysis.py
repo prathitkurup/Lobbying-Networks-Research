@@ -74,13 +74,13 @@ def compute_null_expected_shared(firm_degrees, B):
 
 def build_observed_edges(df):
     """Build correct (deduped + canonical) shared-bill edge weights."""
-    df = df.drop_duplicates(subset=["client_name", "bill_id"])
+    df = df.drop_duplicates(subset=["fortune_name", "bill_number"])
     if MAX_BILL_DF is not None:
-        df = filter_bills_by_prevalence(df, MAX_BILL_DF, unit_col="bill_id")
+        df = filter_bills_by_prevalence(df, MAX_BILL_DF, unit_col="bill_number")
 
-    bill_companies = df.groupby("bill_id")["client_name"].apply(list)
+    bill_companies = df.groupby("bill_number")["fortune_name"].apply(list)
     records = []
-    for bill_id, companies in bill_companies.items():
+    for bill_number, companies in bill_companies.items():
         for i in range(len(companies)):
             for j in range(i + 1, len(companies)):
                 if companies[i] != companies[j]:
@@ -103,9 +103,9 @@ def run_analysis(df):
     lines.append("=" * 70)
 
     # -- Step 1: Basic firm/bill counts --
-    df_dedup = df.drop_duplicates(subset=["client_name", "bill_id"])
-    B_raw = df_dedup["bill_id"].nunique()
-    N = df_dedup["client_name"].nunique()
+    df_dedup = df.drop_duplicates(subset=["fortune_name", "bill_number"])
+    B_raw = df_dedup["bill_number"].nunique()
+    N = df_dedup["fortune_name"].nunique()
 
     lines.append(f"\n-- Step 1: Network Dimensions (post-deduplication) --")
     lines.append(f"  Unique firms:         {N}")
@@ -113,7 +113,7 @@ def run_analysis(df):
     lines.append(f"  Possible firm pairs:  {N*(N-1)//2:,}")
 
     # -- Step 2: Firm degree distribution --
-    firm_degrees = df_dedup.groupby("client_name")["bill_id"].nunique().rename("bill_count")
+    firm_degrees = df_dedup.groupby("fortune_name")["bill_number"].nunique().rename("bill_count")
     lines.append(f"\n-- Step 2: Firm Bill Count (degree) Distribution --")
     for stat, val in [("mean",   firm_degrees.mean()),
                       ("median", firm_degrees.median()),
@@ -126,9 +126,9 @@ def run_analysis(df):
     df_filtered = df_dedup.copy()
     if MAX_BILL_DF is not None:
         df_filtered = filter_bills_by_prevalence(df_dedup, MAX_BILL_DF,
-                                                 unit_col="bill_id")
-    B_filtered = df_filtered["bill_id"].nunique()
-    firm_degrees_filt = df_filtered.groupby("client_name")["bill_id"].nunique()
+                                                 unit_col="bill_number")
+    B_filtered = df_filtered["bill_number"].nunique()
+    firm_degrees_filt = df_filtered.groupby("fortune_name")["bill_number"].nunique()
 
     lines.append(f"\n-- Step 3: Null Model (filtered, MAX_BILL_DF={MAX_BILL_DF}) --")
     lines.append(f"  Bills after filtering: {B_filtered:,}")
@@ -202,7 +202,7 @@ def run_analysis(df):
 
 def main():
     print("Loading data...")
-    df = pd.read_csv(DATA_DIR / "fortune500_lda_reports.csv")
+    df = pd.read_csv(DATA_DIR / "opensecrets_lda_reports.csv")
 
     report = run_analysis(df)
     print(report)

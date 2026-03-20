@@ -73,7 +73,7 @@ check("RBO symmetry",
 
 # -- Test 6: build_frac_matrix shape and non-negativity
 rows = [("F1","b1",0.6),("F1","b2",0.4),("F2","b1",1.0),("F3","b3",1.0)]
-df = pd.DataFrame(rows, columns=["client_name","bill_id","frac"])
+df = pd.DataFrame(rows, columns=["fortune_name","bill_number","frac"])
 pivot, firms, bills = build_frac_matrix(df)
 check("build_frac_matrix shape (3 firms x 3 bills)", pivot.shape == (3, 3))
 check("build_frac_matrix no negatives", (pivot.values >= 0).all())
@@ -95,7 +95,7 @@ check("Cosine disjoint firms = 0", sim[f2_idx, f3_idx] == 0.0)
 
 # -- Test 10: build_ranked_lists ordering
 df_r = pd.DataFrame([("X","b1",500),("X","b2",200),("X","b3",1000)],
-                    columns=["client_name","bill_id","amount"])
+                    columns=["fortune_name","bill_number","amount_allocated"])
 ranked = build_ranked_lists(df_r, top_bills=100)
 check("build_ranked_lists sorted by spend descending",
       ranked["X"] == ["b3","b1","b2"])

@@ -5,6 +5,6 @@ data/bc_edges.csv
 data/cosine_edges.csv
 data/rbo_edges.csv
 src/__pycache__/
-src/validations/outputs
+src/validations
 visualizations/gephi
 

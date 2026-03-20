@@ -33,15 +33,14 @@ The empirical bill prevalence distribution has a natural break:
 Setting MAX_BILL_DF = 50 removes exactly the mega-bills while preserving all
 industry-specific co-lobbying signal. Alternative thresholds are tested.
 
-TWO-STAGE FILTERING FOR BC SIMILARITY
---------------------------------------
-For the affiliation network: exclude mega-bills entirely.
-For the BC network: exclude mega-bills from the pairing loop only — not from
-the total-budget denominator. This preserves the economic meaning of
-"frac = share of total lobbying budget" while removing the spurious BC ≈ 1.0
-scores from tiny but equal fracs on omnibus bills (e.g., both firms allocate
-0.002 of their budget to CARES Act → BC = 1 − 0/0.004 = 1.0 despite no
-genuine strategic alignment).
+TWO-STAGE FILTERING FOR COSINE AND RBO SIMILARITY
+--------------------------------------------------
+For the affiliation network: exclude mega-bills entirely before building edges.
+For cosine and RBO: fracs are computed on ALL bills (to preserve the economic
+meaning of "frac = share of total lobbying budget"), then mega-bills are excluded
+before building the frac matrix / ranked lists.  This removes the spurious
+near-equal fracs on omnibus bills (e.g., both firms allocate 0.002 of budget
+to CARES Act) while keeping the denominator intact.
 
 REFERENCES
 ----------
@@ -73,7 +72,7 @@ def prevalence_table(df_dedup, thresholds=(10, 20, 30, 50, 75, 100)):
     For each threshold, compute how many bills would be removed and what fraction
     of the resulting edges they account for.
     """
-    firms_per_bill = df_dedup.groupby("bill_id")["client_name"].nunique()
+    firms_per_bill = df_dedup.groupby("bill_number")["fortune_name"].nunique()
     n_bills = len(firms_per_bill)
 
     rows = []
@@ -106,10 +105,10 @@ def run_diagnosis(df):
     lines.append("=" * 70)
 
     # Dedup for presence analysis
-    df_dedup = df.drop_duplicates(subset=["client_name", "bill_id"])
-    firms_per_bill = df_dedup.groupby("bill_id")["client_name"].nunique().sort_values(ascending=False)
-    N_firms = df_dedup["client_name"].nunique()
-    N_bills = df_dedup["bill_id"].nunique()
+    df_dedup = df.drop_duplicates(subset=["fortune_name", "bill_number"])
+    firms_per_bill = df_dedup.groupby("bill_number")["fortune_name"].nunique().sort_values(ascending=False)
+    N_firms = df_dedup["fortune_name"].nunique()
+    N_bills = df_dedup["bill_number"].nunique()
 
     lines.append(f"\n-- Step 1: Bill Prevalence Distribution --")
     lines.append(f"  Unique firms: {N_firms}  |  Unique bills: {N_bills:,}")
@@ -132,7 +131,7 @@ def run_diagnosis(df):
                  f"({100*(firms_per_bill>=50).mean():.1f}%)")
 
     lines.append(f"\n-- Step 2: Top 20 Most-Prevalent Bills --")
-    lines.append(f"  {'Bill ID':<35}  {'# Firms':>8}  {'% of firms':>11}  {'Clique edges':>13}")
+    lines.append(f"  {'Bill Number':<35}  {'# Firms':>8}  {'% of firms':>11}  {'Clique edges':>13}")
     lines.append(f"  {'-'*35}  {'-'*8}  {'-'*11}  {'-'*13}")
     for bill, cnt in firms_per_bill.head(20).items():
         clique_edges = int(cnt) * (int(cnt) - 1) // 2
@@ -173,20 +172,19 @@ def run_diagnosis(df):
     lines.append(f"  The Q collapse from 0.18 → 0.02 without filtering is why mega-bill")
     lines.append(f"  removal is necessary for meaningful community detection.")
 
-    lines.append(f"\n-- Step 5: Two-Stage Filtering for BC Similarity --")
-    lines.append(f"  The BC network uses a two-stage filter (unlike affiliation):")
+    lines.append(f"\n-- Step 5: Two-Stage Filtering for Cosine and RBO Similarity --")
+    lines.append(f"  Cosine and RBO use a two-stage filter (unlike the affiliation network):")
     lines.append(f"")
     lines.append(f"  Stage 1 (keep all bills): Compute total_budget and fracs.")
     lines.append(f"    frac_ib = firm i's total spend on bill b / firm i's total budget")
     lines.append(f"    This preserves the economic meaning: frac is the share of the")
     lines.append(f"    firm's entire lobbying portfolio allocated to this bill.")
     lines.append(f"")
-    lines.append(f"  Stage 2 (filter mega-bills): Build BC pairs from filtered bills only.")
+    lines.append(f"  Stage 2 (filter mega-bills): Build cosine/RBO from filtered bills only.")
     lines.append(f"    Rationale: if both firms allocate 0.002 of their budget to CARES Act,")
-    lines.append(f"    BC = 1 − |0.002−0.002| / (0.002+0.002) = 1.0 — perfect 'alignment'")
-    lines.append(f"    from a bill neither firm targeted strategically.")
-    lines.append(f"    Filtering removes this spurious BC ≈ 1.0 signal while leaving")
-    lines.append(f"    intact the frac denominator (total budget) for all bills.")
+    lines.append(f"    cosine would treat this as genuine directional alignment despite no")
+    lines.append(f"    strategic targeting.  Filtering removes this spurious signal while")
+    lines.append(f"    leaving intact the frac denominator (total budget) for all bills.")
 
     lines.append(f"\n-- References --")
     lines.append(f"  Manning et al. (2008) Introduction to Information Retrieval §6.2")
@@ -203,7 +201,7 @@ def run_diagnosis(df):
 
 def main():
     print("Loading data...")
-    df = pd.read_csv(DATA_DIR / "fortune500_lda_reports.csv")
+    df = pd.read_csv(DATA_DIR / "opensecrets_lda_reports.csv")
 
     report = run_diagnosis(df)
     print(report)

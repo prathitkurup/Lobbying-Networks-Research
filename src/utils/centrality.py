@@ -26,7 +26,7 @@ that require a community partition:
        P_i = 1 - Σ_c [(κ_ic / κ_i)²]
        where κ_ic = weight of edges from i to community c.
        P = 0: all connections within own community (pure industry player).
-       P → 1: connections spread evenly across all communities (cross-industry).
+       P -> 1: connections spread evenly across all communities (cross-industry).
        This is the key measure for identifying cross-industry political
        entrepreneurs — firms that bridge across lobbying coalitions.
 
@@ -55,6 +55,79 @@ import networkx as nx
 
 
 # -- Tier 1: global centrality --
+
+def compute_katz_centrality(G, weight_attr="weight", normalized=True, max_iter=2000):
+    """
+    Katz-Bonacich centrality for weighted graphs.
+
+    C_katz(i) = alpha * sum_j A_ij * C_katz(j) + beta
+
+    alpha must be < 1/lambda_max (spectral radius of the weighted adjacency
+    matrix) to guarantee convergence.  We auto-set alpha = 0.85 / rho, where
+    rho is the spectral radius computed via numpy's eigenvalue solver.  If rho
+    is zero (empty or all-zero-weight graph), we fall back to all-zeros.
+
+    The Katz penalty on longer paths (exponential decay in path length) is
+    particularly informative for lobbying networks because it distinguishes
+    firms that are influential through direct strong ties from firms whose
+    prominence depends on being embedded in a dense multi-hop neighbourhood.
+    Contrast with PageRank (which also uses path-length decay but normalises
+    by out-degree) and within-community eigenvector (community-scoped only).
+
+    Parameters
+    ----------
+    G          : NetworkX Graph with weighted edges.
+    weight_attr: Edge attribute name for weights.
+    normalized : Whether to L2-normalise the final vector.
+    max_iter   : Maximum power-iteration steps.
+
+    Returns
+    -------
+    dict : {node: katz_centrality_value}
+
+    Reference
+    ---------
+    Katz, L. (1953). A new status index derived from sociometric analysis.
+    Psychometrika, 18(1), 39–43.
+    Bonacich, P. (1987). Power and centrality: A family of measures. American
+    Journal of Sociology, 92(5), 1170–1182.
+    """
+    if G.number_of_nodes() == 0:
+        return {}
+
+    A = nx.to_numpy_array(G, weight=weight_attr)
+    try:
+        eigenvalues = np.linalg.eigvals(A)
+        spectral_radius = float(np.max(np.abs(eigenvalues)))
+    except np.linalg.LinAlgError:
+        spectral_radius = 0.0
+
+    if spectral_radius == 0.0:
+        return {n: 0.0 for n in G.nodes()}
+
+    alpha = 0.85 / spectral_radius
+
+    try:
+        katz = nx.katz_centrality(
+            G, alpha=alpha, beta=1.0, weight=weight_attr,
+            max_iter=max_iter, normalized=normalized,
+        )
+    except nx.PowerIterationFailedConvergence:
+        # More conservative alpha if convergence fails at 0.85/rho
+        alpha = 0.50 / spectral_radius
+        try:
+            katz = nx.katz_centrality(
+                G, alpha=alpha, beta=1.0, weight=weight_attr,
+                max_iter=max_iter * 2, normalized=normalized,
+            )
+        except nx.PowerIterationFailedConvergence:
+            # Last-resort fallback: weighted degree (same units, no path penalty)
+            deg = dict(G.degree(weight=weight_attr))
+            max_d = max(deg.values()) or 1.0
+            katz = {n: v / max_d for n, v in deg.items()}
+
+    return katz
+
 
 def compute_centralities(G):
     return {
@@ -115,7 +188,7 @@ def compute_within_community_eigenvector(G, partition, weight_attr="weight"):
 def compute_within_community_zscore(G, partition, weight_attr="weight"):
     """
     Guimerà-Amaral z-score: normalized within-community weighted degree.
-    z_i = (κ_is − mean(κ_s)) / std(κ_s)
+    z_i = (κ_is - mean(κ_s)) / std(κ_s)
     where κ_is = sum of edge weights from i to same-community nodes.
     Returns {node: z_score}.
     """
@@ -151,10 +224,10 @@ def compute_within_community_zscore(G, partition, weight_attr="weight"):
 def compute_participation_coefficient(G, partition, weight_attr="weight"):
     """
     Guimerà-Amaral participation coefficient.
-    P_i = 1 − Σ_c [(κ_ic / κ_i)²]
+    P_i = 1 - Σ_c [(κ_ic / κ_i)²]
     where κ_ic = total edge weight from i to community c,
           κ_i  = total weighted degree of i.
-    P = 0: pure within-community player.  P → 1: kinless cross-industry bridger.
+    P = 0: pure within-community player.  P -> 1: kinless cross-industry bridger.
     Returns {node: P_value}.
     """
     P = {}
@@ -199,7 +272,7 @@ def classify_ga_role(z, P):
 
 def compute_community_centralities(G, partition, weight_attr="weight"):
     """
-    Compute all three community-based centrality tiers and return a DataFrame.
+    Compute all centrality tiers and return a DataFrame.
 
     Columns
     -------
@@ -209,25 +282,30 @@ def compute_community_centralities(G, partition, weight_attr="weight"):
     z_score                 : Guimerà-Amaral within-community degree z-score
     participation_coeff     : Guimerà-Amaral P (cross-community bridging)
     global_pagerank         : PageRank on full graph
+    katz_centrality         : Katz-Bonacich centrality (alpha auto-calibrated to
+                              0.85 / spectral_radius; captures influence through
+                              all path lengths with exponential decay)
     ga_role                 : Guimerà-Amaral node role label
     """
-    ec  = compute_within_community_eigenvector(G, partition, weight_attr)
-    z   = compute_within_community_zscore(G, partition, weight_attr)
-    P   = compute_participation_coefficient(G, partition, weight_attr)
-    pr  = nx.pagerank(G, weight=weight_attr)
+    ec   = compute_within_community_eigenvector(G, partition, weight_attr)
+    z    = compute_within_community_zscore(G, partition, weight_attr)
+    P    = compute_participation_coefficient(G, partition, weight_attr)
+    pr   = nx.pagerank(G, weight=weight_attr)
+    katz = compute_katz_centrality(G, weight_attr=weight_attr)
 
     rows = []
     for node in sorted(G.nodes()):
         p_val = P.get(node)
         z_val = z.get(node, 0.0)
         rows.append({
-            "firm":                   node,
-            "community":              partition.get(node),
+            "firm":                    node,
+            "community":               partition.get(node),
             "within_comm_eigenvector": round(ec.get(node, 0.0), 6),
-            "z_score":                round(z_val, 4),
-            "participation_coeff":    round(p_val, 4) if p_val is not None else None,
-            "global_pagerank":        round(pr.get(node, 0.0), 6),
-            "ga_role":                classify_ga_role(z_val, p_val),
+            "z_score":                 round(z_val, 4),
+            "participation_coeff":     round(p_val, 4) if p_val is not None else None,
+            "global_pagerank":         round(pr.get(node, 0.0), 6),
+            "katz_centrality":         round(katz.get(node, 0.0), 6),
+            "ga_role":                 classify_ga_role(z_val, p_val),
         })
 
     return (pd.DataFrame(rows)
@@ -237,10 +315,11 @@ def compute_community_centralities(G, partition, weight_attr="weight"):
 
 def print_community_centralities(cent_df, k=10):
     """
-    Print a structured summary of the three-tier community centrality:
+    Print a structured summary of all centrality tiers:
       — top-k by within-community eigenvector (industry leaders)
       — top-k by participation coefficient (cross-industry connectors)
       — top-k by global PageRank (overall network hubs)
+      — top-k by Katz-Bonacich centrality (path-penalised influence)
       — Guimerà-Amaral role distribution
     """
     print("\n-- Community Centrality: Top Industry Leaders "
@@ -267,6 +346,16 @@ def print_community_centralities(cent_df, k=10):
     for _, r in top_pr.iterrows():
         print(f"  {r['firm']:<42} {str(r['community']):>5}  "
               f"{r['global_pagerank']:>8.5f}  {r['ga_role']}")
+
+    print(f"\n-- Community Centrality: Top Katz-Bonacich Hubs --")
+    if "katz_centrality" in cent_df.columns:
+        top_katz = cent_df.nlargest(k, "katz_centrality")
+        print(f"  {'Firm':<42} {'Comm':>5}  {'Katz':>8}  {'GA role'}")
+        for _, r in top_katz.iterrows():
+            print(f"  {r['firm']:<42} {str(r['community']):>5}  "
+                  f"{r['katz_centrality']:>8.5f}  {r['ga_role']}")
+    else:
+        print("  (katz_centrality not computed for this network)")
 
     print(f"\n-- Guimerà-Amaral Role Distribution --")
     role_counts = cent_df["ga_role"].value_counts()

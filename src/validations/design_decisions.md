@@ -2,7 +2,7 @@
 
 **Project:** Layer 1 network construction for Fortune 500 co-lobbying analysis
 **Authors:** Prathit Kurup, Victoria Figueroa
-**Data:** LobbyView, 116th Congress (2019–2020), Fortune 500 firms
+**Data:** OpenSecrets CRP, 116th Congress (2019–2020), Fortune 500 firms
 
 This document records all significant design decisions made during the project,
 the reasoning behind each choice, and alternatives that were considered and
@@ -13,21 +13,21 @@ to allow any researcher to reconstruct the analytical choices.
 
 ## §1 — Data Structure: One Row Per Bill Per Report
 
-**Decision:** Accept the raw data format from `extraction.py` (one row per
+**Decision:** Accept the raw data format from `opensecrets_extraction.py` (one row per
 bill per report) and aggregate **before** network construction, not inside
-`extraction.py`.
+`opensecrets_extraction.py`.
 
-**Rationale:** `extraction.py`'s `join_reports()` function divides each filing's
-reported spend equally across all bills in that report (`amount / num_bills`),
-producing one row per (bill, report) pair. This design is correct for spend
-accounting — it correctly tracks how spend was distributed across filing periods.
-Aggregating inside `extraction.py` would lose the per-report audit trail. The
-correct approach is to aggregate at network construction time.
+**Rationale:** `opensecrets_extraction.py` divides each filing's reported spend equally
+across all bills in that report (`amount / num_bills`), producing one row per
+(bill, report) pair. This design is correct for spend accounting — it correctly
+tracks how spend was distributed across filing periods. Aggregating inside
+`opensecrets_extraction.py` would lose the per-report audit trail. The correct
+approach is to aggregate at network construction time.
 
 **Pre-processing fix:**
-- Affiliation network: `df.drop_duplicates(subset=["client_name","bill_id"])`
+- Affiliation network: `df.drop_duplicates(subset=["fortune_name","bill_number"])`
   — reduces to presence/absence; amount is irrelevant for affiliation.
-- BC similarity: `df.groupby(["client_name","bill_id"])["amount"].sum()`
+- Cosine/RBO similarity: `df.groupby(["fortune_name","bill_number"])["amount_allocated"].sum()`
   — collapses to true total allocated spend per (firm, bill).
 
 **Validation:** Run `validations/01_extraction_audit.py` to quantify
@@ -41,7 +41,7 @@ with the worst offenders at 10–20 rows.
 **Decision:** Fix the cartesian product inflation in the original edge
 construction by deduplicating before the clique-building loop.
 
-**Bug description:** Without deduplication, `df.groupby("bill_id")["client_name"]
+**Bug description:** Without deduplication, `df.groupby("bill_number")["fortune_name"]
 .apply(list)` builds lists with duplicate firm entries. For a pair (A, B) where
 A has R_A rows and B has R_B rows on a shared bill, the i < j loop generates
 R_A × R_B records instead of 1 — inflating shared-bill counts ~6x at the median
@@ -79,7 +79,7 @@ as a meaningful coordination signal and using community detection to find
 lobbying coalitions.
 
 **Decision on singletons:** Bills lobbied by exactly one firm (~54% of all bills)
-are **kept in the analysis** for BC similarity computations.
+are **kept in the frac denominator** for cosine and RBO similarity computations.
 - They remain in each firm's total budget denominator (preserving frac = share
   of total lobbying portfolio).
 - They do NOT produce any co-lobbying edges (no pairs to form).
@@ -93,8 +93,8 @@ model comparison.
 
 ## §4 — Mega-Bill Prevalence Filtering (MAX_BILL_DF = 50)
 
-**Decision:** Exclude bills lobbied by more than 50 unique firms from edge
-construction (and from the BC pairing loop). This is implemented as a
+**Decision:** Exclude bills lobbied by more than 50 unique firms from all
+three component networks (affiliation, cosine, RBO). This is implemented as a
 configurable parameter `MAX_BILL_DF` in `config.py`.
 
 **Rationale — Modularity Collapse:** Without filtering, the 16 bills with
@@ -126,52 +126,43 @@ and by design most firms lobby multiple issue areas. If analysis reveals that a
 handful of codes (TAX, FIN, HCR) collapse issue-network modularity, the same
 filtering logic can be applied by setting `MAX_ISSUE_DF` in `config.py`.
 
-**Two-stage filtering for BC similarity:**
+**Two-stage filtering for cosine and RBO similarity:**
 - Stage 1: Compute total_budget and fracs on **all bills** (including mega-bills)
   to preserve the economic meaning: `frac_ib = spend on bill b / total lobbying budget`.
-- Stage 2: Build BC pairs from **filtered bills only** (excluding mega-bills).
-  This removes the spurious BC ≈ 1.0 score that arises when two firms each
-  allocate a tiny, equal frac to an omnibus bill they had no strategic choice
-  about lobbying (e.g., both allocate 0.002 → BC = 1 − 0/0.004 = 1.0).
+- Stage 2: Build cosine/RBO pairs from **filtered bills only** (excluding mega-bills).
+  This removes the spurious near-equal fracs on omnibus bills (e.g., both firms
+  allocate 0.002 to CARES Act, which would inflate cosine similarity despite no
+  genuine strategic alignment).
 
 **Validation:** Run `validations/04_mega_bill_diagnosis.py` for the full
 prevalence distribution and modularity comparison.
 
 ---
 
-## §5 — Choice of Similarity Metric: Breadth × Depth (Bray-Curtis)
+## §5 — Choice of Similarity Metrics
 
-**Decision:** Use a composite `weight(i,j) = breadth(i,j) × depth(i,j)` where:
-- `depth(i,j) = mean BC similarity over shared bills` (per-bill portfolio alignment)
-- `breadth(i,j) = 1 − exp(−λ × shared_bill_count)` (saturating reward for overlap)
-- `λ = log(2) / median(shared_bills)` (auto-calibrated so breadth = 0.5 at median)
+**Decision:** Use three complementary bill-level similarity signals — affiliation,
+cosine similarity, and Rank-Biased Overlap — and combine them multiplicatively in
+the composite network.  See §10 (cosine), §11 (RBO), and §12 (composite) for
+detailed rationales.
 
-**Rationale — Bray-Curtis:** The Bray-Curtis dissimilarity is standard in ecology
-for comparing species compositions across samples (Bray & Curtis, 1957). Applied
-here, it measures how similarly two firms distribute their lobbying budgets across
-shared bills. Unlike cosine similarity, BC is insensitive to total budget magnitude
-(only portfolio proportions matter), which is appropriate given the wide variation
-in Fortune 500 lobbying budgets.
+**Summary of the three signals:**
+- **Affiliation** (`affil_norm = shared_bills / N_total`): raw co-lobbying breadth,
+  normalized by the total filtered bill universe.  Interpretable as "what fraction
+  of all available bills do these two firms jointly lobby?"
+- **Cosine similarity**: geometric alignment of portfolio-share (frac) vectors.
+  Captures directional agreement across the full bill portfolio.
+- **RBO**: priority-ranking agreement.  Captures whether the firms' high-spend
+  legislative priorities are the same.
 
-**Rationale — Breadth term:** Two firms that each lobby exactly one shared bill
-with identical fracs get BC = 1.0 on that bill. A breadth term that rewards
-coordination across many bills distinguishes genuine strategic alignment (consistent
-co-lobbying across many issues) from coincidental alignment on a single bill.
-The exponential saturation means breadth approaches 1 asymptotically — additional
-shared bills beyond the saturation point contribute diminishing weight.
-
-**λ calibration:** Setting λ = log(2) / median(shared_bills) makes breadth = 0.5
-at the median shared-bill count, so the median pair gets neither the maximum breadth
-reward nor is penalized relative to it. This is a natural, data-adaptive calibration.
-Robustness to λ is verified via Spearman rank correlation at λ × 0.5, × 2, × 4.
-
-**Alternative considered — IDF weighting:** Down-weight bills lobbied by many firms
-(analogous to TF-IDF). Rejected in favor of a different approach planned for a
-later layer; see research notes.
-
-**Alternative considered — Simple shared-bill count:** The affiliation network
-uses this as a baseline. It has the advantage of interpretability but lacks
-the portfolio-alignment signal that BC captures.
+**Why not Bray-Curtis breadth×depth?**
+Bray-Curtis is a standard ecology dissimilarity metric (Bray & Curtis, 1957) that
+measures per-bill frac differences.  It was used in an earlier version of this
+project but replaced because: (a) cosine similarity is a cleaner geometric measure
+of directional alignment; (b) affil_norm provides the "breadth" signal more
+transparently without the exponential calibration parameter λ; (c) the composite
+formula `affil_norm × cosine × rbo` separates the three dimensions cleanly and is
+easier to interpret.
 
 ---
 
@@ -260,15 +251,14 @@ science and widely used in the literature on functional cartography.
 
 ## §8 — Zero-Budget Firm Exclusion
 
-**Decision:** Exclude firms with total lobbying budget = $0 from BC similarity
-computation (with a printed warning listing the excluded firms). These firms
-remain in the affiliation network.
+**Decision:** Exclude firms with total lobbying budget = $0 from cosine and RBO
+similarity computations (with a printed warning). These firms remain in the
+affiliation network.
 
 **Rationale:** A firm with $0 total spend produces `frac = 0/0 = NaN` for all
-bills, which would silently corrupt BC similarity scores (NaN propagates through
-arithmetic). The LDA filing is valid even with $0 spend — firms are legally
-required to file even if they spent less than the $5,000 threshold. These firms
-listed bills but reported zero lobbying expenditure.
+bills, which would corrupt cosine and RBO scores. The LDA filing is valid even
+with $0 spend — firms are legally required to file even if they spent less than
+the $5,000 threshold.
 
 **Known affected firms (116th Congress):**
 - Air Products & Chemicals
@@ -276,22 +266,21 @@ listed bills but reported zero lobbying expenditure.
 - Dick's Sporting Goods
 - Treehouse Foods
 
-**Node count discrepancy (291 vs. 289):**
-The affiliation and BC networks have different node counts because:
-1. Crown Holdings: zero total budget → excluded by BC zero-budget guard,
-   but present in affiliation (presence-based, no spend required).
+**Why some firms appear in the affiliation network but not cosine/RBO:**
+1. Zero-budget firms: excluded by the `compute_zero_budget_fracs()` guard.
 2. Republic Services: non-zero budget ($70k), but $0 allocated on its only
-   shared bill (hr2923-116) via equal-split. BC = 1 − |0 − f_j| / (0 + f_j) = 0
-   for all pairs → filtered by `result[result["weight"] > 0]`.
-3. Five additional firms: all bills are singletons (no shared bills with any
-   other firm) → no edges in either network, hence absent from both graphs.
+   shared bill via equal-split → frac = 0 for all bills → cosine = 0 for all
+   pairs → absent from cosine edges after the `weight > 0` filter.
+3. Firms whose only shared bills are mega-bills: filtered out, leaving them
+   with no non-mega bills in common with any other firm.
 
 ---
 
 ## §9 — Community Comparison Methodology
 
-**Decision:** Compare Leiden partitions from the affiliation and BC networks
-using NMI, ARI, and Hungarian-aligned confusion matrices.
+**Decision:** Compare Leiden partitions from the four networks (composite,
+affiliation, cosine, RBO) using NMI, ARI, and Hungarian-aligned confusion matrices.
+See §14 for the four-way comparison methodology.
 
 **Rationale:**
 - **NMI (Normalized Mutual Information):** Measures information shared between
@@ -344,78 +333,326 @@ synchronized with the network structure in a single file.
 
 ---
 
-## §11 — Issue Similarity Weight Range (Not Bounded [0,1])
+## §11 — Issue Similarity Network: Cosine Similarity on Issue Portfolios
 
-**Decision:** The issue similarity network uses weight = sum(BC_issue) /
-sqrt(shared_issue_count) with NORMALIZE=True. These weights are NOT bounded
-between 0 and 1.
+**Decision:** The issue similarity network uses cosine similarity of
+issue-portfolio-share (frac) vectors, identical in construction to the
+bill-level cosine similarity network but aggregated over issue codes rather
+than individual bills.
 
-**Mathematical foundation:**
-- Each Bray-Curtis score BC_k(i,j) per shared issue k is bounded in [0, 1].
-- Summing N such scores gives a maximum of N (all perfect BC = 1.0).
-- Dividing by sqrt(N) gives a maximum of sqrt(N).
-- With 75 issue codes, the theoretical maximum is sqrt(75) ≈ 8.66.
-- Without normalization (NORMALIZE=False), the maximum is 75.
+**Metric definition:**
+```
+cos(i, j) = (u_i · u_j) / (||u_i|| × ||u_j||)
+```
+where `u_i[k] = firm i's total spend on issue code k / firm i's total lobbying
+budget`.  Weights are bounded in [0, 1] since all fracs are non-negative.
 
-**Empirical distribution:** Across the Fortune 500 LDA issues data:
-- Median weight ≈ 0.81 (normalized)
-- Maximum observed weight ≈ 3.28 (pairs sharing ~9–10 issues with high BC).
-- 33.6% of edges exceed weight 1.0; only 1.2% exceed weight 2.0.
+**Why cosine (not Bray-Curtis):**
+An earlier version used Bray-Curtis per issue code, aggregated with sqrt
+normalization: `weight = sum(BC_k) / sqrt(N_shared_issues)`.  This produced
+unbounded weights (max ≈ sqrt(75) ≈ 8.66) and required users to interpret the
+weight scale carefully.  Replacing with cosine gives a clean [0, 1] score
+consistent with the bill-level cosine network, and removes the need for a
+separate normalization convention specific to the issue network.
 
-**Design rationale — the sqrt normalization as compromise:**
+**Data note:**
+`opensecrets_lda_issues.csv` has one row per (report, issue_code).  Without
+aggregation, the firms × issues pivot would inflate issue-level fracs by report
+count.  We first aggregate to one row per (fortune_name, issue_code)
+by summing amounts before computing fracs.
 
-Three normalization strategies and their tradeoffs:
+**Relationship to the bill cosine network:**
+- Bill cosine: `u_i[b] = spend on bill b / total budget` — fine-grained
+  (2300+ dimensions), captures bill-specific alignment.
+- Issue cosine: `u_i[k] = spend on issue code k / total budget` — coarser
+  (75 dimensions), captures sector/domain alignment.
 
-1. **Raw sum** (weight = N × mean_BC, unbounded up to 75):
-   - Pros: Captures full breadth signal; pairs with many shared issues
-     get much heavier weights than pairs with few issues.
-   - Cons: Weight dominated by breadth, not depth; quality of alignment
-     becomes secondary to multiplicity.
+The two networks are complementary: the bill cosine network is part of the
+composite pipeline; the issue cosine network is standalone, capturing policy-area
+strategy rather than specific legislative priorities.
 
-2. **Plain mean** (weight = mean_BC, bounded [0, 1]):
-   - Pros: Weights directly interpretable as similarity scores in [0, 1].
-   - Cons: Removes breadth signal entirely; a pair coordinating on 1 issue
-     at BC = 0.9 gets the same weight as a pair coordinating on 50 issues
-     at BC = 0.9. Ignores strategic multi-issue coordination.
+**Source:** `src/issue_similarity_network.py`
 
-3. **sqrt normalization** (weight = sum_BC / sqrt(N), bounded [0, sqrt(75)] ≈ [0, 8.66]):
-   - Pros: Balances breadth (sub-linear reward) with depth (per-issue alignment).
-     Pairs with many shared issues get higher weights, but growth is sublinear
-     (diminishing returns), so weight quality (BC alignment) remains competitive
-     with quantity (issue count).
-   - Cons: Weights exceed [0, 1]; cannot be interpreted as proportions or
-     probabilities.
+---
 
-**CHOSEN: Option 3.** This is most appropriate for community detection: Leiden
-and related algorithms are designed for arbitrary positive edge weights and do
-not assume [0, 1] bounds. The sqrt normalization's reward structure (depth +
-sub-linear breadth) provides good signal for discovering coalitions that
-coordinate both strategically deep (high BC on shared bills) and broadly
-(across multiple issue domains).
+## §12 — Composite Similarity Network: Three-Signal Design
 
-**Interpretation:**
-- DO NOT interpret weight 3.0 as "30% similar" or "3 out of 10."
-- DO interpret as: "A and B are aligned on multiple issues. If they share 9
-  issues with perfect BC on each, weight = 9/√9 = 3."
-- For centrality and community detection, these unbounded weights are
-  appropriate and expected.
+**Decision:** Build a composite company-to-company similarity network by
+multiplying three signals:
 
-**Contrast with bill-level BC network:**
-The bill similarity network uses weight = mean_BC × breadth, where breadth =
-1 − exp(−λ × shared_bill_count) ∈ [0, 1). The exponential breadth term
-naturally saturates at 1, giving a final weight bounded in [0, 1]. This is a
-different design choice appropriate for that network's structure (many more
-bills, different questions). Issue networks use sqrt normalization instead.
+```
+composite(i,j) = affil_norm(i,j) × cosine(i,j) × rbo(i,j)
 
-**Validation:** Run `validations/05_issue_score_range.py` to see the
-mathematical proof, empirical distribution, and share-count breakdown.
+affil_norm(i,j) = shared_bills(i,j) / N_total_bills
+```
+
+where:
+- **affil_norm** ∈ [0, 1]: fraction of the total filtered bill universe that
+  both firms co-lobby.  `shared_bills(i,j)` = count of bills (post mega-bill
+  filter) that both firm i and firm j lobby for.  `N_total_bills` = 2285 in
+  the 116th Congress OpenSecrets data.
+  Example: two firms sharing 10 bills → affil_norm = 10/2285 ≈ 0.0044.
+- **cosine** ∈ [0, 1]: cosine similarity of portfolio-share (frac) vectors —
+  geometric alignment of lobbying budgets.
+- **rbo** ∈ [0, 1]: Rank-Biased Overlap on bill priority rankings — agreement
+  on which bills matter most.
+
+**Why affil_norm = shared_bills / N_total:**
+It is the simplest, most transparent normalization: the raw shared-bill count
+expressed as a fraction of all available bills.  No parameters to calibrate.
+Direct interpretation: "what fraction of all lobbied bills do these two firms
+address together?"  This is pure breadth, measured on the absolute scale of
+the full bill universe rather than relative to each firm's portfolio.
+The cosine and RBO components provide depth and priority alignment respectively.
+
+**Implementation:**
+`affil_norm` is computed directly in `composite_similarity_network.py` via a
+binary firm×bill matrix dot product, using the same mega-bill-filtered bill
+universe as the cosine and RBO scripts.  Cosine and RBO weights come from
+their pre-computed CSVs (`cosine_edges.csv`, `rbo_edges.csv`).  An inner join
+restricts composite edges to pairs present in both CSVs with shared_bills > 0.
+
+**Observed weight scale (116th Congress):**
+The most-overlapping pair shares 111 of 2285 bills (affil_norm ≈ 0.049), so
+composite weights peak around 0.004.  This is expected: the small scale is
+purely a consequence of the N_total denominator.  Relative ordering is
+preserved, so community detection and centrality are unaffected.
+
+**Rationale for multiplicative combination:**
+A multiplicative formula enforces AND logic across all three dimensions:
+a pair must simultaneously have high bill overlap AND portfolio alignment AND
+priority-ranking agreement to receive a high composite weight.  A pair weak
+on any single dimension is automatically down-weighted without manual thresholds.
+
+**Sparsification:**
+The three-way inner join produces a sparser graph than any individual component
+network (1,200 composite edges vs 1,516 cosine and 2,771 RBO edges in 116th
+Congress data with thresholds at 0).
+
+**Alternative considered — additive combination:**
+`w = α·affil + β·cosine + γ·rbo` requires hand-tuning three weights and does
+not enforce AND logic.  Rejected.
+
+**Alternative considered — geometric mean:**
+`(affil × cosine × rbo)^(1/3)` normalises scale but attenuates the multi-signal
+penalty for pairs weak on one dimension.  Rejected.
+
+**Source:** `src/composite_similarity_network.py`
+**Comparison script:** `src/composite_community_comparison.py`
+**Validation:** `src/validations/07_composite_network_validation.py`
+
+---
+
+## §13 — Katz-Bonacich Centrality
+
+**Decision:** Add Katz-Bonacich centrality as a fourth centrality measure
+alongside within-community eigenvector, PageRank, and the Guimerà-Amaral
+metrics. It is computed for all networks (including the composite).
+
+**Definition:**
+```
+C_katz(i) = α × Σ_j A_ij × C_katz(j) + β
+```
+Equivalently, Katz sums contributions from all walks of all lengths, with
+exponential decay in walk length controlled by α:
+```
+C_katz = β × (I − αA)^{-1} × 1
+```
+α must be < 1/λ_max (spectral radius of the adjacency matrix) to guarantee
+convergence. We auto-set `α = 0.85 / λ_max`, placing the parameter deep in
+the convergence region (0.85 = 85% of the theoretical maximum α).
+
+**Rationale:**
+- **vs. PageRank:** PageRank normalises by node out-degree, so high-degree
+  nodes propagate influence in smaller units to each neighbor. Katz does not
+  normalise: a high-degree node receives the full sum of its neighbors'
+  centrality values, scaled by α. In lobbying networks, this makes Katz
+  sensitive to highly connected hubs that serve as intersection points for
+  many co-lobbying chains — firms that appear in many overlapping coalitions
+  simultaneously. PageRank would dampen their influence; Katz amplifies it.
+
+- **vs. within-community eigenvector:** Eigenvector centrality is community-
+  scoped (run on the community subgraph). Katz is global. Comparing a firm's
+  Katz rank to its within-community eigenvector rank identifies firms whose
+  community-level dominance translates (or does not translate) into global
+  network prominence.
+
+- **Theoretical motivation:** Bonacich (1987) introduced the power centrality
+  family specifically to model influence in networks where being connected to
+  powerful others confers status. For lobbying, this captures indirect political
+  influence: a firm that co-lobbies with many influential firms gains Katz
+  centrality even if its direct ties are few, because it is embedded in a
+  favorable multi-hop structure.
+
+**Alpha calibration:** `α = 0.85 / λ_max` where `λ_max` is computed via
+`numpy.linalg.eigvals` on the weighted adjacency matrix. If convergence fails
+at 0.85/λ_max, the implementation falls back to 0.50/λ_max, then to weighted
+degree (same order, different magnitude). This fallback chain ensures graceful
+degradation without silent failures.
+
+**Interpretation notes:**
+- Higher Katz centrality → more influence-receiving capacity through the full
+  network topology (direct + indirect paths, path-length penalised).
+- Katz ranking and PageRank ranking will differ whenever degree is heterogeneously
+  distributed (high-degree nodes are promoted by Katz, normalised by PageRank).
+- The difference in Katz vs PageRank rank can be used as a diagnostic: firms
+  where Katz >> PageRank are structural hubs in multi-hop co-lobbying chains;
+  firms where PageRank >> Katz are selective connectors with few but high-quality
+  ties to other influential firms.
+
+**Source:** `src/utils/centrality.py` — `compute_katz_centrality()`
+**Validation:** `src/validations/07_composite_network_validation.py` Section C
+
+---
+
+## §14 — Four-Way Community Comparison Methodology
+
+**Decision:** Compare Leiden partitions from composite, affiliation, cosine, and
+RBO networks using all C(4,2) = 6 pairwise NMI and ARI scores, plus a firm-level
+consensus stability classification.
+
+**Rationale:**
+The four networks measure progressively different aspects of co-lobbying similarity:
+- Affiliation uses raw bill co-lobbying breadth (shared bill count, normalized).
+- Cosine measures geometric alignment of portfolio-share vectors across all bills.
+- RBO measures top-ranked priority agreement.
+- Composite enforces simultaneous alignment on all three via affil_norm × cosine × rbo.
+
+If the four partitions are highly similar (NMI > 0.70 for most pairs), it suggests
+that a single underlying dimension — industry sector — dominates community structure
+regardless of which similarity metric is used. This would support using any metric
+for community identification and focus attention on the nodes that diverge.
+
+If partitions differ significantly (NMI < 0.40), it suggests that different metrics
+reveal genuinely different coalition structures. In this case the composite partition
+is the most conservative — it identifies firms whose similarity is robust to metric
+choice — and community-divergent firms are theoretically interesting as potential
+cross-coalition operators.
+
+**Consensus stability taxonomy:**
+- fully_stable: firm assigned to the same (Hungarian-aligned) community in all 4 networks.
+- partially_stable: matches composite in ≥ 1 other network.
+- composite_divergent: composite places the firm in a different community than affiliation, cosine, AND RBO.
+- absent_from_composite: firm not in the composite network (isolated under triple-filter).
+
+**Source:** `src/composite_community_comparison.py`
+**Outputs:** `data/community_comparison_composite.csv`, `data/nmi_ari_matrix.csv`
+
+---
+
+## §15 — No Lower Threshold on Edge Formation; Firm Coverage
+
+**Decision:** Set `DEFAULT_MIN_WEIGHT = 0.0` in all three similarity networks
+(cosine, RBO, composite). Every firm pair with any nonzero similarity is included.
+Exact-zero similarity pairs (no shared bills at all after mega-bill filtering) are
+excluded by a `weight > 0` guard, not an arbitrary positive threshold.
+
+**Rationale:**
+The previous defaults (cosine min=0.10, RBO min=0.01) caused 25 firms present in
+the bill affiliation network to drop out of the cosine network entirely, and 21 from
+the RBO network — including major Fortune 500 companies like Amazon, Anthem, Adobe,
+Broadcom, Netflix, and Starbucks.  These firms were not genuinely isolated; they had
+some co-lobbying signal, but all their pairwise similarities fell below the arbitrary
+cutoff.  An arbitrary threshold is methodologically equivalent to imputing zero
+similarity where nonzero similarity exists, which is incorrect.
+
+**Why firms can be absent from similarity networks despite appearing in affiliation:**
+Three legitimate reasons for genuine absence (zero similarity, not threshold artifact):
+1. **Pure singleton lobbiers**: All bills a firm lobbies for (after mega-bill
+   filtering) are bills that no other Fortune 500 firm lobbies for. Their frac
+   vector is orthogonal to every other firm's → cosine = 0; no shared bills →
+   RBO = 0 and shared_n = 0.
+2. **Mega-bill-only co-lobbiers**: A firm's only co-lobbying is on mega-bills
+   (df > 50). After filtering these out, they share no bills with anyone.
+   Present in affiliation (the mega-bills count there), absent from similarity.
+3. **Zero-budget firms**: Firms with $0 total lobbying spend are excluded from
+   cosine (frac = 0/0 = NaN) and from RBO (no ranked list possible). See §8.
+
+**Known affected firms (116th Congress OpenSecrets data):**
+With threshold=0, firms in the affiliation network that still do not appear in the
+cosine or composite network have genuine zero co-lobbying overlap post-filtering.
+Republic Services is the canonical example (§8): non-zero budget but all spend on
+a single bill that was filtered as a mega-bill.
+
+**Effect on community size distribution:**
+Setting threshold=0 increases network density and reduces the number of small (2–4
+node) isolated communities, since previously isolated firms now appear if they have
+any co-lobbying similarity above zero. Small communities that survive after this
+change represent genuinely niche lobbying clusters — firms whose only co-lobbying
+ties are a small number of specialized bills shared with a small group of peers.
+These should be interpreted carefully: they may reflect data limitations (limited
+LDA filing coverage for some firms) or genuine lobbying niches (e.g., agricultural
+commodity firms, specialty insurers).
+
+---
+
+---
+
+## §16 — OpenSecrets Extraction: ind='y' Validity Filter
+
+**Decision:** Filter `lob_lobbying.txt` to `ind='y'` records only, replacing
+the prior `Self ∈ {p, n, s, m, c, x, e}` filter.
+
+**Background — prior bug:** The original extraction used a hard-coded set of
+`Self` field codes as a proxy for "LD-2 quarterly reports." This was wrong on
+two counts: (a) the `Self` field describes the organizational registrant/client
+relationship (self-filer parent, subsidiary, external firm), not the form type;
+(b) it produced both false inclusions (superseded originals) and false exclusions
+(valid records with `Self='b'` that carry `ind='y'`).
+
+**What `ind='y'` means:** The `Ind` column (position 13) is OpenSecrets' own
+validity flag. From the Data User Guide p.13: *"In most cases it is a
+straightforward scenario where you just take into account the ind=y."*
+A record with `ind='y'` should be counted; `ind=''` means exclude.
+
+**What the prior filter included incorrectly:**
+- Superseded originals (e.g., the Q1 report when a Q1a amendment exists). The
+  original receives `ind=''`; only the amendment receives `ind='y'`. Including
+  both inflated spend by the superseded amount (verified empirically: Altria
+  had a superseded Q4 at $2.51M included alongside the valid Q4a at $2.52M).
+  Dataset-wide, ~$255M in Fortune 500 spend was double-counted this way.
+
+**What the prior filter excluded incorrectly:**
+- `Self='b'` records (non-self-filer subsidiary, different catorder): 666
+  records across 36 Fortune 500 firms with `ind='y'` were excluded. These are
+  legitimate distinct engagements per OpenSecrets' counting methodology.
+
+**Double-count subsidiary records (`Self='i'`):** 29,912 of 30,360 `Self='i'`
+records carry `ind=''` — correctly excluded because the parent self-filer
+already includes that spend in their own filing. The prior exclusion of all `i`
+types was directionally correct but wrong in rationale (labeled "LD-1
+registrations," which is factually incorrect; LD-1 form codes do not appear in
+the 2019-2020 dataset at all).
+
+**Quantified impact (Fortune 500, 116th Congress 2019-2020):**
+
+| Filter | Reports | Total Spend | Firms |
+|---|---|---|---|
+| Old (Self ∈ LD2_TYPES) | 6,521 | $1.977B | 386 |
+| New (ind='y') | 4,507 | $1.721B | 377 |
+
+The $255M reduction is removed double-counting. The 9 firms no longer present
+had only superseded or no-activity-only records — no valid countable activity.
+
+**`IncludeNSFS` interaction:** Only 63 of 154,766 2019-2020 records have
+`IncludeNSFS='y'`, making the complex subsidiary double-count scenario described
+in the guide (p.13) essentially negligible. The `ind='y'` flag already handles
+these correctly.
+
+**`Use` field redundancy:** Empirically, `ind='y'` ⟺ `use='y' AND ind='y'`
+(both yield exactly 97,750 records across all 2019-2020 filers). Filtering on
+`ind='y'` alone is sufficient; the `use` field adds no further deduplication.
+
+**Validation:** Run `validations/05_ind_filter_validation.py` to verify: no
+superseded originals, no unexpected `Self='i'` records, all report_types are
+valid quarterly LD-2 codes, and report counts are as expected.
 
 ---
 
 ## References
 
-Bray, J.R., & Curtis, J.T. (1957). An ordination of the upland forest communities
-  of southern Wisconsin. Ecological Monographs, 27(4), 325–349.
+Bonacich, P. (1987). Power and centrality: A family of measures. American Journal
+  of Sociology, 92(5), 1170–1182.
 
 Guimerà, R., & Amaral, L.A.N. (2005). Functional cartography of complex metabolic
   networks. Nature, 433, 895–900.
@@ -423,6 +660,9 @@ Guimerà, R., & Amaral, L.A.N. (2005). Functional cartography of complex metabol
 Hojnacki, M., Kimball, D.C., Baumgartner, F.R., Berry, J.M., & Leech, B.L. (2012).
   Studying Organizational Advocacy and Influence: Reexamining Interest Group
   Research. Annual Review of Political Science, 15, 379–399.
+
+Katz, L. (1953). A new status index derived from sociometric analysis.
+  Psychometrika, 18(1), 39–43.
 
 Koger, G., & Victor, J.N. (2009). Polarized Agents: Campaign Contributions by
   Lobbyists. PS: Political Science & Politics, 42(3), 485–488.
@@ -432,3 +672,6 @@ Manning, C.D., Raghavan, P., & Schütze, H. (2008). Introduction to Information
 
 Traag, V.A., Waltman, L., & van Eck, N.J. (2019). From Louvain to Leiden: guaranteeing
   well-connected communities. Scientific Reports, 9, 5234.
+
+Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
+  rankings. ACM Transactions on Information Systems, 28(4), 1–38.

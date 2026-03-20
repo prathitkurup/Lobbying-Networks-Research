@@ -7,5 +7,9 @@
 #   02 → inflation diagnosis (quantify and fix cartesian product bug)
 #   03 → sparsity analysis (null model, 27x above expectation finding)
 #   04 → mega_bill diagnosis (prevalence filtering rationale)
+#   05 → issue_score_range (weight bounds, sqrt normalisation proof)
+#   06 → rbo_cosine_unit_tests (unit tests for RBO and cosine helpers)
+#   07 → composite_network_validation (24 checks: composite formula,
+#         triple-filter sparsity, Katz centrality convergence)
 #
 # Outputs are written to validations/outputs/ as human-readable .txt files.

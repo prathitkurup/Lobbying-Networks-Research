@@ -14,12 +14,12 @@ def plot_circular(H, title, path):
     pos = nx.circular_layout(H)
 
     strengths = np.array([H.degree(n, weight="weight") for n in H.nodes()])
-    sizes = (800 + 3000 * (strengths - strengths.min())
+    sizes = (1600 + 3000 * (strengths - strengths.min())
              / (strengths.max() - strengths.min() + 1))
 
     edges = list(H.edges())
     weights = np.array([H[u][v]["weight"] for u, v in edges]) if edges else np.array([])
-    widths = (1 + 20 * (weights - weights.min())
+    widths = (1 + 25 * (weights - weights.min())
               / (weights.max() - weights.min() + 1)) if weights.size else []
 
     fig, ax = plt.subplots(figsize=(16, 16))
@@ -38,4 +38,4 @@ def plot_circular(H, title, path):
     plt.tight_layout()
     plt.savefig(path, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f"\nPlot saved → {path}")
+    print(f"\nPlot saved -> {path}")

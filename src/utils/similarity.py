@@ -13,7 +13,8 @@ build_frac_matrix(df)
     Build a (firms x bills) DataFrame of portfolio-share fracs.
 
 aggregate_per_firm_bill(df)
-    Collapse multiple rows per (client_name, bill_id) by summing amounts.
+    Collapse multiple rows per (fortune_name, bill_number) by summing
+    amount_allocated.
 
 compute_zero_budget_fracs(df)
     Add frac column; exclude zero-budget firms with a warning.
@@ -32,39 +33,42 @@ import pandas as pd
 
 def aggregate_per_firm_bill(df):
     """
-    Collapse multiple rows per (client_name, bill_id) by summing amounts.
-    extraction.py allocates report spend equally across bills, so a firm
-    filing multiple reports on the same bill accumulates multiple rows.
+    Collapse multiple rows per (fortune_name, bill_number) by summing
+    amount_allocated.
+    opensecrets_extraction.py allocates report spend equally across bills, so a
+    firm filing multiple reports on the same bill accumulates multiple rows.
     Summing gives the true total allocated spend per (firm, bill).
     """
-    return df.groupby(["client_name", "bill_id"], as_index=False)["amount"].sum()
+    return df.groupby(
+        ["fortune_name", "bill_number"], as_index=False
+    )["amount_allocated"].sum()
 
 
 def compute_zero_budget_fracs(df):
     """
-    Add per-firm portfolio-share fracs (amount / total_budget).
+    Add per-firm portfolio-share fracs (amount_allocated / total_budget).
     Firms with zero total budget are excluded with a warning.
     Returns the enriched DataFrame (only non-zero-budget firms).
 
     Validates that fracs sum to 1.0 per firm; raises ValueError on failure.
     """
-    company_totals = df.groupby("client_name")["amount"].sum().rename("total_budget")
-    df = df.merge(company_totals, on="client_name", how="left")
+    company_totals = df.groupby("fortune_name")["amount_allocated"].sum().rename("total_budget")
+    df = df.merge(company_totals, on="fortune_name", how="left")
 
     zero_budget = company_totals[company_totals == 0].index.tolist()
     if zero_budget:
         print(f"  Warning: {len(zero_budget)} firm(s) excluded (zero total budget).")
         df = df[df["total_budget"] > 0].copy()
 
-    df["frac"] = df["amount"] / df["total_budget"]
+    df["frac"] = df["amount_allocated"] / df["total_budget"]
 
-    frac_sums = df.groupby("client_name")["frac"].sum()
+    frac_sums = df.groupby("fortune_name")["frac"].sum()
     bad = frac_sums[~frac_sums.between(0.999, 1.001)]
     if not bad.empty:
         raise ValueError(
             f"frac values do not sum to 1.0 for {len(bad)} firm(s): "
             f"{bad.to_dict()}\n"
-            "Check extraction.py for changes that may have broken allocation logic."
+            "Check opensecrets_extraction.py for changes that may have broken allocation logic."
         )
     return df
 
@@ -114,7 +118,7 @@ def build_ranked_lists(df, top_bills=100):
 
     Parameters
     ----------
-    df        : DataFrame with columns [client_name, bill_id, amount].
+    df        : DataFrame with columns [fortune_name, bill_number, amount_allocated].
                 Should already be aggregated to one row per (firm, bill).
     top_bills : int
                 Maximum list length per firm (0 = no truncation).
@@ -124,12 +128,12 @@ def build_ranked_lists(df, top_bills=100):
 
     Returns
     -------
-    dict : {firm_name: [bill_id, bill_id, ...]}  (ordered, highest first)
+    dict : {firm_name: [bill_number, bill_number, ...]}  (ordered, highest first)
     """
     ranked = {}
-    for firm, grp in df.groupby("client_name"):
-        bills_sorted = (grp[grp["amount"] > 0]
-                        .sort_values("amount", ascending=False)["bill_id"]
+    for firm, grp in df.groupby("fortune_name"):
+        bills_sorted = (grp[grp["amount_allocated"] > 0]
+                        .sort_values("amount_allocated", ascending=False)["bill_number"]
                         .tolist())
         if top_bills and top_bills > 0:
             bills_sorted = bills_sorted[:top_bills]
@@ -145,14 +149,14 @@ def build_frac_matrix(df):
 
     Parameters
     ----------
-    df : DataFrame with columns [client_name, bill_id, frac].
+    df : DataFrame with columns [fortune_name, bill_number, frac].
          Should already have fracs computed (via compute_zero_budget_fracs).
 
     Returns
     -------
     pivot : DataFrame  shape (n_firms, n_bills), zero-filled for missing pairs.
     firms : list of firm names (row order).
-    bills : list of bill IDs (column order).
+    bills : list of bill numbers (column order).
 
     Notes
     -----
@@ -160,7 +164,7 @@ def build_frac_matrix(df):
     This is closely related to Pearson correlation of un-centered vectors.
     """
     pivot = df.pivot_table(
-        index="client_name", columns="bill_id",
+        index="fortune_name", columns="bill_number",
         values="frac", fill_value=0.0
     )
     return pivot, list(pivot.index), list(pivot.columns)

@@ -3,32 +3,32 @@ from pathlib import Path
 
 
 def load_bills_data(path):
-    """Load fortune500_lda_reports.csv and validate expected columns."""
+    """Load opensecrets_lda_reports.csv and validate expected columns.
+
+    Drops rows with a null bill_number (reports with no linked bills) so every
+    row in the returned DataFrame represents a confirmed (firm, bill) pair.
+    """
     df = pd.read_csv(path)
-    check_columns(df, ["client_name", "bill_id", "amount"], path)
-    return df
+    check_columns(df, ["fortune_name", "bill_number", "amount_allocated"], path)
+    return df.dropna(subset=["bill_number"]).copy()
 
 
 def load_issues_data(path):
-    """Load fortune500_lda_issues.csv and validate expected columns."""
+    """Load opensecrets_lda_issues.csv and validate expected columns."""
     df = pd.read_csv(path)
-    check_columns(df, ["client_name", "general_issue_code", "amount"], path)
+    check_columns(df, ["fortune_name", "issue_code", "amount_allocated"], path)
     return df
 
 
 def load_lobby_firm_data(path):
-    """
-    Load fortune500_lda_reports.csv for lobby-firm affiliation analysis.
+    """Load opensecrets_lda_reports.csv for lobby-firm affiliation analysis.
+
+    Keeps only rows with an external registrant (is_self_filer == False).
+    is_self_filer is a boolean in the OpenSecrets CSV (True = self-filer).
     """
     df = pd.read_csv(path)
-    check_columns(df, ["client_name", "registrant_id"], path)
-    # Keep only rows with an external registrant (is_self_filer != 't').
-    mask = (
-        (df["is_self_filer"] == "f") |
-        df["is_self_filer"].isna() |
-        (df["is_self_filer"] == "")
-    )
-    df = df[mask].dropna(subset=["registrant_id", "client_name"])
+    check_columns(df, ["fortune_name", "registrant"], path)
+    df = df[~df["is_self_filer"].fillna(False)].dropna(subset=["registrant", "fortune_name"])
     return df
 
 

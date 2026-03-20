@@ -28,45 +28,42 @@ with near-universal support that do not represent genuine coalition formation
 Threshold selection
 -------------------
 MAX_BILL_DF = 50 is calibrated empirically: the firms-per-bill distribution has
-a natural break between the 16 omnibus mega-bills (50–198 firms) and the
+a natural break between the 16 omnibus mega-bills (50-198 firms) and the
 industry-specific legislation (≤ 45 firms). This threshold removes exactly
 those bills where Fortune 500 lobbying reflects a mandatory response to
 national legislation (CARES Act, NDAA, appropriations) rather than targeted
 strategic coordination.
 
-Two-stage filtering for BC similarity
---------------------------------------
+Two-stage filtering for cosine and RBO similarity
+-------------------------------------------------
 For the affiliation network: exclude mega-bills entirely from edge construction.
-For the BC similarity network: the filtering is applied ONLY to the pairwise
-BC loop (the bill_companies groupby), NOT to the total-budget denominator.
-This preserves the economic meaning of "frac = share of total lobbying budget"
-while removing the spurious BC ≈ 1.0 scores that arise when two firms both
-allocate a tiny frac to an omnibus bill they had no strategic choice about.
-If both fracs on a mega-bill are 0.002, BC = 1 − 0/0.004 = 1.0 — perfect
-apparent alignment from a bill neither firm targeted.
+For cosine and RBO: fracs are computed on ALL bills (so the denominator —
+total lobbying budget — is preserved), then mega-bills are excluded before
+building the frac matrix or ranked lists.  This removes spurious near-equal
+fracs on omnibus bills while keeping the economic meaning of portfolio shares.
 """
 
 import pandas as pd
 
 
-def filter_bills_by_prevalence(df, max_df, unit_col="bill_id"):
+def filter_bills_by_prevalence(df, max_df, unit_col="bill_number"):
     """
     Remove rows where the number of unique firms lobbying the bill exceeds max_df.
 
     Parameters
     ----------
-    df      : DataFrame with columns [client_name, <unit_col>]
+    df      : DataFrame with columns [fortune_name, <unit_col>]
     max_df  : int — maximum number of unique firms per bill (inclusive).
               Bills lobbied by more than max_df firms are excluded.
-    unit_col: column name for the lobbying unit (bill_id or general_issue_code)
+    unit_col: column name for the lobbying unit (bill_number or issue_code)
 
     Returns
     -------
     Filtered copy of df.  The total-budget denominator is NOT recomputed here;
     callers that need budget-consistent fracs should compute totals BEFORE
-    calling this function (for BC similarity) or AFTER (for affiliation).
+    calling this function (cosine/RBO) or AFTER (affiliation).
     """
-    firms_per_unit = df.groupby(unit_col)["client_name"].nunique()
+    firms_per_unit = df.groupby(unit_col)["fortune_name"].nunique()
     keep = firms_per_unit[firms_per_unit <= max_df].index
     n_removed = (firms_per_unit > max_df).sum()
     pct = 100 * n_removed / len(firms_per_unit)
@@ -75,14 +72,14 @@ def filter_bills_by_prevalence(df, max_df, unit_col="bill_id"):
     return df[df[unit_col].isin(keep)].copy()
 
 
-def prevalence_summary(df, unit_col="bill_id", thresholds=(10, 20, 30, 50, 100)):
+def prevalence_summary(df, unit_col="bill_number", thresholds=(10, 20, 30, 50, 100)):
     """
     Print a breakdown of the firms-per-unit distribution and show how many
     units would be removed at each threshold. Useful for threshold selection.
     """
-    firms_per_unit = df.groupby(unit_col)["client_name"].nunique().sort_values(ascending=False)
+    firms_per_unit = df.groupby(unit_col)["fortune_name"].nunique().sort_values(ascending=False)
     n_total = len(firms_per_unit)
-    n_firms = df["client_name"].nunique()
+    n_firms = df["fortune_name"].nunique()
 
     print(f"\n-- {unit_col} prevalence distribution --")
     print(f"  Total unique {unit_col}s: {n_total:,}")
