@@ -88,9 +88,9 @@ def compute_katz_centrality(G, weight_attr="weight", normalized=True, max_iter=2
     Reference
     ---------
     Katz, L. (1953). A new status index derived from sociometric analysis.
-    Psychometrika, 18(1), 39–43.
+    Psychometrika, 18(1), 39-43.
     Bonacich, P. (1987). Power and centrality: A family of measures. American
-    Journal of Sociology, 92(5), 1170–1182.
+    Journal of Sociology, 92(5), 1170-1182.
     """
     if G.number_of_nodes() == 0:
         return {}

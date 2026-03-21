@@ -33,7 +33,7 @@ def company_bill_edges(df, max_bill_df=MAX_BILL_DF):
     df = df.drop_duplicates(subset=["fortune_name", "bill_number"])
 
     if max_bill_df is not None:
-        # prevalence_summary(df)
+        prevalence_summary(df)
         df = filter_bills_by_prevalence(df, max_bill_df, unit_col="bill_number")
 
     N_total = df["bill_number"].nunique()
@@ -59,8 +59,8 @@ def company_bill_edges(df, max_bill_df=MAX_BILL_DF):
                .reset_index(name="weight"))
     edges["weight"] = pd.to_numeric(edges["weight"], errors="coerce")
     edges = edges[edges["weight"] > 0].copy()
-    # edges["affil_norm"] = edges["weight"] / N_total
-    edges["affil_norm"] = edges["weight"]
+    edges["affil_norm"] = edges["weight"] / N_total
+    # edges["affil_norm"] = edges["weight"]
     return edges
 
 

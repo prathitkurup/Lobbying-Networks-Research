@@ -28,7 +28,7 @@ with near-universal support that do not represent genuine coalition formation
 Threshold selection
 -------------------
 MAX_BILL_DF = 50 is calibrated empirically: the firms-per-bill distribution has
-a natural break between the 16 omnibus mega-bills (50-198 firms) and the
+a natural break between the 11 omnibus mega-bills (50+ firms) and the
 industry-specific legislation (≤ 45 firms). This threshold removes exactly
 those bills where Fortune 500 lobbying reflects a mandatory response to
 national legislation (CARES Act, NDAA, appropriations) rather than targeted

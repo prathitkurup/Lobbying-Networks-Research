@@ -59,7 +59,7 @@ def build_composite_edges():
         .merge(rbo,    on=["source", "target"], how="inner")
     )
 
-    merged["weight"] = merged["affil_norm"] * merged["cosine_weight"] * merged["rbo_weight"]
+    merged["weight"] = merged["affil_norm"] * merged["cosine_weight"] * merged["rbo_weight"] * 1000
     merged = merged[merged["weight"] > 0].reset_index(drop=True)
 
     print(f"Composite edges: {len(merged):,}  "
