@@ -6,4 +6,4 @@ src/.DS_Store
 visualizations/.DS_Store
 src/__pycache__/
 visualizations/gephi
-
+src/validations/design_decisions.md
