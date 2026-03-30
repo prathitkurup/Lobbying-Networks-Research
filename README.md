@@ -64,6 +64,7 @@ src/
   lobby_firm_affiliation_network.py   Layer 1, Network 5
   composite_similarity_network.py     Layer 1, Composite
   composite_community_comparison.py   4-way community comparison
+  build_bill_company_matrix.py        Bill-company incidence matrix (§17)
   config.py                           Paths and shared constants
   utils/
     data_loading.py                   CSV loaders with validation
@@ -84,7 +85,7 @@ src/
     07_composite_network_validation.py Composite formula and centrality tests
 ```
 
-Data files produced (in `data/`): `opensecrets_lda_reports.csv`, `opensecrets_lda_issues.csv`, `affiliation_edges.csv`, `cosine_edges.csv`, `rbo_edges.csv`, `composite_edges.csv`, `communities_*.csv`, `centrality_*.csv`, `community_comparison_composite.csv`, `nmi_ari_matrix.csv`.
+Data files produced (in `data/`): `opensecrets_lda_reports.csv`, `opensecrets_lda_issues.csv`, `affiliation_edges.csv`, `cosine_edges.csv`, `rbo_edges.csv`, `composite_edges.csv`, `communities_*.csv`, `centrality_*.csv`, `community_comparison_composite.csv`, `nmi_ari_matrix.csv`, `bill_company_matrix.csv`, `bill_index.csv`, `company_index.csv`.
 
 Visualization files produced (in `visualizations/`): `gml/*.gml` (Gephi-compatible, with community and centrality attributes), `png/*.png` (top-K subgraph plots).
 
