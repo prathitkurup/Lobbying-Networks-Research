@@ -18,9 +18,10 @@ sys.path.insert(0, ".")
 from config import DATA_DIR
 from utils.data_loading import load_bills_data
 
-OUTPUT_MATRIX    = DATA_DIR / "bill_company_matrix.csv"
-OUTPUT_BILL_IDX  = DATA_DIR / "bill_index.csv"
-OUTPUT_COMP_IDX  = DATA_DIR / "company_index.csv"
+OUTPUT_MATRIX       = DATA_DIR / "bill_company_matrix.csv"
+OUTPUT_MATRIX_PLAIN = DATA_DIR / "bill_company_matrix_plain.csv"
+OUTPUT_BILL_IDX     = DATA_DIR / "bill_index.csv"
+OUTPUT_COMP_IDX     = DATA_DIR / "company_index.csv"
 
 
 def build_matrix(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -74,13 +75,15 @@ def main():
 
     # Save outputs
     matrix.to_csv(OUTPUT_MATRIX, index=True, index_label="row_idx")
+    matrix.to_csv(OUTPUT_MATRIX_PLAIN, index=False, header=False)  # no row/col indices
     bill_index.to_csv(OUTPUT_BILL_IDX, index=False)
     company_index.to_csv(OUTPUT_COMP_IDX, index=False)
 
     print(f"\nOutputs saved:")
-    print(f"  Matrix        -> {OUTPUT_MATRIX}")
-    print(f"  Bill index    -> {OUTPUT_BILL_IDX}")
-    print(f"  Company index -> {OUTPUT_COMP_IDX}")
+    print(f"  Matrix (indexed) -> {OUTPUT_MATRIX}")
+    print(f"  Matrix (plain)   -> {OUTPUT_MATRIX_PLAIN}")
+    print(f"  Bill index       -> {OUTPUT_BILL_IDX}")
+    print(f"  Company index    -> {OUTPUT_COMP_IDX}")
 
 
 if __name__ == "__main__":
