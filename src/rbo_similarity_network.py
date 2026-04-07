@@ -27,8 +27,8 @@ TOP_K           = 20
 CENTRALITY_K    = 10
 WRITE_GML       = True
 RUN_SWEEP       = False
-RBO_P           = 0.90
-TOP_BILLS       = 100
+RBO_P           = 0.85
+TOP_BILLS       = 30
 MIN_WEIGHT      = 0.0
 LEIDEN_RESOLUTION = 0.75
 

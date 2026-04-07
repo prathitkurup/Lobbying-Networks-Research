@@ -64,6 +64,7 @@ src/
   lobby_firm_affiliation_network.py   Layer 1, Network 5
   composite_similarity_network.py     Layer 1, Composite
   composite_community_comparison.py   4-way community comparison
+  rbo_quarterly_networks.py           Quarterly RBO networks + temporal evolution (§19)
   build_bill_company_matrix.py        Bill-company incidence matrix (§17)
   config.py                           Paths and shared constants
   utils/
@@ -83,9 +84,10 @@ src/
     05_ind_filter_validation.py       Validate ind='y' deduplication filter
     06_rbo_cosine_unit_tests.py       RBO and cosine helper unit tests
     07_composite_network_validation.py Composite formula and centrality tests
+    08_rbo_p_calibration.py            RBO p-parameter calibration vs. empirical spend concentration
 ```
 
-Data files produced (in `data/`): `opensecrets_lda_reports.csv`, `opensecrets_lda_issues.csv`, `affiliation_edges.csv`, `cosine_edges.csv`, `rbo_edges.csv`, `composite_edges.csv`, `communities_*.csv`, `centrality_*.csv`, `community_comparison_composite.csv`, `nmi_ari_matrix.csv`, `bill_company_matrix.csv`, `bill_index.csv`, `company_index.csv`.
+Data files produced (in `data/`): `opensecrets_lda_reports.csv` (includes `quarter` column 1–8), `opensecrets_lda_issues.csv`, `affiliation_edges.csv`, `cosine_edges.csv`, `rbo_edges.csv`, `rbo_edges_q{1..8}.csv`, `composite_edges.csv`, `communities_*.csv`, `communities_rbo_q{1..8}.csv`, `centrality_*.csv`, `community_comparison_composite.csv`, `nmi_ari_matrix.csv`, `bill_company_matrix.csv`, `bill_index.csv`, `company_index.csv`, `rbo_quarterly_stats.csv`, `rbo_quarterly_nmi_ari.csv`, `rbo_quarterly_spearman.csv`.
 
 Visualization files produced (in `visualizations/`): `gml/*.gml` (Gephi-compatible, with community and centrality attributes), `png/*.png` (top-K subgraph plots).
 
@@ -144,6 +146,9 @@ python composite_similarity_network.py
 
 # 4-way community comparison
 python composite_community_comparison.py
+
+# Quarterly RBO networks + temporal evolution analysis
+python rbo_quarterly_networks.py
 ```
 
 ### Step 3: Build Layer 2 network
@@ -163,6 +168,7 @@ python validations/04_mega_bill_diagnosis.py
 python validations/05_ind_filter_validation.py
 python validations/06_rbo_cosine_unit_tests.py
 python validations/07_composite_network_validation.py
+python validations/08_rbo_p_calibration.py
 ```
 
 Outputs are written to `src/validations/outputs/`.
@@ -177,6 +183,8 @@ All significant methodological choices are documented in `src/validations/design
 - **§12** — Composite network: multiplicative `affil_norm × cosine × rbo`
 - **§15** — No lower threshold on edge formation (`DEFAULT_MIN_WEIGHT = 0.0`)
 - **§16** — `ind='y'` validity filter replacing the prior Self-field type filter
+- **§18** — RBO parameter recalibration: `p=0.85`, `top_bills=30` (empirically grounded in observed Fortune 500 spend concentration)
+- **§19** — Quarterly RBO networks: independent windows, quarter assignment from `report_type`, temporal evolution via NMI+ARI, metric trajectories, and Spearman ρ of PageRank
 
 ## Dependencies
 
