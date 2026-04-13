@@ -1,23 +1,7 @@
 """
-Community detection utilities using the Leiden algorithm.
-
-Leiden (Traag et al., 2019) is preferred over Louvain because it guarantees
-that all communities are internally connected — Louvain can produce
-disconnected communities, which is a well-documented pathology.
-
-The primary entry point is detect_communities(), which accepts a weighted
-NetworkX graph and returns a community partition as a {node: community_id}
-dict. All downstream scripts should use this function rather than calling
-leidenalg directly so that the algorithm, resolution parameter, and random
-seed are controlled in one place.
-
-Resolution parameter guide (for ~300-node lobbying networks):
-  γ = 0.50  →  3–5 large sector-level clusters
-  γ = 1.00  →  6–12 industry-level communities  (recommended default)
-  γ = 2.00  →  15–25 sub-industry communities
-  γ = 4.00  →  fragmented; use only for sensitivity checks
-
-Dependencies: python-igraph, leidenalg
+Community detection via the Leiden algorithm (Traag et al., 2019).
+Leiden guarantees internally connected communities; use γ=1.0 as default.
+See design_decisions.md §6 for resolution calibration rationale.
 """
 
 import warnings

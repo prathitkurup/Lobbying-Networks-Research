@@ -1,28 +1,6 @@
 """
-Shared similarity utilities for RBO and cosine-based network construction.
-
-Functions
----------
-rbo_score(l1, l2, p)
-    Rank-Biased Overlap between two ranked bill lists.
-
-build_ranked_lists(df, top_bills)
-    Build per-firm bill rankings (by spend) from aggregated data.
-
-build_frac_matrix(df)
-    Build a (firms x bills) DataFrame of portfolio-share fracs.
-
-aggregate_per_firm_bill(df)
-    Collapse multiple rows per (fortune_name, bill_number) by summing
-    amount_allocated.
-
-compute_zero_budget_fracs(df)
-    Add frac column; exclude zero-budget firms with a warning.
-
-References
-----------
-Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for
-indefinite rankings. ACM Trans. Inf. Syst., 28(4), 1-38.
+RBO and cosine similarity utilities for bill-portfolio network construction.
+RBO reference: Webber et al. (2010), ACM Trans. Inf. Syst., 28(4). See §18.
 """
 
 import numpy as np
@@ -78,24 +56,8 @@ def compute_zero_budget_fracs(df):
 def rbo_score(l1, l2, p=0.90):
     """
     Rank-Biased Overlap (Webber et al. 2010), truncated min estimate.
-
-    Compares two ranked lists up to the length of the shorter list.
-    Agreement at higher ranks (index 0) is weighted more heavily.
-    p controls decay rate: p=0.85 gives ~80% weight to top-10 items
-    (calibrated to empirical Fortune 500 spend concentration — median firm
-    accumulates 80% of spend by rank 7); p=0.90 spreads ~65% into top-10;
-    p=0.98 gives a shallower decay (top-50 items dominate).
-
-    Parameters
-    ----------
-    l1, l2 : list
-        Ordered sequences of items, index 0 = highest priority.
-    p      : float in (0, 1)
-        Persistence parameter.
-
-    Returns
-    -------
-    float in [0, 1]
+    p=0.85 calibrated to Fortune 500 spend concentration (see §18).
+    Returns float in [0, 1]; higher rank agreement weighted more heavily.
     """
     s = min(len(l1), len(l2))
     if s == 0:
@@ -112,25 +74,8 @@ def rbo_score(l1, l2, p=0.90):
 
 def build_ranked_lists(df, top_bills=100):
     """
-    Build a dict mapping each firm to its bill priority ranking.
-
-    Bills are ranked by allocated spend (descending). Only bills with
-    positive spend are included; i.e., the firm must have actively
-    lobbied the bill.
-
-    Parameters
-    ----------
-    df        : DataFrame with columns [fortune_name, bill_number, amount_allocated].
-                Should already be aggregated to one row per (firm, bill).
-    top_bills : int
-                Maximum list length per firm (0 = no truncation).
-                Truncating focuses RBO on high-spend priorities and
-                prevents noise from the many low-spend bills that may
-                only coincidentally appear in both firms' lists.
-
-    Returns
-    -------
-    dict : {firm_name: [bill_number, bill_number, ...]}  (ordered, highest first)
+    Build {firm: [bill, ...]} bill rankings sorted by allocated spend (desc).
+    top_bills=30 focuses RBO on high-priority bills (see §18).
     """
     ranked = {}
     for firm, grp in df.groupby("fortune_name"):
@@ -147,23 +92,8 @@ def build_ranked_lists(df, top_bills=100):
 
 def build_frac_matrix(df):
     """
-    Build a (firms x bills) portfolio-share matrix for cosine similarity.
-
-    Parameters
-    ----------
-    df : DataFrame with columns [fortune_name, bill_number, frac].
-         Should already have fracs computed (via compute_zero_budget_fracs).
-
-    Returns
-    -------
-    pivot : DataFrame  shape (n_firms, n_bills), zero-filled for missing pairs.
-    firms : list of firm names (row order).
-    bills : list of bill numbers (column order).
-
-    Notes
-    -----
-    Since fracs are non-negative, cosine similarity will be in [0, 1].
-    This is closely related to Pearson correlation of un-centered vectors.
+    Build a (firms × bills) portfolio-share matrix for cosine similarity.
+    Returns (pivot_df, firms_list, bills_list).
     """
     pivot = df.pivot_table(
         index="fortune_name", columns="bill_number",

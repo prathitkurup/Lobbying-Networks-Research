@@ -1,46 +1,6 @@
 """
-Bill prevalence filtering utilities.
-
-Motivation
-----------
-Omnibus legislation (COVID relief acts, annual appropriations) is lobbied by
-large fractions of the Fortune 500. When 198 of 296 firms co-lobbied the CARES
-Act, that single bill creates C(198,2) = 19,503 pairwise co-lobbying records.
-In total, the 16 bills with df > 50 firms account for 97.5% of all edges in
-the affiliation network and collapse Leiden modularity from Q = 0.18 to Q = 0.02,
-making community detection essentially meaningless.
-
-Analogy to stop-word removal (research backing)
-------------------------------------------------
-This filtering is directly analogous to maximum-document-frequency (max_df)
-stop-word removal in text mining, where terms appearing in a large fraction of
-documents are removed before computing TF-IDF or co-occurrence matrices because
-they carry no discriminative information (Manning, Raghavan & Schütze, 2008,
-"Introduction to Information Retrieval", §6.2).
-
-The same logic applies to co-lobbying networks: a bill lobbied by everyone
-carries no information about strategic alignment between specific firms.
-The policy science literature on lobbying coalitions similarly excludes bills
-that attract anomalously broad participation as "valence issues" — matters
-with near-universal support that do not represent genuine coalition formation
-(Hojnacki et al., 2012; Koger & Victor, 2009).
-
-Threshold selection
--------------------
-MAX_BILL_DF = 50 is calibrated empirically: the firms-per-bill distribution has
-a natural break between the 11 omnibus mega-bills (50+ firms) and the
-industry-specific legislation (≤ 45 firms). This threshold removes exactly
-those bills where Fortune 500 lobbying reflects a mandatory response to
-national legislation (CARES Act, NDAA, appropriations) rather than targeted
-strategic coordination.
-
-Two-stage filtering for cosine and RBO similarity
--------------------------------------------------
-For the affiliation network: exclude mega-bills entirely from edge construction.
-For cosine and RBO: fracs are computed on ALL bills (so the denominator —
-total lobbying budget — is preserved), then mega-bills are excluded before
-building the frac matrix or ranked lists.  This removes spurious near-equal
-fracs on omnibus bills while keeping the economic meaning of portfolio shares.
+Bill prevalence filtering: remove mega-bills lobbied by more than MAX_BILL_DF
+firms before computing similarity metrics. See design_decisions.md §4.
 """
 
 import pandas as pd

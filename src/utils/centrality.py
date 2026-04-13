@@ -1,52 +1,15 @@
 """
-Centrality utilities — two tiers.
+Centrality utilities (two tiers).
 
-Tier 1 (global): compute_centralities() — standard NetworkX metrics on the
-full graph. Identifies overall network hubs regardless of community structure.
+Tier 1 — compute_centralities(): global NetworkX metrics (degree, betweenness,
+closeness, eigenvector).
 
-Tier 2 (community-based): compute_community_centralities() — three measures
-that require a community partition:
+Tier 2 — compute_community_centralities(): community-scoped measures requiring
+a Leiden partition: within-community eigenvector, Guimerà-Amaral z-score and
+participation coefficient P, global PageRank, Katz-Bonacich centrality, and
+GA node-role classification. See design_decisions.md for role thresholds.
 
-  1. within_community_eigenvector
-       Eigenvector centrality run on each community subgraph independently.
-       Superior to z-score (normalized weighted degree) because eigenvector
-       captures the recursive "important neighbors" structure: a firm is central
-       not just because it has many strong connections, but because those
-       connections are themselves to highly connected firms. This identifies
-       the true industry leaders — the firms that are well-connected to other
-       well-connected firms within the same lobbying coalition.
-
-  2. z_score  (Guimerà-Amaral within-community degree z-score)
-       z_i = (κ_is - mean(κ_s)) / std(κ_s)
-       where κ_is = sum of edge weights from i to same-community nodes.
-       The original Guimerà & Amaral (2005, Nature) formulation. Included
-       alongside eigenvector for methodological comparison.
-
-  3. participation_coefficient  (Guimerà-Amaral P)
-       P_i = 1 - Σ_c [(κ_ic / κ_i)²]
-       where κ_ic = weight of edges from i to community c.
-       P = 0: all connections within own community (pure industry player).
-       P -> 1: connections spread evenly across all communities (cross-industry).
-       This is the key measure for identifying cross-industry political
-       entrepreneurs — firms that bridge across lobbying coalitions.
-
-  4. global_pagerank
-       PageRank on the full graph. Identifies overall network hubs.
-       Comparison to within-community eigenvector reveals whether a firm's
-       global prominence comes from within-industry dominance or cross-industry
-       bridging.
-
-  Guimerà-Amaral node role classification combines z and P:
-    provincial_hub:   z ≥ 2.5, P < 0.30  (dominant in community, stays in lane)
-    connector_hub:    z ≥ 2.5, 0.30 ≤ P < 0.75  (dominant AND cross-industry)
-    kinless_hub:      z ≥ 2.5, P ≥ 0.75  (highly cross-industry hub)
-    ultra_peripheral: z < 2.5, P < 0.05  (almost entirely within community)
-    peripheral:       z < 2.5, 0.05 ≤ P < 0.625
-    non_hub_connector:z < 2.5, 0.625 ≤ P < 0.80  (bridges without dominance)
-    kinless:          z < 2.5, P ≥ 0.80
-
-Reference: Guimerà, R. & Amaral, L.A.N. (2005). Functional cartography of
-complex metabolic networks. Nature, 433, 895-900.
+Reference: Guimerà & Amaral (2005). Nature, 433, 895-900.
 """
 
 import numpy as np
@@ -58,39 +21,9 @@ import networkx as nx
 
 def compute_katz_centrality(G, weight_attr="weight", normalized=True, max_iter=2000):
     """
-    Katz-Bonacich centrality for weighted graphs.
-
-    C_katz(i) = alpha * sum_j A_ij * C_katz(j) + beta
-
-    alpha must be < 1/lambda_max (spectral radius of the weighted adjacency
-    matrix) to guarantee convergence.  We auto-set alpha = 0.85 / rho, where
-    rho is the spectral radius computed via numpy's eigenvalue solver.  If rho
-    is zero (empty or all-zero-weight graph), we fall back to all-zeros.
-
-    The Katz penalty on longer paths (exponential decay in path length) is
-    particularly informative for lobbying networks because it distinguishes
-    firms that are influential through direct strong ties from firms whose
-    prominence depends on being embedded in a dense multi-hop neighbourhood.
-    Contrast with PageRank (which also uses path-length decay but normalises
-    by out-degree) and within-community eigenvector (community-scoped only).
-
-    Parameters
-    ----------
-    G          : NetworkX Graph with weighted edges.
-    weight_attr: Edge attribute name for weights.
-    normalized : Whether to L2-normalise the final vector.
-    max_iter   : Maximum power-iteration steps.
-
-    Returns
-    -------
-    dict : {node: katz_centrality_value}
-
-    Reference
-    ---------
-    Katz, L. (1953). A new status index derived from sociometric analysis.
-    Psychometrika, 18(1), 39-43.
-    Bonacich, P. (1987). Power and centrality: A family of measures. American
-    Journal of Sociology, 92(5), 1170-1182.
+    Katz-Bonacich centrality. alpha auto-set to 0.85 / spectral_radius.
+    Falls back to 0.50/rho, then weighted degree if convergence fails.
+    Katz (1953); Bonacich (1987).
     """
     if G.number_of_nodes() == 0:
         return {}
@@ -272,20 +205,9 @@ def classify_ga_role(z, P):
 
 def compute_community_centralities(G, partition, weight_attr="weight"):
     """
-    Compute all centrality tiers and return a DataFrame.
-
-    Columns
-    -------
-    firm                    : node name
-    community               : Leiden community ID
-    within_comm_eigenvector : eigenvector centrality within community subgraph
-    z_score                 : Guimerà-Amaral within-community degree z-score
-    participation_coeff     : Guimerà-Amaral P (cross-community bridging)
-    global_pagerank         : PageRank on full graph
-    katz_centrality         : Katz-Bonacich centrality (alpha auto-calibrated to
-                              0.85 / spectral_radius; captures influence through
-                              all path lengths with exponential decay)
-    ga_role                 : Guimerà-Amaral node role label
+    Compute all centrality tiers; return DataFrame with columns:
+    firm, community, within_comm_eigenvector, z_score, participation_coeff,
+    global_pagerank, katz_centrality, ga_role.
     """
     ec   = compute_within_community_eigenvector(G, partition, weight_attr)
     z    = compute_within_community_zscore(G, partition, weight_attr)

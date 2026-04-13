@@ -2,6 +2,26 @@
 
 Analysis of corporate lobbying networks among Fortune 500 firms during the 116th Congress (2019–2020), using OpenSecrets CRP bulk data for all network layers.
 
+## Conceptual Framework: Influence as Agenda-Setting
+
+The research distinguishes three complementary forms of influence, each captured by a different analytical layer:
+
+| Form | Operationalization | Layer |
+|---|---|---|
+| **Structural influence** | Centrality position in the undirected similarity network — who is architecturally positioned to propagate an agenda | Undirected RBO / composite networks + centrality measures |
+| **Observed influence** | Temporal first-mover precedence — who consistently lobbied shared bills before whom across the full Congress | RBO directed influence network (`rbo_directed_influence.py`, §21) |
+| **Equilibrium influence** | Nash-stable adoption configurations under the Irfan-Ortiz Linear Influence Game given network topology and firm thresholds | PSNE solver (`influence_simple.cpp`) |
+
+**Agenda-setting as the core mechanism:** A highly influential firm shapes another firm's lobbying priorities — its ranked portfolio of lobbied bills — to more closely match its own. Agenda-setting is inferred from temporal bill-adoption patterns: if Firm A consistently lobbies shared bills before Firm B, A is the agenda-setter. Priority rankings are defined by each firm's spend-fraction allocation across its lobbied bills.
+
+**The RBO directed influence network** (§21 in `design_decisions.md`, `src/rbo_directed_influence.py`) is the primary instrument for observed influence. Edge weight = RBO similarity (priority ranking overlap, p=0.85); edge direction = global first-mover across the 116th Congress. The two signals are separated by design: RBO answers "how aligned are these firms?" and the arrow answers "who set whose agenda?"
+
+**The transmission mechanism** is lobbyist networks (Carpenter et al., 1998): shared human lobbyists carry bill-priority information between firms. The directed network captures the *outcome* of this transmission, not the channel itself. The lobbyist affiliation network (Layer 2) is the empirical proxy for the channel.
+
+**Connection to the threshold model:** The first-mover timing data that determines edge direction also provides the revealed thresholds θ̂_i for the Granovetter-Watts threshold model: a firm's peer pressure at the moment of bill adoption is its estimated threshold. These estimates feed heterogeneous thresholds into the PSNE solver, closing the loop between dynamic diffusion and static equilibrium analysis. See `Threshold_Model_Roadmap.docx` for the full implementation plan.
+
+---
+
 ## Overview
 
 This project builds and analyzes a set of company-to-company networks where edges represent different dimensions of lobbying similarity or shared activity. Nodes are Fortune 500 corporations. The project is organized into two layers:
@@ -65,6 +85,8 @@ src/
   composite_similarity_network.py     Layer 1, Composite
   composite_community_comparison.py   4-way community comparison
   rbo_quarterly_networks.py           Quarterly RBO networks + temporal evolution (§19)
+  rbo_directed_influence.py           Congress-wide RBO directed influence network (§21)
+  enrich_directed_gml.py              Add enriched node attrs to rbo_directed_influence.gml (§22)
   build_bill_company_matrix.py        Bill-company incidence matrix (§17)
   config.py                           Paths and shared constants
   utils/
@@ -85,9 +107,11 @@ src/
     06_rbo_cosine_unit_tests.py       RBO and cosine helper unit tests
     07_composite_network_validation.py Composite formula and centrality tests
     08_rbo_p_calibration.py            RBO p-parameter calibration vs. empirical spend concentration
+    09_directed_influence_validation.py Directed influence network integrity checks (§20) [archived]
+    10_rbo_directed_influence_validation.py Congress-wide RBO influence network validation (§21)
 ```
 
-Data files produced (in `data/`): `opensecrets_lda_reports.csv` (includes `quarter` column 1–8), `opensecrets_lda_issues.csv`, `affiliation_edges.csv`, `cosine_edges.csv`, `rbo_edges.csv`, `rbo_edges_q{1..8}.csv`, `composite_edges.csv`, `communities_*.csv`, `communities_rbo_q{1..8}.csv`, `centrality_*.csv`, `community_comparison_composite.csv`, `nmi_ari_matrix.csv`, `bill_company_matrix.csv`, `bill_index.csv`, `company_index.csv`, `rbo_quarterly_stats.csv`, `rbo_quarterly_nmi_ari.csv`, `rbo_quarterly_spearman.csv`.
+Data files produced (in `data/`): `opensecrets_lda_reports.csv` (includes `quarter` column 1–8), `opensecrets_lda_issues.csv`, `affiliation_edges.csv`, `cosine_edges.csv`, `rbo_edges.csv`, `rbo_edges_q{1..8}.csv`, `composite_edges.csv`, `communities_*.csv`, `communities_rbo_q{1..8}.csv`, `centrality_*.csv`, `centrality_rbo_q{1..8}.csv`, `community_comparison_composite.csv`, `nmi_ari_matrix.csv`, `bill_company_matrix.csv`, `bill_index.csv`, `company_index.csv`, `rbo_quarterly_stats.csv`, `rbo_quarterly_nmi_ari.csv`, `rbo_quarterly_spearman.csv`, `directed_influence_q{1..8}.csv`, `directed_influence_agg.csv`, `rbo_directed_influence.csv`, `ranked_bill_lists.csv`.
 
 Visualization files produced (in `visualizations/`): `gml/*.gml` (Gephi-compatible, with community and centrality attributes), `png/*.png` (top-K subgraph plots).
 
@@ -149,6 +173,12 @@ python composite_community_comparison.py
 
 # Quarterly RBO networks + temporal evolution analysis
 python rbo_quarterly_networks.py
+
+# Congress-wide RBO directed influence network (standalone; no prerequisites)
+python rbo_directed_influence.py
+
+# Enrich GML with additional node attrs (requires bill_affiliation_network.py first)
+python enrich_directed_gml.py
 ```
 
 ### Step 3: Build Layer 2 network
@@ -169,6 +199,8 @@ python validations/05_ind_filter_validation.py
 python validations/06_rbo_cosine_unit_tests.py
 python validations/07_composite_network_validation.py
 python validations/08_rbo_p_calibration.py
+python validations/09_directed_influence_validation.py   # archived
+python validations/10_congress_influence_validation.py
 ```
 
 Outputs are written to `src/validations/outputs/`.
@@ -177,6 +209,7 @@ Outputs are written to `src/validations/outputs/`.
 
 All significant methodological choices are documented in `src/validations/design_decisions.md`. Key decisions include:
 
+- **§0** — Influence operationalized as agenda-setting via bill-priority rankings; temporal precedence as the observable signal; lobbyist networks as the proximate mechanism (out of scope)
 - **§1** — One row per bill per report; aggregate at network construction time
 - **§4** — Mega-bill filtering (`MAX_BILL_DF = 50`) to prevent modularity collapse
 - **§6** — Leiden community detection with resolution γ = 1.0
@@ -185,6 +218,9 @@ All significant methodological choices are documented in `src/validations/design
 - **§16** — `ind='y'` validity filter replacing the prior Self-field type filter
 - **§18** — RBO parameter recalibration: `p=0.85`, `top_bills=30` (empirically grounded in observed Fortune 500 spend concentration)
 - **§19** — Quarterly RBO networks: independent windows, quarter assignment from `report_type`, temporal evolution via NMI+ARI, metric trajectories, and Spearman ρ of PageRank
+- **§20** — Directed influence network: temporal bill-adoption precedence scores a directed edge A→B where A lobbied shared bills before B; causal window restricted to Q1..q; ties skipped; net-weight directed edges
+- **§21** — Congress-wide directed RBO network: edge weight = RBO similarity, direction = global first-mover (no causal windowing), no double counting per bill, balanced pairs → bidirectional edges, node `net_influence` = count-based net first-mover score across all pairings
+- **§22** — Enriched node attributes on the directed GML: `num_bills` (post-filter bill count), `bill_aff_community` (Leiden label from bill affiliation network), `within_comm_net_str` and `within_comm_net_inf` (directed, non-balanced edges to same-community peers only)
 
 ## Dependencies
 
