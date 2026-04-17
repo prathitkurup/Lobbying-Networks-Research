@@ -1,0 +1,77 @@
+======================================================================
+IND='Y' FILTER VALIDATION: opensecrets_lda_reports.csv
+======================================================================
+
+-- Dataset Dimensions --
+  Total rows (bill-expanded)   : 24,977
+  Unique report uniq_ids       : 4,410
+  Unique Fortune 500 firms     : 376
+  Years covered                : [np.int64(2019), np.int64(2020)]
+  Total expenditure            : $1,714,840,367
+
+-- CHECK 1: Unique Report IDs --
+  PASS: All 4,410 uniq_ids are unique at report level.
+
+-- CHECK 2: No Superseded Originals (Amendment Coverage) --
+  PASS: No (registrant, firm, year, quarter) group contains both an original and an amendment.
+  (Amendment report_types present in data: ['q1a', 'q1ta', 'q2a', 'q2ta', 'q3a', 'q4a'])
+
+-- CHECK 3: Self-Type 'i' Records (should be near-zero) --
+  Self='i' records in output   : 4
+  (These are the rare ind='y' subset of 'i' type; 29,912 of 30,360 total 'i' records carry ind='' and are excluded)
+  PASS: count is within expected range (< 500).
+  Firms with 'i' type records: ['HARLEY-DAVIDSON']
+
+-- Report-Type Distribution (col: report_type) --
+  q2      : 1,020
+  q3      : 1,017
+  q4      : 1,017
+  q1      : 1,014
+  q1a     :    79
+  q2a     :    74
+  q4a     :    60
+  q3a     :    58
+  q4t     :    22
+  q3t     :    17
+  q2t     :    16
+  q1t     :    14
+  q1ta    :     1
+  q2ta    :     1
+  PASS: all report_types are valid quarterly LD-2 codes.
+
+-- Self-Type Distribution (Data User Guide 'Self' field) --
+  'p' : 2,027  (self-filer parent)
+  'n' :   912  (non-self-filer parent)
+  'm' :   480  (non-self-filer subsidiary of non-self-filer parent)
+  'c' :   311  (non-self-filer subsidiary of self-filer parent (same catorder))
+  'x' :   295  (self-filer subsidiary of non-self-filer parent)
+  'b' :   265  (non-self-filer subsidiary of self-filer parent (diff catorder))
+  's' :   112  (self-filer subsidiary of self-filer parent)
+  'i' :     4  (non-self-filer of self-filer parent (same catorder) — usually ind='')
+  'e' :     4  (non-self-filer subsidiary of self-filer subsidiary)
+
+-- Total Spend by Self-Type --
+  'p' : $ 1,436,263,387  (self-filer parent)
+  'x' : $   172,312,060  (self-filer subsidiary of non-self-filer parent)
+  'n' : $    41,058,973  (non-self-filer parent)
+  's' : $    26,928,776  (self-filer subsidiary of self-filer parent)
+  'm' : $    18,318,853  (non-self-filer subsidiary of non-self-filer parent)
+  'c' : $    11,877,418  (non-self-filer subsidiary of self-filer parent (same catorder))
+  'b' : $     7,960,900  (non-self-filer subsidiary of self-filer parent (diff catorder))
+  'e' : $        70,000  (non-self-filer subsidiary of self-filer subsidiary)
+  'i' : $        50,000  (non-self-filer of self-filer parent (same catorder) — usually ind='')
+  TOTAL: $ 1,714,840,367
+
+-- Self-Filer vs External Registrant --
+  Self-filer reports (isfirm='') : 2,440  (55.3%)
+  External registrant reports   : 1,970  (44.7%)
+
+-- Firms and Reports per Year --
+  2019: 2,188 reports, 364 firms, $882,474,111 total spend
+  2020: 2,222 reports, 366 firms, $832,366,256 total spend
+
+-- Summary --
+  ind='y' filter produces 4,410 valid non-duplicate reports
+  covering 376 Fortune 500 firms.
+  See design_decisions.md §16 for full rationale.
+======================================================================

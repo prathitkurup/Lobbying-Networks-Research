@@ -1,29 +1,9 @@
 """
 OpenSecrets LDA extraction pipeline for 116th Congress (2019-2020).
 
-Records are filtered to ind='y' — OpenSecrets' own flag for valid, countable
-reports (Data User Guide p.13: "In most cases it is a straightforward scenario
-where you just take into account the ind=y"). This excludes:
-  - Superseded originals: when a quarterly amendment (q1a, q2a, ...) exists,
-    the original quarterly report is marked ind=''; only the amendment is kept.
-  - Double-count subsidiary records: e.g. Self='i' (external registrant for a
-    self-filing parent where the parent already includes that spend in their own
-    filing) — 29,912 of 30,360 such records carry ind='', correctly excluded.
-
-Of the valid ind='y' reports, only those with >= 1 named lobbyist are retained
-(active lobbying records). Reports with no lobbyists have no issue codes or bills
-and represent retainer/no-activity filings with no substantive activity.
-
-Produces:
-  opensecrets_lda_reports.csv — one row per (active valid report, bill).
-    amount_allocated = report amount / n_bills_in_report (even allocation).
-    Reports with no linked bills appear once with null bill_number and
-    amount_allocated = amount.
-  opensecrets_lda_issues.csv — one row per (active valid report, issue_code).
-    amount_allocated = report amount / n_issue_codes_in_report.
-  lobbyist_client_116_opensecrets.csv — archived; deduplicated lobbyist-firm
-    pairs (still written for back-compatibility but no longer the primary
-    Layer 2 input).
+Filters to ind='y' (valid, countable reports per OpenSecrets Data User Guide p.13) then retains only
+reports with ≥1 named lobbyist. Produces opensecrets_lda_reports.csv (one row per report×bill),
+opensecrets_lda_issues.csv (one row per report×issue_code), and lobbyist_client_116_opensecrets.csv.
 
 Run: python opensecrets_extraction.py
 """
@@ -72,23 +52,11 @@ SELF_TYPE_DESC = {
 }
 
 # ---------------------------------------------------------------------------
-# Column positions — cross-referenced against OpenSecrets Data User Guide p.29.
-# lob_lobbying.txt (18 columns, 0-indexed):
-#   0 = uniq_id         1 = registrant_raw    2 = registrant
-#   3 = isfirm          4 = client_raw        5 = client
-#   6 = ultorg          7 = amount            8 = catcode
-#   9 = source         10 = self             11 = include_nsfs
-#  12 = use            13 = ind              14 = year
-#  15 = report_type    16 = report_type_long
-# lob_lobbyist.txt (8 columns, 0-indexed):
-#   0 = uniq_id         1 = lobbyist_raw      2 = lobbyist
-#   3 = lobbyist_id     4 = year
-# lob_issue.txt (6 columns, 0-indexed):
-#   0 = issue_id        1 = uniq_id (UUID)    2 = issue_code
-#   3 = issue_name      4 = specific_issue    5 = year
-# lob_bills.txt (4 columns, 0-indexed):
-#   0 = bill_slug       1 = issue_id          2 = congress
-#   3 = bill_number
+# Column positions — see OpenSecrets Data User Guide p.29 for full schema.
+# lob_lobbying.txt: 0=uniq_id, 3=isfirm, 6=ultorg, 7=amount, 10=self, 13=ind, 14=year, 15=report_type
+# lob_lobbyist.txt: 0=uniq_id, 2=lobbyist, 3=lobbyist_id, 4=year
+# lob_issue.txt:    0=issue_id, 1=uniq_id, 2=issue_code, 5=year
+# lob_bills.txt:    1=issue_id, 3=bill_number
 # ---------------------------------------------------------------------------
 _LOB_UNIQ_ID        = 0
 _LOB_REGISTRANT_RAW = 1
@@ -173,15 +141,7 @@ def resolve_fortune_name(ultorg, client, lookup):
 # ---------------------------------------------------------------------------
 
 def load_lobbying_f500(path, lookup, mapping, years=CONGRESS_YEARS):
-    """Parse lob_lobbying.txt, keep only ind='y' records in target years, map to F500.
-
-    ind='y' is OpenSecrets' validity flag (Data User Guide p.13). It excludes:
-      - Superseded originals (amended reports: original carries ind='').
-      - Double-count subsidiary records (e.g. Self='i' where parent already
-        includes the spend; 29,912 of 30,360 such records carry ind='').
-    is_self_filer is derived from isfirm (pos[3]): empty string = self-filer
-    (registrant is the client itself); 'y' = external K-street registrant.
-    """
+    """Parse lob_lobbying.txt, filter to ind='y' records in target years, and map to Fortune 500 firm names."""
     rows = []
     skipped_short   = 0
     skipped_non_ind = 0
@@ -272,7 +232,7 @@ def _count_ind_y_rows(path, years):
 # ---------------------------------------------------------------------------
 
 def load_lobbyist_map(path, target_uniq_ids, years=CONGRESS_YEARS):
-    """Parse lob_lobbyist.txt and return mapping of uniq_id to sorted lobbyist names."""
+    """Parse lob_lobbyist.txt; return {uniq_id: [sorted lobbyist names]} for target reports."""
     lobbyist_sets = {}
     skipped = 0
 
@@ -297,7 +257,7 @@ def load_lobbyist_map(path, target_uniq_ids, years=CONGRESS_YEARS):
 
 
 def load_lobbyist_rows(path, target_uniq_ids, years=CONGRESS_YEARS):
-    """Parse lob_lobbyist.txt and return rows with uniq_id, lobbyist_id, and name."""
+    """Parse lob_lobbyist.txt; return DataFrame with uniq_id, lobbyist_id, lobbyist for target reports."""
     rows = []
     skipped = 0
 
@@ -328,7 +288,7 @@ def load_lobbyist_rows(path, target_uniq_ids, years=CONGRESS_YEARS):
 # ---------------------------------------------------------------------------
 
 def load_issue_map(path, target_uniq_ids_upper, years=CONGRESS_YEARS):
-    """Parse lob_issue.txt and return {uniq_id_upper: set(issue_ids)} for F500 reports."""
+    """Parse lob_issue.txt; return {uniq_id_upper: set(issue_ids)} for target reports."""
     uid_to_issues = {}
     for row in _iter_file(path):
         if len(row) < _MIN_ISS_COLS:
@@ -343,7 +303,7 @@ def load_issue_map(path, target_uniq_ids_upper, years=CONGRESS_YEARS):
 
 
 def load_issue_codes_map(path, target_uniq_ids_upper, years=CONGRESS_YEARS):
-    """Parse lob_issue.txt and return {uniq_id_upper: set(issue_codes)} for F500 reports."""
+    """Parse lob_issue.txt; return {uniq_id_upper: set(issue_codes)} for target reports."""
     uid_to_codes = {}
     for row in _iter_file(path):
         if len(row) < _MIN_ISS_COLS:
@@ -360,7 +320,7 @@ def load_issue_codes_map(path, target_uniq_ids_upper, years=CONGRESS_YEARS):
 
 
 def load_bill_map(path, target_issue_ids):
-    """Parse lob_bills.txt and return {issue_id: set(bill_numbers)}."""
+    """Parse lob_bills.txt; return {issue_id: set(bill_numbers)} for target issue entries."""
     issue_to_bills = {}
     for row in _iter_file(path):
         if len(row) < _MIN_BILLS_COLS:

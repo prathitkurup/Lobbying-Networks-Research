@@ -23,10 +23,21 @@ import sys
 import os
 import pandas as pd
 import networkx as nx
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import DATA_DIR, ROOT
 from utils.similarity import rbo_score
+
+OUTPUT_PATH = Path(__file__).resolve().parent.parent.parent / "outputs" / "validation" / "10_rbo_directed_influence_validation.txt"
+
+class _Tee:
+    """Write to both stdout and a file simultaneously."""
+    def __init__(self, *streams): self.streams = streams
+    def write(self, text):
+        for s in self.streams: s.write(text)
+    def flush(self):
+        for s in self.streams: s.flush()
 
 EDGES_CSV  = DATA_DIR / "rbo_directed_influence.csv"
 RANKED_CSV = DATA_DIR / "ranked_bill_lists.csv"
@@ -232,45 +243,55 @@ def check_rbo_spot(edges, ranked_csv, n_samples=20, seed=42):
 
 
 def main():
-    print("=" * 62)
-    print("  10 — Congress Influence Network Validation")
-    print("=" * 62)
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    _orig_stdout = sys.stdout
+    _f = open(OUTPUT_PATH, "w")
+    sys.stdout = _Tee(_orig_stdout, _f)
 
     try:
-        edges, ranked, G = _load()
-    except FileNotFoundError as e:
-        print(f"\n  ERROR: {e}")
-        print("  Run rbo_directed_influence.py first.")
-        sys.exit(1)
+        print("=" * 62)
+        print("  10 — Congress Influence Network Validation")
+        print("=" * 62)
 
-    checks = [
-        ("Edge CSV schema",             lambda: check_edge_schema(edges)),
-        ("RBO weight range",            lambda: check_weight_range(edges)),
-        ("Direction integrity",         lambda: check_direction_integrity(edges)),
-        ("net_temporal arithmetic",     lambda: check_net_temporal(edges)),
-        ("Balanced edge uniqueness",    lambda: check_balanced_uniqueness(edges)),
-        ("Balanced net_temporal=0",     lambda: check_balanced_zero_net(edges)),
-        ("Node net_influence math",     lambda: check_node_net_influence(G)),
-        ("Node color consistency",      lambda: check_node_colors(G)),
-        ("Ranked-list CSV integrity",   lambda: check_ranked_csv(ranked)),
-        ("RBO spot-check (n=20)",       lambda: check_rbo_spot(edges, ranked)),
-        ("Node net_strength math",      lambda: check_net_strength(G)),
-    ]
+        try:
+            edges, ranked, G = _load()
+        except FileNotFoundError as e:
+            print(f"\n  ERROR: {e}")
+            print("  Run rbo_directed_influence.py first.")
+            sys.exit(1)
 
-    passed = 0
-    for i, (name, fn) in enumerate(checks, start=1):
-        ok, detail = fn()
-        status = PASS if ok else FAIL
-        print(f"\n  Check {i:2d}: {name}")
-        print(f"  {status}  —  {detail}")
-        if ok:
-            passed += 1
+        checks = [
+            ("Edge CSV schema",             lambda: check_edge_schema(edges)),
+            ("RBO weight range",            lambda: check_weight_range(edges)),
+            ("Direction integrity",         lambda: check_direction_integrity(edges)),
+            ("net_temporal arithmetic",     lambda: check_net_temporal(edges)),
+            ("Balanced edge uniqueness",    lambda: check_balanced_uniqueness(edges)),
+            ("Balanced net_temporal=0",     lambda: check_balanced_zero_net(edges)),
+            ("Node net_influence math",     lambda: check_node_net_influence(G)),
+            ("Node color consistency",      lambda: check_node_colors(G)),
+            ("Ranked-list CSV integrity",   lambda: check_ranked_csv(ranked)),
+            ("RBO spot-check (n=20)",       lambda: check_rbo_spot(edges, ranked)),
+            ("Node net_strength math",      lambda: check_net_strength(G)),
+        ]
 
-    print(f"\n{'='*62}")
-    print(f"  {passed} / {len(checks)} checks passed")
-    if passed < len(checks):
-        print("  *** Some checks FAILED — review output above ***")
-    print("=" * 62)
+        passed = 0
+        for i, (name, fn) in enumerate(checks, start=1):
+            ok, detail = fn()
+            status = PASS if ok else FAIL
+            print(f"\n  Check {i:2d}: {name}")
+            print(f"  {status}  —  {detail}")
+            if ok:
+                passed += 1
+
+        print(f"\n{'='*62}")
+        print(f"  {passed} / {len(checks)} checks passed")
+        if passed < len(checks):
+            print("  *** Some checks FAILED — review output above ***")
+        print("=" * 62)
+
+    finally:
+        sys.stdout = _orig_stdout
+        _f.close()
 
 
 if __name__ == "__main__":

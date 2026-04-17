@@ -50,10 +50,7 @@ WRITE_PNG         = True
 # -- Quarter assignment -------------------------------------------------------
 
 def assign_quarters(df):
-    """
-    Add 'quarter' column: 2019 Q1-4 -> 1-4, 2020 Q1-4 -> 5-8.
-    No-op if 'quarter' already present.
-    """
+    """Add 'quarter' column: 2019 Q1-4 → 1-4, 2020 Q1-4 → 5-8. No-op if already present."""
     if "quarter" in df.columns:
         return df
     df = df.copy()
@@ -66,10 +63,7 @@ def assign_quarters(df):
 # -- Global first-quarter lookup ----------------------------------------------
 
 def build_global_first_quarters(df):
-    """
-    Return {(firm, bill): min_quarter} using all 8 quarters.
-    Captures the first time each firm lobbied each bill across the full congress.
-    """
+    """Return {(firm, bill): min_quarter} — first quarter each firm lobbied each bill across the full congress."""
     return (
         df.groupby(["fortune_name", "bill_number"])["quarter"]
         .min()
@@ -80,14 +74,7 @@ def build_global_first_quarters(df):
 # -- Pairwise scoring ---------------------------------------------------------
 
 def score_pair(firm_a, firm_b, shared_bills, bill_first):
-    """
-    First-mover tally for a firm pair over their shared top-30 bills.
-
-    Compares global (congress-wide) first-quarter per (firm, bill).
-    Each bill contributes at most 1 point — no double counting across quarters.
-
-    Returns dict: a_firsts, b_firsts, tie_count, shared_bills.
-    """
+    """Tally first-mover wins for a firm pair over shared top-30 bills; returns dict with a_firsts, b_firsts, tie_count, shared_bills."""
     a_firsts = b_firsts = ties = 0
     for bill in shared_bills:
         qa = bill_first.get((firm_a, bill))
@@ -111,21 +98,9 @@ def score_pair(firm_a, firm_b, shared_bills, bill_first):
 # -- Edge construction --------------------------------------------------------
 
 def build_edges(ranked, bill_first, p=RBO_P):
-    """
-    Compute RBO similarity and temporal direction for all firm pairs
-    that share at least one top-30 bill (RBO > 0).
+    """Compute RBO-weighted directed edges for all firm pairs sharing ≥1 top-30 bill.
 
-    Direction rule:
-      A_firsts > B_firsts → single directed A→B edge (balanced=0)
-      B_firsts > A_firsts → single directed B→A edge (balanced=0)
-      A_firsts == B_firsts → single canonical edge min(A,B)→max(A,B) (balanced=1);
-                             canonical direction is alphabetical (arbitrary but consistent);
-                             net_influence contribution is 0 for both nodes.
-
-    Edge schema:
-      source, target, weight (RBO score), source_firsts, target_firsts,
-      tie_count, shared_bills, net_temporal (source_firsts − target_firsts),
-      balanced (0/1)
+    Direction: higher first-mover count wins; ties emit a canonical alphabetical edge (balanced=1).
     """
     firms   = sorted(ranked.keys())
     records = []
@@ -186,31 +161,9 @@ def build_edges(ranked, bill_first, p=RBO_P):
 # -- Graph construction -------------------------------------------------------
 
 def build_graph(edges_df, ranked_firms=None):
-    """
-    Build DiGraph from edge records.
+    """Build DiGraph from edge records, adding node attrs: net_influence, total_firsts/losses, out/in/net_strength, color, label.
 
-    Parameters
-    ----------
-    edges_df      : edge DataFrame from build_edges
-    ranked_firms  : optional set of all firm names with ranked lists; when
-                    provided, firms with no edges are added as isolated nodes
-                    (net_influence=0, color='#95A5A6') so the full roster appears
-                    in the GML and Gephi.
-
-    Node attributes:
-      net_influence = total pairwise first-mover wins - losses  [for Gephi sizing]
-                    = (out_sf + in_tf) - (out_tf + in_sf)
-                    where sf = source_firsts, tf = target_firsts on adjacent edges.
-      total_firsts  = bills this node lobbied first across all pairings (always ≥ 0)
-      total_losses  = bills this node lobbied second across all pairings (always ≥ 0)
-      out_strength  = sum of RBO weights on outgoing edges  [graph-theoretic strength]
-      in_strength   = sum of RBO weights on incoming edges  [graph-theoretic strength]
-      net_strength  = out_strength(directed) - in_strength(directed), computed from
-                      balanced=0 edges only; balanced edges excluded because their
-                      canonical direction is alphabetical (arbitrary) and would
-                      introduce a spurious RBO signal with no real directional meaning.
-      color         = '#2ECC71' / '#E74C3C' / '#95A5A6'  (green / red / gray)
-      label         = firm name
+    Isolated firms added as nodes when ranked_firms is provided.
     """
     G = nx.DiGraph()
 
@@ -278,20 +231,7 @@ def build_graph(edges_df, ranked_firms=None):
 # -- I/O helpers --------------------------------------------------------------
 
 def export_ranked_lists(ranked, df_agg, output_path):
-    """
-    Export per-firm top-30 ranked bill lists to a long-format CSV.
-
-    Columns: company, rank, bill_number, total_amount, budget_fraction.
-    One row per (firm, rank); up to 30 rows per firm (~8,670 rows total).
-    Sorted by company name then rank ascending.
-
-    Parameters
-    ----------
-    ranked      : {firm: [bill, ...]} from build_ranked_lists
-    df_agg      : post-filter DataFrame with fortune_name, bill_number,
-                  amount_allocated, frac
-    output_path : destination CSV path
-    """
+    """Export per-firm top-30 ranked bill lists as long-format CSV with columns: company, rank, bill_number, total_amount, budget_fraction."""
     lookup = (
         df_agg.set_index(["fortune_name", "bill_number"])
         [["amount_allocated", "frac"]]
@@ -318,7 +258,7 @@ def export_ranked_lists(ranked, df_agg, output_path):
 
 
 def write_gml(G, path):
-    """Write directed GML for Gephi."""
+    """Write directed DiGraph as GML for Gephi."""
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     nx.write_gml(G, path)
     print(f"  GML written ({G.number_of_nodes()} nodes, "

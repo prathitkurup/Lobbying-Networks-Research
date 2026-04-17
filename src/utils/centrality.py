@@ -1,14 +1,7 @@
 """
-Centrality utilities (two tiers).
+Centrality utilities: global metrics (Tier 1) and community-scoped measures (Tier 2).
 
-Tier 1 — compute_centralities(): global NetworkX metrics (degree, betweenness,
-closeness, eigenvector).
-
-Tier 2 — compute_community_centralities(): community-scoped measures requiring
-a Leiden partition: within-community eigenvector, Guimerà-Amaral z-score and
-participation coefficient P, global PageRank, Katz-Bonacich centrality, and
-GA node-role classification. See design_decisions.md for role thresholds.
-
+Tier 2 includes within-community eigenvector, Guimerà-Amaral z/P, PageRank, and Katz.
 Reference: Guimerà & Amaral (2005). Nature, 433, 895-900.
 """
 
@@ -91,12 +84,7 @@ def _community_map(partition):
 
 
 def compute_within_community_eigenvector(G, partition, weight_attr="weight"):
-    """
-    Eigenvector centrality computed on each community subgraph.
-    Falls back to weighted degree centrality for communities with < 3 nodes
-    or when the power iteration doesn't converge.
-    Returns {node: centrality_value}.
-    """
+    """Eigenvector centrality on each community subgraph; falls back to weighted degree for small or non-convergent communities."""
     comm_map = _community_map(partition)
     ec = {}
     for cid, members in comm_map.items():
@@ -119,12 +107,7 @@ def compute_within_community_eigenvector(G, partition, weight_attr="weight"):
 
 
 def compute_within_community_zscore(G, partition, weight_attr="weight"):
-    """
-    Guimerà-Amaral z-score: normalized within-community weighted degree.
-    z_i = (κ_is - mean(κ_s)) / std(κ_s)
-    where κ_is = sum of edge weights from i to same-community nodes.
-    Returns {node: z_score}.
-    """
+    """Guimerà-Amaral z-score: z_i = (κ_is − mean(κ_s)) / std(κ_s), where κ_is is within-community weighted degree."""
     comm_map = _community_map(partition)
 
     # Compute κ_ic (within-community weighted degree) for every node.
@@ -155,14 +138,7 @@ def compute_within_community_zscore(G, partition, weight_attr="weight"):
 
 
 def compute_participation_coefficient(G, partition, weight_attr="weight"):
-    """
-    Guimerà-Amaral participation coefficient.
-    P_i = 1 - Σ_c [(κ_ic / κ_i)²]
-    where κ_ic = total edge weight from i to community c,
-          κ_i  = total weighted degree of i.
-    P = 0: pure within-community player.  P -> 1: kinless cross-industry bridger.
-    Returns {node: P_value}.
-    """
+    """Guimerà-Amaral participation coefficient: P_i = 1 − Σ_c (κ_ic / κ_i)². P=0 is within-community; P→1 is cross-community."""
     P = {}
     for node in G.nodes():
         if node not in partition:
@@ -204,11 +180,7 @@ def classify_ga_role(z, P):
 # -- Tier 2: combined community centrality --
 
 def compute_community_centralities(G, partition, weight_attr="weight"):
-    """
-    Compute all centrality tiers; return DataFrame with columns:
-    firm, community, within_comm_eigenvector, z_score, participation_coeff,
-    global_pagerank, katz_centrality, ga_role.
-    """
+    """Compute all centrality tiers; returns DataFrame with firm, community, eigenvector, z_score, P, PageRank, Katz, ga_role."""
     ec   = compute_within_community_eigenvector(G, partition, weight_attr)
     z    = compute_within_community_zscore(G, partition, weight_attr)
     P    = compute_participation_coefficient(G, partition, weight_attr)
@@ -236,14 +208,7 @@ def compute_community_centralities(G, partition, weight_attr="weight"):
 
 
 def print_community_centralities(cent_df, k=10):
-    """
-    Print a structured summary of all centrality tiers:
-      — top-k by within-community eigenvector (industry leaders)
-      — top-k by participation coefficient (cross-industry connectors)
-      — top-k by global PageRank (overall network hubs)
-      — top-k by Katz-Bonacich centrality (path-penalised influence)
-      — Guimerà-Amaral role distribution
-    """
+    """Print top-k firms by within-community eigenvector, participation coeff, PageRank, Katz, and GA role distribution."""
     print("\n-- Community Centrality: Top Industry Leaders "
           "(within-community eigenvector) --")
     top_ec = cent_df.nlargest(k, "within_comm_eigenvector")

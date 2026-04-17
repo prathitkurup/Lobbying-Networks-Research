@@ -1,0 +1,409 @@
+================================================================
+  12 — Congress Statistics & Validation
+================================================================
+
+-- CHECK 1: 117th Congress Quarter Coverage --
+    PASS  —  all 8 quarters present
+
+  Q#   Year  Cal-Q    Rows  Firms
+  1    2021     Q1    1633    358
+  2    2021     Q2    2613    358
+  3    2021     Q3    3273    362
+  4    2021     Q4    3331    360
+  5    2022     Q1    3313    352
+  6    2022     Q2    3486    352
+  7    2022     Q3    3742    354
+  8    2022     Q4    3624    355
+  [fig] 12a_117_quarterly_activity.png
+
+-- CHECK 2: 116th Congress Quarter Coverage --
+    PASS  —  all 8 quarters present
+
+  Q#   Year  Cal-Q    Rows  Firms
+  1    2019     Q1    1664    361
+  2    2019     Q2    2659    360
+  3    2019     Q3    3200    353
+  4    2019     Q4    3613    359
+  5    2020     Q1    3283    360
+  6    2020     Q2    3530    360
+  7    2020     Q3    3893    360
+  8    2020     Q4    3834    359
+  [fig] 12b_116_quarterly_activity.png
+
+-- Loading networks --
+  Bill affiliation GML: 277 nodes, 7716 edges
+  RBO combined GML:     289 nodes, 3712 edges
+  116th graph:          259 nodes, 3869 edges
+  117th graph:          255 nodes, 3558 edges
+
+-- Community detection (Louvain / greedy-modularity fallback) --
+  python-louvain not found; used greedy modularity (NetworkX)
+  116th: 12 communities detected
+  117th: 10 communities detected
+  [fig] 12c_community_sizes_116.png
+  [fig] 12d_community_sizes_117.png
+================================================================
+  CHECK 3: Agenda-Setters per Community
+================================================================
+
+  -- 116th Congress --
+
+  Community 0  (59 firms):
+  Firm                                      Net-Inf   Net-Str
+  CALPINE                                        53    1.7324
+  BALL                                           44    1.1876
+  EXXONMOBIL                                     44    0.6415
+  DTE ENERGY                                     43    0.7026
+  LEIDOS HOLDINGS                                34    0.4594
+
+  Community 1  (53 firms):
+  Firm                                      Net-Inf   Net-Str
+  CUMMINS                                        58    2.9281
+  IBM                                            48    0.7197
+  AT&T                                           31    0.6707
+  LOCKHEED MARTIN                                27    0.3182
+  PRINCIPAL FINANCIAL                            25    0.2020
+
+  Community 2  (43 firms):
+  Firm                                      Net-Inf   Net-Str
+  ABBVIE                                         36    1.3038
+  CVS HEALTH                                     26    1.4144
+  CIGNA                                          24    0.9147
+  BRISTOL-MYERS SQUIBB                           22    0.7258
+  3M                                             21    0.0735
+
+  Community 3  (30 firms):
+  Firm                                      Net-Inf   Net-Str
+  NORTHWESTERN MUTUAL                            24    1.4368
+  ALLSTATE                                       24    1.0910
+  CITIGROUP                                      18    1.1308
+  WELLS FARGO                                    12    1.4360
+  JPMORGAN CHASE & CO.                           10   -0.2606
+
+  Community 4  (27 firms):
+  Firm                                      Net-Inf   Net-Str
+  AMERIPRISE FINANCIAL                           25    0.7599
+  HARTFORD FINANCIAL SERVICES                    17    0.0768
+  GUARDIAN LIFE INS. CO. OF AMERICA              12   -0.3891
+  PRUDENTIAL FINANCIAL                            8    0.7531
+  CATERPILLAR                                     7    0.5672
+
+  Community 5  (19 firms):
+  Firm                                      Net-Inf   Net-Str
+  AMERICAN FAMILY INSURANCE GROUP                30    0.3652
+  YUM BRANDS                                     15    0.8744
+  ALTRIA GROUP                                    7    0.0058
+  DEAN FOODS                                      6    0.3543
+  LOWE'S                                          5    0.3017
+
+  Community 6  (14 firms):
+  Firm                                      Net-Inf   Net-Str
+  ILLINOIS TOOL WORKS                             9    0.1460
+  GRAPHIC PACKAGING HOLDING                       8    0.4979
+  WESTROCK                                        7    0.3874
+  AK STEEL HOLDING                                7    0.3581
+  NUCOR                                           2   -0.1697
+
+  Community 7  (4 firms):
+  Firm                                      Net-Inf   Net-Str
+  BERKSHIRE HATHAWAY                             11    1.1942
+  UNION PACIFIC                                  10    0.5580
+  NORFOLK SOUTHERN                                1   -0.0413
+  CSX                                           -15   -1.5441
+
+  Community 8  (3 firms):
+  Firm                                      Net-Inf   Net-Str
+  HILTON WORLDWIDE HOLDINGS                       6    0.5006
+  CELANESE                                        0    0.0000
+  MARRIOTT INTERNATIONAL                         -1   -0.4128
+
+  Community 9  (3 firms):
+  Firm                                      Net-Inf   Net-Str
+  BOOZ ALLEN HAMILTON                             1    0.1500
+  MASCO                                          -1   -0.1500
+  DISH NETWORK                                   -1    0.0041
+
+  Community 10  (2 firms):
+  Firm                                      Net-Inf   Net-Str
+  GAP                                             3    0.3413
+  CAMPBELL SOUP                                  -1   -0.2138
+
+  Community 11  (2 firms):
+  Firm                                      Net-Inf   Net-Str
+  KEURIG DR PEPPER                                0    0.0000
+  WASTE MANAGEMENT                                0    0.0000
+
+  -- 117th Congress --
+
+  Community 0  (46 firms):
+  Firm                                      Net-Inf   Net-Str
+  JPMORGAN CHASE & CO.                           28    0.2298
+  MERCK                                          24    2.1489
+  GUARDIAN LIFE INS. CO. OF AMERICA              23    1.1178
+  HUMANA                                         18    0.7060
+  USAA                                           13   -0.5246
+
+  Community 1  (40 firms):
+  Firm                                      Net-Inf   Net-Str
+  EXELON                                         49    1.4716
+  XCEL ENERGY                                    44    1.0818
+  DUKE ENERGY                                    41    0.9153
+  CMS ENERGY                                     34    0.4382
+  GRAPHIC PACKAGING HOLDING                      24    1.2971
+
+  Community 2  (35 firms):
+  Firm                                      Net-Inf   Net-Str
+  LOCKHEED MARTIN                                57    2.9495
+  MICROSOFT                                      55    1.3472
+  GENERAL DYNAMICS                               53    1.1523
+  HEWLETT PACKARD ENTERPRISE                     44    3.5427
+  NORTHROP GRUMMAN                               43   -0.8509
+
+  Community 3  (34 firms):
+  Firm                                      Net-Inf   Net-Str
+  AMAZON                                         40    2.8466
+  HOME DEPOT                                     28    0.3029
+  JOHNSON & JOHNSON                              27    0.7760
+  EBAY                                           26    0.6242
+  CAPITAL ONE FINANCIAL                          15    1.0595
+
+  Community 4  (32 firms):
+  Firm                                      Net-Inf   Net-Str
+  LABORATORY CORP. OF AMERICA                    25    1.2456
+  PHILLIPS 66                                    11   -0.0515
+  FLUOR                                          11    0.1939
+  IHEARTMEDIA                                     7    0.1076
+  THERMO FISHER SCIENTIFIC                        4   -0.1187
+
+  Community 5  (29 firms):
+  Firm                                      Net-Inf   Net-Str
+  SOUTHWEST AIRLINES                             27    0.3118
+  UNITED AIRLINES HOLDINGS                       19    1.5187
+  BERKSHIRE HATHAWAY                             14    0.0859
+  ALASKA AIR GROUP                                6    0.5201
+  TESLA                                           5    0.2552
+
+  Community 6  (17 firms):
+  Firm                                      Net-Inf   Net-Str
+  BOEING                                         33    0.6905
+  NORTHWESTERN MUTUAL                             7    0.7371
+  AFLAC                                           6    0.1357
+  ALLSTATE                                        5    0.0864
+  FEDEX                                           3   -0.0695
+
+  Community 7  (14 firms):
+  Firm                                      Net-Inf   Net-Str
+  IBM                                            19    1.1628
+  CISCO SYSTEMS                                   9    0.0898
+  NEWS CORP.                                      9    1.1111
+  PAYPAL HOLDINGS                                 3    0.6412
+  APPLE                                           0   -0.1549
+
+  Community 8  (6 firms):
+  Firm                                      Net-Inf   Net-Str
+  HILTON WORLDWIDE HOLDINGS                       4    0.2026
+  LOEWS                                           1    0.0242
+  CAESARS ENTERTAINMENT                           0    0.0000
+  LAS VEGAS SANDS                                 0    0.0000
+  MGM RESORTS INTERNATIONAL                      -2   -0.4858
+
+  Community 9  (2 firms):
+  Firm                                      Net-Inf   Net-Str
+  MARATHON OIL                                    1    0.1500
+  HALLIBURTON                                    -1   -0.1500
+================================================================
+  CHECK 4: Bill-Affiliation Centrality vs RBO Agenda-Setters
+================================================================
+
+  Top 10 by Global PageRank:
+  Firm                                   global_pager   Net-Inf   Comm
+  BERKSHIRE HATHAWAY                          0.02154        11      3
+  CMS ENERGY                                  0.02018        31      3
+  DTE ENERGY                                  0.01842        43      3
+  EXELON                                      0.01666        26      3
+  XCEL ENERGY                                 0.01603        17      3
+  IBM                                         0.01506        48      1
+  ENTERGY                                     0.01465       -24      3
+  GENERAL ELECTRIC                            0.01297         7      2
+  NATIONWIDE                                  0.01259         4      0
+  PG&E                                        0.01257        21      3
+
+  Top 10 by Within-Comm Eigenvector:
+  Firm                                   within_comm_   Net-Inf   Comm
+  AT&T                                        0.51101        31      1
+  VERIZON                                     0.45158        21      1
+  CHARTER COMMUNICATIONS                      0.41833        12      1
+  BRISTOL-MYERS SQUIBB                        0.41823        22      4
+  CMS ENERGY                                  0.40665        31      3
+  NATIONWIDE                                  0.40657         4      0
+  BERKSHIRE HATHAWAY                          0.39824        11      3
+  AMERIPRISE FINANCIAL                        0.38593        25      0
+  DTE ENERGY                                  0.37969        43      3
+  NORTHWESTERN MUTUAL                         0.33894        24      0
+
+  Top 10 by Katz-Bonacich:
+  Firm                                   katz_central   Net-Inf   Comm
+  BERKSHIRE HATHAWAY                          0.31004        11      3
+  CMS ENERGY                                  0.30752        31      3
+  DTE ENERGY                                  0.28753        43      3
+  EXELON                                      0.24539        26      3
+  XCEL ENERGY                                 0.23608        17      3
+  PPL                                         0.19576       -21      3
+  ENTERGY                                     0.19231       -24      3
+  PG&E                                        0.17314        21      3
+  DUKE ENERGY                                 0.16053        27      3
+  AMERICAN ELECTRIC POWER                     0.15953       -43      3
+
+  Top 10 by Participation Coeff (P):
+  Firm                                   participatio   Net-Inf   Comm
+  KRAFT HEINZ                                 0.78400        -3      1
+  KELLOGG                                     0.78110         0      0
+  CATERPILLAR                                 0.78100         7      4
+  CHS                                         0.77820       -31      0
+  CELANESE                                    0.77810         0      0
+  LAS VEGAS SANDS                             0.77780         0      0
+  ARAMARK                                     0.76980         6      4
+  INTERNATIONAL PAPER                         0.76780       -16      0
+  KROGER                                      0.76360        -1      1
+  BOSTON SCIENTIFIC                           0.75530        -5      1
+
+  Top 10 by GA z-Score:
+  Firm                                        z_score   Net-Inf   Comm
+  AT&T                                        3.92100        31      1
+  NATIONWIDE                                  3.52630         4      0
+  AMERIPRISE FINANCIAL                        3.52630        25      0
+  VERIZON                                     3.00240        21      1
+  IBM                                         2.90390        48      1
+  CMS ENERGY                                  2.76500        31      3
+  BRISTOL-MYERS SQUIBB                        2.72810        22      4
+  BERKSHIRE HATHAWAY                          2.72060        11      3
+  NORTHWESTERN MUTUAL                         2.58300        24      0
+  CHARTER COMMUNICATIONS                      2.52670        12      1
+
+  Pearson correlation with RBO net_influence:
+  Metric                              r     p-val      n
+  Global PageRank                 0.234    0.0001    277
+  Within-Comm Eigenvector         0.268    0.0000    277
+  Katz-Bonacich                   0.168    0.0052    277
+  Participation Coeff (P)         0.030    0.6247    277
+  GA z-Score                      0.262    0.0000    277
+  [fig] 12e_scatter_pagerank_vs_netinf.png
+  [fig] 12f_scatter_katz_vs_netinf.png
+  [fig] 12g_top_global_pag.png
+  [fig] 12g_top_within_com.png
+  [fig] 12g_top_katz_centr.png
+
+  Guimerà-Amaral role distribution (bill affiliation GML):
+  peripheral            :  141  (50.9%)
+  non_hub_connector     :  103  (37.2%)
+  ultra_peripheral      :   22  (7.9%)
+  connector_hub         :   11  (4.0%)
+================================================================
+  CHECK 5: Power-Law Evidence
+================================================================
+
+  Metric                           n    Gini     HHI   PL slope    PL R²   LN KS-p
+  Bill-Aff Degree                277   0.416  0.0056     -1.485    0.780    0.0000
+  RBO Out-Degree                 230   0.475  0.0079     -1.134    0.785    0.0082
+  RBO In-Degree                  242   0.454  0.0070     -1.173    0.753    0.0005
+  Bill-Aff PageRank              277   0.472  0.0071     -1.277    0.908    0.3734
+  Bill-Aff Katz                  277   0.365  0.0071     -1.685    0.993    0.0000
+  RBO |Net Influence|            225   0.513  0.0099     -1.112    0.849    0.0250
+
+  Interpretation guide:
+  Gini > 0.6 and PL slope ≈ -1 to -2 suggests power-law-like concentration.
+  LN KS-p < 0.05 means log-normal fit is rejected (consistent with heavier tail).
+  PL R² in log-log CCDF: closer to 1.0 = straighter power-law tail.
+  [fig] 12h_loglog_ccdf_degree.png
+  [fig] 12i_loglog_ccdf_centrality.png
+  [fig] 12j_loglog_ccdf_rbo_influence.png
+================================================================
+  CHECK 6-7: Degree Histograms & Additional Charts
+================================================================
+  [fig] 12k_rbo_degree_hist.png
+  [fig] 12l_billaff_degree_hist.png
+================================================================
+  CHECK 8: Community Sizes
+================================================================
+  [fig] 12m_billaff_comm_sizes.png
+
+  Bill affiliation communities (Leiden):
+  Comm 0: 72 firms
+  Comm 1: 64 firms
+  Comm 2: 49 firms
+  Comm 3: 49 firms
+  Comm 4: 43 firms
+
+  Top 3 firms per bill-affiliation community (PageRank):
+    Comm 0: NATIONWIDE (0.01259), AMERIPRISE FINANCIAL (0.01016), HARTFORD FINANCIAL SERVICES (0.00868)
+    Comm 1: IBM (0.01506), AT&T (0.01129), AMAZON (0.00941)
+    Comm 2: GENERAL ELECTRIC (0.01297), LOCKHEED MARTIN (0.01200), CUMMINS (0.01125)
+    Comm 3: BERKSHIRE HATHAWAY (0.02154), CMS ENERGY (0.02018), DTE ENERGY (0.01842)
+    Comm 4: CENTENE (0.00764), MUTUAL OF OMAHA INSURANCE (0.00670), BRISTOL-MYERS SQUIBB (0.00632)
+================================================================
+  CHECK 9: Net Influence Distribution (116th vs 117th)
+================================================================
+
+  116th Congress net_influence:
+    n=293  mean=0.00  std=17.97  min=-115  max=58
+    positive (agenda-setters): 125
+    negative (net followers):  107
+    neutral (balanced):        61
+
+  117th Congress net_influence:
+    n=286  mean=0.00  std=16.85  min=-83  max=57
+    positive (agenda-setters): 118
+    negative (net followers):  113
+    neutral (balanced):        55
+
+  KS test (116 vs 117 net_influence):  D=0.0379, p=0.9781
+  -> No significant distributional difference (p >= 0.05)
+  [fig] 12n_netinf_116_vs_117.png
+
+  Top 10 Agenda-Setters — 116th Congress (by net_influence):
+  Firm                                      Net-Inf   Net-Str
+  CUMMINS                                        58    2.9281
+  CALPINE                                        53    1.7324
+  IBM                                            48    0.7197
+  BALL                                           44    1.1876
+  EXXONMOBIL                                     44    0.6415
+  DTE ENERGY                                     43    0.7026
+  ABBVIE                                         36    1.3038
+  LEIDOS HOLDINGS                                34    0.4594
+  AT&T                                           31    0.6707
+  CMS ENERGY                                     31    1.7612
+
+  Top 10 Agenda-Setters — 117th Congress (by net_influence):
+  Firm                                      Net-Inf   Net-Str
+  LOCKHEED MARTIN                                57    2.9495
+  MICROSOFT                                      55    1.3472
+  GENERAL DYNAMICS                               53    1.1523
+  EXELON                                         49    1.4716
+  XCEL ENERGY                                    44    1.0818
+  HEWLETT PACKARD ENTERPRISE                     44    3.5427
+  NORTHROP GRUMMAN                               43   -0.8509
+  DUKE ENERGY                                    41    0.9153
+  AMAZON                                         40    2.8466
+  RAYTHEON                                       39    1.1090
+================================================================
+  CHECK 10: Quarter-Level Activity — 117th Congress
+================================================================
+
+  Q#      Rows  Firms  Bills (w/ num)
+  1       1633    358             567
+  2       2613    358             859
+  3       3273    362             974
+  4       3331    360            1041
+  5       3313    352            1103
+  6       3486    352            1205
+  7       3742    354            1284
+  8       3624    355            1299
+================================================================
+  SUMMARY OF CHECKS
+================================================================
+  PASS  117th quarter coverage
+  PASS  116th quarter coverage
+
+  2/2 checks passed
+  16 figures written to outputs/validation/figures
+================================================================

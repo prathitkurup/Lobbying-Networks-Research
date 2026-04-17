@@ -1,0 +1,106 @@
+================================================================================
+CHANNEL 4: REVOLVING DOOR — DATA AVAILABILITY AND FEASIBILITY ASSESSMENT
+116th Congress (2019–2020), Fortune 500 firms
+================================================================================
+
+THEORY
+------
+Former congressional and executive-branch staffers who become in-house lobbyists
+carry institutional knowledge about which committee-stage bills matter before they
+are widely tracked. Multiple Fortune 500 firms hiring former staffers from the same
+committee would generate correlated early adoption without any shared K-street
+channel — creating directed influence patterns in the RBO network that look like
+"influence" but are actually a committee-intelligence gap.
+
+DATA AVAILABLE IN-HOUSE
+------------------------
+lob_lobbyist.txt contains a binary 'covered_position' indicator (column 7: 'y'/'n')
+flagging lobbyists who previously held a "covered position" as defined under the
+Lobbying Disclosure Act §3(11):
+  - Members of Congress
+  - Elected officers of either chamber
+  - Employees on the personal staff of a Member or committee (at GS-15+ salary)
+  - Officers or employees of Congress in leadership or senior administrative roles
+  - Senior executive branch officials (President, VP, Cabinet, schedule C SES, etc.)
+
+Key numbers for the 116th Congress Fortune 500 dataset:
+  Total lobbyist–firm pairs (116th):                 2,574
+  Unique lobbyist IDs:                               2,249
+  Covered (revolving door) lobbyist IDs:                28  (1.2% of unique IDs)
+  Fortune 500 firms with any revolving-door lobbyist:   26  (6.9% of 376 firms)
+  Unique covered lobbyist–firm pairings:                34
+
+FEASIBILITY VERDICT: UNDERPOWERED WITH THIS INDICATOR
+-------------------------------------------------------
+With only 28 revolving-door lobbyists working for 26 of 376 Fortune 500 firms,
+the 'covered_position' flag is too sparse to support a well-powered statistical
+test. Specifically:
+
+1. COVERAGE: Only 6.9% of firms have any covered lobbyist. The remaining 93%
+   would be in the "no revolving door" category by default, making any comparison
+   structurally unbalanced.
+
+2. DEFINITION MISMATCH: The LDA 'covered_position' flag captures senior
+   executive and legislative officials — Members, Cabinet, senior SES. The
+   actual mechanism of interest (committee-specific intelligence transmission)
+   operates primarily through committee STAFF, not Members or Cabinet officials.
+   Staff are covered only at GS-15+ salary thresholds, excluding most relevant
+   mid-level committee expertise. This means the available indicator likely
+   under-identifies the population of interest.
+
+3. SCOPE: The 28 covered lobbyists are distributed across 26 firms. For a paired
+   test (shared covered lobbyist predicts directed adoption), the number of
+   Fortune 500 dyads sharing a covered lobbyist is at most C(28,2)/firm_count —
+   likely fewer than 10 testable pairs. This is far below minimum power thresholds.
+
+WHAT WOULD BE NEEDED FOR A PROPER TEST
+---------------------------------------
+A properly powered revolving door test would require one of the following:
+
+Option A — LDA Lobbyist Registration Data with Prior Employment:
+  The full lobbyist registration database (LD-1 forms) contains prior employer
+  information. The OpenSecrets "Revolving Door" bulk dataset (separate from the
+  lobbying bulk data we have) includes a 'revdoor' table with government agency
+  and position history for individual lobbyists. This is downloadable from
+  OpenSecrets at: https://www.opensecrets.org/bulk-data/downloads
+  File: revdoor.zip — contains prior_empl (prior employer) and position
+  for each lobbyist. Cross-referencing with lob_lobbyist.txt via lobbyist_id
+  would give committee-level resolution.
+
+Option B — LegiStorm Congressional Staff Database:
+  LegiStorm tracks congressional staff by committee assignment. Matching former
+  staff to current lobbying registrations (via name+employer matching) gives
+  committee-specific revolving door ties. This is a commercial database.
+  Used by: Blanes i Vidal, Draca & Fons-Rosen (2012, AER) for the
+  canonical revolving door study.
+
+Option C — Expand Fortune 500 Scope to All Fortune 1000 or Sector:
+  A larger firm set (all LDA filers, not just Fortune 500) would give enough
+  covered-lobbyist dyads for adequate power. This sacrifices the Fortune 500
+  focus but is tractable with the existing OpenSecrets data for any congress year.
+
+RECOMMENDED NEXT STEP
+----------------------
+Download the OpenSecrets revdoor.zip bulk file and merge on lobbyist_id. This
+adds prior government position (including committee assignment for legislative
+staff) without requiring any commercial data purchase. The merge is tractable
+with the existing pipeline infrastructure since lobbyist_id is already in
+lobbyist_client_116_opensecrets.csv.
+
+Once merged, the test would be:
+  For each directed RBO edge (A→B), does A or B retain a former staffer from
+  the SAME Senate/House committee as the other? If yes, that shared committee
+  intelligence explains the early-adoption differential — without any direct
+  communication between A and B.
+
+LITERATURE GROUNDING
+--------------------
+  - Blanes i Vidal, Draca & Fons-Rosen (2012, AER): "Revolving Door Lobbyists"
+    — quantifies the revenue premium of Congressional staffers; establishes
+    committee-specific knowledge as the key mechanism.
+  - You (2017, AJPS): "Bureaucrats in Congress and Information Sharing"
+    — executive branch revolvers carry agency-specific information.
+  - LaPira & Thomas (2017, "Revolving Door Lobbying"): documents the Fortune 500
+    pattern of internalizing revolving-door talent as in-house staff rather
+    than through K-street, consistent with the low covered_position count here.
+================================================================================

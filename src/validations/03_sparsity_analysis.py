@@ -48,12 +48,13 @@ import sys
 import os
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import DATA_DIR, MAX_BILL_DF
 from utils.filtering import filter_bills_by_prevalence
 
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs", "03_sparsity_analysis.txt")
+OUTPUT_PATH = str(Path(__file__).resolve().parent.parent.parent / "outputs" / "validation" / "03_sparsity_analysis.txt")
 
 
 def compute_null_expected_shared(firm_degrees, B):

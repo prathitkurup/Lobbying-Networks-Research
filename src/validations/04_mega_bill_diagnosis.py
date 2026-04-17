@@ -60,11 +60,12 @@ import sys
 import os
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import DATA_DIR, MAX_BILL_DF
 
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs", "04_mega_bill_diagnosis.txt")
+OUTPUT_PATH = str(Path(__file__).resolve().parent.parent.parent / "outputs" / "validation" / "04_mega_bill_diagnosis.txt")
 
 
 def prevalence_table(df_dedup, thresholds=(10, 20, 30, 50, 75, 100)):

@@ -10,26 +10,14 @@ import pandas as pd
 # -- Aggregation helpers -------------------------------------------------------
 
 def aggregate_per_firm_bill(df):
-    """
-    Collapse multiple rows per (fortune_name, bill_number) by summing
-    amount_allocated.
-    opensecrets_extraction.py allocates report spend equally across bills, so a
-    firm filing multiple reports on the same bill accumulates multiple rows.
-    Summing gives the true total allocated spend per (firm, bill).
-    """
+    """Sum amount_allocated across multiple rows per (fortune_name, bill_number) to get true total spend."""
     return df.groupby(
         ["fortune_name", "bill_number"], as_index=False
     )["amount_allocated"].sum()
 
 
 def compute_zero_budget_fracs(df):
-    """
-    Add per-firm portfolio-share fracs (amount_allocated / total_budget).
-    Firms with zero total budget are excluded with a warning.
-    Returns the enriched DataFrame (only non-zero-budget firms).
-
-    Validates that fracs sum to 1.0 per firm; raises ValueError on failure.
-    """
+    """Add frac column (spend / total_budget); excludes zero-budget firms and validates fracs sum to 1.0 per firm."""
     company_totals = df.groupby("fortune_name")["amount_allocated"].sum().rename("total_budget")
     df = df.merge(company_totals, on="fortune_name", how="left")
 
@@ -73,10 +61,7 @@ def rbo_score(l1, l2, p=0.90):
 
 
 def build_ranked_lists(df, top_bills=100):
-    """
-    Build {firm: [bill, ...]} bill rankings sorted by allocated spend (desc).
-    top_bills=30 focuses RBO on high-priority bills (see §18).
-    """
+    """Build {firm: [bill, ...]} ranked by allocated spend descending, truncated to top_bills."""
     ranked = {}
     for firm, grp in df.groupby("fortune_name"):
         bills_sorted = (grp[grp["amount_allocated"] > 0]
@@ -91,10 +76,7 @@ def build_ranked_lists(df, top_bills=100):
 # -- Cosine matrix -------------------------------------------------------------
 
 def build_frac_matrix(df):
-    """
-    Build a (firms × bills) portfolio-share matrix for cosine similarity.
-    Returns (pivot_df, firms_list, bills_list).
-    """
+    """Build (firms × bills) portfolio-share pivot matrix for cosine similarity; returns (pivot_df, firms_list, bills_list)."""
     pivot = df.pivot_table(
         index="fortune_name", columns="bill_number",
         values="frac", fill_value=0.0

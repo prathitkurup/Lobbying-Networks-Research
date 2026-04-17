@@ -22,31 +22,7 @@ def build_graph(edge_df):
 
 
 def write_gml_with_communities(G, partition, gml_path, node_attrs=None):
-    """
-    Write a GML file with community membership and optional analytics stored
-    as node attributes for direct Gephi import.
-
-    Parameters
-    ----------
-    G          : NetworkX graph (modified in-place with node attributes).
-    partition  : {node: community_id} from Leiden.
-    gml_path   : Output path for the GML file.
-    node_attrs : Optional dict-of-dicts: {attr_name: {node: value, ...}}.
-                 Supported attrs (written if present):
-                   'within_comm_eigenvector', 'z_score',
-                   'participation_coeff', 'global_pagerank',
-                   'ga_role', 'kcore'
-                 All numeric values are rounded to 6 decimal places.
-                 String values (ga_role) are written as-is.
-                 Gephi reads all node attributes as importable columns on load.
-
-    Notes
-    -----
-    GML only supports int, float, and str node-attribute types. None values
-    are converted to -1.0 (numeric) or 'unknown' (string) so the file remains
-    valid. GML node labels are set to the node name string so Gephi displays
-    firm names by default.
-    """
+    """Write GML with Leiden community labels and optional centrality node attrs for Gephi import."""
     for node, cid in partition.items():
         if node in G:
             G.nodes[node]["community"] = int(cid)
@@ -74,14 +50,7 @@ def write_gml_with_communities(G, partition, gml_path, node_attrs=None):
 
 
 def _cent_df_to_attrs(cent_df):
-    """
-    Convert a compute_community_centralities() DataFrame into the
-    node_attrs dict expected by write_gml_with_communities().
-    Returns None if cent_df is None.
-
-    Includes katz_centrality if present (added for composite network and
-    back-filled for all networks via utils/centrality.py update).
-    """
+    """Convert centrality DataFrame to node_attrs dict for write_gml_with_communities(). Returns None if cent_df is None."""
     if cent_df is None:
         return None
     firm_col = cent_df["firm"]
@@ -107,26 +76,7 @@ def top_k_subgraph(G, k=20):
 
 
 def build_graph_with_attrs(edge_df, weight_col="weight"):
-    """
-    Build a weighted undirected NetworkX graph from a multi-column edge DataFrame.
-
-    Unlike build_graph(), this function writes ALL numeric columns beyond
-    'source' and 'target' as separate edge attributes so they are preserved
-    in GML exports.  Useful for the composite network where cosine_weight,
-    rbo_weight, ev_norm, and composite_weight should all be inspectable in Gephi.
-
-    Parameters
-    ----------
-    edge_df    : DataFrame with at least [source, target, <weight_col>] columns.
-                 Any additional numeric columns are added as edge attributes.
-    weight_col : Name of the primary weight column (stored as 'weight' on the
-                 edge for compatibility with NetworkX centrality and community
-                 detection functions).
-
-    Returns
-    -------
-    NetworkX Graph
-    """
+    """Build weighted undirected graph, writing all numeric edge columns as attributes for Gephi inspection."""
     attr_cols = [c for c in edge_df.columns if c not in ("source", "target")]
     G = nx.Graph()
     for _, row in edge_df.iterrows():

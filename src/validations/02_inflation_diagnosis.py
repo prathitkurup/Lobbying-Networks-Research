@@ -51,11 +51,12 @@ Writes validations/outputs/02_inflation_diagnosis.txt
 import sys
 import os
 import pandas as pd
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import DATA_DIR
 
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs", "02_inflation_diagnosis.txt")
+OUTPUT_PATH = str(Path(__file__).resolve().parent.parent.parent / "outputs" / "validation" / "02_inflation_diagnosis.txt")
 
 
 def build_edges_buggy(df):

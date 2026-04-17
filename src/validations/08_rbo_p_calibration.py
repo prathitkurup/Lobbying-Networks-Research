@@ -33,8 +33,8 @@ from config import DATA_DIR, ROOT
 from utils.data_loading import load_bills_data
 from utils.similarity import aggregate_per_firm_bill, compute_zero_budget_fracs
 
-OUTPUT_DIR = Path(__file__).parent / "outputs"
-OUTPUT_DIR.mkdir(exist_ok=True)
+OUTPUT_DIR = Path(__file__).resolve().parent.parent.parent / "outputs" / "validation"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 P_VALUES    = [0.70, 0.80, 0.85, 0.90, 0.95, 0.98]
 MAX_RANK    = 50   # plot up to rank 50; tail is negligible

@@ -1,0 +1,31 @@
+=================================================================
+Validation 07: Composite network & Katz-Bonacich unit tests
+=================================================================
+
+[A] Composite formula (synthetic edge data)
+  PASS  Weight = cosine × rbo × affil_norm
+  PASS  composite ≤ cosine and ≤ rbo
+  PASS  Higher affil_norm → higher composite weight (monotone)
+  PASS  Composite = 0 when cosine = 0
+  PASS  Composite = 0 when rbo = 0
+  PASS  Composite = 0 when affil_norm = 0
+
+[B] Katz-Bonacich centrality
+  PASS  Katz: returns dict keyed by node
+  PASS  Katz: all values non-negative
+  PASS  Katz: all nodes have centrality > 0 (connected graph)
+  PASS  Katz: spectral radius > 0 (non-trivial graph)
+  PASS  Katz: alpha = 0.85/rho < 1/rho
+  PASS  Katz and PageRank rankings are not identical (different measures)
+  PASS  Katz: empty graph returns {}
+  PASS  Katz: single isolated node returns 0.0
+
+[C] Live data structural checks (Fortune 500 OpenSecrets data)
+
+  Loaded: 305 firms, 2219 bills
+  Building composite edges (from pre-computed cosine/rbo/affil CSVs)...
+  SKIP  Live data tests — data file not found: affiliation_edges.csv not found. Run bill_affiliation_network.py, cosine_similarity_network.py, and rbo_similarity_network.py first.
+  (Run opensecrets_extraction.py and the individual network scripts first.)
+
+Results: 14 passed, 0 failed
+=================================================================

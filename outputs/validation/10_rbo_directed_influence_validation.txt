@@ -1,0 +1,41 @@
+==============================================================
+  10 — Congress Influence Network Validation
+==============================================================
+
+  Check  1: Edge CSV schema
+    PASS  —  3,712 rows, 9 columns
+
+  Check  2: RBO weight range
+    PASS  —  min=0.000045  max=0.805450
+
+  Check  3: Direction integrity
+    PASS  —  1,812 directed edges all have source_firsts > target_firsts
+
+  Check  4: net_temporal arithmetic
+    PASS  —  all rows consistent
+
+  Check  5: Balanced edge uniqueness
+    PASS  —  1,900 balanced edges; each pair once, all source < target
+
+  Check  6: Balanced net_temporal=0
+    PASS  —  all balanced edges have net_temporal == 0
+
+  Check  7: Node net_influence math
+    PASS  —  all 289 nodes consistent
+
+  Check  8: Node color consistency
+    FAIL  —  289 nodes with wrong color: [('HARTFORD FINANCIAL SERVICES', '#2ECC71', 'green', 17), ('UNITED AIRLINES HOLDINGS', '#2ECC71', 'green', 12), ('BAXTER INTERNATIONAL', '#E74C3C', 'red', -6)]
+
+  Check  9: Ranked-list CSV integrity
+    PASS  —  288 firms, 3,990 rows; max rank per firm: 30
+
+  Check 10: RBO spot-check (n=20)
+    PASS  —  20 random pairs recomputed; all within 1e-4
+
+  Check 11: Node net_strength math
+    PASS  —  all 289 nodes consistent
+
+==============================================================
+  10 / 11 checks passed
+  *** Some checks FAILED — review output above ***
+==============================================================

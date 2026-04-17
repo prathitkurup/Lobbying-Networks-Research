@@ -36,12 +36,12 @@ import sys
 import os
 import re
 import pandas as pd
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import DATA_DIR
 
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs",
-                           "05_ind_filter_validation.txt")
+OUTPUT_PATH = str(Path(__file__).resolve().parent.parent.parent / "outputs" / "validation" / "05_ind_filter_validation.txt")
 
 SELF_TYPE_DESC = {
     "p": "self-filer parent",

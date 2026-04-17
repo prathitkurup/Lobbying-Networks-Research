@@ -47,11 +47,12 @@ Writes a human-readable audit report to validations/outputs/01_extraction_audit.
 import sys
 import os
 import pandas as pd
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import DATA_DIR
 
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "outputs", "01_extraction_audit.txt")
+OUTPUT_PATH = str(Path(__file__).resolve().parent.parent.parent / "outputs" / "validation" / "01_extraction_audit.txt")
 
 
 def run_audit(df):

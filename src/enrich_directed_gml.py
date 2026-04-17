@@ -1,34 +1,6 @@
 """
-Enrich the RBO directed influence GML with additional node metrics.
-
-New node attributes added
---------------------------
-  num_bills              : unique bills lobbied per firm (post MAX_BILL_DF prevalence
-                           filter, consistent with network construction pipeline)
-  bill_aff_community     : Leiden community label from the bill affiliation network
-                           (-1 sentinel for firms absent from that network)
-  within_comm_net_str    : within-community net RBO strength; sum of RBO weights on
-                           directed (balanced=0) out-edges to same-community peers
-                           minus in-edges from same-community peers.
-                           Balanced edges excluded — their canonical direction is
-                           alphabetical and introduces no real directional signal
-                           (consistent with global net_strength convention).
-  within_comm_net_inf    : within-community net influence (count-based);
-                           first-mover wins minus losses on directed (balanced=0)
-                           edges where both endpoints share the same bill affiliation
-                           community.
-
-Inputs
-------
-  visualizations/gml/rbo_directed_influence.gml   (DiGraph to enrich)
-  data/opensecrets_lda_reports.csv                (bill count source)
-  data/communities/communities_affiliation.csv    (bill affiliation communities)
-
-Output
-------
-  visualizations/gml/rbo_directed_influence.gml   (overwritten in-place)
-
-See design_decisions.md §22 for methodology notes.
+Enrich rbo_directed_influence.gml with four node attributes: num_bills, bill_aff_community,
+within_comm_net_str, and within_comm_net_inf. Overwrites the GML in-place. See §22.
 """
 
 import sys
@@ -57,13 +29,7 @@ def load_graph(path):
 
 
 def load_num_bills(csv_path):
-    """
-    Count unique bills per firm after MAX_BILL_DF prevalence filter.
-
-    Returns
-    -------
-    dict {firm_name: int}
-    """
+    """Count unique bills per firm after MAX_BILL_DF prevalence filter; returns {firm_name: int}."""
     df = load_bills_data(csv_path)
     df_dedup = df.drop_duplicates(subset=["fortune_name", "bill_number"])
     if MAX_BILL_DF is not None:
@@ -79,13 +45,7 @@ def load_num_bills(csv_path):
 
 
 def load_bill_aff_communities(path):
-    """
-    Load bill affiliation Leiden community assignments.
-
-    Returns
-    -------
-    dict {firm_name: community_id (int)}
-    """
+    """Load bill affiliation Leiden community assignments; returns {firm_name: community_id}."""
     df = pd.read_csv(path)
     mapping = dict(zip(df["fortune_name"], df["community_aff"].astype(int)))
     print(
@@ -100,31 +60,9 @@ def load_bill_aff_communities(path):
 # ---------------------------------------------------------------------------
 
 def compute_within_community_metrics(G, community_map):
-    """
-    Compute within-community net strength and net influence for every node,
-    restricted to directed (balanced=0) edges where both endpoints belong to
-    the same bill affiliation community.
+    """Compute within-community net RBO strength and net influence for each node, restricted to directed same-community edges.
 
-    Within-community net strength
-      = sum(weight) on balanced=0 out-edges to same-community peers
-        - sum(weight) on balanced=0 in-edges from same-community peers
-
-    Within-community net influence
-      = (out_sf_wc + in_tf_wc) - (out_tf_wc + in_sf_wc)
-      where, for edges involving node v and a same-community peer:
-        out_sf / out_tf  source_firsts / target_firsts on balanced=0 out-edges
-        in_sf  / in_tf   source_firsts / target_firsts on balanced=0 in-edges
-      This mirrors the global net_influence calculation in build_graph().
-
-    Parameters
-    ----------
-    G             : DiGraph loaded from rbo_directed_influence.gml
-    community_map : {firm: community_id} from bill affiliation network
-
-    Returns
-    -------
-    wc_net_str : {node: float}   within-community net RBO strength
-    wc_net_inf : {node: int}     within-community net influence
+    Returns (wc_net_str: {node: float}, wc_net_inf: {node: int}).
     """
     wc_net_str = {}
     wc_net_inf = {}
@@ -166,10 +104,7 @@ def compute_within_community_metrics(G, community_map):
 # ---------------------------------------------------------------------------
 
 def annotate_nodes(G, num_bills, comm_map, wc_net_str, wc_net_inf):
-    """
-    Write four new attributes onto G nodes in-place.
-    Sentinel -1 is used for firms missing from the source datasets.
-    """
+    """Write four enrichment attributes onto G nodes in-place; uses -1 sentinel for missing firms."""
     missing_bills = []
     missing_comm  = []
 
