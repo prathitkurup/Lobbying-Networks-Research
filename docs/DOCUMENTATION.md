@@ -465,6 +465,142 @@ See `docs/design_decisions.md §24` for full design rationale, alternatives cons
 
 ---
 
+## 16. Within-Community Influencer Hierarchy and Rank Stability
+
+Identifies the top within-community agenda-setters per Leiden community across all seven congresses (111th–117th) and tests whether their rankings are stable over time.
+
+### Script
+
+`src/validations/16_industry_influencer_hierarchy.py`
+
+### What it does
+
+For each of the 5 affiliation communities, computes within-community net_influence (from intra-sector directed edges only) per firm per congress; prints a top-5 leaderboard per community × congress; computes adjacent-congress Spearman ρ and Kendall's W on the stable-firm subset; identifies firms appearing in top-5 in ≥4 of 7 congresses.
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/16_within_community_ni_by_congress.csv` | Firm × congress within-community net_influence (wide format) |
+| `outputs/validation/16_within_community_rank_stability.csv` | Kendall's W and adjacent Spearman ρ per community |
+| `outputs/validation/16_industry_influencer_hierarchy.txt` | Full leaderboard tables, stability stats, persistent leaders |
+
+### Key Findings
+
+Energy/Utilities has the strongest within-community hierarchy stability (W=0.553, p≈0): Duke Energy and Xcel Energy each appear in the top-5 in all 7 congresses. Tech/Telecom (W=0.431) and Defense/Industrial (W=0.367) also show significant concordance; Lockheed Martin leads Defense in 5 of 7 congresses. Finance/Insurance is weakly significant (W=0.284). Health/Pharma is not significant (W=0.146, p=0.43) — the most unstable community with no persistent leader. See `docs/design_decisions.md §32`.
+
+---
+
+## 15. Cross-Sector Directed Edge Analysis
+
+Tags each directed RBO edge as intra-sector or cross-sector using Leiden affiliation community labels, then analyses the structure, flow patterns, firm identities, and issue profiles of cross-sector influence.
+
+### Script
+
+`src/validations/15_cross_sector_directed_edges.py`
+
+### What it does
+
+Five analyses: (1) Mann-Whitney U comparing RBO weight and net_temporal for cross-sector vs. intra-sector edges; (2) community-pair directed flow matrix and net directional asymmetry; (3) firm-level cross-sector net_influence and net_strength; (4) bridge firm identification by cross-sector edge fraction; (5) top-10 cross-sector dyads with issue-code profiles and inter-firm issue cosine similarity.
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/15_cross_sector_edge_table.csv` | All directed edges with community labels and cross-sector flag |
+| `outputs/validation/15_cross_sector_firm_table.csv` | Firm-level cross-sector influence metrics |
+| `outputs/validation/15_cross_sector_pair_matrix.csv` | Community-pair directed edge counts and mean RBO weights |
+| `outputs/validation/15_cross_sector_directed_edges.txt` | Full analysis log |
+
+### Key Findings
+
+43.2% of directed edges (783/1,813) are cross-sector. Cross-sector edges have significantly lower RBO weight (p≈10⁻⁴⁵) and net_temporal (p≈10⁻¹⁹). Defense/Industrial dominates Health/Pharma (+47 net flow) and Energy/Utilities (+38). Cummins is the top cross-sector agenda-setter (net_cs_influence=+48); Mutual of Omaha and Gilead Sciences are the top cross-sector followers (−53 each). Defense→Health/Pharma dyads are linked by BUD (budget appropriations). See `docs/design_decisions.md §31`.
+
+---
+
+## 14. Influencer Regression Analysis
+
+OLS regressions predicting firm influencer status from observable covariates, run as cross-sections for the 116th and 117th Congress.
+
+### Script
+
+`src/validations/14_influencer_regression.py`
+
+### Specifications
+
+| Spec | Outcome | Covariates |
+|---|---|---|
+| A | `net_influence` | log_spend, log_bills, katz_centrality, participation_coeff |
+| A2 | top-quartile `net_influence` (binary, OLS LPM) | same |
+| B | `net_strength` | same as A |
+| C | `wc_net_strength` | log_spend, log_bills, within_comm_eigenvector, wc_pagerank |
+
+All models use HC3 heteroskedasticity-robust standard errors.
+
+### Covariate Sources
+
+| Covariate | Source |
+|---|---|
+| `log_spend` | `data/congress/{num}/opensecrets_lda_reports.csv`, deduped on `(uniq_id, fortune_name)` |
+| `log_bills` | Same file, unique bill count per firm |
+| `katz_centrality`, `participation_coeff`, `within_comm_eigenvector` | `data/centralities/centrality_affiliation.csv` (116th structural baseline for both congresses) |
+| `wc_pagerank` | Computed fresh on 116th affiliation graph with stored Leiden partition |
+
+117th firms absent from the 116th community partition (42 firms) are dropped from Spec C only.
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/14_influencer_regression.csv` | Flat table of all 8 regressions (coefficients, SEs, p-values, R²) |
+| `outputs/validation/14_influencer_regression.txt` | Full regression tables with significance stars, descriptive statistics, and interpretation summary |
+
+### Key Findings
+
+Spec A2 (top-quartile binary indicator) is the best-fitting and most consistent specification (R²≈0.19–0.28 vs. 0.03–0.06 for continuous outcomes). `log_bills` is the single most robust predictor across both congresses (β≈0.15–0.16, p<0.001): firms lobbying more unique bills are more likely to be top-quartile agenda-setters. `log_spend` is consistently *negative* — higher raw spend is associated with lower influencer probability, consistent with high-spending firms dispersing effort broadly rather than setting agendas. `katz_centrality` predicts top-quartile status in the 116th (p=0.049) but not robustly in the 117th. Low R² in continuous specs (0.03–0.06) indicates substantial unobserved variance in net_influence/strength beyond observable capacity. See `docs/design_decisions.md §30` for full detail.
+
+---
+
+## 13. Centrality vs. Agenda-Setter Comparison
+
+Formal rank-correlation analysis between bill-affiliation-network centrality measures and RBO directed-influence agenda-setter rankings (116th Congress). Tests the BCZ theoretical bridge: do structural key players in the complementarity graph correspond to empirical first-movers?
+
+### Script
+
+`src/validations/13_centrality_vs_agenda_setter.py`
+
+### What it does
+
+1. Builds the undirected affiliation graph from `data/network_edges/affiliation_edges.csv`.
+2. Computes **BCZ intercentrality** fresh: for each firm i, removes it from the graph, recomputes unnormalized Katz centrality (α = 0.85 / spectral_radius), and computes Δ = full-graph Katz sum − reduced Katz sum.
+3. Computes **within-community PageRank** on each Leiden community subgraph (stored partition from `communities_affiliation.csv`).
+4. Loads global PageRank and within-community eigenvector centrality from `data/centralities/centrality_affiliation.csv`.
+5. Loads net_influence and net_strength from `data/congress/116/node_attributes.csv`.
+6. Computes within-community net_influence and net_strength from `data/congress/116/rbo_directed_influence.csv`, restricting to edges where both firms share the same affiliation community.
+7. Computes full-sample and top-30 Spearman ρ for all centrality–agenda-setter pairs; computes top-30 overlap fractions.
+
+### Key Parameters
+
+| Parameter | Value | Description |
+|---|---|---|
+| `TOP_N` | 30 | Top-N firms for restricted Spearman and overlap fraction |
+| `WEIGHT_COL` | `"weight"` | Edge weight attribute for all graph operations |
+| `alpha` | 0.85 / spectral_radius | Katz decay parameter (consistent with BCZ; computed on full graph, reused for subgraphs) |
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/13_centrality_vs_agenda_setter.csv` | Firm-level table: all 8 centrality and agenda measures per firm |
+| `outputs/validation/13_centrality_vs_agenda_setter_correlations.csv` | Pairwise Spearman ρ, p-values, overlap fractions |
+| `outputs/validation/13_centrality_vs_agenda_setter.txt` | Full ranked top-30 lists and interpretation summary |
+
+### Key Findings (116th Congress)
+
+BCZ intercentrality is dominated by energy utilities (CMS Energy, DTE Energy, Exelon, Xcel Energy, PPL) — firms with the largest affiliation footprints. Empirical agenda-setters (net_influence) are concentrated among defense/tech/industrial firms. Full-sample Spearman ρ between BCZ intercentrality and net_influence = **0.178 (p=0.003)** — significant but weak; top-30 ρ = **−0.107 (p=0.575)** — non-significant. The within-community PageRank provides the strongest signal: top-30 ρ with net_influence = **0.501 (p=0.005)** and with within-community net_influence = **0.558 (p=0.001)**. Interpretation: structural key players in the complementarity graph ≠ temporal first-movers. See `docs/design_decisions.md §29` for full detail.
+
+---
+
 ## 12. Cross-Congressional Stability Analysis
 
 Tests whether RBO directed influence edges are stable in direction and magnitude across seven consecutive congressional sessions (111th–117th, 2009–2022). Temporal stability is a necessary condition for causal interpretation.
@@ -536,3 +672,199 @@ Mirrors Analysis 3 using net_strength (RBO-weighted directed score) instead of n
 ### Methodology Reference
 
 See `docs/design_decisions.md §28` for full design rationale and empirical results. See `outputs/cross_congressional/cross_congressional_stability.docx` for the summary document.
+
+---
+
+## 17. Quarterly Dynamics of the Directed Influence Network
+
+Tests whether influencer status is a stable within-congress property by recomputing net_influence per firm per quarter (Q1–Q8) using the same RBO directed influence pipeline, then measuring top-10 set turnover (Jaccard) and rank correlation (Spearman ρ) across adjacent quarters.
+
+### Script
+
+`src/validations/17_quarterly_dynamics.py`
+
+Run from `src/` directory:
+```
+python validations/17_quarterly_dynamics.py
+```
+
+### Prerequisites
+
+- `data/congress/116/opensecrets_lda_reports.csv` (produced by `multi_congress_pipeline.py` for 116th Congress)
+
+### Method
+
+For each of the 8 quarters (Q1 2019 through Q4 2020):
+1. Filter reports to the quarter's `report_type` prefixes.
+2. Aggregate per (firm, bill), compute spend fracs, apply prevalence filter (MAX_BILL_DF=50 per quarter).
+3. Build top-30 ranked bill lists.
+4. Resolve within-quarter first-mover using `report_type` ordinal: base < transcript-amendment < amendment < transcript+amendment. Firms with only amendment filings lose first-mover to those with base reports.
+5. Score all RBO-linked pairs; tally net_influence = total within-quarter first-mover wins minus losses. Balanced pairs (tied) contribute zero.
+
+**Stability metrics:** Adjacent-quarter Jaccard similarity of the top-10 set and Spearman ρ of full net_influence rank order.
+
+**Focal firms for figures:** Firms appearing in the top-10 in ≥3 quarters. Two figures produced: bump chart (rank trajectories) and z-scored heatmap with raw values annotated.
+
+### Key Parameters
+
+| Parameter | Value | Description |
+|---|---|---|
+| `TOP_N` | 10 | Firms in top-N leaderboard per quarter |
+| `MIN_QUARTERS` | 3 | Minimum quarters in top-10 to appear on figures |
+| `RBO_P` | 0.85 | RBO p-parameter (matches aggregate pipeline) |
+| `TOP_BILLS` | 30 | Top bills per firm per quarter |
+| `MAX_BILL_DF` | 50 | Prevalence filter threshold (from `config.py`) |
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/17_quarterly_net_influence.csv` | Firm × quarter net_influence (300 firms × 8 quarters) |
+| `outputs/validation/17_quarterly_stability.csv` | Adjacent-quarter Jaccard and Spearman ρ (7 rows) |
+| `outputs/validation/17_quarterly_dynamics.txt` | Full log |
+| `visualizations/png/17_bump_chart_quarterly_influencers.png` | Rank trajectory bump chart for focal firms |
+| `visualizations/png/17_heatmap_quarterly_net_influence.png` | Z-scored heatmap with raw net_influence values |
+
+### Key Findings (116th Congress)
+
+Per-quarter coverage ranges from 211 firms (Q1) to 247 (Q8), smaller than the congress-wide 277 because single-quarter bill overlap is narrower.
+
+Adjacent-quarter Jaccard (top-10): range 0.000–0.538; mean **0.304**. Q1→Q2 Jaccard = 0.000 — the early-congress quarter is structurally distinct.
+
+Adjacent-quarter Spearman ρ: range 0.296–0.550; all pairs p<0.001; mean **0.446** — significant but moderate rank correlation throughout.
+
+10 focal firms (top-10 in ≥3 quarters): Xcel Energy (5/8), PG&E (5/8), Duke Energy (5/8), DTE Energy (4/8), FirstEnergy (4/8), Exelon (4/8), Entergy (4/8), Cummins (3/8), Lockheed Martin (3/8), CMS Energy (3/8). Energy/Utilities accounts for 8 of 10 focal firms.
+
+**Conclusion:** Influencer status is partially stable within the 116th Congress — rank orderings are significantly correlated but top-10 membership turns over meaningfully quarter-to-quarter (mean Jaccard 0.30). The congress-wide aggregate remains the primary analytical unit; Q1 rankings are least predictive of the congress as a whole.
+
+### Methodology Reference
+
+See `docs/design_decisions.md §33`.
+
+---
+
+## 18. Payoff Complementarity Test
+
+Tests for micro-level BCZ strategic complementarity: does firm i increase lobbying spend on bill b when firm j newly enters, and is that response amplified for high-RBO pairs?
+
+### Script
+
+`src/validations/18_payoff_complementarity.py`
+
+Run from `src/` directory:
+```
+python validations/18_payoff_complementarity.py
+```
+
+### Prerequisites
+
+- `data/congress/116/opensecrets_lda_reports.csv`
+- `data/congress/116/rbo_directed_influence.csv`
+
+### Specification
+
+```
+Δlog_spend_{i,b,t+1} = β₁ entry_{j,b,t} + β₂ rbo_ij
+                      + β₃ (entry_{j,b,t} × rbo_ij)
+                      + α_{i,b} + γ_t + ε
+```
+
+- `entry_{j,b,t}` = 1 if quarter t is firm j's first quarter lobbying bill b (0 = continuing)
+- `rbo_ij` = congress-aggregate symmetric RBO edge weight
+- `α_{i,b}` = firm-bill FE (within-transformation); `γ_t` = quarter FE; SE = HC3
+
+Panel includes all firm_j active on bill b at quarter t (both entrants and continuers) — essential for within-group variation in entry_j.
+
+### Four Specifications
+
+| Spec | Sample | N |
+|---|---|---|
+| A | Full RBO-linked panel | 67,194 |
+| B | High-RBO pairs (rbo ≥ p75 ≈ 0.131) | 16,845 |
+| C | Low-RBO pairs (rbo < p25 ≈ 0.007) | 16,796 |
+| D | All pairs (rbo=0 for non-linked) | 147,341 |
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/18_payoff_complementarity_panel.csv` | Full regression panel |
+| `outputs/validation/18_payoff_complementarity_results.csv` | Coefficient table across specs |
+| `outputs/validation/18_payoff_complementarity.txt` | Full log |
+
+### Key Findings (116th Congress)
+
+β₁ (entry_j): Significantly negative in full sample (−0.013, p=0.015) — firms reduce relative spend growth when a co-lobbyist enters, suggesting displacement over herding on average.
+
+β₃ (entry_j × rbo_ij): The critical BCZ test. In Spec B (high-RBO pairs, top quartile): +0.147 (p=0.033) — positive and significant. Among structurally similar firms (high bill-priority overlap), a partner's entry triggers additional spend increases. In the full sample (Spec A), the coefficient is negative (−0.125, p<0.001), driven by the majority of lower-RBO pairs.
+
+**Conclusion:** BCZ payoff complementarity is present in the data but concentrated at the high end of the RBO weight distribution. The average pair exhibits competitive restraint on entry; high-similarity pairs exhibit the strategic amplification predicted by BCZ.
+
+### Methodology Reference
+
+See `docs/design_decisions.md §34`.
+
+---
+
+## 19. Bill Adoption Diffusion
+
+Tests whether follower firm B is more likely to first lobby a bill X that influencer A lobbied in a prior quarter, and whether that adoption probability increases with RBO edge weight over Q+1, Q+2, and Q+3 horizons.
+
+### Script
+
+`src/validations/19_bill_adoption_diffusion.py`
+
+Run from `src/` directory:
+```
+python validations/19_bill_adoption_diffusion.py
+```
+
+### Prerequisites
+
+- `data/congress/116/opensecrets_lda_reports.csv`
+- `data/congress/116/rbo_directed_influence.csv`
+- `data/congress/116/node_attributes.csv`
+
+### Method
+
+For each directed (A→B) edge (balanced=0), enumerate all bills X where A first lobbies X at quarter t and B had not yet lobbied X at or before t. Each (A, B, bill) triple is one observation. Outcome: binary indicator B first enters bill X within k quarters of A (k=1,2,3). Horizon observability: excluded when a_entry_q + k > 8.
+
+**Five parts:**
+1. Adoption rates by RBO quartile at Q+1/Q+2/Q+3 (full + unique-entry robustness)
+2. Logit and LPM regressions with controls: log(rbo), log(n_firms_bill), a_net_influence, b_net_influence, a_entry_q_norm
+3. Median-split adoption ratio (high vs. low RBO) with χ² test
+4. Adopter profile: MWU comparing RBO weight of adopters vs. non-adopters
+5. Adoption rate by A's net_influence quartile
+
+**Unique-entry robustness:** Restricts to bills where A is the sole firm first entering at quarter t (~25K rows from 80K), isolating cases where B can attribute the signal to A specifically.
+
+### Key Parameters
+
+| Parameter | Value | Description |
+|---|---|---|
+| `HORIZONS` | [1, 2, 3] | Quarters ahead to track B's adoption |
+| `MAX_Q` | 8 | Last observable quarter of 116th Congress |
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/19_adoption_candidates.csv` | Full candidate set (A, B, bill, entry_q, adoption indicators) |
+| `outputs/validation/19_adoption_rates.csv` | Adoption rates by RBO quartile and horizon |
+| `outputs/validation/19_adoption_regression.csv` | Logit and LPM coefficients across specs/horizons |
+| `outputs/validation/19_bill_adoption_diffusion.txt` | Full log |
+| `visualizations/png/19_bill_adoption_diffusion.png` | Adoption curve + quartile bar chart |
+
+### Key Findings (116th Congress)
+
+Overall adoption rates: Q+1=3.1%, Q+2=4.8%, Q+3=5.7%. High-RBO pairs (≥ median) adopt at roughly **1.7× the rate** of low-RBO pairs, stable across all three horizons. χ²=179.4 (p<0.0001) at Q+1.
+
+By RBO quartile at Q+3: Q1=3.9%, Q2=4.6%, Q3=6.1%, Q4=8.3% — monotone gradient. Unique-entry robustness replicates the pattern at lower base rates (Q+4=2.9% vs Q1=1.1% at Q+3).
+
+Logit/LPM: log(rbo_weight) is positive and significant (p<0.001) across all horizons and samples. Bill popularity (log_n_firms) is the dominant covariate. MWU confirms adopters have significantly higher RBO weights than non-adopters (p<0.0001).
+
+**Interpretation:** Follower firms are systematically more likely to adopt bills lobbied by their high-RBO network partners, providing direct behavioral evidence that the RBO directed influence edge captures real agenda-setting diffusion.
+
+### Methodology Reference
+
+See `docs/design_decisions.md §35`.

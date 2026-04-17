@@ -1,0 +1,173 @@
+========================================================================
+VALIDATION 19: BILL ADOPTION DIFFUSION (116th CONGRESS)
+========================================================================
+
+Question: Is a net follower B connected to influencer A more likely
+to adopt bill X that A lobbied, and does high RBO amplify that?
+Horizons: Q+1, Q+2, Q+3 (a_entry_q + k ≤ 8)
+
+[1/5] Building candidate set ...
+  Directed (A→B) edges:   1,890
+  A firms:                213
+  B firms:                199
+  (firm, bill) entries:   7,125
+  Bills with any lobbying:2,244
+
+  Candidate (A, B, bill) rows:       80,384
+  A firms in candidates:             213
+  B firms in candidates:             199
+  Unique bills:                      2161
+  Unique (A, B) pairs:               1890
+  Observable at Q+1 horizon:        75,850
+  Observable at Q+2 horizon:        67,745
+  Observable at Q+3 horizon:        58,362
+
+  Unique-entry subset (A sole first-mover on bill): 25,378
+  Observable at Q+1 (unique entry):  23,304
+  Observable at Q+2 (unique entry):  20,782
+  Observable at Q+3 (unique entry):  17,922
+
+  Candidate CSV → 19_adoption_candidates.csv
+
+[2/5] Adoption rates by RBO quartile and horizon ...
+
+  Full sample
+  Horizon  RBO group            N  Adopted     Rate 95% CI
+  -----------------------------------------------------------------
+  Q+1      All              75850     2335   0.0308  [0.0296, 0.0320]
+  Q+1      Q1 (low)         18921      386   0.0204  [0.0185, 0.0225]
+  Q+1      Q2               19023      461   0.0242  [0.0221, 0.0265]
+  Q+1      Q3               18872      622   0.0330  [0.0305, 0.0356]
+  Q+1      Q4 (high)        19034      866   0.0455  [0.0426, 0.0486]
+  Q+2      All              67745     3278   0.0484  [0.0468, 0.0500]
+  Q+2      Q1 (low)         16922      566   0.0335  [0.0308, 0.0363]
+  Q+2      Q2               16883      639   0.0379  [0.0351, 0.0408]
+  Q+2      Q3               16921      870   0.0514  [0.0482, 0.0549]
+  Q+2      Q4 (high)        17019     1203   0.0707  [0.0669, 0.0746]
+  Q+3      All              58362     3346   0.0573  [0.0555, 0.0592]
+  Q+3      Q1 (low)         14634      573   0.0392  [0.0361, 0.0424]
+  Q+3      Q2               14489      663   0.0458  [0.0425, 0.0493]
+  Q+3      Q3               14528      887   0.0611  [0.0573, 0.0651]
+  Q+3      Q4 (high)        14711     1223   0.0831  [0.0788, 0.0877]
+
+  Unique-entry robustness
+  Horizon  RBO group            N  Adopted     Rate 95% CI
+  -----------------------------------------------------------------
+  Q+1      All              23304      200   0.0086  [0.0075, 0.0098]
+  Q+1      Q1 (low)          5777       21   0.0036  [0.0024, 0.0056]
+  Q+1      Q2                5820       41   0.0070  [0.0052, 0.0095]
+  Q+1      Q3                5891       55   0.0093  [0.0072, 0.0121]
+  Q+1      Q4 (high)         5816       83   0.0143  [0.0115, 0.0177]
+  Q+2      All              20782      310   0.0149  [0.0134, 0.0167]
+  Q+2      Q1 (low)          5207       39   0.0075  [0.0055, 0.0102]
+  Q+2      Q2                5154       63   0.0122  [0.0096, 0.0156]
+  Q+2      Q3                5251       78   0.0149  [0.0119, 0.0185]
+  Q+2      Q4 (high)         5170      130   0.0251  [0.0212, 0.0298]
+  Q+3      All              17922      327   0.0182  [0.0164, 0.0203]
+  Q+3      Q1 (low)          4574       48   0.0105  [0.0079, 0.0139]
+  Q+3      Q2                4407       60   0.0136  [0.0106, 0.0175]
+  Q+3      Q3                4471       90   0.0201  [0.0164, 0.0247]
+  Q+3      Q4 (high)         4470      129   0.0289  [0.0243, 0.0342]
+
+  RBO weight median (directed edges): 0.0140
+
+  Median-split adoption rates (full sample):
+  Horizon     High RBO ≥med     Low RBO <med    Ratio
+  ----------------------------------------------------
+  Q+1         0.0392 (n=38,134)      0.0223 (n=37,716)     1.754x
+  Q+2         0.0609 (n=34,139)      0.0357 (n=33,606)     1.707x
+  Q+3         0.0720 (n=29,419)      0.0424 (n=28,943)     1.697x
+
+  χ² test (high vs low RBO, Q+1): χ²=179.376, p=0.0000
+
+  Rates CSV → 19_adoption_rates.csv
+
+[3/5] Logit and LPM regressions ...
+  Outcome: adopted_qk | Covariates: log(rbo), log(n_firms),
+  a_net_influence, b_net_influence, a_entry_q_norm
+
+  --- Horizon Q+1 ---
+
+  Full sample — Q+1 adoption (N=75,850)
+  Variable                   Logit coef   Logit p     LPM coef     LPM p
+  ----------------------------------------------------------------------
+  log(rbo_weight)                0.1632***    0.0000       0.0042***    0.0000
+  log(n_firms_bill)              0.7875***    0.0000       0.0232***    0.0000
+  A net_influence               -0.0024*      0.0121      -0.0001***    0.0009
+  B net_influence                0.0014       0.0750       0.0000*      0.0362
+  A entry quarter               -1.3755***    0.0000      -0.0255***    0.0000
+
+  Unique-entry robustness — Q+1 adoption (N=23,304)
+  Variable                   Logit coef   Logit p     LPM coef     LPM p
+  ----------------------------------------------------------------------
+  log(rbo_weight)                0.2354***    0.0000       0.0017***    0.0000
+  log(n_firms_bill)              1.1663***    0.0000       0.0170***    0.0000
+  A net_influence                0.0036       0.2503       0.0000       0.0674
+  B net_influence                0.0122***    0.0001       0.0001***    0.0004
+  A entry quarter               -1.4523***    0.0000      -0.0107***    0.0000
+
+  --- Horizon Q+2 ---
+
+  Full sample — Q+2 adoption (N=67,745)
+  Variable                   Logit coef   Logit p     LPM coef     LPM p
+  ----------------------------------------------------------------------
+  log(rbo_weight)                0.1596***    0.0000       0.0062***    0.0000
+  log(n_firms_bill)              0.8138***    0.0000       0.0364***    0.0000
+  A net_influence               -0.0032***    0.0001      -0.0002***    0.0000
+  B net_influence               -0.0019**     0.0032      -0.0001*      0.0257
+  A entry quarter               -1.3715***    0.0000      -0.0317***    0.0000
+
+  Unique-entry robustness — Q+2 adoption (N=20,782)
+  Variable                   Logit coef   Logit p     LPM coef     LPM p
+  ----------------------------------------------------------------------
+  log(rbo_weight)                0.2297***    0.0000       0.0026***    0.0000
+  log(n_firms_bill)              1.3760***    0.0000       0.0335***    0.0000
+  A net_influence                0.0013       0.6005       0.0000       0.3134
+  B net_influence                0.0074**     0.0021       0.0001**     0.0070
+  A entry quarter               -1.8889***    0.0000      -0.0255***    0.0000
+
+  --- Horizon Q+3 ---
+
+  Full sample — Q+3 adoption (N=58,362)
+  Variable                   Logit coef   Logit p     LPM coef     LPM p
+  ----------------------------------------------------------------------
+  log(rbo_weight)                0.1691***    0.0000       0.0076***    0.0000
+  log(n_firms_bill)              0.8264***    0.0000       0.0429***    0.0000
+  A net_influence               -0.0052***    0.0000      -0.0003***    0.0000
+  B net_influence               -0.0023***    0.0003      -0.0001**     0.0038
+  A entry quarter               -1.9849***    0.0000      -0.0698***    0.0000
+
+  Unique-entry robustness — Q+3 adoption (N=17,922)
+  Variable                   Logit coef   Logit p     LPM coef     LPM p
+  ----------------------------------------------------------------------
+  log(rbo_weight)                0.2046***    0.0000       0.0029***    0.0000
+  log(n_firms_bill)              1.3693***    0.0000       0.0401***    0.0000
+  A net_influence               -0.0006       0.8293       0.0000       0.8033
+  B net_influence                0.0078***    0.0010       0.0001**     0.0030
+  A entry quarter               -3.1828***    0.0000      -0.0563***    0.0000
+
+  Regression results CSV → 19_adoption_regression.csv
+
+[4/5] Profile of adopters vs. non-adopters (Q+1, full sample) ...
+
+  Adopters (Q+1):     N=2,335, mean RBO=0.0770, mean B net_inf=-14.97
+  Non-adopters (Q+1): N=73,515, mean RBO=0.0491, mean B net_inf=-15.68
+  MWU rbo_weight (adopters > non-adopters): U=102304140, p=0.0000
+
+[5/5] Q+1 adoption rate by A's net_influence quartile ...
+
+  A influence quartile          N   Adopted     Rate
+  ----------------------------------------------------
+  Q1 (weak)                19,461       681   0.0350
+  Q2                       18,718       581   0.0310
+  Q3                       19,419       540   0.0278
+  Q4 (strong)              18,252       533   0.0292
+  Figure → 19_bill_adoption_diffusion.png
+
+  Candidate set CSV → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_candidates.csv
+  Adoption rates CSV → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_rates.csv
+  Regression CSV    → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_regression.csv
+  Log               → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_bill_adoption_diffusion.txt
+
+  Validation complete.
+========================================================================

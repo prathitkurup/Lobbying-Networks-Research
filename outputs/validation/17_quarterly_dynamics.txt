@@ -1,0 +1,96 @@
+========================================================================
+VALIDATION 17: QUARTERLY DYNAMICS — 116th CONGRESS (Q1–Q8)
+========================================================================
+
+RBO_P=0.85, TOP_BILLS=30, MAX_BILL_DF=50
+Within-quarter first-mover: report_type ordinal (base < amendment)
+Balanced pairs (tied first-mover) excluded from net_influence.
+
+[1/4] Loading 116th Congress reports ...
+  25,676 rows  |  381 firms
+  Q1: 361 firms
+  Q2: 360 firms
+  Q3: 353 firms
+  Q4: 359 firms
+  Q5: 360 firms
+  Q6: 360 firms
+  Q7: 360 firms
+  Q8: 359 firms
+
+[2/4] Computing per-quarter net_influence (Q1–Q8) ...
+
+[prevalence filter] bill_number: removed 0 / 638 units with df > 50 (0.0%)
+  Q1: 211 firms  (78 with net_influence > 0)
+  Warning: 2 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 0 / 939 units with df > 50 (0.0%)
+  Q2: 236 firms  (120 with net_influence > 0)
+  Warning: 1 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 1 / 1086 units with df > 50 (0.1%)
+  Q3: 240 firms  (123 with net_influence > 0)
+  Warning: 2 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 1 / 1202 units with df > 50 (0.1%)
+  Q4: 244 firms  (135 with net_influence > 0)
+  Warning: 2 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 3 / 1227 units with df > 50 (0.2%)
+  Q5: 244 firms  (127 with net_influence > 0)
+  Warning: 2 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 5 / 1342 units with df > 50 (0.4%)
+  Q6: 245 firms  (108 with net_influence > 0)
+  Warning: 2 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 5 / 1481 units with df > 50 (0.3%)
+  Q7: 246 firms  (150 with net_influence > 0)
+  Warning: 2 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 4 / 1479 units with df > 50 (0.3%)
+  Q8: 247 firms  (133 with net_influence > 0)
+
+  Full net_influence table (300 firms × 8 quarters) → 17_quarterly_net_influence.csv
+
+[3/4] Stability: adjacent-quarter Jaccard (top-10) and Spearman rho ...
+
+  Pair        |top10∩|   Jaccard   Spearman ρ        p
+  -------------------------------------------------------
+  Q1→Q2            0     0.000        0.296   0.0000 ***
+  Q2→Q3            6     0.429        0.548   0.0000 ***
+  Q3→Q4            3     0.176        0.419   0.0000 ***
+  Q4→Q5            5     0.333        0.406   0.0000 ***
+  Q5→Q6            7     0.538        0.461   0.0000 ***
+  Q6→Q7            7     0.538        0.443   0.0000 ***
+  Q7→Q8            2     0.111        0.550   0.0000 ***
+
+  Stability CSV → 17_quarterly_stability.csv
+
+  Mean Jaccard (adjacent top-10 overlap): 0.304
+  Mean Spearman ρ (adjacent rank corr):   0.446
+
+  Firms in top-10 in ≥3 quarters: 10
+
+  Firm                                            Quarters in top-10
+  -------------------------------------------------------------------
+  XCEL ENERGY                                     5/8  (Q2'19, Q3'19, Q4'19, Q1'20, Q2'20)
+  PG&E                                            5/8  (Q2'19, Q4'19, Q1'20, Q2'20, Q3'20)
+  DUKE ENERGY                                     5/8  (Q3'19, Q4'19, Q2'20, Q3'20, Q4'20)
+  DTE ENERGY                                      4/8  (Q4'19, Q1'20, Q2'20, Q3'20)
+  FIRSTENERGY                                     4/8  (Q4'19, Q1'20, Q2'20, Q3'20)
+  EXELON                                          4/8  (Q4'19, Q1'20, Q2'20, Q3'20)
+  ENTERGY                                         4/8  (Q1'20, Q2'20, Q3'20, Q4'20)
+  CUMMINS                                         3/8  (Q2'19, Q3'19, Q4'19)
+  LOCKHEED MARTIN                                 3/8  (Q2'19, Q3'19, Q3'20)
+  CMS ENERGY                                      3/8  (Q1'20, Q2'20, Q3'20)
+
+[4/4] Generating figures ...
+  Bump chart → 17_bump_chart_quarterly_influencers.png
+  Heatmap → 17_heatmap_quarterly_net_influence.png
+
+  Stability CSV         → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/17_quarterly_stability.csv
+  Net influence table   → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/17_quarterly_net_influence.csv
+  Log                   → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/17_quarterly_dynamics.txt
+
+  Validation complete.
+========================================================================

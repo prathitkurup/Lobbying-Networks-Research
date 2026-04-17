@@ -1,0 +1,201 @@
+========================================================================
+VALIDATION 16: WITHIN-COMMUNITY INFLUENCER HIERARCHY (111th-117th)
+========================================================================
+
+Community labels (Leiden, 116th affiliation network):
+  0: Finance/Insurance
+  1: Tech/Telecom
+  2: Defense/Industrial
+  3: Energy/Utilities
+  4: Health/Pharma
+
+Top-N leaderboard: 5 firms per community per congress
+Within-community net_influence: intra-sector directed edges only.
+
+[1/3] Computing within-community net_influence for all congresses ...
+      111th: 179 firms with intra-community edges
+      112th: 185 firms with intra-community edges
+      113th: 195 firms with intra-community edges
+      114th: 205 firms with intra-community edges
+      115th: 209 firms with intra-community edges
+      116th: 223 firms with intra-community edges
+      117th: 182 firms with intra-community edges
+
+[2/3] Per-community leaderboards and rank stability ...
+
+====================================================================
+  Community 0: Finance/Insurance
+  Total members: 72 | Stable across all 7 congresses: 27
+====================================================================
+
+  Top-5 within-community agenda-setters by congress:
+
+  Rank   111th                              112th                              113th                              114th                              115th                              116th                              117th                            
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      AMERICAN FAMILY INSURA (+55)      AMERICAN EXPRESS (+39)            AMERICAN FAMILY INSURA (+40)      NORTHWESTERN MUTUAL (+56)         NORTHWESTERN MUTUAL (+40)         ALLSTATE (+18)                    TIAA (+12)                      
+  2      NATIONWIDE (+36)                  PRINCIPAL FINANCIAL (+31)         CAPITAL ONE FINANCIAL (+38)       JPMORGAN CHASE & CO. (+45)        ALLSTATE (+35)                    CITIGROUP (+18)                   NORTHWESTERN MUTUAL (+9)        
+  3      DEERE (+29)                       VISA (+23)                        USAA (+34)                        AMERIPRISE FINANCIAL (+38)        AMERICAN FAMILY INSURA (+35)      AMERICAN FAMILY INSURA (+15)      NATIONWIDE (+8)                 
+  4      NEW YORK LIFE INSURANC (+27)      USAA (+22)                        NATIONWIDE (+30)                  LINCOLN NATIONAL (+36)            STATE FARM INSURANCE (+34)        NORTHWESTERN MUTUAL (+14)         CITIGROUP (+7)                  
+  5      AMERICAN EXPRESS (+25)            AMERICAN FAMILY INSURA (+21)      AMERICAN EXPRESS (+29)            U.S. BANCORP (+30)                JPMORGAN CHASE & CO. (+23)        WELLS FARGO (+12)                 JPMORGAN CHASE & CO. (+7)       
+
+  Rank stability (within-community net_influence, n=27 stable firms):
+
+    Kendall's W = 0.284  (chi2=51.69, p=0.00197)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+0.078  p=0.6999 
+      112→113: rho=+0.535  p=0.0040 **
+      113→114: rho=+0.178  p=0.3733 
+      114→115: rho=+0.196  p=0.3272 
+      115→116: rho=+0.156  p=0.4377 
+      116→117: rho=+0.400  p=0.0386 *
+
+  Persistent leaders (top-5 in ≥4 of 7 congresses):
+    AMERICAN FAMILY INSURANCE GROUP            5/7 congresses  (111, 112, 113, 115, 116th)
+    NORTHWESTERN MUTUAL                        4/7 congresses  (114, 115, 116, 117th)
+
+====================================================================
+  Community 1: Tech/Telecom
+  Total members: 64 | Stable across all 7 congresses: 25
+====================================================================
+
+  Top-5 within-community agenda-setters by congress:
+
+  Rank   111th                              112th                              113th                              114th                              115th                              116th                              117th                            
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      IBM (+23)                         MICROSOFT (+30)                   ORACLE (+69)                      AT&T (+49)                        IBM (+25)                         IBM (+29)                         MICROSOFT (+27)                 
+  2      CBS (+22)                         CBS (+26)                         TEXAS INSTRUMENTS (+34)           HP (+42)                          MICROSOFT (+23)                   AT&T (+24)                        HEWLETT PACKARD ENTERP (+24)    
+  3      VERIZON (+20)                     INTEL (+20)                       APPLE (+29)                       TEXAS INSTRUMENTS (+27)           TEXAS INSTRUMENTS (+22)           MICROSOFT (+16)                   AMAZON (+19)                    
+  4      AT&T (+19)                        COMCAST (+19)                     QUALCOMM (+28)                    AMAZON (+22)                      AT&T (+20)                        APPLIED MATERIALS (+12)           CBS (+15)                       
+  5      COMCAST (+17)                     VERIZON (+19)                     CBS (+22)                         IBM (+17)                         AMAZON (+12)                      HEWLETT PACKARD ENTERP (+11)      DELL TECHNOLOGIES (+14)         
+
+  Rank stability (within-community net_influence, n=25 stable firms):
+
+    Kendall's W = 0.4309  (chi2=72.39, p=0.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+0.414  p=0.0396 *
+      112→113: rho=+0.110  p=0.5998 
+      113→114: rho=-0.034  p=0.8729 
+      114→115: rho=+0.548  p=0.0046 **
+      115→116: rho=+0.436  p=0.0295 *
+      116→117: rho=+0.284  p=0.1690 
+
+  Persistent leaders (top-5 in ≥4 of 7 congresses):
+    IBM                                        4/7 congresses  (111, 114, 115, 116th)
+    CBS                                        4/7 congresses  (111, 112, 113, 117th)
+    AT&T                                       4/7 congresses  (111, 114, 115, 116th)
+    MICROSOFT                                  4/7 congresses  (112, 115, 116, 117th)
+
+====================================================================
+  Community 2: Defense/Industrial
+  Total members: 49 | Stable across all 7 congresses: 21
+====================================================================
+
+  Top-5 within-community agenda-setters by congress:
+
+  Rank   111th                              112th                              113th                              114th                              115th                              116th                              117th                            
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      LOCKHEED MARTIN (+30)             DELTA AIR LINES (+24)             LOCKHEED MARTIN (+15)             LOCKHEED MARTIN (+40)             TEXTRON (+34)                     BALL (+29)                        LOCKHEED MARTIN (+29)           
+  2      SOUTHWEST AIRLINES (+17)          LOCKHEED MARTIN (+23)             UNITED TECHNOLOGIES (+15)         NORTHROP GRUMMAN (+31)            GENERAL DYNAMICS (+31)            NORTHROP GRUMMAN (+24)            GENERAL DYNAMICS (+26)          
+  3      BOEING (+16)                      L3HARRIS TECHNOLOGIES (+15)       NORTHROP GRUMMAN (+13)            AMERICAN AIRLINES GROU (+13)      BOEING (+24)                      LEIDOS HOLDINGS (+19)             NORTHROP GRUMMAN (+22)          
+  4      GOODYEAR TIRE & RUBBER (+15)      BOEING (+11)                      GENERAL ELECTRIC (+12)            CORNING (+13)                     UNITED AIRLINES HOLDIN (+24)      GENERAL DYNAMICS (+15)            RAYTHEON (+14)                  
+  5      GENERAL ELECTRIC (+14)            CUMMINS (+9)                      RAYTHEON (+10)                    RAYTHEON (+11)                    LEIDOS HOLDINGS (+23)             CUMMINS (+10)                     SOUTHWEST AIRLINES (+14)        
+
+  Rank stability (within-community net_influence, n=21 stable firms):
+
+    Kendall's W = 0.3672  (chi2=51.4, p=0.00014)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+0.143  p=0.5350 
+      112→113: rho=+0.117  p=0.6121 
+      113→114: rho=+0.638  p=0.0018 **
+      114→115: rho=+0.217  p=0.3452 
+      115→116: rho=+0.211  p=0.3587 
+      116→117: rho=+0.295  p=0.1944 
+
+  Persistent leaders (top-5 in ≥4 of 7 congresses):
+    LOCKHEED MARTIN                            5/7 congresses  (111, 112, 113, 114, 117th)
+    NORTHROP GRUMMAN                           4/7 congresses  (113, 114, 116, 117th)
+
+====================================================================
+  Community 3: Energy/Utilities
+  Total members: 49 | Stable across all 7 congresses: 23
+====================================================================
+
+  Top-5 within-community agenda-setters by congress:
+
+  Rank   111th                              112th                              113th                              114th                              115th                              116th                              117th                            
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      DUKE ENERGY (+53)                 CMS ENERGY (+45)                  FIRSTENERGY (+32)                 DTE ENERGY (+40)                  EXELON (+35)                      DTE ENERGY (+42)                  EXELON (+43)                    
+  2      XCEL ENERGY (+50)                 DUKE ENERGY (+43)                 DUKE ENERGY (+30)                 XCEL ENERGY (+37)                 XCEL ENERGY (+28)                 CMS ENERGY (+30)                  XCEL ENERGY (+37)               
+  3      DOMINION ENERGY (+44)             ENTERGY (+42)                     XCEL ENERGY (+30)                 DUKE ENERGY (+24)                 DTE ENERGY (+24)                  EXXONMOBIL (+30)                  CMS ENERGY (+29)                
+  4      CMS ENERGY (+27)                  CHEVRON (+38)                     CMS ENERGY (+28)                  FIRSTENERGY (+24)                 BERKSHIRE HATHAWAY (+21)          XCEL ENERGY (+21)                 DUKE ENERGY (+27)               
+  5      FIRSTENERGY (+23)                 XCEL ENERGY (+36)                 DTE ENERGY (+22)                  ENTERGY (+23)                     DUKE ENERGY (+20)                 DUKE ENERGY (+19)                 PUBLIC SERVICE ENTERPR (+21)    
+
+  Rank stability (within-community net_influence, n=23 stable firms):
+
+    Kendall's W = 0.5527  (chi2=85.12, p=0.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+0.591  p=0.0030 **
+      112→113: rho=+0.373  p=0.0793 
+      113→114: rho=+0.531  p=0.0091 **
+      114→115: rho=+0.508  p=0.0133 *
+      115→116: rho=+0.437  p=0.0372 *
+      116→117: rho=+0.617  p=0.0017 **
+
+  Persistent leaders (top-5 in ≥4 of 7 congresses):
+    DUKE ENERGY                                7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    XCEL ENERGY                                7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    CMS ENERGY                                 5/7 congresses  (111, 112, 113, 116, 117th)
+    DTE ENERGY                                 4/7 congresses  (113, 114, 115, 116th)
+
+====================================================================
+  Community 4: Health/Pharma
+  Total members: 43 | Stable across all 7 congresses: 14
+====================================================================
+
+  Top-5 within-community agenda-setters by congress:
+
+  Rank   111th                              112th                              113th                              114th                              115th                              116th                              117th                            
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      BRISTOL-MYERS SQUIBB (+9)         BRISTOL-MYERS SQUIBB (+9)         JOHNSON & JOHNSON (+12)           PROCTER & GAMBLE (+10)            ABBVIE (+15)                      ABBVIE (+32)                      MERCK (+27)                     
+  2      CATERPILLAR (+6)                  MERCK (+7)                        RITE AID (+11)                    EBAY (+8)                         ABBOTT LABORATORIES (+14)         CVS HEALTH (+24)                  HUMANA (+13)                    
+  3      PROCTER & GAMBLE (+6)             ELI LILLY (+6)                    MUTUAL OF OMAHA INSURA (+9)       JOHNSON & JOHNSON (+6)            CENTENE (+12)                     BRISTOL-MYERS SQUIBB (+22)        LABORATORY CORP. OF AM (+11)    
+  4      AMGEN (+5)                        ABBOTT LABORATORIES (+4)          EBAY (+7)                         ABBVIE (+5)                       CVS HEALTH (+12)                  LABORATORY CORP. OF AM (+22)      CVS HEALTH (+8)                 
+  5      HERSHEY (+5)                      AMGEN (+3)                        HCA HEALTHCARE (+6)               AMGEN (+5)                        HUMANA (+11)                      CIGNA (+20)                       JOHNSON & JOHNSON (+6)          
+
+  Rank stability (within-community net_influence, n=14 stable firms):
+
+    Kendall's W = 0.1457  (chi2=13.26, p=0.42815)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+0.373  p=0.1893 
+      112→113: rho=+0.144  p=0.6234 
+      113→114: rho=+0.334  p=0.2431 
+      114→115: rho=-0.449  p=0.1076 
+      115→116: rho=-0.051  p=0.8634 
+      116→117: rho=-0.296  p=0.3034 
+
+  Persistent leaders (top-5 in ≥4 of 7 congresses):
+    None — no firm reaches top-5 in ≥4 of 7 congresses.
+
+========================================================================
+  Summary: Kendall's W by community
+========================================================================
+
+  Community               n_stable        W          p  interpretation
+  -----------------------------------------------------------------
+  Finance/Insurance             27   0.2840    0.00197  weak but significant
+  Tech/Telecom                  25   0.4309    0.00000  significant concordance
+  Defense/Industrial            21   0.3672    0.00014  significant concordance
+  Energy/Utilities              23   0.5527    0.00000  significant concordance
+  Health/Pharma                 14   0.1457    0.42815  not significant
+
+  Rank table (firm × congress)  → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/16_within_community_ni_by_congress.csv
+  Stability summary             → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/16_within_community_rank_stability.csv
+  Log                           → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/16_industry_influencer_hierarchy.txt
+
+  Validation complete.
+========================================================================

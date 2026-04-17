@@ -1,0 +1,11 @@
+sector,n,mean,median,sd,p25,p75,pct_positive,metric
+Defense/Industrial,49,3.245,1.0,20.116,-5.0,12.0,55.1,net_influence
+Energy/Utilities,49,-1.367,0.0,22.78,-11.0,7.0,40.8,net_influence
+Finance/Insurance,72,0.097,0.0,12.604,-2.0,2.5,43.1,net_influence
+Health/Pharma,42,-2.762,0.0,24.257,-8.75,7.75,47.6,net_influence
+Tech/Telecom,64,-0.906,0.0,12.922,-6.0,4.0,35.9,net_influence
+Defense/Industrial,49,0.054,0.07,0.744,-0.164,0.369,57.1,net_strength
+Energy/Utilities,49,-0.056,0.0,0.733,-0.21,0.209,38.8,net_strength
+Finance/Insurance,72,-0.008,0.0,0.638,-0.279,0.201,43.1,net_strength
+Health/Pharma,42,-0.01,0.0,0.733,-0.282,0.421,42.9,net_strength
+Tech/Telecom,64,-0.009,0.0,0.706,-0.112,0.279,42.2,net_strength

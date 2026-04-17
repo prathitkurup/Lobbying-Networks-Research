@@ -1,0 +1,7 @@
+sample,horizon,n,lpm_coef_log_rbo,lpm_p_log_rbo,logit_coef_log_rbo,logit_p_log_rbo,lpm_coef_log_n_firms,lpm_p_log_n_firms,logit_coef_log_n_firms,logit_p_log_n_firms,lpm_coef_a_net_influence,lpm_p_a_net_influence,logit_coef_a_net_influence,logit_p_a_net_influence,lpm_coef_b_net_influence,lpm_p_b_net_influence,logit_coef_b_net_influence,logit_p_b_net_influence
+full,Q+1,75850,0.00418,0.0,0.16324,0.0,0.02323,0.0,0.78746,0.0,-0.0001,0.00093,-0.00237,0.01206,4e-05,0.03617,0.00141,0.07499
+unique_entry,Q+1,23304,0.00168,0.0,0.23542,0.0,0.01701,0.0,1.16628,0.0,5e-05,0.06745,0.00357,0.25035,8e-05,0.0004,0.01217,0.0001
+full,Q+2,67745,0.00616,0.0,0.15959,0.0,0.03641,0.0,0.81376,0.0,-0.0002,0.0,-0.00317,0.0001,-7e-05,0.02566,-0.0019,0.00322
+unique_entry,Q+2,20782,0.00263,0.0,0.22974,0.0,0.03352,0.0,1.37603,0.0,4e-05,0.31342,0.00134,0.60049,8e-05,0.00696,0.0074,0.0021
+full,Q+3,58362,0.00763,0.0,0.16908,0.0,0.04287,0.0,0.82639,0.0,-0.00035,0.0,-0.00517,0.0,-0.0001,0.00377,-0.00233,0.00025
+unique_entry,Q+3,17922,0.0029,0.0,0.2046,0.0,0.04008,0.0,1.36934,0.0,1e-05,0.80331,-0.00055,0.82933,0.0001,0.00297,0.0078,0.001

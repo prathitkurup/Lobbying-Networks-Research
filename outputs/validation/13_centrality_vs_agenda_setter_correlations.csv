@@ -1,0 +1,15 @@
+centrality_measure,agenda_measure,spearman_rho_full,pval_full,n_firms_full,spearman_rho_top30,pval_top30,n_firms_top30,top30_overlap_fraction
+bcz_intercentrality,net_influence,0.1779,0.00301,276,-0.1066,0.5749,30,0.4667
+bcz_intercentrality,net_strength,0.2016,0.00076,276,0.1964,0.29815,30,0.2667
+global_pagerank,net_influence,0.1933,0.00125,276,0.1186,0.53235,30,0.5
+global_pagerank,net_strength,0.2249,0.00016,276,0.3655,0.047,30,0.2667
+wc_eigenvector,net_influence,0.2121,0.00039,276,0.1639,0.38674,30,0.6
+wc_eigenvector,net_strength,0.2211,0.00021,276,0.37,0.04419,30,0.3333
+wc_pagerank,net_influence,0.2122,0.00039,276,0.5014,0.00476,30,0.5
+wc_pagerank,net_strength,0.2269,0.00014,276,0.5653,0.00113,30,0.3
+wc_eigenvector,wc_net_influence,0.2011,0.00078,276,0.2304,0.22053,30,0.5333
+wc_eigenvector,wc_net_strength,0.1576,0.00872,276,0.2912,0.11845,30,0.3667
+wc_pagerank,wc_net_influence,0.2083,0.0005,276,0.5582,0.00135,30,0.4667
+wc_pagerank,wc_net_strength,0.1722,0.00412,276,0.5337,0.00239,30,0.3333
+bcz_intercentrality,wc_net_influence,0.1821,0.0024,276,0.0194,0.91904,30,0.4333
+bcz_intercentrality,wc_net_strength,0.1612,0.00727,276,0.0638,0.73748,30,0.2333
