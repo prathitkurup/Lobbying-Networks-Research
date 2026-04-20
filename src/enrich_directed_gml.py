@@ -14,7 +14,7 @@ from utils.data_loading import load_bills_data
 from utils.filtering import filter_bills_by_prevalence
 
 GML_PATH  = ROOT / "visualizations" / "gml" / "rbo_directed_influence.gml"
-COMM_PATH = DATA_DIR / "communities" / "communities_affiliation.csv"
+COMM_PATH = DATA_DIR / "archive" / "communities" / "communities_affiliation.csv"
 
 
 # ---------------------------------------------------------------------------

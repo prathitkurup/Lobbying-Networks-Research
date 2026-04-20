@@ -65,20 +65,20 @@ class _Tee:
 
 def load_affiliation_graph():
     """Build undirected affiliation graph from stored edge file."""
-    edges = pd.read_csv(DATA_DIR / "network_edges" / "affiliation_edges.csv")
+    edges = pd.read_csv(DATA_DIR / "archive" / "network_edges" / "affiliation_edges.csv")
     G = nx.from_pandas_edgelist(edges, "source", "target", edge_attr=WEIGHT_COL)
     return G
 
 
 def load_community_partition():
     """Return {firm: community_id} from communities_affiliation.csv."""
-    df = pd.read_csv(DATA_DIR / "communities" / "communities_affiliation.csv")
+    df = pd.read_csv(DATA_DIR / "archive" / "communities" / "communities_affiliation.csv")
     return dict(zip(df["fortune_name"], df["community_aff"]))
 
 
 def load_centrality_affiliation():
     """Load precomputed affiliation centrality table."""
-    return pd.read_csv(DATA_DIR / "centralities" / "centrality_affiliation.csv")
+    return pd.read_csv(DATA_DIR / "archive" / "centralities" / "centrality_affiliation.csv")
 
 
 def load_directed_influence():

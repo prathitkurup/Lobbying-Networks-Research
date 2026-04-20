@@ -178,7 +178,7 @@ def main():
     print("Within-community net_influence: intra-sector directed edges only.")
 
     # Load community partition
-    comm_df  = pd.read_csv(DATA_DIR / "communities" / "communities_affiliation.csv")
+    comm_df  = pd.read_csv(DATA_DIR / "archive" / "communities" / "communities_affiliation.csv")
     comm_map = dict(zip(comm_df["fortune_name"], comm_df["community_aff"]))
 
     # Build full within-community net_influence table: firm x congress

@@ -6,7 +6,7 @@ IND='Y' FILTER VALIDATION: opensecrets_lda_reports.csv
   Total rows (bill-expanded)   : 24,977
   Unique report uniq_ids       : 4,410
   Unique Fortune 500 firms     : 376
-  Years covered                : [np.int64(2019), np.int64(2020)]
+  Years covered                : [2019, 2020]
   Total expenditure            : $1,714,840,367
 
 -- CHECK 1: Unique Report IDs --

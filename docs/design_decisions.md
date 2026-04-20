@@ -173,28 +173,15 @@ prevalence distribution and modularity comparison.
 
 ## §5 — Choice of Similarity Metrics
 
-**Decision:** Use three complementary bill-level similarity signals — affiliation,
-cosine similarity, and Rank-Biased Overlap — and combine them multiplicatively in
-the composite network.  See §10 (cosine), §11 (RBO), and §12 (composite) for
-detailed rationales.
+**Decision:** Use bill-level RBO similarity as the primary co-lobbying similarity signal for the directed influence network. Affiliation and cosine similarity networks are also built (archived) for structural reference.
 
 **Summary of the three signals:**
-- **Affiliation** (`affil_norm = shared_bills / N_total`): raw co-lobbying breadth,
-  normalized by the total filtered bill universe.  Interpretable as "what fraction
-  of all available bills do these two firms jointly lobby?"
+- **Affiliation** (`affil_norm = shared_bills / N_total`): raw co-lobbying breadth, normalized by the total filtered bill universe.
 - **Cosine similarity**: geometric alignment of portfolio-share (frac) vectors.
-  Captures directional agreement across the full bill portfolio.
-- **RBO**: priority-ranking agreement.  Captures whether the firms' high-spend
-  legislative priorities are the same.
+- **RBO**: priority-ranking agreement. Captures whether firms' high-spend legislative priorities are the same. This is the primary signal used in the directed influence network.
 
 **Why not Bray-Curtis breadth×depth?**
-Bray-Curtis is a standard ecology dissimilarity metric (Bray & Curtis, 1957) that
-measures per-bill frac differences.  It was used in an earlier version of this
-project but replaced because: (a) cosine similarity is a cleaner geometric measure
-of directional alignment; (b) affil_norm provides the "breadth" signal more
-transparently without the exponential calibration parameter λ; (c) the composite
-formula `affil_norm × cosine × rbo` separates the three dimensions cleanly and is
-easier to interpret.
+Bray-Curtis was used in an earlier version but replaced: (a) cosine is a cleaner geometric measure; (b) affil_norm provides the breadth signal more transparently without the exponential calibration parameter λ; (c) RBO top-weights high-spend priorities, matching empirical spend concentration.
 
 ---
 
@@ -228,56 +215,19 @@ communities at γ = 1.0 are too granular to interpret.
 
 ---
 
-## §7 — Three-Tier Community Centrality
+## §7 — Centrality Measures
 
-**Decision:** Use a three-tier centrality framework adapted from Guimerà &
-Amaral (2005) to identify:
-1. **Industry leaders** — firms most central within their own lobbying coalition.
-2. **Cross-industry connectors** — firms whose lobbying spans multiple coalitions.
-3. **Global hubs** — firms with overall network prominence.
+**Decision:** Compute four centrality measures, all used in validation analyses.
 
-**Tier 1: Within-community eigenvector centrality**
-Eigenvector centrality is computed on each community subgraph independently.
-This captures recursive "important neighbors" structure: a firm is central not
-just because it has many strong connections, but because those connections are
-themselves to highly connected firms. Preferred over z-score (normalized weighted
-degree) as the primary industry-leader metric because it better reflects coalition
-leadership dynamics.
-Falls back to weighted degree for communities with < 3 nodes or when the power
-iteration doesn't converge.
+**Within-community eigenvector centrality:** Computed on each Leiden community subgraph independently. Captures recursive "important neighbors" structure within a sector coalition. Falls back to weighted degree for communities with < 3 nodes or when power iteration doesn't converge.
 
-**Tier 2: Guimerà-Amaral participation coefficient (P)**
-`P_i = 1 − Σ_c (κ_ic / κ_i)²`
-where κ_ic = total edge weight from i to community c, κ_i = total weighted degree.
-P = 0: firm connects exclusively within its own community.
-P → 1: firm connects evenly across all communities.
-This is the key metric for identifying cross-industry political entrepreneurs —
-firms that bridge across lobbying coalitions and could facilitate cross-sector
-coordination. Grounded in Guimerà & Amaral (2005, Nature, 433, 895–900).
+**Within-community PageRank:** Computed on each Leiden community subgraph. Provides the clearest alignment with empirical agenda-setting (see §29 — top-30 Spearman ρ = 0.501 vs. net_influence).
 
-**Tier 2b: Guimerà-Amaral z-score (within-community degree z-score)**
-`z_i = (κ_is − mean(κ_s)) / std(κ_s)`
-Retained alongside eigenvector for methodological comparison (Guimerà & Amaral
-2005 original formulation).
+**Katz-Bonacich centrality (global):** `α = 0.85 / λ_max`. Sensitive to multi-hop co-lobbying chains; amplifies structural hubs. See §13 for full rationale.
 
-**Tier 3: Global PageRank**
-PageRank on the full graph captures overall network prominence. Comparing a
-firm's global PageRank to its within-community eigenvector reveals whether
-prominence stems from within-industry dominance or cross-industry bridging.
+**Global PageRank:** Full-graph PageRank. Normalizes by out-degree; captures selective high-quality connections. Compared to Katz to identify degree-normalization effects (§13).
 
-**Role classification:** Guimerà-Amaral 7-role taxonomy combines z and P:
-- provincial_hub: z ≥ 2.5, P < 0.30 (dominant in community, stays in lane)
-- connector_hub: z ≥ 2.5, 0.30 ≤ P < 0.75 (dominant AND cross-industry)
-- kinless_hub: z ≥ 2.5, P ≥ 0.75 (highly cross-industry hub)
-- ultra_peripheral: z < 2.5, P < 0.05 (almost entirely within community)
-- peripheral: z < 2.5, 0.05 ≤ P < 0.625
-- non_hub_connector: z < 2.5, 0.625 ≤ P < 0.80 (bridges without dominance)
-- kinless: z < 2.5, P ≥ 0.80
-
-**Why not CBCM?** The Community-Based Centrality Measure could also identify
-cross-industry connectors but lacks the Guimerà-Amaral role taxonomy, which
-provides a principled classification system grounded in theoretical network
-science and widely used in the literature on functional cartography.
+**Excluded:** Guimerà-Amaral z-score, participation coefficient (P), and the 7-role taxonomy are not used in the primary analysis.
 
 ---
 
@@ -308,30 +258,6 @@ the $5,000 threshold.
 
 ---
 
-## §9 — Community Comparison Methodology
-
-**Decision:** Compare Leiden partitions from the four networks (composite,
-affiliation, cosine, RBO) using NMI, ARI, and Hungarian-aligned confusion matrices.
-See §14 for the four-way comparison methodology.
-
-**Rationale:**
-- **NMI (Normalized Mutual Information):** Measures information shared between
-  two labelings; NMI = 1 if identical, NMI = 0 if independent. Insensitive to
-  community label permutation.
-- **ARI (Adjusted Rand Index):** Measures pairwise agreement; adjusted for
-  chance so ARI ≈ 0 for random partitions, ARI = 1 for identical partitions.
-  ARI can be negative (worse than chance).
-- **Hungarian alignment:** Community IDs from two partitions are arbitrary
-  integers; the Hungarian algorithm finds the optimal bijection between
-  community IDs (maximizing overlap) before building a confusion matrix.
-  This makes the matrix human-readable without affecting NMI/ARI.
-
-**Finding (pre-filtering):** NMI ≈ 0.15, ARI ≈ 0.15 — low agreement, consistent
-with the mega-bill distortion collapsing both partitions toward near-random
-(Q ≈ 0.02). Post-filtering results are expected to show higher agreement as
-both networks recover meaningful community structure (Q ≈ 0.18).
-
----
 
 ## §10 — GML Export with Community Node Attributes
 
@@ -403,83 +329,14 @@ The two networks are complementary: the bill cosine network is part of the
 composite pipeline; the issue cosine network is standalone, capturing policy-area
 strategy rather than specific legislative priorities.
 
-**Source:** `src/issue_similarity_network.py`
+**Source:** `src/archive/networks/issue_similarity_network.py`
 
 ---
 
-## §12 — Composite Similarity Network: Three-Signal Design
-
-**Decision:** Build a composite company-to-company similarity network by
-multiplying three signals:
-
-```
-composite(i,j) = affil_norm(i,j) × cosine(i,j) × rbo(i,j)
-
-affil_norm(i,j) = shared_bills(i,j) / N_total_bills
-```
-
-where:
-- **affil_norm** ∈ [0, 1]: fraction of the total filtered bill universe that
-  both firms co-lobby.  `shared_bills(i,j)` = count of bills (post mega-bill
-  filter) that both firm i and firm j lobby for.  `N_total_bills` = 2285 in
-  the 116th Congress OpenSecrets data.
-  Example: two firms sharing 10 bills → affil_norm = 10/2285 ≈ 0.0044.
-- **cosine** ∈ [0, 1]: cosine similarity of portfolio-share (frac) vectors —
-  geometric alignment of lobbying budgets.
-- **rbo** ∈ [0, 1]: Rank-Biased Overlap on bill priority rankings — agreement
-  on which bills matter most.
-
-**Why affil_norm = shared_bills / N_total:**
-It is the simplest, most transparent normalization: the raw shared-bill count
-expressed as a fraction of all available bills.  No parameters to calibrate.
-Direct interpretation: "what fraction of all lobbied bills do these two firms
-address together?"  This is pure breadth, measured on the absolute scale of
-the full bill universe rather than relative to each firm's portfolio.
-The cosine and RBO components provide depth and priority alignment respectively.
-
-**Implementation:**
-`affil_norm` is computed directly in `composite_similarity_network.py` via a
-binary firm×bill matrix dot product, using the same mega-bill-filtered bill
-universe as the cosine and RBO scripts.  Cosine and RBO weights come from
-their pre-computed CSVs (`cosine_edges.csv`, `rbo_edges.csv`).  An inner join
-restricts composite edges to pairs present in both CSVs with shared_bills > 0.
-
-**Observed weight scale (116th Congress):**
-The most-overlapping pair shares 111 of 2285 bills (affil_norm ≈ 0.049), so
-composite weights peak around 0.004.  This is expected: the small scale is
-purely a consequence of the N_total denominator.  Relative ordering is
-preserved, so community detection and centrality are unaffected.
-
-**Rationale for multiplicative combination:**
-A multiplicative formula enforces AND logic across all three dimensions:
-a pair must simultaneously have high bill overlap AND portfolio alignment AND
-priority-ranking agreement to receive a high composite weight.  A pair weak
-on any single dimension is automatically down-weighted without manual thresholds.
-
-**Sparsification:**
-The three-way inner join produces a sparser graph than any individual component
-network (1,200 composite edges vs 1,516 cosine and 2,771 RBO edges in 116th
-Congress data with thresholds at 0).
-
-**Alternative considered — additive combination:**
-`w = α·affil + β·cosine + γ·rbo` requires hand-tuning three weights and does
-not enforce AND logic.  Rejected.
-
-**Alternative considered — geometric mean:**
-`(affil × cosine × rbo)^(1/3)` normalises scale but attenuates the multi-signal
-penalty for pairs weak on one dimension.  Rejected.
-
-**Source:** `src/composite_similarity_network.py`
-**Comparison script:** `src/composite_community_comparison.py`
-**Validation:** `src/validations/07_composite_network_validation.py`
-
----
 
 ## §13 — Katz-Bonacich Centrality
 
-**Decision:** Add Katz-Bonacich centrality as a fourth centrality measure
-alongside within-community eigenvector, PageRank, and the Guimerà-Amaral
-metrics. It is computed for all networks (including the composite).
+**Decision:** Compute Katz-Bonacich centrality alongside within-community eigenvector, within-community PageRank, and global PageRank as the four centrality measures used in validation analyses.
 
 **Definition:**
 ```
@@ -533,44 +390,10 @@ degradation without silent failures.
   ties to other influential firms.
 
 **Source:** `src/utils/centrality.py` — `compute_katz_centrality()`
-**Validation:** `src/validations/07_composite_network_validation.py` Section C
+**Validation:** `src/validations/13_centrality_vs_agenda_setter.py`
 
 ---
 
-## §14 — Four-Way Community Comparison Methodology
-
-**Decision:** Compare Leiden partitions from composite, affiliation, cosine, and
-RBO networks using all C(4,2) = 6 pairwise NMI and ARI scores, plus a firm-level
-consensus stability classification.
-
-**Rationale:**
-The four networks measure progressively different aspects of co-lobbying similarity:
-- Affiliation uses raw bill co-lobbying breadth (shared bill count, normalized).
-- Cosine measures geometric alignment of portfolio-share vectors across all bills.
-- RBO measures top-ranked priority agreement.
-- Composite enforces simultaneous alignment on all three via affil_norm × cosine × rbo.
-
-If the four partitions are highly similar (NMI > 0.70 for most pairs), it suggests
-that a single underlying dimension — industry sector — dominates community structure
-regardless of which similarity metric is used. This would support using any metric
-for community identification and focus attention on the nodes that diverge.
-
-If partitions differ significantly (NMI < 0.40), it suggests that different metrics
-reveal genuinely different coalition structures. In this case the composite partition
-is the most conservative — it identifies firms whose similarity is robust to metric
-choice — and community-divergent firms are theoretically interesting as potential
-cross-coalition operators.
-
-**Consensus stability taxonomy:**
-- fully_stable: firm assigned to the same (Hungarian-aligned) community in all 4 networks.
-- partially_stable: matches composite in ≥ 1 other network.
-- composite_divergent: composite places the firm in a different community than affiliation, cosine, AND RBO.
-- absent_from_composite: firm not in the composite network (isolated under triple-filter).
-
-**Source:** `src/composite_community_comparison.py`
-**Outputs:** `data/community_comparison_composite.csv`, `data/nmi_ari_matrix.csv`
-
----
 
 ## §15 — No Lower Threshold on Edge Formation; Firm Coverage
 
@@ -602,7 +425,7 @@ Three legitimate reasons for genuine absence (zero similarity, not threshold art
 
 **Known affected firms (116th Congress OpenSecrets data):**
 With threshold=0, firms in the affiliation network that still do not appear in the
-cosine or composite network have genuine zero co-lobbying overlap post-filtering.
+cosine or RBO network have genuine zero co-lobbying overlap post-filtering.
 Republic Services is the canonical example (§8): non-zero budget but all spend on
 a single bill that was filtered as a mega-bill.
 
@@ -722,9 +545,6 @@ concentration vs. RBO weight curve comparison across p ∈ {0.70, 0.80, 0.85, 0.
 Bonacich, P. (1987). Power and centrality: A family of measures. American Journal
   of Sociology, 92(5), 1170–1182.
 
-Guimerà, R., & Amaral, L.A.N. (2005). Functional cartography of complex metabolic
-  networks. Nature, 433, 895–900.
-
 Hojnacki, M., Kimball, D.C., Baumgartner, F.R., Berry, J.M., & Leech, B.L. (2012).
   Studying Organizational Advocacy and Influence: Reexamining Interest Group
   Research. Annual Review of Political Science, 15, 379–399.
@@ -776,153 +596,17 @@ reproducible, canonical row/column assignment that matches `bill_index.csv` and
 
 ---
 
-## §19 — Quarterly RBO Networks: Window Design and Temporal Evolution Methodology
+## §19 — Quarterly RBO Networks (Archived)
 
-**Script:** `src/rbo_quarterly_networks.py`
+**Script:** `src/archive/rbo_quarterly_networks.py`
 
-**Decision:** Build 8 independent quarterly RBO similarity networks — one per
-quarter of the 116th Congress (Q1 2019 through Q4 2020) — and analyze how the
-network structure evolves over time using three complementary methods.
-
-### Quarter Assignment
-
-The `report_type` field in `opensecrets_lda_reports.csv` distinguishes original
-filings (`q1`, `q2`, `q3`, `q4`), amendments (`q1a`, `q2a`, etc.), termination
-reports (`q1t`, `q2t`, etc.), and termination amendments (`q1ta`, `q2ta`). All
-variants belonging to the same reporting period are assigned to the same quarter
-(e.g., `q1`, `q1a`, `q1t`, `q1ta` all → quarter 1 of that year). This preserves
-the full lobbying activity attributed to that quarter rather than discarding
-amendment-corrected filings.
-
-A `quarter` column (integer 1–8) was added to `opensecrets_lda_reports.csv`
-using year × quarter-within-year: 2019 Q1=1, …, 2019 Q4=4, 2020 Q1=5, …,
-2020 Q4=8. The mapping is: `base_q = int(report_type[1])`, `year_offset =
-0 (2019) or 4 (2020)`, `quarter = base_q + year_offset`.
-
-**Alternative rejected:** Using only original filings (`q1/q2/q3/q4`) and
-discarding amendments would undercount lobbying activity, particularly for firms
-that file corrected spending figures. The `ind='y'` filter (§16) already handles
-deduplication between originals and amendments at the extraction stage.
-
-### Independent Windows vs. Rolling/Cumulative Aggregation
-
-Each quarter is treated as an independent observation window — only filings with
-a `report_type` prefix matching that quarter are included. This choice means:
-
-- **Edges reflect current activity:** Two firms that lobbied the same bills in
-  Q3 but diverged in Q4 will have a high RBO edge in Q3 and potentially no edge
-  in Q4. This is the correct representation for studying dynamic strategic
-  alignment.
-
-- **Comparability across quarters:** Each network is built with identical RBO
-  parameters (`p=0.85`, `top_bills=30`, `min_weight=0.0`) and Leiden resolution
-  (`γ=0.75`), matching the full-congress `rbo_similarity_network.py`.
-
-**Cumulative aggregation was rejected** because it conflates early and late
-congressional activity, masks strategic pivots, and is inconsistent with the
-existing full-congress baseline.
-
-### MAX_BILL_DF Behavior in Quarterly Networks
-
-`MAX_BILL_DF = 50` (§4) is applied per-quarter. Per-quarter bill prevalence is
-naturally lower than congress-wide prevalence — omnibus bills that attract 100+
-firms across two years may attract only 40 firms in a single quarter. As a result,
-fewer bills are filtered per quarter. This is the correct behavior: a bill with
->50 firms lobbying it *within a single quarter* still carries no strategic
-alignment signal and should be removed, but bills that would only exceed the
-threshold if aggregated should not be pre-emptively excluded.
-
-### Temporal Analysis A — Community Stability (NMI + ARI)
-
-Leiden partitions from consecutive quarters are compared using:
-- **NMI** (normalized mutual information, arithmetic average method, sklearn):
-  label-permutation invariant, measures how much knowing one partition reduces
-  uncertainty about the other. Range [0, 1].
-- **ARI** (adjusted Rand index, sklearn): measures pairwise co-clustering
-  agreement adjusted for chance. Range [−1, 1], with 1 = identical partitions.
-
-Both metrics are computed over the intersection of firms present in both quarters.
-This correctly handles firms that enter or exit the lobbying network across quarters.
-The use of set intersection rather than union is deliberate: firms not in both
-quarters cannot contribute to partition comparison and would need arbitrary community
-assignments.
-
-**Interpretation calibration:** NMI > 0.70 = high stability, 0.40–0.70 = moderate,
-< 0.40 = low. These thresholds follow the convention used in the temporal network
-community detection literature (Mucha et al., 2010).
-
-**Empirical result:** Mean NMI = 0.503, Mean ARI = 0.318 across 7 consecutive-
-quarter transitions — moderate stability. The Q4 2019 → Q1 2020 transition shows
-the lowest NMI (0.447) and ARI (0.260), consistent with a structural shock from the
-COVID-19 pandemic disrupting the lobbying agenda at the start of 2020.
-
-### Temporal Analysis B — Network Metric Trajectories
-
-Per-quarter: nodes, edges, density, mean RBO weight, weighted clustering coefficient
-(NetworkX `average_clustering` with `weight="weight"`), Leiden modularity Q, and
-community count. These track macro-level structural evolution independent of
-community labeling.
-
-**Empirical highlights:**
-- Q1 2019 is the smallest but most cohesive quarter (172 nodes, density 0.0772,
-  mean weight 0.167, Q = 0.467) — firms that lobby in Q1 of a new Congress have
-  strongly concentrated bill portfolios.
-- 2020 Q1 shows a sharp drop in density (0.070) and mean weight (0.089) with
-  the highest modularity rebound (Q = 0.382), signaling fragmentation of the
-  co-lobbying consensus at the pandemic onset.
-- 2020 Q3 reaches the lowest mean RBO weight (0.061) and modularity (0.227),
-  reflecting the broadest and most diffuse bill agendas during peak COVID
-  legislative activity.
-
-### Temporal Analysis C — Centrality Rank Stability (Spearman ρ)
-
-PageRank (weighted, NetworkX default `alpha=0.85`) is computed per quarter. The
-Spearman rank correlation between consecutive quarters is calculated over the
-intersection of firms present in both. Spearman ρ is appropriate because the
-research question concerns whether the *relative ordering* of firms by influence
-is stable, not the absolute PageRank values (which are not comparable across
-networks of different sizes).
-
-**Why PageRank for influence:** PageRank captures recursive structural influence —
-a firm is influential if it is connected to other influential firms — which is the
-appropriate operationalization of structural power in lobbying similarity networks.
-
-**Empirical result:** Mean Spearman ρ = 0.616 (all p < 0.001) — moderate influence
-stability. The Q4 2019 → Q1 2020 transition again shows the lowest ρ (0.519),
-consistent with COVID disruption. This implies that while the same firms tend to
-dominate across quarters, the influence hierarchy is not fixed — a finding
-consistent with dynamic coalition formation in the lobbying literature (Hojnacki
-et al., 2012; Carpenter et al., 1998).
-
-### Output Files
-
-| File | Contents |
-|---|---|
-| `data/rbo_edges_q{1..8}.csv` | Edge list per quarter (source, target, weight) |
-| `data/communities_rbo_q{1..8}.csv` | Leiden community assignments per quarter |
-| `data/rbo_quarterly_stats.csv` | 8-row network metric table |
-| `data/rbo_quarterly_nmi_ari.csv` | 7-row temporal analysis A results |
-| `data/rbo_quarterly_spearman.csv` | 7-row temporal analysis C results |
-
-### References
-
-Carpenter, D.P., Esterling, K.M., & Lazer, D.M.J. (1998). The strength of weak
-  ties in lobbying networks: Evidence from health-care politics in the United States.
-  Journal of Theoretical Politics, 10(4), 417–444.
-
-Hojnacki, M., Kimball, D.C., Baumgartner, F.R., Berry, J.M., & Leech, B.L. (2012).
-  Studying Organizational Advocacy and Influence: Reexamining Interest Group
-  Research. Annual Review of Political Science, 15, 379–399.
-
-Mucha, P.J., Richardson, T., Macon, K., Porter, M.A., & Onnela, J.P. (2010).
-  Community structure in time-dependent, multiscale, and multiplex networks.
-  Science, 328(5980), 876–878.
+This analysis built 8 per-quarter undirected RBO similarity networks for the 116th Congress and characterized temporal evolution via NMI/ARI community stability, network metric trajectories, and PageRank rank correlations. It pre-dates and was superseded by the directed influence network (§21). Outputs in `data/archive/`. See Archived Work Reference at bottom of this file.
 
 ---
 
 ## §20 — Directed Influence Network: Temporal Bill-Adoption Precedence
 
-**Script:** `src/directed_influence_network.py`
+**Script:** *(not retained; superseded by `src/rbo_directed_influence.py` before being committed — see §21)*
 
 ### Motivation
 
@@ -1285,9 +969,9 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 
 **Parameters:** `TOP_ISSUES=30` (covers full portfolios for 97% of firms; median is 6 codes), `p=0.85` (matching bill-level calibration, §18), no prevalence filter (`MAX_ISSUE_DF=None`, consistent with §8). The resulting network has 36,187 edges across 374 firms, density 0.519. Six Leiden communities emerge (Q=0.071), broadly interpretable as: financial/tech, defense/transport/utilities, energy/chemicals/food, healthcare/pharma, diversified/consumer.
 
-**Script:** `src/issue_rbo_similarity_network.py`
+**Script:** `src/archive/networks/issue_rbo_similarity_network.py`
 
-**Outputs:** `data/network_edges/issue_rbo_edges.csv`, `data/communities/communities_issue_rbo.csv`, `data/centralities/centrality_issue_rbo.csv`, `visualizations/gml/issue_rbo_similarity_network.gml`, `visualizations/png/issue_rbo_similarity_network.png`
+**Outputs:** `data/archive/network_edges/issue_rbo_edges.csv`, `data/archive/communities/communities_issue_rbo.csv`, `data/archive/centralities/centrality_issue_rbo.csv`, `visualizations/archive/undirected/issue_rbo_similarity_network.gml`, `visualizations/archive/undirected/issue_rbo_similarity_network.png`
 
 ---
 
@@ -1301,21 +985,6 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 
 ---
 
-## §27 — Channel Tests: Monitoring Capacity (Ch1) and Issue Overlap (Ch3) (2026-04-15)
-
-**Decision:** Build two standalone channel test scripts to empirically evaluate alternative explanations for the RBO directed influence signal.
-
-**Channel 1 — Monitoring Capacity:** Tests whether "influencers" in the RBO network are simply firms with larger lobbying operations that track legislation earlier. Capacity proxies: total spend, reports filed, bills lobbied, unique lobbyists, issue codes covered. Finds partial support: bills lobbied (ρ=0.204, p<0.001) and total spend (ρ=0.128, p<0.05) correlate with net_influence; for directed pairs, sources have significantly more bills lobbied (p<0.001), more spend (p<0.001), and more lobbyists (p<0.001) than targets. Interpretation: capacity contributes to first-mover advantage but does not exhaust the signal (Bertrand, Bombardini & Trebbi 2014).
-
-**Channel 3 — Issue-Space Correlated Response:** Tests whether directed pairs share the same regulatory domain and independently adopt the same bills due to domain relevance rather than influence transmission. Directed pairs have substantially higher issue cosine similarity (mean 0.432) than balanced pairs (0.371) or random firm pairs (0.198), all differences significant (p<0.001). Issue similarity positively predicts RBO edge weight (ρ=0.137, p<0.001). Mediation rate is invariant across issue-overlap quartiles (0.2% throughout), supporting a correlated-response interpretation: even high-overlap pairs are not mediated through shared channels, yet still form directed pairs — consistent with independent domain-monitoring. This is the strongest evidence for the correlated-response channel (Hojnacki 1997; Schlozman & Tierney 1986).
-
-**Combined implication:** Both channels partially explain the RBO directed influence signal. The most parsimonious account: (a) firms in the same regulatory domain track the same legislation independently (issue overlap → correlated adoption); (b) within that correlated adoption, resource-richer firms move first more often (capacity gap → temporal precedence); (c) genuine information transmission through shared lobbyists/firms is rare and structurally limited by the dominance of in-house lobbying among Fortune 500 firms.
-
-**Scripts:** `src/channel_tests/test_channel1_monitoring_capacity.py`, `src/channel_tests/test_channel3_issue_overlap.py`
-
-**Outputs:** `outputs/channel_tests/channel1_monitoring_capacity.{txt,png}`, `outputs/channel_tests/channel3_issue_overlap.{txt,png}`, `outputs/channel_tests/revolving_door_assessment.txt`
-
----
 
 ## §32 — Within-Community Influencer Hierarchy and Rank Stability (2026-04-17)
 
@@ -1323,33 +992,32 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 
 **Three analyses per community:**
 - **A. Top-5 leaderboard:** the five highest within-community net_influence firms per community per congress (111th–117th).
-- **B. Rank stability:** adjacent-congress Spearman ρ and Kendall's W on within-community net_influence ranks, restricted to firms stable across all 7 congresses (23–40 per community).
+- **B. Rank stability:** adjacent-congress Spearman ρ on within-community net_influence ranks, restricted to firms stable across all 7 congresses (23–40 per community).
 - **C. Persistent leaders:** firms appearing in the top-5 in ≥4 of 7 congresses.
 
 **Design choices:**
 - Within-community net_influence is computed from intra-sector directed edges only (both source and target in same community), isolating sector-internal agenda-setting from cross-sector influence.
 - Stable-set criterion: firm must appear in the directed network for all 7 congresses. This is stricter than the leaderboard (which uses all available firms per congress), so leaderboard names may differ from stability analysis names.
-- Kendall's W uses Siegel & Castellan (1988) chi-squared approximation; firms with fewer than 3 non-NaN sessions excluded.
 
 **Empirical findings:**
 
-*Energy/Utilities (W=0.553, p≈0):* Strongest concordance of any community. Duke Energy and Xcel Energy each appear in the top-5 in all 7 congresses — no other firm in any community achieves this. CMS Energy (5/7) and DTE Energy (4/7) are the next tier. Five of six adjacent-congress Spearman ρ are significant. This community has the most stable within-sector leadership hierarchy.
+*Energy/Utilities:* Strongest stability of any community. Duke Energy and Xcel Energy each appear in the top-5 in all 7 congresses — no other firm in any community achieves this. CMS Energy (5/7) and DTE Energy (4/7) are the next tier. Five of six adjacent-congress Spearman ρ are significant.
 
-*Tech/Telecom (W=0.431, p≈0):* Strong concordance. IBM and AT&T each appear 4/7 congresses; CBS and Microsoft also 4/7. However the adjacent-congress Spearman pattern is uneven — three significant transitions interspersed with non-significant ones — suggesting occasional disruption (Oracle's 113th Congress spike to +69 stands out as an anomaly).
+*Tech/Telecom:* Strong stability. IBM and AT&T each appear 4/7 congresses; CBS and Microsoft also 4/7. Adjacent-congress Spearman pattern is uneven — three significant transitions interspersed with non-significant ones (Oracle's 113th Congress spike to +69 is an anomaly).
 
-*Defense/Industrial (W=0.367, p<0.001):* Significant concordance. Lockheed Martin appears in top-5 in 5/7 congresses (absent only 115th–116th where Textron/Ball led), Northrop Grumman in 4/7. Adjacent-congress Spearman is significant only for the 113→114 transition (ρ=0.638), with most other pairs not significant — the hierarchy is stable in a global sense (W) but transitions can be abrupt.
+*Defense/Industrial:* Significant stability. Lockheed Martin appears in top-5 in 5/7 congresses (absent only 115th–116th where Textron/Ball led), Northrop Grumman in 4/7. Adjacent-congress Spearman significant only for 113→114 transition (ρ=0.638); hierarchy is stable globally but transitions can be abrupt.
 
-*Finance/Insurance (W=0.284, p=0.002):* Weak but significant concordance. American Family Insurance Group (5/7) and Northwestern Mutual (4/7) are the only persistent leaders. The community has the highest member count (n=72) and most within-sector competitive churn; only 2 of 6 adjacent-congress ρ are significant.
+*Finance/Insurance:* Weak but significant stability. American Family Insurance Group (5/7) and Northwestern Mutual (4/7) are the only persistent leaders. Highest member count (n=72) and most within-sector competitive churn; only 2 of 6 adjacent-congress ρ significant.
 
-*Health/Pharma (W=0.146, p=0.428):* Not significant. No firm reaches top-5 in ≥4 of 7 congresses. The within-community hierarchy is essentially unstable — a different set of firms leads in almost every congress. This is the most chaotic community for within-sector agenda-setting.
+*Health/Pharma:* No significant stability. No firm reaches top-5 in ≥4 of 7 congresses. Most chaotic community for within-sector agenda-setting.
 
-**Interpretation for the paper:** The energy/utilities finding is the cleanest publishable result — Duke Energy and Xcel Energy are the most persistent within-sector agenda-setters of any firm in any community, across a decade. The defense/industrial finding (Lockheed Martin 5/7) is the next strongest. Health/pharma's instability contrasts sharply and is consistent with the regulatory volatility of the ACA/drug-pricing environment across the 111th–117th Congresses. The overall pattern — energy and defense have stable internal hierarchies, health/pharma does not — maps onto the expected legislative cycle structures for each sector.
+**Interpretation for the paper:** Energy/utilities is the cleanest publishable result — Duke Energy and Xcel Energy are the most persistent within-sector agenda-setters of any firm in any community, across a decade. Defense/industrial (Lockheed Martin 5/7) is the next strongest. Health/pharma's instability is consistent with ACA/drug-pricing regulatory volatility across the 111th–117th Congresses.
 
 **Script:** `src/validations/16_industry_influencer_hierarchy.py`
 
 **Outputs:**
 - `outputs/validation/16_within_community_ni_by_congress.csv` — firm × congress within-community net_influence table
-- `outputs/validation/16_within_community_rank_stability.csv` — Kendall's W and adjacent-congress Spearman per community
+- `outputs/validation/16_within_community_rank_stability.csv` — adjacent-congress Spearman per community
 - `outputs/validation/16_industry_influencer_hierarchy.txt` — full leaderboards, stability stats, persistent leaders
 
 ---
@@ -1388,26 +1056,26 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 
 ## §30 — Influencer Regression Analysis (2026-04-17)
 
-**Decision:** Run OLS regressions predicting net_influence, net_strength, and wc_net_strength from observable firm characteristics (log_spend, log_bills, katz_centrality, participation_coeff) and within-community structural covariates (within_comm_eigenvector, wc_pagerank) for the 116th and 117th Congress cross-sections.
+**Decision:** Run OLS regressions predicting net_influence, net_strength, and wc_net_strength from observable firm characteristics (log_spend, log_bills, katz_centrality) and within-community structural covariates (within_comm_eigenvector, wc_pagerank) for the 116th and 117th Congress cross-sections.
 
 **Specifications:**
-- **Spec A:** `net_influence ~ log_spend + log_bills + katz_centrality + participation_coeff`. Standard errors: HC3 (heteroskedasticity-robust).
+- **Spec A:** `net_influence ~ log_spend + log_bills + katz_centrality`. Standard errors: HC3 (heteroskedasticity-robust).
 - **Spec A2:** `top_quartile_net_influence ~ same`. Binary indicator (1 = net_influence ≥ 75th percentile). OLS linear probability model. Used for interpretability alongside A.
-- **Spec B:** `net_strength ~ log_spend + log_bills + katz_centrality + participation_coeff`. Same covariate set; RBO-weighted outcome.
+- **Spec B:** `net_strength ~ log_spend + log_bills + katz_centrality`. Same covariate set; RBO-weighted outcome.
 - **Spec C:** `wc_net_strength ~ log_spend + log_bills + within_comm_eigenvector + wc_pagerank`. Within-community outcomes with within-community structural covariates. Firms absent from 116th community partition (42 in 117th) dropped.
 
 **Covariate decisions:**
 - `log_spend`: log(total amount_allocated per firm, summed over unique reports, floored at $1). Deduplication on `(uniq_id, fortune_name)` to avoid double-counting per bill row.
 - `log_bills`: log(unique bill count per firm, floored at 1).
-- `katz_centrality`, `participation_coeff`, `within_comm_eigenvector`: from 116th-Congress affiliation centrality table, reused as a structural baseline for both congresses. Per-congress centrality recomputation is out of scope.
+- `katz_centrality`, `within_comm_eigenvector`: from 116th-Congress affiliation centrality table, reused as a structural baseline for both congresses. Per-congress centrality recomputation is out of scope.
 - `wc_pagerank`: within-community PageRank recomputed fresh on the 116th affiliation graph with stored Leiden partition (same computation as validation 13).
 - No sector fixed effects (no Fortune 500 sector mapping available). No revolving-door proxy (requires manual lobbyist background coding).
 
 **Empirical findings (116th Congress, N=276 complete cases):**
-- **Spec A (net_influence):** R²=0.043. Only `log_spend` reaches p<0.10 (β=−1.609, p=0.095). Negative sign: higher-spending firms have *lower* net_influence in the continuous outcome. Counter-intuitive but consistent with the monitoring capacity channel being partial — high-spending firms lobby many bills but not necessarily as first-movers.
-- **Spec A2 (top-quartile indicator):** R²=0.282 (much higher — the binary outcome is better explained). `log_bills` is strongly significant (β=0.164, p<0.001): each unit of log bills raises the probability of top-quartile status by 16.4 pp. `log_spend` is negative and significant (β=−0.039, p=0.042). `katz_centrality` is positive and significant (β=1.200, p=0.049): firms more central in the affiliation complementarity graph are more likely top-quartile agenda-setters, consistent with BCZ.
+- **Spec A (net_influence):** R²=0.043. Only `log_spend` reaches p<0.10 (β=−1.609, p=0.095). Negative sign: higher-spending firms have *lower* net_influence in the continuous outcome — high-spending firms lobby many bills but not necessarily as first-movers.
+- **Spec A2 (top-quartile indicator):** R²=0.282. `log_bills` is strongly significant (β=0.164, p<0.001): each unit of log bills raises the probability of top-quartile status by 16.4 pp. `log_spend` is negative and significant (β=−0.039, p=0.042). `katz_centrality` is positive and significant (β=1.200, p=0.049): firms more central in the affiliation graph are more likely top-quartile agenda-setters, consistent with BCZ.
 - **Spec B (net_strength):** R²=0.049. `log_spend` marginally significant (β=−0.059, p=0.065). Pattern mirrors Spec A.
-- **Spec C (wc_net_strength):** R²=0.061. `log_spend` marginally significant (β=−0.049, p=0.064). Within-community structural covariates (wc_eigenvector, wc_pagerank) not individually significant.
+- **Spec C (wc_net_strength):** R²=0.061. `log_spend` marginally significant (β=−0.049, p=0.064). Within-community structural covariates not individually significant.
 
 **Empirical findings (117th Congress, N=244 complete cases):**
 - **Spec A (net_influence):** R²=0.044. `katz_centrality` marginally significant (β=63.7, p=0.053). `log_spend` and `log_bills` not significant in the continuous outcome.
@@ -1469,7 +1137,7 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 
 **Decision:** Test whether RBO directed influence edges are stable in direction and magnitude across seven consecutive congresses (111th–117th, 2009–2022) using the subset of Fortune 500 firms that lobbied in all seven sessions.
 
-**Rationale:** Temporal stability is a necessary (though not sufficient) condition for causal interpretation of the directed influence network. If the same firm consistently leads across seven independent two-year legislative sessions, that regularity is unlikely to be produced by noise alone. Four stability tests are run: (1) direction consistency — does the same firm lead in each session a pair appears?; (2) magnitude stability — are net_temporal values correlated across congress pairs (Spearman ρ) and concordant across all seven (Kendall's W)?; (3) firm net_influence rank stability — do net_influence ranks agree across sessions (adjacent-congress Spearman + Kendall's W)?; (4) firm net_strength rank stability — mirrors Analysis 3 for the RBO-weighted net_strength score.
+**Rationale:** Temporal stability is a necessary (though not sufficient) condition for causal interpretation of the directed influence network. If the same firm consistently leads across seven independent two-year legislative sessions, that regularity is unlikely to be produced by noise alone. Four stability tests are run: (1) direction consistency — does the same firm lead in each session a pair appears?; (2) magnitude stability — are net_temporal values correlated across congress pairs (adjacent-congress Spearman ρ)?; (3) firm net_influence rank stability — do net_influence ranks agree across sessions (adjacent-congress Spearman ρ)?; (4) firm net_strength rank stability — mirrors Analysis 3 for the RBO-weighted net_strength score.
 
 **Design choices:**
 - **Stable set criterion:** Firms must appear in the directed influence network for all seven congresses. Firms active in only some congresses are excluded from stability analysis but their congresses still run.
@@ -1477,7 +1145,6 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 - **Canonical pair representation:** Each (firm_a, firm_b) pair is represented canonically with firm_a < firm_b alphabetically. Direction score = 1 if firm_a leads, 0 if firm_b leads; balanced edges are excluded from direction analysis.
 - **Direction consistency threshold:** A pair is considered "direction-consistent" if max(n_a_leads, n_b_leads) / n_directed_sessions ≥ 0.80.
 - **Binomial test:** For each pair with ≥2 directed sessions, H0 is that each session is an independent 50/50 coin flip for direction. Rejection at p < 0.05 provides per-pair evidence of genuine directional consistency.
-- **Kendall's W:** Computed with chi-squared approximation (Siegel & Castellan 1988). Pairs with fewer than 3 non-NaN sessions are excluded.
 - **Quarter assignment:** Congress N covers years start=2009+2*(N−111) through start+1, with Q1-4 in year1 mapping to quarters 1-4 and Q1-4 in year2 mapping to quarters 5-8.
 
 **Pipeline:** `src/multi_congress_pipeline.py` runs extraction + RBO directed influence for each of the seven congresses in sequence, writing per-congress outputs to `data/congress/{num}/`. GML and PNG visualizations are also written to `visualizations/gml/` and `visualizations/png/` for each congress.
@@ -1491,9 +1158,9 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 **Empirical results (111th–117th, run 2026-04-16):**
 - **Stable set:** 135 firms present in all 7 congresses; 6,783 canonical pairs; 277 pairs present in all 7 sessions. Per-congress coverage: 246–260 firms, 3,558–7,418 total edges.
 - **Direction consistency (Analysis 1):** 2,830 pairs with ≥2 directed sessions. Mean consistency = 0.770, median = 0.750. 45.1% of pairs ≥0.80 consistent; 41.2% perfectly consistent (score=1.00). 73.9% show a majority direction vs. 50% expected under H0. Only 2.4% reach individual binomial significance (p<0.05); most significant pair: BALL/IBM (5 directed sessions, p=0.031).
-- **Magnitude stability (Analysis 2):** All adjacent-congress Spearman ρ on net_temporal are statistically significant except some involving the 113th Congress. Range: 0.037–0.218; highest: 116–117 (ρ=0.218). Kendall's W=0.125, p=1.00 is a degenerate result (large n=3,291 pairs with NaN imputation); individual Spearman values are the reliable evidence.
-- **Firm net_influence rank stability (Analysis 3):** 5 of 6 adjacent-congress Spearman ρ are significant; only 113–114 is non-significant (ρ=0.134, p=0.12). Kendall's W=0.343, p<0.0001 — strong concordance across all 7 sessions. Top persistent influencers: Lockheed Martin (mean +72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4), AT&T (+43.1), DTE Energy (+42.7). Top persistent followers: Consolidated Edison (mean −55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
-- **Firm net_strength rank stability (Analysis 4):** 3 of 6 adjacent-congress Spearman ρ are significant (114–115, 115–116, 116–117); early transitions (111–112 through 113–114) are not significant. Kendall's W=0.273, p<0.0001 — significant global concordance at a lower level than net_influence. Top persistent high-strength firms: Xcel Energy (mean 2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top persistent low-strength firms: Ally Financial (mean −1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
+- **Magnitude stability (Analysis 2):** All adjacent-congress Spearman ρ on net_temporal are statistically significant except some involving the 113th Congress. Range: 0.037–0.218; highest: 116–117 (ρ=0.218).
+- **Firm net_influence rank stability (Analysis 3):** 5 of 6 adjacent-congress Spearman ρ are significant; only 113–114 is non-significant (ρ=0.134, p=0.12). Top persistent influencers: Lockheed Martin (mean +72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4), AT&T (+43.1), DTE Energy (+42.7). Top persistent followers: Consolidated Edison (mean −55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
+- **Firm net_strength rank stability (Analysis 4):** 3 of 6 adjacent-congress Spearman ρ are significant (114–115, 115–116, 116–117); early transitions (111–112 through 113–114) are not significant. Top persistent high-strength firms: Xcel Energy (mean 2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top persistent low-strength firms: Ally Financial (mean −1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
 - **Sector pattern:** Energy utilities and defense/tech dominate both ends of the influence spectrum. Financial services shows the most directionally consistent paired relationships.
 
 **Outputs:**
@@ -1510,38 +1177,6 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 
 ---
 
-## §33 — Quarterly Dynamics of the Directed Influence Network (2026-04-17)
-
-**Decision:** Compute net_influence per firm per quarter (Q1–Q8, 116th Congress) from scratch using the same RBO directed influence pipeline, then characterize temporal stability via Jaccard similarity of the top-10 set and Spearman ρ of rank orders across adjacent quarters.
-
-**Rationale:** The aggregate congress-wide network pools all 8 quarters. Whether influencer status is a stable within-congress property or fluctuates matters for interpretation — stable hierarchy supports a structural account; instability suggests strategic or legislative-calendar effects. The quarterly networks are the natural unit for this test.
-
-**Design choices:**
-- **Within-quarter first-mover:** Within a single quarter, all filings share the same quarter index, so the global first-quarter lookup would yield all ties. Resolution uses the `report_type` ordinal: base reports (q1, q2, …) < transcript amendments (q1t, …) < amendments (q1a, …) < transcript+amendment (q1ta, …). Firms filing only amendments for a bill lose first-mover to those with base filings, mirroring the cross-quarter logic at the within-quarter scale.
-- **Balanced pairs excluded:** Pairs with equal within-quarter first-mover counts contribute 0 to net_influence (consistent with the aggregate pipeline).
-- **Prevalence filter per quarter:** MAX_BILL_DF=50 applied per quarter, so fewer bills are filtered than in the congress-wide run (design decision from §20).
-- **Focal firms:** Firms in top-10 by net_influence in ≥3 of 8 quarters. 10 firms qualify, all from Energy/Utilities (7 firms) with Cummins, Lockheed Martin, and CMS Energy as cross-sector entries.
-- **Figures:** (A) Bump chart — rank trajectories of all focal firms across Q1–Q8. (B) Heatmap — z-scored net_influence per focal firm per quarter (raw values annotated in cells).
-
-**Empirical results (116th Congress, run 2026-04-17):**
-- Per-quarter coverage: 211–247 firms (smaller than congress-wide 277; single-quarter bill overlap is narrower).
-- Q1 2019 is the smallest quarter (211 firms), consistent with §20 findings.
-- Adjacent-quarter Jaccard (top-10 overlap): range 0.000–0.538; mean **0.304**. Q1→Q2 Jaccard = 0.000 — no overlap at all, suggesting Q1 is structurally distinct from later quarters.
-- Adjacent-quarter Spearman ρ: range 0.296–0.550; all pairs highly significant (p<0.001); mean **0.446**. Rank orderings are significantly correlated but moderate (not near-perfect), indicating partial but incomplete stability.
-- **Dominant sector:** Energy/Utilities firms (Xcel Energy, PG&E, Duke Energy, DTE Energy, FirstEnergy, Exelon, Entergy, CMS Energy) account for 8 of 10 focal firms; most appear clustered in Q4 2019–Q3 2020, suggesting mid-congress legislative activity peak.
-- **Cummins and Lockheed Martin** are the only non-utility focal firms; both concentrated in the first three quarters of 2019.
-- **Interpretation:** Influencer status is partially stable within the 116th Congress (significant rank correlations throughout) but with meaningful quarter-to-quarter turnover at the top-10 boundary (mean Jaccard 0.30). This supports treating the congress-wide aggregate as the primary analytical unit while acknowledging that early-congress rankings (Q1) are least predictive of later quarters.
-
-**Script:** `src/validations/17_quarterly_dynamics.py`
-
-**Outputs:**
-- `outputs/validation/17_quarterly_net_influence.csv` — firm × quarter net_influence (300 firms × 8 quarters)
-- `outputs/validation/17_quarterly_stability.csv` — adjacent-quarter Jaccard and Spearman for Q1→Q2 through Q7→Q8
-- `outputs/validation/17_quarterly_dynamics.txt` — full log
-- `visualizations/png/17_bump_chart_quarterly_influencers.png` — rank trajectory bump chart
-- `visualizations/png/17_heatmap_quarterly_net_influence.png` — z-scored heatmap
-
----
 
 ## §34 — Payoff Complementarity Test (BCZ Micro-Level Evidence) (2026-04-17)
 
@@ -1619,3 +1254,53 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 - `outputs/validation/19_adoption_regression.csv` — regression coefficients across specs
 - `outputs/validation/19_bill_adoption_diffusion.txt` — full log
 - `visualizations/png/19_bill_adoption_diffusion.png` — adoption curve and quartile bar chart
+
+---
+
+## §36 — Codebase Cleanup and Archive Restructure (2026-04-19)
+
+**Decision:** Archived all components not directly part of the primary pipeline (extraction → directed influence → validations/mechanism tests) into standardized archive directories.
+
+**Archive locations:**
+- `src/archive/networks/` — six undirected similarity/affiliation network scripts (bill affiliation, RBO similarity, cosine similarity, issue similarity, lobby firm affiliation, lobbyist affiliation, composite, composite comparison, issue RBO, bill-company matrix builder, quarterly RBO networks, per-quarter directed influence network)
+- `src/archive/fortune_20/` — Fortune 20 subset legacy scripts
+- `src/archive/psne/` — PSNE game-theoretic model and C++ solver
+- `data/archive/network_edges/` — all undirected network edge CSVs (affiliation, RBO, cosine, composite, issue-RBO edges)
+- `data/archive/communities/` — Leiden community assignment CSVs for all archived networks
+- `data/archive/centralities/` — centrality CSVs for all archived networks
+- `data/archive/LobbyView/` — alternative data source (not used in pipeline)
+- `visualizations/archive/undirected/` — GML, PNG, and PDF for all undirected networks
+
+**Active exception:** `data/network_edges/lobbyist_affiliation_edges.csv` stays at the active data path because `affiliation_mediated_adoption.py` reads it at that location.
+
+**Path updates applied:**
+- `src/enrich_directed_gml.py` and validations 13–16 were updated to read from `data/archive/communities/`, `data/archive/centralities/`, and `data/archive/network_edges/` after the archive move.
+- All archived network scripts were updated to write their outputs to the archive directories.
+
+**Doc updates (this session):** DOCUMENTATION.md and design_decisions.md updated to reflect archive paths throughout; an "Archived Work" section added to DOCUMENTATION.md (§20); README.md rewritten to remove stale paths and reflect current project structure.
+
+**Additional cleanup (2026-04-19):** Channel test scripts (`src/channel_tests/`) and outputs (`outputs/channel_tests/`) copied to `src/archive/channel_tests/` and `outputs/archive/channel_tests/`. Originals cannot be deleted via the shell — manual deletion required. V17 quarterly dynamics, composite network, Guimerà-Amaral taxonomy, and participation coefficient removed from all active documentation.
+
+---
+
+## Archived Work Reference
+
+The following components were part of earlier phases and are retained for reproducibility but are not part of the current primary pipeline.
+
+### Undirected Network Suite
+
+The bill affiliation network is the most downstream-relevant archived network: its Leiden partition and centrality table feed into validations 13–16. All scripts in `src/archive/networks/`. Data outputs in `data/archive/`. Visualization outputs in `visualizations/archive/undirected/`.
+
+**Reproduction order** (if regenerating archived files): `bill_affiliation_network.py` → `rbo_similarity_network.py` → `cosine_similarity_network.py`. `issue_similarity_network.py`, `issue_rbo_similarity_network.py`, `lobby_firm_affiliation_network.py`, and `lobbyist_affiliation_network.py` are standalone. `lobbyist_affiliation_network.py` must run before `affiliation_mediated_adoption.py` to generate `data/network_edges/lobbyist_affiliation_edges.csv`.
+
+### LobbyView Data
+
+`src/archive/lobbyview_extraction.py` and `src/archive/build_lobbyview_mapping.py` were built when LobbyView was evaluated as an alternative data source. Not adopted; OpenSecrets CRP bulk data is the sole source. Raw data: `data/archive/LobbyView/`.
+
+### Fortune 20 and PSNE
+
+Early-phase work on a Fortune 20 subset and PSNE game-theoretic model. Scripts: `src/archive/fortune_20/` and `src/archive/psne/`.
+
+### Channel Tests (deleted)
+
+`src/channel_tests/` and `outputs/channel_tests/` have been copied to `src/archive/channel_tests/` and `outputs/archive/channel_tests/`. The originals require manual deletion from the filesystem.

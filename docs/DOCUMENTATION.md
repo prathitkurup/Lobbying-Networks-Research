@@ -18,6 +18,13 @@ Comprehensive reproduction guide for the Corporate Lobbying Networks project. Co
 10. [Output Files Reference](#10-output-files-reference)
 11. [Affiliation-Mediated Adoption Analysis](#11-affiliation-mediated-adoption-analysis)
 12. [Cross-Congressional Stability Analysis](#12-cross-congressional-stability-analysis)
+13. [Centrality vs. Agenda-Setter Comparison](#13-centrality-vs-agenda-setter-comparison)
+14. [Influencer Regression Analysis](#14-influencer-regression-analysis)
+15. [Cross-Sector Directed Edge Analysis](#15-cross-sector-directed-edge-analysis)
+16. [Within-Community Influencer Hierarchy and Rank Stability](#16-within-community-influencer-hierarchy-and-rank-stability)
+17. [Payoff Complementarity Test](#17-payoff-complementarity-test)
+18. [Bill Adoption Diffusion](#18-bill-adoption-diffusion)
+19. [Archived Work](#19-archived-work)
 
 ---
 
@@ -89,9 +96,8 @@ Each active report is expanded to one row per linked bill. `amount_allocated = r
 |---|---|---|
 | `opensecrets_lda_reports.csv` | `uniq_id, fortune_name, bill_number, amount, amount_allocated, is_self_filer, self_type, year, congress, report_type, lobbyists, registrant, ...` | Primary: one row per (report, bill) |
 | `opensecrets_lda_issues.csv` | `uniq_id, fortune_name, issue_code, amount, amount_allocated, year, congress` | One row per (report, issue_code) |
-| `lobbyist_client_116_opensecrets.csv` | `lobbyist_id, lobbyist, fortune_name` | Deduplicated lobbyist–firm pairs (archived reference) |
 
-The `lobbyists` column in reports CSV is pipe-separated lobbyist names per report. The lobbyist affiliation network reads directly from this column rather than from the archived pairs CSV.
+The `lobbyists` column in reports CSV is pipe-separated lobbyist names per report. The lobbyist affiliation network reads directly from this column.
 
 ---
 
@@ -109,49 +115,44 @@ All bill-level networks follow the same preprocessing sequence before building e
 
 **Two-stage filtering for cosine/RBO:** fracs are computed on *all* bills (stage 1), then mega-bills are excluded only for building ranked lists / similarity pairs (stage 2). This preserves economically correct frac denominators.
 
-### Bill Affiliation Network (`src/bill_affiliation_network.py`)
+### Bill Affiliation Network (`src/archive/networks/bill_affiliation_network.py`)
 
 - Deduplicates to presence/absence: `df.drop_duplicates(["fortune_name", "bill_number"])`.
 - Edge weight = `shared_bills(i,j)` (raw count) and `affil_norm = shared_bills / N_total_bills`.
 - Uses `affil_norm` as primary weight for community detection and GML export.
 - Canonical pair ordering throughout: `src, tgt = (a,b) if a < b else (b,a)`.
+- Outputs to `data/archive/network_edges/`, `data/archive/communities/`, `data/archive/centralities/`.
 
-### RBO Similarity Network (`src/rbo_similarity_network.py`)
+### RBO Similarity Network (`src/archive/networks/rbo_similarity_network.py`)
 
 - Edge weight = RBO score between firm i and firm j's top-30 bill lists.
 - RBO (Webber et al. 2010): `RBO(l1, l2, p) = (1−p) × Σ_{d=1}^{min(|l1|,|l2|)} p^{d-1} × |l1[:d] ∩ l2[:d]| / d`.
 - `p = 0.85`: calibrated to observed Fortune 500 spend concentration (top-5 bills account for ~40% of spend), placing most weight on the top ~10 positions.
 - Edges with weight = 0 (no shared top-30 bills) are excluded.
 
-### Cosine Similarity Network (`src/cosine_similarity_network.py`)
+### Cosine Similarity Network (`src/archive/networks/cosine_similarity_network.py`)
 
 - Edge weight = cosine similarity of frac vectors: `cos(i,j) = (u_i · u_j) / (||u_i|| × ||u_j||)`.
 - Pivot to (firms × bills) matrix, compute pairwise cosine via `sklearn.metrics.pairwise.cosine_similarity`.
 - Only pairs with cosine > 0 (shared non-zero-frac bills) produce edges.
 
-### Issue Similarity Network (`src/issue_similarity_network.py`)
+### Issue Similarity Network (`src/archive/networks/issue_similarity_network.py`)
 
 - Reads `opensecrets_lda_issues.csv` instead of the bill CSV.
 - Same cosine construction over issue-code frac vectors (75 issue codes vs 2300+ bills).
 - No prevalence filter applied (`MAX_ISSUE_DF = None`).
 
-### Lobby Firm Affiliation Network (`src/lobby_firm_affiliation_network.py`)
+### Lobby Firm Affiliation Network (`src/archive/networks/lobby_firm_affiliation_network.py`)
 
 - Edge weight = number of unique external registrant firms (K-street lobbying firms) shared by two Fortune 500 companies.
 - Reads `opensecrets_lda_reports.csv`, filters to `is_self_filer == False`, deduplicates `(fortune_name, registrant)`.
 
-### Lobbyist Affiliation Network (`src/lobbyist_affiliation_network.py`)
+### Lobbyist Affiliation Network (`src/archive/networks/lobbyist_affiliation_network.py`)
 
 - Edge weight = number of unique named lobbyists shared by two Fortune 500 companies.
 - Reads the `lobbyists` column from `opensecrets_lda_reports.csv`, splits on `|`, deduplicates `(fortune_name, lobbyist)`.
-
-### Composite Network (`src/composite_similarity_network.py`)
-
-- Combines bill affiliation, cosine, and RBO signals multiplicatively:
-  `composite(i,j) = affil_norm(i,j) × cosine(i,j) × rbo(i,j)`.
-- Inner join: edges only where all three signals are nonzero.
-- AND logic: a pair must have high breadth AND portfolio alignment AND priority-ranking agreement.
-- Resolution `γ = 0.25` (lower than individual networks due to sparser, more unimodal edge weight distribution).
+- Writes `data/network_edges/lobbyist_affiliation_edges.csv` (active path, read by `affiliation_mediated_adoption.py`).
+- Community and centrality outputs go to `data/archive/communities/` and `data/archive/centralities/`.
 
 ### Community Detection (all networks)
 
@@ -161,11 +162,10 @@ All bill-level networks follow the same preprocessing sequence before building e
 
 `utils/centrality.compute_community_centralities()` computes:
 - `within_comm_eigenvector`: eigenvector centrality on each community subgraph; falls back to weighted degree for <3 nodes or non-convergence.
-- `z_score`: Guimerà-Amaral z-score — normalized within-community weighted degree.
-- `participation_coeff` (P): Guimerà-Amaral P — fraction of edge weight crossing community boundaries. P=0: pure within-community; P→1: kinless cross-community bridger.
 - `global_pagerank`: PageRank on the full graph.
 - `katz_centrality`: Katz-Bonacich centrality with `α = 0.85/λ_max` (auto-calibrated to spectral radius).
-- `ga_role`: Guimerà-Amaral 7-role taxonomy combining z and P.
+
+Within-community PageRank is computed fresh per analysis script (not stored in the centrality CSV).
 
 ---
 
@@ -249,12 +249,12 @@ Edge columns: `source, target, weight, source_firsts, target_firsts, tie_count, 
 
 ### Enrichment (`src/enrich_directed_gml.py`)
 
-Reads `rbo_directed_influence.gml` and adds four node attributes in-place. **Requires `bill_affiliation_network.py` to have been run first.**
+Reads `rbo_directed_influence.gml` and adds four node attributes in-place. **Requires `src/archive/networks/bill_affiliation_network.py` to have been run first** to produce `data/archive/communities/communities_affiliation.csv`.
 
 | Attribute | Source | Description |
 |---|---|---|
 | `num_bills` | `opensecrets_lda_reports.csv` | Unique bills lobbied per firm (post prevalence filter) |
-| `bill_aff_community` | `data/communities/communities_affiliation.csv` | Leiden community label from the bill affiliation network |
+| `bill_aff_community` | `data/archive/communities/communities_affiliation.csv` | Leiden community label from the bill affiliation network |
 | `within_comm_net_str` | Computed from GML edges | Net RBO strength on directed (balanced=0) edges to same-community peers |
 | `within_comm_net_inf` | Computed from GML edges | Net first-mover count on directed edges to same-community peers |
 
@@ -315,10 +315,7 @@ Output: `visualizations/gexf/rbo_directed_influence.gexf`.
 - `compute_katz_centrality(G, weight_attr)` — `α = 0.85/λ_max`; fallback chain to `0.50/λ_max` then weighted degree.
 - `compute_centralities(G)` — degree, betweenness, closeness, eigenvector (global).
 - `compute_within_community_eigenvector(G, partition)` — community-scoped eigenvector.
-- `compute_within_community_zscore(G, partition)` — Guimerà-Amaral z-score.
-- `compute_participation_coefficient(G, partition)` — Guimerà-Amaral P.
-- `classify_ga_role(z, P)` — maps (z, P) to one of 7 GA roles.
-- `compute_community_centralities(G, partition)` — runs all above; returns unified DataFrame.
+- `compute_community_centralities(G, partition)` — computes within-community eigenvector, global PageRank, and Katz; returns unified DataFrame.
 
 ### `visualization.py`
 
@@ -339,12 +336,18 @@ Numbered scripts with increasing specificity. All run from `src/`.
 | `04_mega_bill_diagnosis.py` | Prevalence distribution; modularity at various `MAX_BILL_DF` thresholds |
 | `05_ind_filter_validation.py` | Confirms `ind='y'` filter removes superseded originals and double-count subsidiaries correctly |
 | `06_rbo_cosine_unit_tests.py` | Unit tests for `rbo_score()` and cosine helpers |
-| `07_composite_network_validation.py` | Validates composite formula, centrality consistency, and Katz fallback |
+| `07_composite_network_validation.py` | Validates centrality consistency and Katz fallback |
 | `08_rbo_p_calibration.py` | Plots RBO sensitivity to `p` vs empirical spend concentration; calibrates `p=0.85` |
 | `10_rbo_directed_influence_validation.py` | Validates directed influence edge integrity, balanced edge consistency, and node attribute accounting |
 | `11_mediated_adoption_validation.py` | 9-section validation report for affiliation-mediated adoption: mediation rates, lag tests, broker identification, alignment test |
+| `13_centrality_vs_agenda_setter.py` | Rank-correlation analysis between centrality measures and directed-influence agenda-setter rankings (BCZ bridge test) |
+| `14_influencer_regression.py` | OLS regressions predicting influencer status from observable firm characteristics; 116th and 117th Congress |
+| `15_cross_sector_directed_edges.py` | Cross-sector vs. intra-sector directed edge structure, community-pair flow matrix, firm-level cross-sector influence |
+| `16_industry_influencer_hierarchy.py` | Within-community agenda-setter leaderboards and rank stability across 111th–117th Congresses |
+| `18_payoff_complementarity.py` | Panel regression: BCZ micro-level complementarity test (spend response to co-lobbyist entry) |
+| `19_bill_adoption_diffusion.py` | Bill adoption probability as a function of RBO edge weight, over Q+1/Q+2/Q+3 horizons |
 
-Outputs written to `src/validations/outputs/`.
+Outputs written to `outputs/validation/`.
 
 ---
 
@@ -355,8 +358,8 @@ These are the parameters most likely to affect results. All are set as constants
 | Parameter | Location | Default | Effect |
 |---|---|---|---|
 | `MAX_BILL_DF` | `config.py` | `50` | Mega-bill filter. Set to `None` to disable. |
-| `RBO_P` | `rbo_directed_influence.py`, `rbo_similarity_network.py` | `0.85` | Top-weight decay. Higher p = more weight on rank-1 bill. Range (0,1). |
-| `TOP_BILLS` | `rbo_directed_influence.py`, `rbo_similarity_network.py` | `30` | Bills per firm included in ranking and RBO. |
+| `RBO_P` | `rbo_directed_influence.py` | `0.85` | Top-weight decay. Higher p = more weight on rank-1 bill. Range (0,1). |
+| `TOP_BILLS` | `rbo_directed_influence.py` | `30` | Bills per firm included in ranking and RBO. |
 | `LEIDEN_RESOLUTION` | each network script | varies (0.75–1.0) | γ parameter. Higher = more/smaller communities. |
 | `TOP_K` | each network script | `20` | Nodes in PNG visualization. |
 | `WRITE_GML` | each network script | `True` | Toggle GML output. |
@@ -373,13 +376,13 @@ These are the parameters most likely to affect results. All are set as constants
 | `opensecrets_lda_issues.csv` | `opensecrets_extraction.py` | One row per (report, issue_code) |
 | `rbo_directed_influence.csv` | `rbo_directed_influence.py` | Directed influence edge list |
 | `ranked_bill_lists.csv` | `rbo_directed_influence.py` | Per-firm top-30 bill rankings |
-| `network_edges/affiliation_edges.csv` | `bill_affiliation_network.py` | Shared-bill edge list |
-| `network_edges/rbo_edges.csv` | `rbo_similarity_network.py` | RBO similarity edges |
-| `network_edges/cosine_edges.csv` | `cosine_similarity_network.py` | Cosine similarity edges |
-| `network_edges/composite_edges.csv` | `composite_similarity_network.py` | Composite edges |
-| `network_edges/lobbyist_affiliation_edges.csv` | `lobbyist_affiliation_network.py` | Shared lobbyist edges |
-| `communities/communities_*.csv` | each network script | Leiden community assignments |
-| `centralities/centrality_*.csv` | each network script | Centrality measures |
+| `network_edges/lobbyist_affiliation_edges.csv` | `archive/networks/lobbyist_affiliation_network.py` | Shared lobbyist edges (active; read by mediation analysis) |
+| `archive/network_edges/affiliation_edges.csv` | `archive/networks/bill_affiliation_network.py` | Shared-bill edge list |
+| `archive/network_edges/rbo_edges.csv` | `archive/networks/rbo_similarity_network.py` | RBO similarity edges |
+| `archive/network_edges/cosine_edges.csv` | `archive/networks/cosine_similarity_network.py` | Cosine similarity edges |
+| `archive/network_edges/composite_edges.csv` | `archive/networks/composite_similarity_network.py` | Composite edges |
+| `archive/communities/communities_*.csv` | each archived network script | Leiden community assignments |
+| `archive/centralities/centrality_*.csv` | each archived network script | Centrality measures |
 | `affiliation_mediated_adoption.csv` | `affiliation_mediated_adoption.py` | 8,173 rows: one per (RBO edge, shared bill) with bill-level and network-level mediation flags |
 | `rbo_edges_enriched.csv` | `affiliation_mediated_adoption.py` | 3,712 rows: RBO edge list joined with directed-bill mediation rates and network connectivity |
 
@@ -389,8 +392,10 @@ These are the parameters most likely to affect results. All are set as constants
 |---|---|
 | `gml/rbo_directed_influence.gml` | Primary DiGraph GML for Gephi (enriched in-place by `enrich_directed_gml.py`) |
 | `gexf/rbo_directed_influence.gexf` | Filtered, colored GEXF for Gephi |
-| `gml/*.gml` | GML for each undirected network |
-| `png/*.png` | Top-20 subgraph plots |
+| `png/rbo_directed_influence*.png` | Directed network plots (116th, 111th, 117th) |
+| `pdf/rbo_influence.pdf` | Full directed network (publication figure) |
+| `pdf/filtered_rbo_influence.pdf` | Filtered directed network (publication figure) |
+| `archive/undirected/` | GML, PNG, and PDF for supporting undirected networks |
 
 ---
 
@@ -465,142 +470,6 @@ See `docs/design_decisions.md §24` for full design rationale, alternatives cons
 
 ---
 
-## 16. Within-Community Influencer Hierarchy and Rank Stability
-
-Identifies the top within-community agenda-setters per Leiden community across all seven congresses (111th–117th) and tests whether their rankings are stable over time.
-
-### Script
-
-`src/validations/16_industry_influencer_hierarchy.py`
-
-### What it does
-
-For each of the 5 affiliation communities, computes within-community net_influence (from intra-sector directed edges only) per firm per congress; prints a top-5 leaderboard per community × congress; computes adjacent-congress Spearman ρ and Kendall's W on the stable-firm subset; identifies firms appearing in top-5 in ≥4 of 7 congresses.
-
-### Outputs
-
-| File | Description |
-|---|---|
-| `outputs/validation/16_within_community_ni_by_congress.csv` | Firm × congress within-community net_influence (wide format) |
-| `outputs/validation/16_within_community_rank_stability.csv` | Kendall's W and adjacent Spearman ρ per community |
-| `outputs/validation/16_industry_influencer_hierarchy.txt` | Full leaderboard tables, stability stats, persistent leaders |
-
-### Key Findings
-
-Energy/Utilities has the strongest within-community hierarchy stability (W=0.553, p≈0): Duke Energy and Xcel Energy each appear in the top-5 in all 7 congresses. Tech/Telecom (W=0.431) and Defense/Industrial (W=0.367) also show significant concordance; Lockheed Martin leads Defense in 5 of 7 congresses. Finance/Insurance is weakly significant (W=0.284). Health/Pharma is not significant (W=0.146, p=0.43) — the most unstable community with no persistent leader. See `docs/design_decisions.md §32`.
-
----
-
-## 15. Cross-Sector Directed Edge Analysis
-
-Tags each directed RBO edge as intra-sector or cross-sector using Leiden affiliation community labels, then analyses the structure, flow patterns, firm identities, and issue profiles of cross-sector influence.
-
-### Script
-
-`src/validations/15_cross_sector_directed_edges.py`
-
-### What it does
-
-Five analyses: (1) Mann-Whitney U comparing RBO weight and net_temporal for cross-sector vs. intra-sector edges; (2) community-pair directed flow matrix and net directional asymmetry; (3) firm-level cross-sector net_influence and net_strength; (4) bridge firm identification by cross-sector edge fraction; (5) top-10 cross-sector dyads with issue-code profiles and inter-firm issue cosine similarity.
-
-### Outputs
-
-| File | Description |
-|---|---|
-| `outputs/validation/15_cross_sector_edge_table.csv` | All directed edges with community labels and cross-sector flag |
-| `outputs/validation/15_cross_sector_firm_table.csv` | Firm-level cross-sector influence metrics |
-| `outputs/validation/15_cross_sector_pair_matrix.csv` | Community-pair directed edge counts and mean RBO weights |
-| `outputs/validation/15_cross_sector_directed_edges.txt` | Full analysis log |
-
-### Key Findings
-
-43.2% of directed edges (783/1,813) are cross-sector. Cross-sector edges have significantly lower RBO weight (p≈10⁻⁴⁵) and net_temporal (p≈10⁻¹⁹). Defense/Industrial dominates Health/Pharma (+47 net flow) and Energy/Utilities (+38). Cummins is the top cross-sector agenda-setter (net_cs_influence=+48); Mutual of Omaha and Gilead Sciences are the top cross-sector followers (−53 each). Defense→Health/Pharma dyads are linked by BUD (budget appropriations). See `docs/design_decisions.md §31`.
-
----
-
-## 14. Influencer Regression Analysis
-
-OLS regressions predicting firm influencer status from observable covariates, run as cross-sections for the 116th and 117th Congress.
-
-### Script
-
-`src/validations/14_influencer_regression.py`
-
-### Specifications
-
-| Spec | Outcome | Covariates |
-|---|---|---|
-| A | `net_influence` | log_spend, log_bills, katz_centrality, participation_coeff |
-| A2 | top-quartile `net_influence` (binary, OLS LPM) | same |
-| B | `net_strength` | same as A |
-| C | `wc_net_strength` | log_spend, log_bills, within_comm_eigenvector, wc_pagerank |
-
-All models use HC3 heteroskedasticity-robust standard errors.
-
-### Covariate Sources
-
-| Covariate | Source |
-|---|---|
-| `log_spend` | `data/congress/{num}/opensecrets_lda_reports.csv`, deduped on `(uniq_id, fortune_name)` |
-| `log_bills` | Same file, unique bill count per firm |
-| `katz_centrality`, `participation_coeff`, `within_comm_eigenvector` | `data/centralities/centrality_affiliation.csv` (116th structural baseline for both congresses) |
-| `wc_pagerank` | Computed fresh on 116th affiliation graph with stored Leiden partition |
-
-117th firms absent from the 116th community partition (42 firms) are dropped from Spec C only.
-
-### Outputs
-
-| File | Description |
-|---|---|
-| `outputs/validation/14_influencer_regression.csv` | Flat table of all 8 regressions (coefficients, SEs, p-values, R²) |
-| `outputs/validation/14_influencer_regression.txt` | Full regression tables with significance stars, descriptive statistics, and interpretation summary |
-
-### Key Findings
-
-Spec A2 (top-quartile binary indicator) is the best-fitting and most consistent specification (R²≈0.19–0.28 vs. 0.03–0.06 for continuous outcomes). `log_bills` is the single most robust predictor across both congresses (β≈0.15–0.16, p<0.001): firms lobbying more unique bills are more likely to be top-quartile agenda-setters. `log_spend` is consistently *negative* — higher raw spend is associated with lower influencer probability, consistent with high-spending firms dispersing effort broadly rather than setting agendas. `katz_centrality` predicts top-quartile status in the 116th (p=0.049) but not robustly in the 117th. Low R² in continuous specs (0.03–0.06) indicates substantial unobserved variance in net_influence/strength beyond observable capacity. See `docs/design_decisions.md §30` for full detail.
-
----
-
-## 13. Centrality vs. Agenda-Setter Comparison
-
-Formal rank-correlation analysis between bill-affiliation-network centrality measures and RBO directed-influence agenda-setter rankings (116th Congress). Tests the BCZ theoretical bridge: do structural key players in the complementarity graph correspond to empirical first-movers?
-
-### Script
-
-`src/validations/13_centrality_vs_agenda_setter.py`
-
-### What it does
-
-1. Builds the undirected affiliation graph from `data/network_edges/affiliation_edges.csv`.
-2. Computes **BCZ intercentrality** fresh: for each firm i, removes it from the graph, recomputes unnormalized Katz centrality (α = 0.85 / spectral_radius), and computes Δ = full-graph Katz sum − reduced Katz sum.
-3. Computes **within-community PageRank** on each Leiden community subgraph (stored partition from `communities_affiliation.csv`).
-4. Loads global PageRank and within-community eigenvector centrality from `data/centralities/centrality_affiliation.csv`.
-5. Loads net_influence and net_strength from `data/congress/116/node_attributes.csv`.
-6. Computes within-community net_influence and net_strength from `data/congress/116/rbo_directed_influence.csv`, restricting to edges where both firms share the same affiliation community.
-7. Computes full-sample and top-30 Spearman ρ for all centrality–agenda-setter pairs; computes top-30 overlap fractions.
-
-### Key Parameters
-
-| Parameter | Value | Description |
-|---|---|---|
-| `TOP_N` | 30 | Top-N firms for restricted Spearman and overlap fraction |
-| `WEIGHT_COL` | `"weight"` | Edge weight attribute for all graph operations |
-| `alpha` | 0.85 / spectral_radius | Katz decay parameter (consistent with BCZ; computed on full graph, reused for subgraphs) |
-
-### Outputs
-
-| File | Description |
-|---|---|
-| `outputs/validation/13_centrality_vs_agenda_setter.csv` | Firm-level table: all 8 centrality and agenda measures per firm |
-| `outputs/validation/13_centrality_vs_agenda_setter_correlations.csv` | Pairwise Spearman ρ, p-values, overlap fractions |
-| `outputs/validation/13_centrality_vs_agenda_setter.txt` | Full ranked top-30 lists and interpretation summary |
-
-### Key Findings (116th Congress)
-
-BCZ intercentrality is dominated by energy utilities (CMS Energy, DTE Energy, Exelon, Xcel Energy, PPL) — firms with the largest affiliation footprints. Empirical agenda-setters (net_influence) are concentrated among defense/tech/industrial firms. Full-sample Spearman ρ between BCZ intercentrality and net_influence = **0.178 (p=0.003)** — significant but weak; top-30 ρ = **−0.107 (p=0.575)** — non-significant. The within-community PageRank provides the strongest signal: top-30 ρ with net_influence = **0.501 (p=0.005)** and with within-community net_influence = **0.558 (p=0.001)**. Interpretation: structural key players in the complementarity graph ≠ temporal first-movers. See `docs/design_decisions.md §29` for full detail.
-
----
-
 ## 12. Cross-Congressional Stability Analysis
 
 Tests whether RBO directed influence edges are stable in direction and magnitude across seven consecutive congressional sessions (111th–117th, 2009–2022). Temporal stability is a necessary condition for causal interpretation.
@@ -651,11 +520,11 @@ For each canonical pair (firm_a < firm_b alphabetically) with ≥2 directed sess
 
 **Analysis 2 — Magnitude Stability (net_temporal)**
 
-Pairwise Spearman ρ on net_temporal scores for all stable-set pairs sharing edges in both congresses. Kendall's W across all seven sessions is computed but degenerates with large n (3,291 pairs) and NaN imputation; individual Spearman values are reliable.
+Pairwise Spearman ρ on net_temporal scores for all stable-set pairs sharing edges in both congresses. Adjacent-congress Spearman values are the primary evidence.
 
 **Analysis 3 — Firm Rank Stability (net_influence)**
 
-Adjacent-congress Spearman ρ and Kendall's W on firm-level net_influence ranks across the 135-firm stable set.
+Adjacent-congress Spearman ρ on firm-level net_influence ranks across the 135-firm stable set.
 
 **Analysis 4 — Firm net_strength Rank Stability**
 
@@ -665,9 +534,9 @@ Mirrors Analysis 3 using net_strength (RBO-weighted directed score) instead of n
 
 - **Stable set:** 135 firms (all 7 congresses); 6,783 canonical pairs; 277 in all 7 sessions.
 - **Direction:** Mean consistency 0.770; 73.9% majority-direction; only 2.4% of pairs reach individual binomial significance (most significant: BALL/IBM, 5 directed sessions, p=0.031).
-- **Magnitude:** Spearman ρ range 0.037–0.218; highest: 116–117 (ρ=0.218). Kendall's W=0.125 is degenerate (large n, NaN imputation) and should be discounted.
-- **net_influence ranks (Analysis 3):** 5 of 6 adjacent-congress ρ significant; range 0.134–0.310; Kendall's W=0.343 (p<0.0001). Top persistent influencers: Lockheed Martin (+72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4). Top persistent followers: Consolidated Edison (−55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
-- **net_strength ranks (Analysis 4):** 3 of 6 adjacent-congress ρ significant (114–115, 115–116, 116–117); Kendall's W=0.273 (p<0.0001). Top high-strength firms: Xcel Energy (2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top low-strength firms: Ally Financial (−1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
+- **Magnitude:** Spearman ρ range 0.037–0.218; highest: 116–117 (ρ=0.218). All significant except some involving 113th Congress.
+- **net_influence ranks (Analysis 3):** 5 of 6 adjacent-congress ρ significant; range 0.134–0.310. Top persistent influencers: Lockheed Martin (+72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4). Top persistent followers: Consolidated Edison (−55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
+- **net_strength ranks (Analysis 4):** 3 of 6 adjacent-congress ρ significant (114–115, 115–116, 116–117). Top high-strength firms: Xcel Energy (2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top low-strength firms: Ally Financial (−1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
 
 ### Methodology Reference
 
@@ -675,75 +544,147 @@ See `docs/design_decisions.md §28` for full design rationale and empirical resu
 
 ---
 
-## 17. Quarterly Dynamics of the Directed Influence Network
+## 13. Centrality vs. Agenda-Setter Comparison
 
-Tests whether influencer status is a stable within-congress property by recomputing net_influence per firm per quarter (Q1–Q8) using the same RBO directed influence pipeline, then measuring top-10 set turnover (Jaccard) and rank correlation (Spearman ρ) across adjacent quarters.
+Formal rank-correlation analysis between bill-affiliation-network centrality measures and RBO directed-influence agenda-setter rankings (116th Congress). Tests the BCZ theoretical bridge: do structural key players in the complementarity graph correspond to empirical first-movers?
 
 ### Script
 
-`src/validations/17_quarterly_dynamics.py`
+`src/validations/13_centrality_vs_agenda_setter.py`
 
-Run from `src/` directory:
-```
-python validations/17_quarterly_dynamics.py
-```
+### What it does
 
-### Prerequisites
-
-- `data/congress/116/opensecrets_lda_reports.csv` (produced by `multi_congress_pipeline.py` for 116th Congress)
-
-### Method
-
-For each of the 8 quarters (Q1 2019 through Q4 2020):
-1. Filter reports to the quarter's `report_type` prefixes.
-2. Aggregate per (firm, bill), compute spend fracs, apply prevalence filter (MAX_BILL_DF=50 per quarter).
-3. Build top-30 ranked bill lists.
-4. Resolve within-quarter first-mover using `report_type` ordinal: base < transcript-amendment < amendment < transcript+amendment. Firms with only amendment filings lose first-mover to those with base reports.
-5. Score all RBO-linked pairs; tally net_influence = total within-quarter first-mover wins minus losses. Balanced pairs (tied) contribute zero.
-
-**Stability metrics:** Adjacent-quarter Jaccard similarity of the top-10 set and Spearman ρ of full net_influence rank order.
-
-**Focal firms for figures:** Firms appearing in the top-10 in ≥3 quarters. Two figures produced: bump chart (rank trajectories) and z-scored heatmap with raw values annotated.
+1. Builds the undirected affiliation graph from `data/archive/network_edges/affiliation_edges.csv`.
+2. Computes **BCZ intercentrality** fresh: for each firm i, removes it from the graph, recomputes unnormalized Katz centrality (α = 0.85 / spectral_radius), and computes Δ = full-graph Katz sum − reduced Katz sum.
+3. Computes **within-community PageRank** on each Leiden community subgraph (stored partition from `data/archive/communities/communities_affiliation.csv`).
+4. Loads global PageRank and within-community eigenvector centrality from `data/archive/centralities/centrality_affiliation.csv`.
+5. Loads net_influence and net_strength from `data/congress/116/node_attributes.csv`.
+6. Computes within-community net_influence and net_strength from `data/congress/116/rbo_directed_influence.csv`, restricting to edges where both firms share the same affiliation community.
+7. Computes full-sample and top-30 Spearman ρ for all centrality–agenda-setter pairs; computes top-30 overlap fractions.
 
 ### Key Parameters
 
 | Parameter | Value | Description |
 |---|---|---|
-| `TOP_N` | 10 | Firms in top-N leaderboard per quarter |
-| `MIN_QUARTERS` | 3 | Minimum quarters in top-10 to appear on figures |
-| `RBO_P` | 0.85 | RBO p-parameter (matches aggregate pipeline) |
-| `TOP_BILLS` | 30 | Top bills per firm per quarter |
-| `MAX_BILL_DF` | 50 | Prevalence filter threshold (from `config.py`) |
+| `TOP_N` | 30 | Top-N firms for restricted Spearman and overlap fraction |
+| `WEIGHT_COL` | `"weight"` | Edge weight attribute for all graph operations |
+| `alpha` | 0.85 / spectral_radius | Katz decay parameter (consistent with BCZ; computed on full graph, reused for subgraphs) |
 
 ### Outputs
 
 | File | Description |
 |---|---|
-| `outputs/validation/17_quarterly_net_influence.csv` | Firm × quarter net_influence (300 firms × 8 quarters) |
-| `outputs/validation/17_quarterly_stability.csv` | Adjacent-quarter Jaccard and Spearman ρ (7 rows) |
-| `outputs/validation/17_quarterly_dynamics.txt` | Full log |
-| `visualizations/png/17_bump_chart_quarterly_influencers.png` | Rank trajectory bump chart for focal firms |
-| `visualizations/png/17_heatmap_quarterly_net_influence.png` | Z-scored heatmap with raw net_influence values |
+| `outputs/validation/13_centrality_vs_agenda_setter.csv` | Firm-level table: all 8 centrality and agenda measures per firm |
+| `outputs/validation/13_centrality_vs_agenda_setter_correlations.csv` | Pairwise Spearman ρ, p-values, overlap fractions |
+| `outputs/validation/13_centrality_vs_agenda_setter.txt` | Full ranked top-30 lists and interpretation summary |
 
 ### Key Findings (116th Congress)
 
-Per-quarter coverage ranges from 211 firms (Q1) to 247 (Q8), smaller than the congress-wide 277 because single-quarter bill overlap is narrower.
-
-Adjacent-quarter Jaccard (top-10): range 0.000–0.538; mean **0.304**. Q1→Q2 Jaccard = 0.000 — the early-congress quarter is structurally distinct.
-
-Adjacent-quarter Spearman ρ: range 0.296–0.550; all pairs p<0.001; mean **0.446** — significant but moderate rank correlation throughout.
-
-10 focal firms (top-10 in ≥3 quarters): Xcel Energy (5/8), PG&E (5/8), Duke Energy (5/8), DTE Energy (4/8), FirstEnergy (4/8), Exelon (4/8), Entergy (4/8), Cummins (3/8), Lockheed Martin (3/8), CMS Energy (3/8). Energy/Utilities accounts for 8 of 10 focal firms.
-
-**Conclusion:** Influencer status is partially stable within the 116th Congress — rank orderings are significantly correlated but top-10 membership turns over meaningfully quarter-to-quarter (mean Jaccard 0.30). The congress-wide aggregate remains the primary analytical unit; Q1 rankings are least predictive of the congress as a whole.
-
-### Methodology Reference
-
-See `docs/design_decisions.md §33`.
+BCZ intercentrality is dominated by energy utilities (CMS Energy, DTE Energy, Exelon, Xcel Energy, PPL) — firms with the largest affiliation footprints. Empirical agenda-setters (net_influence) are concentrated among defense/tech/industrial firms. Full-sample Spearman ρ between BCZ intercentrality and net_influence = **0.178 (p=0.003)** — significant but weak; top-30 ρ = **−0.107 (p=0.575)** — non-significant. The within-community PageRank provides the strongest signal: top-30 ρ with net_influence = **0.501 (p=0.005)** and with within-community net_influence = **0.558 (p=0.001)**. Interpretation: structural key players in the complementarity graph ≠ temporal first-movers. See `docs/design_decisions.md §29` for full detail.
 
 ---
 
-## 18. Payoff Complementarity Test
+## 14. Influencer Regression Analysis
+
+OLS regressions predicting firm influencer status from observable covariates, run as cross-sections for the 116th and 117th Congress.
+
+### Script
+
+`src/validations/14_influencer_regression.py`
+
+### Specifications
+
+| Spec | Outcome | Covariates |
+|---|---|---|
+| A | `net_influence` | log_spend, log_bills, katz_centrality |
+| A2 | top-quartile `net_influence` (binary, OLS LPM) | same |
+| B | `net_strength` | same as A |
+| C | `wc_net_strength` | log_spend, log_bills, within_comm_eigenvector, wc_pagerank |
+
+All models use HC3 heteroskedasticity-robust standard errors.
+
+### Covariate Sources
+
+| Covariate | Source |
+|---|---|
+| `log_spend` | `data/congress/{num}/opensecrets_lda_reports.csv`, deduped on `(uniq_id, fortune_name)` |
+| `log_bills` | Same file, unique bill count per firm |
+| `katz_centrality`, `within_comm_eigenvector` | `data/archive/centralities/centrality_affiliation.csv` (116th structural baseline for both congresses) |
+| `wc_pagerank` | Computed fresh on 116th affiliation graph from `data/archive/network_edges/affiliation_edges.csv` with stored Leiden partition from `data/archive/communities/communities_affiliation.csv` |
+
+117th firms absent from the 116th community partition (42 firms) are dropped from Spec C only.
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/14_influencer_regression.csv` | Flat table of all 8 regressions (coefficients, SEs, p-values, R²) |
+| `outputs/validation/14_influencer_regression.txt` | Full regression tables with significance stars, descriptive statistics, and interpretation summary |
+
+### Key Findings
+
+Spec A2 (top-quartile binary indicator) is the best-fitting and most consistent specification (R²≈0.19–0.28 vs. 0.03–0.06 for continuous outcomes). `log_bills` is the single most robust predictor across both congresses (β≈0.15–0.16, p<0.001): firms lobbying more unique bills are more likely to be top-quartile agenda-setters. `log_spend` is consistently *negative* — higher raw spend is associated with lower influencer probability, consistent with high-spending firms dispersing effort broadly rather than setting agendas. `katz_centrality` predicts top-quartile status in the 116th (p=0.049) but not robustly in the 117th. Low R² in continuous specs (0.03–0.06) indicates substantial unobserved variance in net_influence/strength beyond observable capacity. See `docs/design_decisions.md §30` for full detail.
+
+---
+
+## 15. Cross-Sector Directed Edge Analysis
+
+Tags each directed RBO edge as intra-sector or cross-sector using Leiden affiliation community labels, then analyses the structure, flow patterns, firm identities, and issue profiles of cross-sector influence.
+
+### Script
+
+`src/validations/15_cross_sector_directed_edges.py`
+
+### What it does
+
+Five analyses: (1) Mann-Whitney U comparing RBO weight and net_temporal for cross-sector vs. intra-sector edges; (2) community-pair directed flow matrix and net directional asymmetry; (3) firm-level cross-sector net_influence and net_strength; (4) bridge firm identification by cross-sector edge fraction; (5) top-10 cross-sector dyads with issue-code profiles and inter-firm issue cosine similarity.
+
+Reads community labels from `data/archive/communities/communities_affiliation.csv`.
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/15_cross_sector_edge_table.csv` | All directed edges with community labels and cross-sector flag |
+| `outputs/validation/15_cross_sector_firm_table.csv` | Firm-level cross-sector influence metrics |
+| `outputs/validation/15_cross_sector_pair_matrix.csv` | Community-pair directed edge counts and mean RBO weights |
+| `outputs/validation/15_cross_sector_directed_edges.txt` | Full analysis log |
+
+### Key Findings
+
+43.2% of directed edges (783/1,813) are cross-sector. Cross-sector edges have significantly lower RBO weight (p≈10⁻⁴⁵) and net_temporal (p≈10⁻¹⁹). Defense/Industrial dominates Health/Pharma (+47 net flow) and Energy/Utilities (+38). Cummins is the top cross-sector agenda-setter (net_cs_influence=+48); Mutual of Omaha and Gilead Sciences are the top cross-sector followers (−53 each). Defense→Health/Pharma dyads are linked by BUD (budget appropriations). See `docs/design_decisions.md §31`.
+
+---
+
+## 16. Within-Community Influencer Hierarchy and Rank Stability
+
+Identifies the top within-community agenda-setters per Leiden community across all seven congresses (111th–117th) and tests whether their rankings are stable over time.
+
+### Script
+
+`src/validations/16_industry_influencer_hierarchy.py`
+
+### What it does
+
+For each of the 5 affiliation communities, computes within-community net_influence (from intra-sector directed edges only) per firm per congress; prints a top-5 leaderboard per community × congress; computes adjacent-congress Spearman ρ on the stable-firm subset; identifies firms appearing in top-5 in ≥4 of 7 congresses.
+
+Reads community labels from `data/archive/communities/communities_affiliation.csv`.
+
+### Outputs
+
+| File | Description |
+|---|---|
+| `outputs/validation/16_within_community_ni_by_congress.csv` | Firm × congress within-community net_influence (wide format) |
+| `outputs/validation/16_within_community_rank_stability.csv` | Adjacent-congress Spearman ρ per community |
+| `outputs/validation/16_industry_influencer_hierarchy.txt` | Full leaderboard tables, stability stats, persistent leaders |
+
+### Key Findings
+
+Energy/Utilities has the strongest within-community hierarchy stability: Duke Energy and Xcel Energy each appear in the top-5 in all 7 congresses. Tech/Telecom and Defense/Industrial also show significant adjacent-congress rank correlations; Lockheed Martin leads Defense in 5 of 7 congresses. Finance/Insurance has weak but significant stability. Health/Pharma shows no significant stability — the most unstable community with no persistent leader. See `docs/design_decisions.md §32`.
+
+---
+
+## 17. Payoff Complementarity Test
 
 Tests for micro-level BCZ strategic complementarity: does firm i increase lobbying spend on bill b when firm j newly enters, and is that response amplified for high-RBO pairs?
 
@@ -806,7 +747,7 @@ See `docs/design_decisions.md §34`.
 
 ---
 
-## 19. Bill Adoption Diffusion
+## 18. Bill Adoption Diffusion
 
 Tests whether follower firm B is more likely to first lobby a bill X that influencer A lobbied in a prior quarter, and whether that adoption probability increases with RBO edge weight over Q+1, Q+2, and Q+3 horizons.
 
@@ -868,3 +809,35 @@ Logit/LPM: log(rbo_weight) is positive and significant (p<0.001) across all hori
 ### Methodology Reference
 
 See `docs/design_decisions.md §35`.
+
+---
+
+## 19. Archived Work
+
+The following components were built as supporting analyses during earlier phases of the project. Their scripts, data outputs, and visualizations are retained in archive directories but are not part of the primary pipeline.
+
+### Supporting Undirected Networks
+
+Six undirected similarity and affiliation networks were constructed to characterize co-lobbying structure from different angles and serve as structural inputs to the directed analysis. Their scripts live in `src/archive/networks/` and their data outputs in `data/archive/`.
+
+**Bill Affiliation Network** (`bill_affiliation_network.py`): Firms connected by shared bill lobbying (presence/absence). Used to produce the Leiden community partition (`data/archive/communities/communities_affiliation.csv`) and centrality table (`data/archive/centralities/centrality_affiliation.csv`) that feed into validations 13–16. Run this script to regenerate those archived files.
+
+**RBO Similarity Network** (`rbo_similarity_network.py`): Undirected version of RBO agenda overlap; predated the directed influence network.
+
+**Cosine Similarity Network** (`cosine_similarity_network.py`): Portfolio similarity via cosine distance on bill-spend fraction vectors.
+
+**Issue Similarity Network** (`issue_rbo_similarity_network.py`, `issue_similarity_network.py`): Co-lobbying structure over 75 issue codes rather than individual bills; no prevalence filter applied.
+
+**Lobby Firm Affiliation Network** (`lobby_firm_affiliation_network.py`): Firms connected by shared K-street lobbying firms.
+
+**Lobbyist Affiliation Network** (`lobbyist_affiliation_network.py`): Firms connected by shared named lobbyists. Produces `data/network_edges/lobbyist_affiliation_edges.csv` (active path, used by `affiliation_mediated_adoption.py`).
+
+Undirected GML, PNG, and PDF files for all these networks are in `visualizations/archive/undirected/`. Design rationale and methodology are documented in `docs/design_decisions.md §5–§11` and §4 above.
+
+### LobbyView Data
+
+An alternative lobbying data source (LobbyView) was evaluated early in the project. Scripts for downloading and processing it are in `src/archive/` (`lobbyview_extraction.py`, `build_lobbyview_mapping.py`). Raw data is in `data/archive/LobbyView/`. LobbyView was not used in the final pipeline; OpenSecrets CRP bulk data is the sole data source.
+
+### Fortune 20 and PSNE Archives
+
+Earlier project phases explored a Fortune 20 subset and a pure-strategy Nash equilibrium (PSNE) game-theoretic model. These are archived in `src/archive/fortune_20/` and `src/archive/psne/`. Neither is used in the current directed influence network pipeline.

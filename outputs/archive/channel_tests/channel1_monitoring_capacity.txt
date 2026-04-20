@@ -1,0 +1,81 @@
+======================================================================
+CHANNEL 1: LDA MONITORING CAPACITY AS DRIVER OF DIRECTED INFLUENCE
+======================================================================
+
+Hypothesis: the RBO 'influence' signal reflects capacity gaps —
+firms with greater lobbying operations track legislation earlier,
+appearing as first-movers by virtue of monitoring bandwidth rather
+than genuine information transmission to peers.
+
+Loading data...
+  Firms with capacity data:   376
+  Firms in RBO network:       289
+  Directed RBO edges:         1,812
+
+Capacity metric summary:
+       total_spend  n_reports  n_bills  n_lobbyists  n_issue_codes
+count        376.0      376.0    376.0        376.0          376.0
+mean     4560745.7       11.7     18.6          6.8            7.2
+std      5931715.0        9.8     27.7          7.0            4.9
+min            0.0        1.0      0.0          1.0            1.0
+25%       790000.0        8.0      1.0          2.0            3.8
+50%      2305000.0        8.0      8.0          5.0            6.0
+75%      5840010.0       12.2     24.2          9.0           10.0
+max     36390000.0       96.0    163.0         44.0           31.0
+
+──────────────────────────────────────────────────────────────────────
+TEST 1: Spearman Correlation — Capacity vs Net Influence
+──────────────────────────────────────────────────────────────────────
+
+  n = 289 firms with both capacity and RBO data
+
+  Metric                      ρ          p    Sig
+  total_spend            0.1280     0.0296      *
+  n_reports              0.0299     0.6131   n.s.
+  n_bills                0.2044     0.0005    ***
+  n_lobbyists            0.0541     0.3599   n.s.
+  n_issue_codes         -0.0196     0.7403   n.s.
+
+──────────────────────────────────────────────────────────────────────
+TEST 2: Paired Wilcoxon — Is source capacity > target? (directed edges)
+──────────────────────────────────────────────────────────────────────
+  One-sided test: H1: source_capacity > target_capacity per edge
+
+  Metric                    n     Src_med     Tgt_med   %Src>Tgt          p    Sig
+  total_spend            1812     6470000     4320000      59.2%     0.0000    ***
+  n_reports              1812           8           8      33.6%     0.1249   n.s.
+  n_bills                1812          40          27      64.5%     0.0000    ***
+  n_lobbyists            1812           8           6      49.9%     0.0002    ***
+  n_issue_codes          1812          10          10      46.1%     0.9055   n.s.
+
+──────────────────────────────────────────────────────────────────────
+TEST 3: Capacity by Influencer Quartile (top Q1 vs bottom Q1)
+──────────────────────────────────────────────────────────────────────
+  Mann-Whitney U: H1: influencers have higher capacity than followers
+
+  Top-Q1 influencers: n=75  Bottom-Q1 followers: n=75
+
+  Metric                   Inf_med     Fol_med    Inf_mean    Fol_mean      p(MW)    Sig
+  total_spend              6470000     3920000     8529220     6452799     0.0196      *
+  n_reports                      8           8          14          13     0.3464   n.s.
+  n_bills                       43          24          51          25     0.0000    ***
+  n_lobbyists                    8           6          10           9     0.2541   n.s.
+  n_issue_codes                  9           9           9          10     0.5997   n.s.
+
+──────────────────────────────────────────────────────────────────────
+INTERPRETATION
+──────────────────────────────────────────────────────────────────────
+
+  Capacity metrics significantly correlated with net_influence: ['total_spend', 'n_bills']
+  Metrics where source > target (directed edges, p<0.05): ['total_spend', 'n_bills', 'n_lobbyists']
+
+  PARTIAL SUPPORT for capacity-gap hypothesis: some metrics predict
+  influencer status, suggesting monitoring bandwidth contributes to
+  first-mover advantage. However, this does not exhaust the signal —
+  capacity gap and genuine information transmission are not mutually
+  exclusive (Bertrand, Bombardini & Trebbi 2014).
+
+
+  Figure -> channel1_monitoring_capacity.png
+  Text output -> channel1_monitoring_capacity.txt
+======================================================================

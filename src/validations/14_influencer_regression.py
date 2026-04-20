@@ -13,10 +13,10 @@ percentile) for interpretability alongside the continuous-outcome regressions.
 
 Covariates sourced from:
   - data/congress/{num}/opensecrets_lda_reports.csv  → total_spend, num_bills
-  - data/centralities/centrality_affiliation.csv      → katz_centrality, participation_coeff,
-                                                         within_comm_eigenvector
-  - validation 13 output                              → wc_pagerank (recomputed here)
-  - data/communities/communities_affiliation.csv      → community partition for wc_net_strength
+  - data/archive/centralities/centrality_affiliation.csv  → katz_centrality, participation_coeff,
+                                                             within_comm_eigenvector
+  - validation 13 output                                  → wc_pagerank (recomputed here)
+  - data/archive/communities/communities_affiliation.csv  → community partition for wc_net_strength
   - data/congress/{num}/node_attributes.csv           → net_influence, net_strength (outcomes)
   - data/congress/{num}/rbo_directed_influence.csv    → wc_net_strength computation
 
@@ -95,7 +95,7 @@ def load_centrality_116():
     Load 116th-Congress affiliation centrality table.
     Used as structural baseline for both 116th and 117th regressions.
     """
-    cent = pd.read_csv(DATA_DIR / "centralities" / "centrality_affiliation.csv")
+    cent = pd.read_csv(DATA_DIR / "archive" / "centralities" / "centrality_affiliation.csv")
     return cent[["firm", "katz_centrality", "participation_coeff",
                  "within_comm_eigenvector"]]
 
@@ -105,8 +105,8 @@ def compute_wc_pagerank_116():
     Within-community PageRank on the 116th affiliation graph using stored community labels.
     Mirrors the computation in validation 13.
     """
-    edges = pd.read_csv(DATA_DIR / "network_edges" / "affiliation_edges.csv")
-    comm  = pd.read_csv(DATA_DIR / "communities" / "communities_affiliation.csv")
+    edges = pd.read_csv(DATA_DIR / "archive" / "network_edges" / "affiliation_edges.csv")
+    comm  = pd.read_csv(DATA_DIR / "archive" / "communities" / "communities_affiliation.csv")
     G = nx.from_pandas_edgelist(edges, "source", "target", edge_attr=WEIGHT_COL)
     partition = dict(zip(comm["fortune_name"], comm["community_aff"]))
 
@@ -249,7 +249,7 @@ def main():
     wc_pr_df     = compute_wc_pagerank_116()
     print(f"      WC PageRank computed: {len(wc_pr_df)} firms")
 
-    comm_df      = pd.read_csv(DATA_DIR / "communities" / "communities_affiliation.csv")
+    comm_df      = pd.read_csv(DATA_DIR / "archive" / "communities" / "communities_affiliation.csv")
     partition    = dict(zip(comm_df["fortune_name"], comm_df["community_aff"]))
 
     # Merge centrality covariates into one table (indexed on firm)

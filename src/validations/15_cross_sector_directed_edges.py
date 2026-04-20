@@ -79,7 +79,7 @@ class _Tee:
 def load_data():
     """Load and merge all required data frames."""
     directed_raw = pd.read_csv(DATA_DIR / "congress" / "116" / "rbo_directed_influence.csv")
-    comm_df      = pd.read_csv(DATA_DIR / "communities" / "communities_affiliation.csv")
+    comm_df      = pd.read_csv(DATA_DIR / "archive" / "communities" / "communities_affiliation.csv")
     nodes        = pd.read_csv(DATA_DIR / "congress" / "116" / "node_attributes.csv")
     issues       = pd.read_csv(DATA_DIR / "congress" / "116" / "opensecrets_lda_issues.csv")
     return directed_raw, comm_df, nodes, issues

@@ -1,9 +1,0 @@
-network,composite,affiliation,cosine,rbo,metric
-composite,1.0,0.512,0.625,0.611,NMI
-affiliation,0.512,1.0,0.6039,0.4719,NMI
-cosine,0.625,0.6039,1.0,0.6193,NMI
-rbo,0.611,0.4719,0.6193,1.0,NMI
-composite,1.0,0.3766,0.4157,0.365,ARI
-affiliation,0.3766,1.0,0.5468,0.3868,ARI
-cosine,0.4157,0.5468,1.0,0.5415,ARI
-rbo,0.365,0.3868,0.5415,1.0,ARI
