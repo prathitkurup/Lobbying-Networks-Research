@@ -202,7 +202,7 @@ def compute_quarter_net_influence(df_raw, quarter):
         a_f, b_f = sc["a_firsts"], sc["b_firsts"]
 
         if a_f == b_f:
-            continue   # balanced pairs contribute 0 net
+            continue   # tied pairs (net_temporal = 0) contribute 0 net
         if a_f > b_f:
             firsts[firm_a]  += a_f
             losses[firm_a]  += b_f

@@ -51,20 +51,26 @@ python opensecrets_extraction.py
 
 **Script:** `src/rbo_directed_influence.py`
 
-The main analytical output. Each node is a Fortune 500 firm. For every pair of firms that share at least one top-30 bill (by spend):
+The main analytical output. Each node is a Fortune 500 firm. For every pair of firms that share at least one top-30 bill (by spend), **two directed edges** are produced:
 
-- **Edge weight** = Rank-Biased Overlap (RBO, p=0.85) of their bill-priority rankings — how aligned are their lobbying agendas?
-- **Edge direction** = global first-mover over the full 116th Congress — who set whose agenda?
+- **Edge weight** = proportional RBO: `[(source_firsts + ties/2) / shared_bills] × RBO` — source's fractional first-mover contribution weighted by alignment
+- **Edge rbo** = full Rank-Biased Overlap (RBO, p=0.85) between the two firms' bill-priority rankings — same value for both edges of a pair; weights of both edges sum to `rbo`
+- **Edge net_temporal** = `source_firsts − target_firsts` (signed; positive when source is the net first-mover)
 
-A directed edge A→B means A lobbied more of their shared top-30 bills before B across the whole congress. The two signals are intentionally separated: RBO answers "how similar?", the arrow answers "who influenced whom?".
+For decisive pairs (A leads B): edge A→B has net_temporal > 0, edge B→A has net_temporal < 0. For balanced pairs (equal first-mover counts): both edges have net_temporal = 0 and weight = 0.5 × RBO.
 
-Each node carries `net_influence` (total first-mover wins minus losses across all pairings), `net_strength` (RBO-weighted directed score on non-balanced edges), and community color (green = net influencer, red = net follower, gray = neutral).
+Key node attributes:
+- `net_strength` **(primary)**: `Σ_j [RBO(i,j) × net_temporal(i,j)]` — RBO-weighted temporal dominance; positive = net agenda-setter, negative = net follower
+- `net_influence` (reference): total first-mover wins minus losses across all pairings (unweighted bill count)
+- `wc_net_strength`: within-community variant of net_strength (same-community neighbors only)
+
+Node color: green = net_strength > 0 (agenda-setter), red = net_strength < 0 (follower), gray = neutral/isolated.
 
 **Outputs:** `data/rbo_directed_influence.csv`, `data/ranked_bill_lists.csv`, `visualizations/gml/rbo_directed_influence.gml`, `visualizations/png/rbo_directed_influence.png`
 
-**Enrichment:** `src/enrich_directed_gml.py` adds `num_bills`, `bill_aff_community`, `within_comm_net_str`, and `within_comm_net_inf` to the GML node attributes. Reads community partition from `data/archive/communities/communities_affiliation.csv` (requires `src/archive/networks/bill_affiliation_network.py` to have been run first to produce that file).
+**Enrichment:** `src/enrich_directed_gml.py` adds `num_bills`, `bill_aff_community`, `within_comm_net_str`, and `within_comm_net_inf` to the GML node attributes. Reads community partition from `data/archive/communities/communities_affiliation.csv` (requires `src/archive/networks/bill_affiliation_network.py` in archive to have produced that file).
 
-**Gephi export:** `src/gephi_style_export.py` reads the enriched GML, removes balanced and low-weight edges, recolors nodes by net_strength on a red→yellow→green diverging scale, and writes a Gephi-ready GEXF to `visualizations/gexf/rbo_directed_influence.gexf`.
+**Gephi export:** `src/gephi_style_export.py` reads the enriched GML and writes a Gephi-ready GEXF to `visualizations/gexf/rbo_directed_influence.gexf`.
 
 **Affiliation-mediated adoption:** `src/affiliation_mediated_adoption.py` tests whether directed adoption pairs (A→B, bill) are mediated by shared lobbyists or lobbying firms. Operates at bill-level (first-quarter shared intermediaries) and network-level (any shared intermediary across full portfolios). Produces `data/affiliation_mediated_adoption.csv` and `data/rbo_edges_enriched.csv`. See §24 in `docs/design_decisions.md` for findings.
 

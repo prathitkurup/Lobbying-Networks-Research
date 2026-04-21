@@ -3,15 +3,15 @@ EXTRACTION AUDIT: opensecrets_lda_reports.csv
 ======================================================================
 
 -- Raw Data Dimensions --
-  Total rows:             24,977
-  Unique firms:           376
-  Unique bill numbers:    2,219
-  Unique (firm, bill) pairs: 6,999
+  Total rows:             25,676
+  Unique firms:           381
+  Unique bill numbers:    2,245
+  Unique (firm, bill) pairs: 7,136
 
 -- Columns --
   uniq_id                         dtype=object      nulls=0
   fortune_name                    dtype=object      nulls=0
-  bill_number                     dtype=object      nulls=2,117
+  bill_number                     dtype=object      nulls=2,141
   client                          dtype=object      nulls=0
   client_raw                      dtype=object      nulls=0
   ultorg                          dtype=object      nulls=0
@@ -25,22 +25,21 @@ EXTRACTION AUDIT: opensecrets_lda_reports.csv
   congress                        dtype=int64       nulls=0
   report_type                     dtype=object      nulls=0
   lobbyists                       dtype=object      nulls=0
-  quarter                         dtype=int64       nulls=0
 
 -- Spend Distribution (amount_allocated per row) --
-  Total allocated spend:  $1,714,840,367
-  Mean per row:           $68,656.78
-  Median per row:         $34,857.14
+  Total allocated spend:  $1,734,019,367
+  Mean per row:           $67,534.64
+  Median per row:         $33,333.33
   Rows with $0 spend:     249  (1.0%)
 
 -- (Firm, Bill) Pair Duplication --
-  Unique pairs:           6,999
-  Pairs with 1 row:       1,918  (27.4%)
-  Pairs with 2–5 rows:    3,824  (54.6%)
-  Pairs with 6–10 rows:   1,241  (17.7%)
-  Pairs with >10 rows:    16  (0.2%)
+  Unique pairs:           7,136
+  Pairs with 1 row:       1,930  (27.0%)
+  Pairs with 2–5 rows:    3,887  (54.5%)
+  Pairs with 6–10 rows:   1,302  (18.2%)
+  Pairs with >10 rows:    17  (0.2%)
   Max rows per pair:      20
-  Mean rows per pair (multi only): 4.12
+  Mean rows per pair (multi only): 4.15
 
 -- Why Duplication Exists: Bills per Report --
   opensecrets_extraction.py splits report spend equally across all bills.
@@ -59,13 +58,13 @@ EXTRACTION AUDIT: opensecrets_lda_reports.csv
     cosine and RBO similarity computation.
 
 -- Post-Aggregation (groupby sum) --
-  Rows after aggregation: 6,999
-  (was 24,977 rows — 3.6x reduction)
-  Total spend preserved:  $1,429,848,394  (should match raw = $1,714,840,367)
+  Rows after aggregation: 7,136
+  (was 25,676 rows — 3.6x reduction)
+  Total spend preserved:  $1,446,687,394  (should match raw = $1,734,019,367)
 
 -- Summary --
-  Raw data has 24,977 rows for 6,999 unique (firm, bill)
-  pairs — an average of 3.57 rows per pair.
+  Raw data has 25,676 rows for 7,136 unique (firm, bill)
+  pairs — an average of 3.60 rows per pair.
   This is correct: opensecrets_extraction.py creates one row per bill per report.
   Aggregation before network construction collapses to true totals.
 

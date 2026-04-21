@@ -2,6 +2,24 @@ import pandas as pd
 from pathlib import Path
 
 
+def congress_year_range(congress_num):
+    """Return (start_year, end_year) ints for a given congress number."""
+    start = 2009 + 2 * (congress_num - 111)
+    return start, start + 1
+
+
+def assign_quarters(df, congress_num=116):
+    """Add 'quarter' col: year1 Q1-4 → 1-4, year2 Q1-4 → 5-8. No-op if already present."""
+    if "quarter" in df.columns:
+        return df
+    start, end = congress_year_range(congress_num)
+    df = df.copy()
+    base_q   = df["report_type"].str[1].astype(int)
+    year_off = df["year"].map({start: 0, end: 4})
+    df["quarter"] = base_q + year_off
+    return df
+
+
 def load_bills_data(path):
     """Load opensecrets_lda_reports.csv and validate expected columns.
 

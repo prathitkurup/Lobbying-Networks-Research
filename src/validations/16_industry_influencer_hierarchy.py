@@ -13,17 +13,18 @@ Communities (116th-Congress affiliation Leiden partition):
   4: Health/Pharma       (n=43)
 
 Three analyses per community:
-  A. Top-5 within-community agenda-setters by net_influence, per congress.
-     "Within-community" means net_influence is computed only from directed
-     edges where both endpoints share the same affiliation community — this
-     isolates intra-sector agenda-setting from cross-sector noise.
+  A. Top-5 within-community agenda-setters by wc_net_strength (primary), per congress.
+     "Within-community" means both endpoints share the same affiliation community —
+     this isolates intra-sector agenda-setting from cross-sector noise.
+     wc_net_strength = Σ_j∈same_comm [RBO(i,j) × net_temporal(i,j)].
+     wc_net_influence (unweighted count) shown as secondary reference column.
   B. Within-community rank stability: adjacent-congress Spearman rho on
-     within-community net_influence ranks, and Kendall's W across all
-     sessions. Stable-set firms only (present in all 7 congresses).
+     wc_net_strength ranks, and Kendall's W across all sessions.
+     Stable-set firms only (present in all 7 congresses).
   C. Persistent leaders: firms that appear in the top-5 within-community
-     in at least 4 of 7 congresses.
+     by wc_net_strength in at least 4 of 7 congresses.
 
-Within-community net_influence is computed fresh from
+Both within-community metrics computed fresh from
 data/congress/{num}/rbo_directed_influence.csv for each congress,
 restricted to edges where both source and target are in the same
 affiliation community.
@@ -49,7 +50,7 @@ from config import DATA_DIR, ROOT
 
 OUT_DIR   = ROOT / "outputs" / "validation"
 TXT_PATH  = OUT_DIR / "16_industry_influencer_hierarchy.txt"
-CSV_RANKS = OUT_DIR / "16_within_community_ni_by_congress.csv"
+CSV_RANKS = OUT_DIR / "16_within_community_ns_by_congress.csv"
 CSV_STAB  = OUT_DIR / "16_within_community_rank_stability.csv"
 
 COMMUNITY_LABELS = {
@@ -93,33 +94,63 @@ def compute_wc_net_influence(congress, comm_map):
         return {}
 
     df = pd.read_csv(path)
-    directed = df[df["balanced"] == 0].copy()
-    directed["src_comm"] = directed["source"].map(comm_map)
-    directed["tgt_comm"] = directed["target"].map(comm_map)
+    # Use out-edges only (both directions present); net_temporal > 0 gives decisive pairs
+    # but all out-edges give the signed count across all pairs (decisive + balanced)
+    df["src_comm"] = df["source"].map(comm_map)
+    df["tgt_comm"] = df["target"].map(comm_map)
 
-    # Keep only intra-community edges with known communities
-    intra = directed[
-        directed["src_comm"].notna() &
-        directed["tgt_comm"].notna() &
-        (directed["src_comm"] == directed["tgt_comm"])
+    # Keep only intra-community out-edges with known communities
+    intra = df[
+        df["src_comm"].notna() &
+        df["tgt_comm"].notna() &
+        (df["src_comm"] == df["tgt_comm"])
     ]
 
+    # Out-edges only: source_firsts − target_firsts gives signed net influence per pair
     as_src = intra.groupby("source").agg(
-        out_firsts  = ("source_firsts", "sum"),
-        out_losses  = ("target_firsts", "sum"),
+        out_firsts = ("source_firsts", "sum"),
+        out_losses = ("target_firsts", "sum"),
     ).rename_axis("firm")
 
-    as_tgt = intra.groupby("target").agg(
-        in_wins     = ("target_firsts", "sum"),
-        in_losses   = ("source_firsts", "sum"),
-    ).rename_axis("firm")
-
-    merged = as_src.join(as_tgt, how="outer").fillna(0)
-    merged["wc_net_influence"] = (
-        merged["out_firsts"] + merged["in_wins"]
-        - merged["out_losses"] - merged["in_losses"]
-    )
+    merged = as_src.copy()
+    merged["wc_net_influence"] = merged["out_firsts"] - merged["out_losses"]
     return merged["wc_net_influence"].to_dict()
+
+
+def compute_wc_net_strength(congress, comm_map):
+    """
+    Compute within-community net_strength for every firm in a given congress.
+    Restricts out-edges to intra-community pairs; wc_net_strength = Σ [RBO × net_temporal].
+    Returns {firm: wc_net_strength}.
+    """
+    path = DATA_DIR / f"congress/{congress}/rbo_directed_influence.csv"
+    if not path.exists():
+        return {}
+
+    df = pd.read_csv(path)
+    df["src_comm"] = df["source"].map(comm_map)
+    df["tgt_comm"] = df["target"].map(comm_map)
+
+    intra = df[
+        df["src_comm"].notna() &
+        df["tgt_comm"].notna() &
+        (df["src_comm"] == df["tgt_comm"])
+    ]
+
+    if "rbo" not in df.columns:
+        print(f"  WARNING: congress/{congress} edge CSV has no 'rbo' column — "
+              f"re-run multi_congress_pipeline.py. Returning empty wc_net_strength.")
+        return {}
+
+    # Σ_j∈same_comm [RBO(i,j) × net_temporal(i,j)] over out-edges
+    result = (
+        intra.groupby("source")
+        .apply(lambda g: float((g["rbo"] * g["net_temporal"]).sum()))
+        .rename("wc_net_strength")
+        .rename_axis("firm")
+        .to_dict()
+    )
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -175,22 +206,29 @@ def main():
     for k, v in COMMUNITY_LABELS.items():
         print(f"  {k}: {v}")
     print(f"\nTop-N leaderboard: {TOP_N} firms per community per congress")
-    print("Within-community net_influence: intra-sector directed edges only.")
+    print("Primary metric: wc_net_strength (RBO-weighted intra-sector temporal dominance).")
+    print("Reference metric: wc_net_influence (unweighted first-mover count).")
 
     # Load community partition
     comm_df  = pd.read_csv(DATA_DIR / "archive" / "communities" / "communities_affiliation.csv")
     comm_map = dict(zip(comm_df["fortune_name"], comm_df["community_aff"]))
 
-    # Build full within-community net_influence table: firm x congress
-    print("\n[1/3] Computing within-community net_influence for all congresses ...")
+    # Build full within-community metrics table: firm x congress (both metrics)
+    print("\n[1/3] Computing wc_net_strength and wc_net_influence for all congresses ...")
     all_records = []
     for congress in CONGRESSES:
+        wc_ns = compute_wc_net_strength(congress, comm_map)
         wc_ni = compute_wc_net_influence(congress, comm_map)
-        for firm, val in wc_ni.items():
+        # Union of firms across both metrics
+        all_firms = set(wc_ns.keys()) | set(wc_ni.keys())
+        for firm in all_firms:
             all_records.append({
-                "firm": firm, "congress": congress, "wc_net_influence": val
+                "firm":             firm,
+                "congress":         congress,
+                "wc_net_strength":  wc_ns.get(firm, 0.0),
+                "wc_net_influence": wc_ni.get(firm, 0),
             })
-        print(f"      {congress}th: {len(wc_ni)} firms with intra-community edges")
+        print(f"      {congress}th: {len(all_firms)} firms with intra-community edges")
 
     long_df = pd.DataFrame(all_records)
     long_df["community"] = long_df["firm"].map(comm_map)
@@ -198,8 +236,8 @@ def main():
     long_df["community"] = long_df["community"].astype(int)
     long_df["sector"] = long_df["community"].map(COMMUNITY_LABELS)
 
-    # Wide form: firm x congress
-    wide_df = long_df.pivot(index="firm", columns="congress", values="wc_net_influence")
+    # Wide form: firm x congress using wc_net_strength for rank stability
+    wide_df = long_df.pivot(index="firm", columns="congress", values="wc_net_strength")
     wide_df["community"] = wide_df.index.map(comm_map)
     wide_df = wide_df.dropna(subset=["community"])
     wide_df["community"] = wide_df["community"].astype(int)
@@ -229,29 +267,33 @@ def main():
               f"Stable across all 7 congresses: {n_stable}")
         print(f"{'='*68}")
 
-        # A. Top-5 leaderboard per congress
-        print(f"\n  Top-{TOP_N} within-community agenda-setters by congress:\n")
+        # A. Top-5 leaderboard per congress — sorted by wc_net_strength (primary)
+        print(f"\n  Top-{TOP_N} within-community agenda-setters by congress (wc_net_strength):\n")
 
         # Header row
-        cong_width = 32
+        cong_width = 36
         header = f"  {'Rank':<5}" + "".join(f"  {c}th{'':<{cong_width-4}}" for c in CONGRESSES)
         print(header)
         print(f"  {'-' * (5 + len(CONGRESSES) * (cong_width + 2))}")
 
-        # Collect top-N per congress
+        # Collect top-N per congress: sort by wc_net_strength; show both metrics
         tops = {}
         for congress in CONGRESSES:
-            sub = comm_long[comm_long["congress"] == congress].nlargest(TOP_N, "wc_net_influence")
-            tops[congress] = list(zip(sub["firm"].tolist(), sub["wc_net_influence"].tolist()))
+            sub = comm_long[comm_long["congress"] == congress].nlargest(TOP_N, "wc_net_strength")
+            tops[congress] = list(zip(
+                sub["firm"].tolist(),
+                sub["wc_net_strength"].tolist(),
+                sub["wc_net_influence"].tolist(),
+            ))
 
         for rank_i in range(TOP_N):
             row_str = f"  {rank_i+1:<5}"
             for congress in CONGRESSES:
-                entry = tops[congress][rank_i] if rank_i < len(tops[congress]) else ("—", 0)
-                # Truncate firm name to fit column
-                name = entry[0][:22]
-                val  = int(entry[1])
-                cell = f"{name} ({val:+d})"
+                entry = tops[congress][rank_i] if rank_i < len(tops[congress]) else ("—", 0.0, 0)
+                name   = entry[0][:20]
+                ns_val = entry[1]
+                ni_val = int(entry[2])
+                cell   = f"{name} (ns={ns_val:+.2f}/ni={ni_val:+d})"
                 row_str += f"  {cell:<{cong_width}}"
             print(row_str)
 
@@ -273,7 +315,7 @@ def main():
             rank_matrix = stable_firms[CONGRESSES].T  # shape: (n_congresses, n_firms)
             W, chi2_val, p_W = kendalls_w(rank_matrix)
 
-            print(f"\n  Rank stability (within-community net_influence, n={n_stable} stable firms):")
+            print(f"\n  Rank stability (within-community net_strength, n={n_stable} stable firms):")
             print(f"\n    Kendall's W = {W}  (chi2={chi2_val}, p={p_W})")
             print(f"\n    Adjacent-congress Spearman rho:")
             for c1, c2, rho, pval in adj_rhos:
@@ -293,10 +335,10 @@ def main():
         else:
             print(f"\n  Rank stability: insufficient stable firms (n={n_stable} < 5).")
 
-        # C. Persistent leaders: appear in top-5 in >= 4 of 7 congresses
+        # C. Persistent leaders: appear in top-5 (by wc_net_strength) in >= 4 of 7 congresses
         appearance_counts = {}
         for congress in CONGRESSES:
-            sub = comm_long[comm_long["congress"] == congress].nlargest(TOP_N, "wc_net_influence")
+            sub = comm_long[comm_long["congress"] == congress].nlargest(TOP_N, "wc_net_strength")
             for firm in sub["firm"]:
                 appearance_counts[firm] = appearance_counts.get(firm, 0) + 1
 
@@ -305,10 +347,10 @@ def main():
             key=lambda x: -x[1]
         )
 
-        print(f"\n  Persistent leaders (top-{TOP_N} in ≥4 of 7 congresses):")
+        print(f"\n  Persistent leaders (top-{TOP_N} by wc_net_strength in ≥4 of 7 congresses):")
         if persistent:
             for firm, cnt in persistent:
-                # Show their net_influence in each congress they appear in top-5
+                # Congresses where firm appears in top-N by wc_net_strength
                 in_congresses = [
                     str(c) for c in CONGRESSES
                     if firm in [x[0] for x in tops.get(c, [])]

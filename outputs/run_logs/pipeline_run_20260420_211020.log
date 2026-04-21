@@ -1,0 +1,29 @@
+
+  Lobbying Networks Pipeline  |  Mon Apr 20 21:10:20 EDT 2026
+  Logs → /Users/prathitkurup/Desktop/Independent Study/Lobbying-Networks-Research/outputs/run_logs
+PASS: 01_extraction
+PASS: 02_rbo_directed
+PASS: 03_mediated_adoption
+PASS: 04_viz_mediation
+PASS: 05_enrich_gml
+PASS: 06_gephi_export
+PASS: 07_multi_congress
+PASS: 08_xc_stability
+PASS: V01_extraction_audit
+PASS: V02_inflation_diagnosis
+PASS: V03_sparsity_analysis
+PASS: V04_mega_bill_diagnosis
+PASS: V05_ind_filter
+PASS: V06_rbo_cosine_unit_tests
+PASS: V08_rbo_p_calibration
+PASS: V10_directed_validation
+PASS: V11_mediated_adoption
+PASS: V12_congress_statistics
+SKIPPED: V13_centrality_bcz  →  run manually on full machine
+PASS: V14_influencer_regression
+PASS: V15_cross_sector
+PASS: V16_industry_hierarchy
+PASS: V18_payoff_complementarity
+PASS: V19_bill_adoption_diffusion
+PASS: V20_stability_complementarity
+PASS: gen_figs_13_19

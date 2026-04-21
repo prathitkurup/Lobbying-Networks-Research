@@ -1,0 +1,151 @@
+========================================================================
+CROSS-CONGRESSIONAL STABILITY  (111th–117th Congress)
+Fortune 500 firms active in all 7 sessions
+========================================================================
+
+COVERAGE
+----------------------------------------
+  Congress 111:  246 firms  |   6165 total edges  (3,082 pairs: decisive=3,837  balanced=-755)
+  Congress 112:  253 firms  |   6267 total edges  (3,133 pairs: decisive=3,529  balanced=-396)
+  Congress 113:  259 firms  |   6148 total edges  (3,074 pairs: decisive=3,445  balanced=-371)
+  Congress 114:  257 firms  |   7418 total edges  (3,709 pairs: decisive=4,215  balanced=-506)
+  Congress 115:  260 firms  |   5528 total edges  (2,764 pairs: decisive=3,080  balanced=-316)
+  Congress 116:  259 firms  |   3869 total edges  (1,934 pairs: decisive=1,890  balanced=44)
+  Congress 117:  255 firms  |   3558 total edges  (1,779 pairs: decisive=2,007  balanced=-228)
+
+  Stable set (all 7 congresses): 135 firms
+
+  Canonical pairs (any edge in stable set): 6,091
+  Pairs present in all 7 sessions: 38
+  Session-count distribution: 1:2358  2:1647  3:1059  4:595  5:286  6:108  7:38
+
+========================================================================
+ANALYSIS 1: DIRECTION CONSISTENCY
+----------------------------------------
+  Pairs with ≥2 directed sessions: 1,165
+  Mean consistency:   1.0000
+  Median consistency: 1.0000
+  Pairs ≥ 0.80 consistent: 1165 / 1165  (100.0%)
+  Perfectly consistent (1.00): 1165 / 1165  (100.0%)
+
+  Binomial test (H0: each session is 50/50 coin flip):
+  Pairs with p < 0.05: 40 / 1165  (3.4%)  [expected under null: 5.0%]
+  Pairs with majority-direction: 100.0%  [expected under null: 50.0%]
+
+  Top 10 most direction-consistent pairs (n_directed ≥ 3):
+    Firm A                                   Firm B                                    Cons.  n_dir    p(binom)
+    3M                                       AMEREN                                    1.000      3      0.1250
+    NATIONWIDE                               USAA                                      1.000      4      0.0625
+    NORTHWESTERN MUTUAL                      PRINCIPAL FINANCIAL                       1.000      3      0.1250
+    NORTHROP GRUMMAN                         VERIZON                                   1.000      3      0.1250
+    NORTHROP GRUMMAN                         TEXAS INSTRUMENTS                         1.000      4      0.0625
+    NORTHROP GRUMMAN                         RAYTHEON                                  1.000      5      0.0312
+    NORTHROP GRUMMAN                         PUBLIC SERVICE ENTERPRISE GROUP           1.000      3      0.1250
+    NORTHROP GRUMMAN                         PPG INDUSTRIES                            1.000      5      0.0312
+    NORTHROP GRUMMAN                         OSHKOSH                                   1.000      3      0.1250
+    NORFOLK SOUTHERN                         UNION PACIFIC                             1.000      5      0.0312
+
+========================================================================
+ANALYSIS 2: MAGNITUDE STABILITY (net_temporal)
+----------------------------------------
+
+  Spearman ρ between congresses (net_temporal, stable-set pairs):
+                   111       112       113       114       115       116       117
+         111     1.000    0.118*    0.097*    0.058     0.072     0.136*    0.110*
+         112    0.118*     1.000    0.015     0.053     0.092*    0.111*    0.059 
+         113    0.097*    0.015      1.000    0.123*    0.015     0.035     0.007 
+         114    0.058     0.053     0.123*     1.000    0.093*    0.179*    0.120*
+         115    0.072     0.092*    0.015     0.093*     1.000    0.061     0.080 
+         116    0.136*    0.111*    0.035     0.179*    0.061      1.000    0.262*
+         117    0.110*    0.059     0.007     0.120*    0.080     0.262*     1.000
+  (* p < 0.05)
+
+  Pair counts per congress pair:
+                   111       112       113       114       115       116       117
+         111         —       853       878       855       645       451       445
+         112       853         —       916       841       727       493       496
+         113       878       916         —       982       761       446       476
+         114       855       841       982         —       925       538       536
+         115       645       727       761       925         —       509       493
+         116       451       493       446       538       509         —       406
+         117       445       496       476       536       493       406         —
+
+  Kendall's W (net_temporal, pairs with ≥3 sessions): W = 0.0905  p = 1.0000e+00  n = 2,086 pairs
+
+========================================================================
+ANALYSIS 3: FIRM NET_STRENGTH RANK STABILITY [PRIMARY]
+----------------------------------------
+
+  Adjacent-congress Spearman ρ (net_strength, 135 stable firms):
+     111-112:  ρ = 0.0600  p = 4.8975e-01  n = 135   
+     112-113:  ρ = 0.0716  p = 4.0909e-01  n = 135   
+     113-114:  ρ = 0.1189  p = 1.6961e-01  n = 135   
+     114-115:  ρ = 0.2500  p = 3.4530e-03  n = 135  *
+     115-116:  ρ = 0.1971  p = 2.1924e-02  n = 135  *
+     116-117:  ρ = 0.1791  p = 3.7638e-02  n = 135  *
+  (* p < 0.05)
+
+  Kendall's W across all 7 congresses (firms with data in all 7): W = 0.2734  p = 0.0000e+00  n = 135 firms
+
+  Top 10 highest mean net_strength firms (agenda-setters):
+    Firm                                               111      112      113      114      115      116      117      Mean
+    XCEL ENERGY                                      4.103    2.247    1.825    3.865    1.253    1.122    1.082     2.214
+    LOCKHEED MARTIN                                  3.353    1.608    2.067    3.165    0.914    0.318    2.950     2.054
+    DUKE ENERGY                                      2.688    4.195    2.480    0.990    1.058    0.295    0.915     1.803
+    MICROSOFT                                        0.793    3.857   -0.555    1.866    2.110    1.437    1.347     1.551
+    NORTHWESTERN MUTUAL                              0.191    1.096    1.496    3.558    1.551    1.437    0.737     1.438
+    CMS ENERGY                                       1.661    1.368    2.022    1.684    0.724    1.761    0.438     1.380
+    AT&T                                             0.735    0.793    0.350    3.122    3.252    0.671    0.269     1.313
+    DTE ENERGY                                      -0.924    1.377    1.195    3.293    0.967    0.703    1.568     1.169
+    BOEING                                           3.209    0.753    0.503    1.806    0.620    0.121    0.691     1.100
+    UNITED AIRLINES HOLDINGS                         0.286    3.003    0.621    0.487    0.763    0.472    1.519     1.021
+
+  Top 5 lowest mean net_strength firms (followers):
+    ALLY FINANCIAL                                  -2.711    0.146   -2.813   -1.499   -1.050   -0.116    0.286    -1.108
+    CENTERPOINT ENERGY                              -0.710   -4.872    1.022    0.036   -0.064   -0.674   -1.389    -0.950
+    CISCO SYSTEMS                                   -2.454    0.000   -3.024    1.832   -1.321   -1.624    0.090    -0.929
+    CONSOLIDATED EDISON                             -1.631   -2.733    0.352   -0.185   -0.583    0.110   -1.580    -0.893
+    AMEREN                                          -0.204    0.268   -1.958   -1.828   -0.254   -0.582   -1.599    -0.880
+
+========================================================================
+ANALYSIS 4: FIRM NET_INFLUENCE RANK STABILITY [REFERENCE]
+----------------------------------------
+
+  Adjacent-congress Spearman ρ (net_influence, 135 stable firms):
+     111-112:  ρ = 0.1998  p = 2.0168e-02  n = 135  *
+     112-113:  ρ = 0.2987  p = 4.3300e-04  n = 135  *
+     113-114:  ρ = 0.1340  p = 1.2133e-01  n = 135   
+     114-115:  ρ = 0.2855  p = 7.9100e-04  n = 135  *
+     115-116:  ρ = 0.2465  p = 3.9520e-03  n = 135  *
+     116-117:  ρ = 0.3104  p = 2.4800e-04  n = 135  *
+  (* p < 0.05)
+
+  Kendall's W across all 7 congresses (firms with data in all 7): W = 0.3430  p = 0.0000e+00  n = 135 firms
+
+  Top 10 firms by mean net_influence (reference):
+    Firm                                             111    112    113    114    115    116    117     Mean
+    LOCKHEED MARTIN                                  112     76     49    135     49     27     57     72.1
+    IBM                                              144     24     81     41     59     48     19     59.4
+    XCEL ENERGY                                       90     68     45     77     34     17     44     53.6
+    CMS ENERGY                                        53     83     46     42     36     31     34     46.4
+    DUKE ENERGY                                       90     81     42     10     27     27     41     45.4
+    AT&T                                              38     57     12     91     54     31     19     43.1
+    DTE ENERGY                                        11     60     48     90     30     43     17     42.7
+    MICROSOFT                                         30     96    -30     55     40     23     55     38.4
+    NORTHWESTERN MUTUAL                               27     35     44     76     55     24      7     38.3
+    BOEING                                            58     41      2     68     49     13     33     37.7
+
+  Top 5 lowest mean net_influence firms (reference):
+    CONSOLIDATED EDISON                             -114   -179    -17    -49    -10      3    -20    -55.1
+    AMEREN                                           -40      0    -60   -124    -34    -20    -60    -48.3
+    CENTERPOINT ENERGY                               -58   -101     35      2     -1    -95    -83    -43.0
+    ALLY FINANCIAL                                   -99      3   -135    -33     -7      1      2    -38.3
+    BAXTER INTERNATIONAL                             -50     -9    -15    -48    -12     -6     -8    -21.1
+
+========================================================================
+OUTPUT
+----------------------------------------
+  Text → cross_congressional_stability.txt
+  Figure → cross_congressional_stability.png
+========================================================================
+Done.

@@ -1,0 +1,15 @@
+======================================================================
+Multi-Congress Pipeline  (extraction + RBO directed influence)
+NOTE: Early-congress coverage depends on name-mapping completeness.
+======================================================================
+Lookup entries: 774  (500 firms in mapping)
+
+Congress 111 (2009-2010): output exists — skipping (set SKIP_EXISTING=False to rerun)
+Congress 112 (2011-2012): output exists — skipping (set SKIP_EXISTING=False to rerun)
+Congress 113 (2013-2014): output exists — skipping (set SKIP_EXISTING=False to rerun)
+Congress 114 (2015-2016): output exists — skipping (set SKIP_EXISTING=False to rerun)
+Congress 115 (2017-2018): output exists — skipping (set SKIP_EXISTING=False to rerun)
+Congress 116 (2019-2020): output exists — skipping (set SKIP_EXISTING=False to rerun)
+Congress 117 (2021-2022): output exists — skipping (set SKIP_EXISTING=False to rerun)
+
+Done. Per-congress outputs in: data/congress/{num}/

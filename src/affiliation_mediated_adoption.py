@@ -21,6 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from config import DATA_DIR, OPENSECRETS_OUTPUT_CSV
+from utils.data_loading import assign_quarters
 
 # -- Constants ----------------------------------------------------------------
 INCLUDE_BALANCED   = True   # include balanced (tied) RBO pairs as a comparison group
@@ -35,6 +36,7 @@ LOB_AFFIL_EDGES = DATA_DIR / "network_edges" / "lobbyist_affiliation_edges.csv"
 def load_data():
     """Load reports, RBO edges, and ranked bill lists."""
     reports = pd.read_csv(OPENSECRETS_OUTPUT_CSV).dropna(subset=["bill_number"])
+    reports = assign_quarters(reports)
     rbo     = pd.read_csv(DATA_DIR / "rbo_directed_influence.csv")
     ranked  = pd.read_csv(DATA_DIR / "ranked_bill_lists.csv")
     return reports, rbo, ranked
@@ -144,13 +146,16 @@ def build_network_adjacency(reports, external_only=True):
 def analyze_edges(rbo, top_bills, first_q, firm_reg, lob_reg,
                    lob_adj, firm_adj, include_balanced):
     """Produce one record per (RBO edge, shared bill) with bill-level and network-level mediation flags."""
-    edges = rbo if include_balanced else rbo[rbo["balanced"] == 0]
+    # Balanced pairs have net_temporal == 0; decisive pairs have net_temporal != 0.
+    # With bidirectional edges both A→B and B→A exist; deduplicate to canonical (source < target).
+    rbo_canon = rbo[rbo["source"] < rbo["target"]].copy()
+    edges = rbo_canon if include_balanced else rbo_canon[rbo_canon["net_temporal"] != 0]
 
     records = []
     for _, edge in edges.iterrows():
         src      = edge["source"]
         tgt      = edge["target"]
-        balanced = int(edge["balanced"])
+        balanced = int(edge["net_temporal"] == 0)  # 1 if balanced, 0 if decisive
 
         # Network-level connectivity is pair-level (same for every bill in pair)
         net_lob_connected  = (src, tgt) in lob_adj

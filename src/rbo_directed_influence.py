@@ -2,13 +2,14 @@
 Congress-wide directed RBO influence network — 116th Congress.
 
 Builds a single aggregate network from all 8 quarters of lobbying data where:
-  - Edge weight = RBO similarity (bill-priority ranking overlap, p=0.85)
-  - Edge direction = temporal first-mover over shared top-30 bills
-                    (global first quarter per (firm, bill); no double counting)
-  - Balanced pairs = both A->B and B->A emitted with balanced=1 attribute
-  - Node net_influence = net first-mover count (total firsts - total losses)
-                         across ALL pairwise comparisons; for Gephi node sizing
-  - Node color = #2ECC71 green (net > 0), #E74C3C red (net < 0), #95A5A6 gray (net == 0)
+  - Each firm pair (i,j) with shared top-30 bills produces TWO directed edges
+  - Edge weight   = proportional RBO: [(source_firsts + ties/2) / shared_bills] × RBO
+  - Edge rbo      = full RBO similarity (same for both edge directions of a pair)
+  - Edge net_temporal = source_firsts − target_firsts (signed; from source's perspective)
+  - Node net_strength  = Σ_j [RBO(i,j) × net_temporal(i,j)] — RBO-weighted temporal dominance
+  - Node net_influence = Σ_j (i_firsts_j − j_firsts_j) — unweighted first-mover count
+  - Node color = #2ECC71 green (net_strength > 0), #E74C3C red (net_strength < 0),
+                 #95A5A6 gray (net_strength == 0 or isolated)
 
 Output files:
   data/rbo_directed_influence.csv
@@ -16,7 +17,7 @@ Output files:
   visualizations/gml/rbo_directed_influence.gml
   visualizations/png/rbo_directed_influence.png
 
-See design_decisions.md §21 for full methodology.
+See design_decisions.md §21 and §37 for full methodology.
 """
 
 import sys
@@ -27,7 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, ".")
 from config import DATA_DIR, ROOT, MAX_BILL_DF
-from utils.data_loading import load_bills_data
+from utils.data_loading import load_bills_data, assign_quarters
 from utils.filtering import filter_bills_by_prevalence
 from utils.similarity import (
     aggregate_per_firm_bill, compute_zero_budget_fracs,
@@ -45,19 +46,6 @@ WRITE_CSV         = True
 WRITE_RANKED_CSV  = True   # data/ranked_bill_lists.csv
 WRITE_GML         = True
 WRITE_PNG         = True
-
-
-# -- Quarter assignment -------------------------------------------------------
-
-def assign_quarters(df):
-    """Add 'quarter' column: 2019 Q1-4 → 1-4, 2020 Q1-4 → 5-8. No-op if already present."""
-    if "quarter" in df.columns:
-        return df
-    df = df.copy()
-    base_q   = df["report_type"].str[1].astype(int)
-    year_off = df["year"].map({2019: 0, 2020: 4})
-    df["quarter"] = base_q + year_off
-    return df
 
 
 # -- Global first-quarter lookup ----------------------------------------------
@@ -98,9 +86,9 @@ def score_pair(firm_a, firm_b, shared_bills, bill_first):
 # -- Edge construction --------------------------------------------------------
 
 def build_edges(ranked, bill_first, p=RBO_P):
-    """Compute RBO-weighted directed edges for all firm pairs sharing ≥1 top-30 bill.
+    """Compute bidirectional RBO-weighted edges for all firm pairs sharing ≥1 top-30 bill.
 
-    Direction: higher first-mover count wins; ties emit a canonical alphabetical edge (balanced=1).
+    Each pair always produces two directed edges; weights partition RBO by first-mover contribution.
     """
     firms   = sorted(ranked.keys())
     records = []
@@ -116,44 +104,42 @@ def build_edges(ranked, bill_first, p=RBO_P):
         shared = set(list_a) & set(list_b)
         sc     = score_pair(firm_a, firm_b, shared, bill_first)
         a_f, b_f = sc["a_firsts"], sc["b_firsts"]
-        balanced  = int(a_f == b_f)
+        ties     = sc["tie_count"]
+        n_shared = sc["shared_bills"]
+        net_t    = a_f - b_f
 
-        if balanced:
-            # Single canonical edge: alphabetically min→max (avoids double-counting
-            # weighted degree; direction is arbitrary but consistent across runs)
-            src, tgt = (firm_a, firm_b) if firm_a < firm_b else (firm_b, firm_a)
-            records.append({
-                "source":        src,
-                "target":        tgt,
-                "weight":        round(rbo_w, 6),
-                "source_firsts": a_f,
-                "target_firsts": b_f,
-                "tie_count":     sc["tie_count"],
-                "shared_bills":  sc["shared_bills"],
-                "net_temporal":  0,
-                "balanced":      1,
-            })
-        else:
-            # Directed: higher first-mover count wins direction
-            src, tgt, sf, tf = (
-                (firm_a, firm_b, a_f, b_f) if a_f > b_f
-                else (firm_b, firm_a, b_f, a_f)
-            )
-            records.append({
-                "source":        src,
-                "target":        tgt,
-                "weight":        round(rbo_w, 6),
-                "source_firsts": sf,
-                "target_firsts": tf,
-                "tie_count":     sc["tie_count"],
-                "shared_bills":  sc["shared_bills"],
-                "net_temporal":  sf - tf,
-                "balanced":      0,
-            })
+        # Partition RBO proportionally; ties split 50/50 between both directions
+        w_a_to_b = round(((a_f + ties / 2) / n_shared) * rbo_w, 6)
+        w_b_to_a = round(((b_f + ties / 2) / n_shared) * rbo_w, 6)
+
+        # Edge A→B
+        records.append({
+            "source":        firm_a,
+            "target":        firm_b,
+            "weight":        w_a_to_b,
+            "rbo":           round(rbo_w, 6),
+            "source_firsts": a_f,
+            "target_firsts": b_f,
+            "tie_count":     ties,
+            "shared_bills":  n_shared,
+            "net_temporal":  net_t,
+        })
+        # Edge B→A
+        records.append({
+            "source":        firm_b,
+            "target":        firm_a,
+            "weight":        w_b_to_a,
+            "rbo":           round(rbo_w, 6),
+            "source_firsts": b_f,
+            "target_firsts": a_f,
+            "tie_count":     ties,
+            "shared_bills":  n_shared,
+            "net_temporal":  -net_t,
+        })
 
     cols = [
-        "source", "target", "weight", "source_firsts", "target_firsts",
-        "tie_count", "shared_bills", "net_temporal", "balanced",
+        "source", "target", "weight", "rbo", "source_firsts", "target_firsts",
+        "tie_count", "shared_bills", "net_temporal",
     ]
     return pd.DataFrame(records) if records else pd.DataFrame(columns=cols)
 
@@ -176,53 +162,40 @@ def build_graph(edges_df, ranked_firms=None):
         G.add_edge(
             row["source"], row["target"],
             weight=float(row["weight"]),
+            rbo=float(row["rbo"]),
             source_firsts=int(row["source_firsts"]),
             target_firsts=int(row["target_firsts"]),
             tie_count=int(row["tie_count"]),
             shared_bills=int(row["shared_bills"]),
             net_temporal=int(row["net_temporal"]),
-            balanced=int(row["balanced"]),
         )
 
     for node in G.nodes():
-        # RBO-based strengths (for plot_directed_circular node sizing)
-        # start=0.0 ensures float even when a node has no outgoing/incoming edges
         out_str = sum((d["weight"] for _, _, d in G.out_edges(node, data=True)), 0.0)
         in_str  = sum((d["weight"] for _, _, d in G.in_edges(node, data=True)), 0.0)
 
-        # net_strength: RBO-weighted directional influence, directed edges only.
-        # Balanced edges are excluded — their canonical direction is alphabetical
-        # (arbitrary), so including them would produce a spurious net signal.
-        dir_out_str = sum(
-            (d["weight"] for _, _, d in G.out_edges(node, data=True) if d["balanced"] == 0),
-            0.0,
-        )
-        dir_in_str = sum(
-            (d["weight"] for _, _, d in G.in_edges(node, data=True) if d["balanced"] == 0),
+        # net_strength = Σ_j [RBO(i,j) × net_temporal(i,j)]; summed over out-edges only
+        net_str = sum(
+            (d["rbo"] * d["net_temporal"] for _, _, d in G.out_edges(node, data=True)),
             0.0,
         )
 
-        # Count-based first-mover tallies
-        # out edges: node is SOURCE  → node wins out_sf bills, loses out_tf bills
-        out_sf = sum(d["source_firsts"] for _, _, d in G.out_edges(node, data=True))
-        out_tf = sum(d["target_firsts"] for _, _, d in G.out_edges(node, data=True))
-        # in edges: node is TARGET  → node wins in_tf bills, loses in_sf bills
-        in_sf  = sum(d["source_firsts"] for _, _, d in G.in_edges(node, data=True))
-        in_tf  = sum(d["target_firsts"] for _, _, d in G.in_edges(node, data=True))
-
-        total_firsts = out_sf + in_tf
-        total_losses = out_tf + in_sf
+        # First-mover counts: out-edges only (each pair appears once as source, once as target;
+        # using only out-edges avoids double-counting with in-edges)
+        total_firsts = sum(d["source_firsts"] for _, _, d in G.out_edges(node, data=True))
+        total_losses = sum(d["target_firsts"] for _, _, d in G.out_edges(node, data=True))
         net          = total_firsts - total_losses
 
         G.nodes[node]["out_strength"]  = round(out_str, 4)
         G.nodes[node]["in_strength"]   = round(in_str,  4)
-        G.nodes[node]["net_strength"]  = round(dir_out_str - dir_in_str, 4)
+        G.nodes[node]["net_strength"]  = round(net_str, 4)
         G.nodes[node]["total_firsts"]  = int(total_firsts)
         G.nodes[node]["total_losses"]  = int(total_losses)
         G.nodes[node]["net_influence"] = int(net)
         G.nodes[node]["label"]         = str(node)
+        # Color by net_strength: green=agenda-setter, red=follower, gray=neutral/isolated
         G.nodes[node]["color"] = (
-            "#2ECC71" if net > 0 else ("#E74C3C" if net < 0 else "#95A5A6")
+            "#2ECC71" if net_str > 0 else ("#E74C3C" if net_str < 0 else "#95A5A6")
         )
 
     return G
@@ -258,42 +231,54 @@ def export_ranked_lists(ranked, df_agg, output_path):
 
 
 def write_gml(G, path):
-    """Write directed DiGraph as GML for Gephi."""
+    """Write directed DiGraph as GML for Gephi; clamps zero-weight edges to 1e-5.
+
+    Gephi silently drops edges with weight=0. Pure-follower edges (one firm leads
+    on every shared bill, no ties) have weight=0 by construction. We clamp only
+    those edges on a copy so the in-memory graph and CSVs are unchanged.
+    """
     Path(path).parent.mkdir(parents=True, exist_ok=True)
-    nx.write_gml(G, path)
+    G_out = G.copy()
+    clamped = 0
+    for u, v, d in G_out.edges(data=True):
+        if d.get("weight", 1) == 0:
+            d["weight"] = 1e-5
+            clamped += 1
+    nx.write_gml(G_out, path)
     print(f"  GML written ({G.number_of_nodes()} nodes, "
-          f"{G.number_of_edges()} edges) -> {path}")
+          f"{G.number_of_edges()} edges, {clamped} zero-weight edges clamped to 1e-5)"
+          f" -> {path}")
 
 
 def print_stats(edges_df, G):
     """Print edge coverage, node tallies, and top agenda-setters / followers."""
-    total    = len(edges_df)
-    directed = (edges_df["balanced"] == 0).sum()
-    balanced = (edges_df["balanced"] == 1).sum() // 2   # unique pairs
-    print(f"\n  Total edges in DiGraph: {total:,}  "
-          f"(directed: {directed:,}  |  balanced pairs: {balanced:,})")
-    print(f"  Mean RBO weight:        {edges_df['weight'].mean():.4f}")
-    if directed > 0:
-        d_only = edges_df[edges_df["balanced"] == 0]
-        print(f"  Mean net_temporal (directed): {d_only['net_temporal'].mean():.2f}")
-        print(f"  Mean shared_bills  (directed): {d_only['shared_bills'].mean():.1f}")
+    n_total    = len(edges_df)
+    n_pairs    = n_total // 2
+    n_decisive = (edges_df["net_temporal"] > 0).sum()   # one per decisive pair
+    n_balanced = n_pairs - n_decisive
+    print(f"\n  Total edges in DiGraph: {n_total:,}  "
+          f"({n_pairs:,} unique pairs: decisive={n_decisive:,}  balanced={n_balanced:,})")
+    print(f"  Mean RBO:               {edges_df['rbo'].mean():.4f}")
+    decisive = edges_df[edges_df["net_temporal"] > 0]
+    if len(decisive) > 0:
+        print(f"  Mean net_temporal (decisive pairs): {decisive['net_temporal'].mean():.2f}")
+        print(f"  Mean shared_bills (decisive pairs): {decisive['shared_bills'].mean():.1f}")
 
     nodes_sorted = sorted(
-        G.nodes(), key=lambda n: G.nodes[n]["net_influence"], reverse=True
+        G.nodes(), key=lambda n: G.nodes[n]["net_strength"], reverse=True
     )
-    print(f"\n  Top 8 agenda-setters (net_influence):")
-    print(f"    {'Firm':<42} {'Firsts':>7}  {'Losses':>7}  {'Net':>7}")
+    print(f"\n  Top 8 agenda-setters (net_strength):")
+    print(f"    {'Firm':<42} {'net_str':>10}  {'net_inf':>8}  {'Firsts':>7}  {'Losses':>7}")
     for n in nodes_sorted[:8]:
         a = G.nodes[n]
-        sign = "+" if a["net_influence"] >= 0 else ""
-        print(f"    {n:<42} {a['total_firsts']:>7}  {a['total_losses']:>7}  "
-              f"{sign}{a['net_influence']:>6}")
+        print(f"    {n:<42} {a['net_strength']:>10.4f}  {a['net_influence']:>+8}  "
+              f"{a['total_firsts']:>7}  {a['total_losses']:>7}")
 
-    print(f"\n  Top 5 followers (lowest net_influence):")
+    print(f"\n  Top 5 followers (lowest net_strength):")
     for n in nodes_sorted[-5:]:
         a = G.nodes[n]
-        print(f"    {n:<42} {a['total_firsts']:>7}  {a['total_losses']:>7}  "
-              f"{a['net_influence']:>7}")
+        print(f"    {n:<42} {a['net_strength']:>10.4f}  {a['net_influence']:>+8}  "
+              f"{a['total_firsts']:>7}  {a['total_losses']:>7}")
 
 
 # -- Main ---------------------------------------------------------------------

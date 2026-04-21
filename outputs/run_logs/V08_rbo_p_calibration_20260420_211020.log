@@ -1,0 +1,34 @@
+============================================================
+Validation 08: RBO p-parameter calibration
+============================================================
+NOTE: mega-bills included (no MAX_BILL_DF filter)
+
+Firms: 309  Bills: 2,245
+  Warning: 1 firm(s) excluded (zero total budget).
+
+=== Bills lobbied per firm ===
+  mean=23.2  median=11  P25=5  P75=30  max=163
+
+=== Cumulative spend share by bill rank (incl. mega-bills) ===
+Rank      Median       P25       P75      Mean
+------------------------------------------------
+1         21.7%    10.1%    43.3%    30.6%
+2         36.4%    19.8%    67.4%    46.3%
+3         49.4%    28.2%    88.2%    55.5%
+5         69.5%    41.1%   100.0%    66.6%
+7         84.3%    52.3%   100.0%    73.8%
+10        97.1%    66.2%   100.0%    80.8%
+15       100.0%    81.2%   100.0%    87.2%
+20       100.0%    89.7%   100.0%    91.0%
+30       100.0%   100.0%   100.0%    95.1%
+50       100.0%   100.0%   100.0%    98.2%
+
+=== Rank at which firm accumulates X% of lobbying spend ===
+  (median and P25/P75 across firms)
+  Target   Median rank    P25 rank    P75 rank
+------------------------------------------------
+     50%             4           2           7
+     80%             7           3          15
+     95%            10           4          24
+
+Calibration plot -> /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/rbo_p_calibration.png

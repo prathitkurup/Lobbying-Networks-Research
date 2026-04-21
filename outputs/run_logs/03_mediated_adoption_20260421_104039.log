@@ -1,0 +1,28 @@
+Loading data...
+  Reports: 23,535 rows  |  RBO edges: 7,738  |  Firms in ranked lists: 292
+Building lookups...
+  (firm, bill) first-quarter entries: 7,136
+  (firm, bill) registrant entries:    456
+  (firm, bill) lobbyist entries:      7,136
+  Lobbyist-network pairs:             0
+  Firm-network pairs:                 52
+
+Analyzing bill-level adoptions across all RBO edges...
+
+  Total bill-level records:        8,596
+  Directed (lag > 0):              3,347
+  Tied (same quarter):             5,249
+
+  Lobbyist-mediated (directed):    6  (0.2%)
+  Firm-mediated (directed):        3  (0.1%)
+  Any-mediated (directed):         7  (0.2%)
+
+  Mean lag (bill-mediated):        1.86 quarters
+  Mean lag (non-mediated):         2.05 quarters
+
+  Network-level connectivity (directed bill pairs):
+    Lobbyist-network connected:    0  (0.0%)
+    Firm-network connected:        13  (0.4%)
+
+  Bill-level output  -> affiliation_mediated_adoption.csv  (8,596 rows)
+  Edge-level output  -> rbo_edges_enriched.csv  (7,738 rows)

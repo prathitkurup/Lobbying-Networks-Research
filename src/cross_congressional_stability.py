@@ -116,27 +116,34 @@ def build_pair_matrix(edges_by_congress, stable_firms):
 
     Returns a dict: (firm_a, firm_b) → list of dicts, one per session present.
     firm_a < firm_b alphabetically (canonical).
-    Each dict: {congress, direction, net_temporal, weight}
-      direction: 1 = firm_a is source, 0 = firm_b is source, None = balanced.
+    Each dict: {congress, direction, net_temporal, rbo}
+      direction: 1 = firm_a leads (net_temporal > 0), 0 = firm_b leads (net_temporal < 0),
+                 None = balanced (net_temporal == 0).
     """
     pairs = {}
     for c, df in edges_by_congress.items():
-        # Restrict to stable set
-        mask = df["source"].isin(stable_firms) & df["target"].isin(stable_firms)
-        sub  = df[mask].copy()
+        # Restrict to stable set and canonical direction (source < target) to get one row per pair
+        mask = (
+            df["source"].isin(stable_firms) &
+            df["target"].isin(stable_firms) &
+            (df["source"] < df["target"])
+        )
+        sub = df[mask].copy()
         for _, row in sub.iterrows():
-            src, tgt = row["source"], row["target"]
-            a, b     = (src, tgt) if src < tgt else (tgt, src)
-            key      = (a, b)
-            if row["balanced"] == 1:
-                direction = None   # balanced: no clear leader
+            a, b = row["source"], row["target"]   # already canonical (a < b)
+            key  = (a, b)
+            nt   = int(row["net_temporal"])
+            if nt > 0:
+                direction = 1    # firm_a (source) is the net first-mover
+            elif nt < 0:
+                direction = 0    # firm_b (target) is the net first-mover
             else:
-                direction = 1 if src == a else 0
+                direction = None # balanced: equal first-mover counts
             pairs.setdefault(key, []).append({
                 "congress":     c,
                 "direction":    direction,
-                "net_temporal": int(row["net_temporal"]),
-                "weight":       float(row["weight"]),
+                "net_temporal": nt,
+                "rbo":          float(row["rbo"]) if "rbo" in row.index else float("nan"),
             })
     return pairs
 
@@ -337,10 +344,10 @@ def _spearman_bar_panel(ax, spearman_df, w_stat, w_pval, title, color):
 
 
 def plot_results(dir_df, dir_stats, corr_matrix, n_matrix, pairs,
-                 firm_spearman, w_stat_firm, w_firm_p,
                  str_spearman, w_stat_str, w_str_p,
+                 firm_spearman, w_stat_firm, w_firm_p,
                  stable_n, png_path):
-    """2×2 stability figure: direction | temporal heatmap / net_influence bars | net_strength bars."""
+    """2×2 stability figure: direction | temporal heatmap | net_strength bars (primary) | net_influence bars (reference)."""
     fig = plt.figure(figsize=(14, 10))
     gs  = gridspec.GridSpec(2, 2, figure=fig, wspace=0.35, hspace=0.45)
 
@@ -387,17 +394,17 @@ def plot_results(dir_df, dir_stats, corr_matrix, n_matrix, pairs,
                 ax2.text(j, i, label, ha="center", va="center", fontsize=6.5,
                          color="black" if abs(v) < 0.7 else "white")
 
-    # ── Panel 3 (bottom-left): net_influence adjacent Spearman bars ───────
+    # ── Panel 3 (bottom-left): net_strength adjacent Spearman bars [primary] ──
     ax3 = fig.add_subplot(gs[1, 0])
-    _spearman_bar_panel(ax3, firm_spearman, w_stat_firm, w_firm_p,
-                        "Firm net_influence rank stability\n(adjacent-congress Spearman ρ)",
-                        "#2ECC71")
-
-    # ── Panel 4 (bottom-right): net_strength adjacent Spearman bars ───────
-    ax4 = fig.add_subplot(gs[1, 1])
-    _spearman_bar_panel(ax4, str_spearman, w_stat_str, w_str_p,
-                        "Firm net_strength rank stability\n(adjacent-congress Spearman ρ)",
+    _spearman_bar_panel(ax3, str_spearman, w_stat_str, w_str_p,
+                        "Firm net_strength rank stability [primary]\n(adjacent-congress Spearman ρ)",
                         "#3498DB")
+
+    # ── Panel 4 (bottom-right): net_influence adjacent Spearman bars [reference]
+    ax4 = fig.add_subplot(gs[1, 1])
+    _spearman_bar_panel(ax4, firm_spearman, w_stat_firm, w_firm_p,
+                        "Firm net_influence rank stability [reference]\n(adjacent-congress Spearman ρ)",
+                        "#2ECC71")
 
     c_range   = f"{CONGRESSES[0]}th–{CONGRESSES[-1]}th Congress"
     title_str = (f"Cross-Congressional Stability  |  {stable_n} firms in all {len(CONGRESSES)} sessions  "
@@ -459,11 +466,13 @@ def _run():
         df = edges_by_congress[c]
         fs = get_firm_set(df)
         firm_sets[c] = fs
-        n_dir  = (df["balanced"] == 0).sum()
-        n_bal  = (df["balanced"] == 1).sum() // 2
+        # Each pair has two edges; decisive pairs have |net_temporal| > 0
+        n_pairs    = len(df) // 2
+        n_decisive = (df["net_temporal"] > 0).sum()   # one canonical edge per decisive pair
+        n_balanced = n_pairs - n_decisive
         print(f"  Congress {c}: {len(fs):>4} firms  |  "
               f"{len(df):>5} total edges  "
-              f"(directed: {n_dir:,}  balanced: {n_bal:,})")
+              f"({n_pairs:,} pairs: decisive={n_decisive:,}  balanced={n_balanced:,})")
 
     stable_firms = firm_sets[CONGRESSES[0]]
     for c in CONGRESSES[1:]:
@@ -480,7 +489,7 @@ def _run():
     n_stable_pairs = len(pairs)
     _n_cong      = len(CONGRESSES)
     n_appear_all = sum(1 for v in pairs.values() if len(v) == _n_cong)
-    print(f"\n  Canonical pairs (any directed/balanced edge, stable set): {n_stable_pairs:,}")
+    print(f"\n  Canonical pairs (any edge in stable set): {n_stable_pairs:,}")
     print(f"  Pairs present in all {_n_cong} sessions: {n_appear_all:,}")
     session_dist = pd.Series({k: sum(1 for v in pairs.values() if len(v) == k)
                                for k in range(1, _n_cong + 1)})
@@ -573,58 +582,9 @@ def _run():
     else:
         print(f"\n  Kendall's W: insufficient pairs with ≥{MIN_SESSIONS_W} sessions.")
 
-    # -- Analysis 3: Firm net_influence rank stability --------------------
+    # -- Analysis 3: Firm net_strength rank stability [primary] ──────────
     print(f"\n{'='*72}")
-    print("ANALYSIS 3: FIRM NET_INFLUENCE RANK STABILITY")
-    print("-" * 40)
-    firm_spearman, w_firm, w_firm_p, n_firm_w, firm_wide = run_firm_stability(
-        nodes_by_congress, set(stable_firms), metric="net_influence"
-    )
-
-    if not firm_spearman.empty:
-        print(f"\n  Adjacent-congress Spearman ρ (net_influence, {len(stable_firms)} stable firms):")
-        for _, row in firm_spearman.iterrows():
-            sig = "  *" if row["p"] < 0.05 else "   "
-            print(f"    {row['pair']:>8}:  ρ = {row['rho']:.4f}  "
-                  f"p = {row['p']:.4e}  n = {row['n']}{sig}")
-        print(f"  (* p < 0.05)")
-    else:
-        print("  Insufficient node-attribute data for firm Spearman analysis.")
-
-    if w_firm is not None:
-        print(f"\n  Kendall's W across all {len(CONGRESSES)} congresses (firms with data in all {len(CONGRESSES)}): "
-              f"W = {w_firm:.4f}  p = {w_firm_p:.4e}  n = {n_firm_w} firms")
-    else:
-        print(f"\n  Kendall's W: insufficient firms with data across all {len(CONGRESSES)} congresses.")
-
-    # Top/bottom firms by mean net_influence
-    if nodes_by_congress.get(CONGRESSES[0]) is not None:
-        means_inf = firm_wide[firm_wide.notna().all(axis=1)].mean(axis=1)
-        if not means_inf.empty:
-            top_inf = means_inf.nlargest(10)
-            bot_inf = means_inf.nsmallest(5)
-            print(f"\n  Top 10 most consistently influential firms (mean net_influence):")
-            print(f"    {'Firm':<45}", end="")
-            for c in CONGRESSES:
-                print(f"  {c:>5}", end="")
-            print(f"  {'Mean':>7}")
-            for firm in top_inf.index:
-                print(f"    {firm:<45}", end="")
-                for c in CONGRESSES:
-                    v = firm_wide.at[firm, c]
-                    print(f"  {int(v) if pd.notna(v) else '—':>5}", end="")
-                print(f"  {top_inf[firm]:>7.1f}")
-            print(f"\n  Top 5 most consistently following firms (mean net_influence):")
-            for firm in bot_inf.index:
-                print(f"    {firm:<45}", end="")
-                for c in CONGRESSES:
-                    v = firm_wide.at[firm, c]
-                    print(f"  {int(v) if pd.notna(v) else '—':>5}", end="")
-                print(f"  {bot_inf[firm]:>7.1f}")
-
-    # -- Analysis 4: Firm net_strength rank stability ---------------------
-    print(f"\n{'='*72}")
-    print("ANALYSIS 4: FIRM NET_STRENGTH RANK STABILITY")
+    print("ANALYSIS 3: FIRM NET_STRENGTH RANK STABILITY [PRIMARY]")
     print("-" * 40)
     str_spearman, w_str, w_str_p, n_str_w, str_wide = run_firm_stability(
         nodes_by_congress, set(stable_firms), metric="net_strength"
@@ -652,7 +612,7 @@ def _run():
         if not means_str.empty:
             top_str = means_str.nlargest(10)
             bot_str = means_str.nsmallest(5)
-            print(f"\n  Top 10 highest mean net_strength firms:")
+            print(f"\n  Top 10 highest mean net_strength firms (agenda-setters):")
             print(f"    {'Firm':<45}", end="")
             for c in CONGRESSES:
                 print(f"  {c:>7}", end="")
@@ -663,13 +623,62 @@ def _run():
                     v = str_wide.at[firm, c]
                     print(f"  {v:>7.3f}" if pd.notna(v) else f"  {'—':>7}", end="")
                 print(f"  {top_str[firm]:>8.3f}")
-            print(f"\n  Top 5 lowest mean net_strength firms:")
+            print(f"\n  Top 5 lowest mean net_strength firms (followers):")
             for firm in bot_str.index:
                 print(f"    {firm:<45}", end="")
                 for c in CONGRESSES:
                     v = str_wide.at[firm, c]
                     print(f"  {v:>7.3f}" if pd.notna(v) else f"  {'—':>7}", end="")
                 print(f"  {bot_str[firm]:>8.3f}")
+
+    # -- Analysis 4: Firm net_influence rank stability [reference] ────────
+    print(f"\n{'='*72}")
+    print("ANALYSIS 4: FIRM NET_INFLUENCE RANK STABILITY [REFERENCE]")
+    print("-" * 40)
+    firm_spearman, w_firm, w_firm_p, n_firm_w, firm_wide = run_firm_stability(
+        nodes_by_congress, set(stable_firms), metric="net_influence"
+    )
+
+    if not firm_spearman.empty:
+        print(f"\n  Adjacent-congress Spearman ρ (net_influence, {len(stable_firms)} stable firms):")
+        for _, row in firm_spearman.iterrows():
+            sig = "  *" if row["p"] < 0.05 else "   "
+            print(f"    {row['pair']:>8}:  ρ = {row['rho']:.4f}  "
+                  f"p = {row['p']:.4e}  n = {row['n']}{sig}")
+        print(f"  (* p < 0.05)")
+    else:
+        print("  Insufficient node-attribute data for firm Spearman analysis.")
+
+    if w_firm is not None:
+        print(f"\n  Kendall's W across all {len(CONGRESSES)} congresses (firms with data in all {len(CONGRESSES)}): "
+              f"W = {w_firm:.4f}  p = {w_firm_p:.4e}  n = {n_firm_w} firms")
+    else:
+        print(f"\n  Kendall's W: insufficient firms with data across all {len(CONGRESSES)} congresses.")
+
+    # Top/bottom firms by mean net_influence (reference)
+    if nodes_by_congress.get(CONGRESSES[0]) is not None:
+        means_inf = firm_wide[firm_wide.notna().all(axis=1)].mean(axis=1)
+        if not means_inf.empty:
+            top_inf = means_inf.nlargest(10)
+            bot_inf = means_inf.nsmallest(5)
+            print(f"\n  Top 10 firms by mean net_influence (reference):")
+            print(f"    {'Firm':<45}", end="")
+            for c in CONGRESSES:
+                print(f"  {c:>5}", end="")
+            print(f"  {'Mean':>7}")
+            for firm in top_inf.index:
+                print(f"    {firm:<45}", end="")
+                for c in CONGRESSES:
+                    v = firm_wide.at[firm, c]
+                    print(f"  {int(v) if pd.notna(v) else '—':>5}", end="")
+                print(f"  {top_inf[firm]:>7.1f}")
+            print(f"\n  Top 5 lowest mean net_influence firms (reference):")
+            for firm in bot_inf.index:
+                print(f"    {firm:<45}", end="")
+                for c in CONGRESSES:
+                    v = firm_wide.at[firm, c]
+                    print(f"  {int(v) if pd.notna(v) else '—':>5}", end="")
+                print(f"  {bot_inf[firm]:>7.1f}")
 
     # -- Plot ------------------------------------------------------------
     print(f"\n{'='*72}")
@@ -678,8 +687,8 @@ def _run():
     print(f"  Text → {TXT_PATH.name}")
     plot_results(
         dir_df, dir_stats, corr_matrix, n_matrix, pairs,
-        firm_spearman, w_firm, w_firm_p,
-        str_spearman, w_str, w_str_p,
+        str_spearman, w_str, w_str_p,           # panel 3: net_strength (primary)
+        firm_spearman, w_firm, w_firm_p,         # panel 4: net_influence (reference)
         len(stable_firms), PNG_PATH
     )
 

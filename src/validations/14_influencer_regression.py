@@ -1,15 +1,15 @@
 """
 Regression analysis: predictors of firm influencer status (116th and 117th Congress).
 
-Three OLS regressions per congress (six total):
-  (A) net_influence ~ log_spend + log_bills + katz_centrality + participation_coeff
-  (B) net_strength  ~ log_spend + log_bills + katz_centrality + participation_coeff
-  (C) wc_net_strength ~ log_spend + log_bills + wc_eigenvector + wc_pagerank
-      (within-community measures; 116th community partition applied to both congresses;
-       firms without a 116th community label are dropped for regression C only)
+Four OLS regressions per congress (eight total):
+  (B)  net_strength  ~ log_spend + log_bills + katz_centrality + participation_coeff  [primary]
+  (B2) top_q_ns      ~ log_spend + log_bills + katz_centrality + participation_coeff  [binary LPM]
+  (A)  net_influence ~ log_spend + log_bills + katz_centrality + participation_coeff  [reference]
+  (C)  wc_net_strength ~ log_spend + log_bills + wc_eigenvector + wc_pagerank
+       (within-community measures; 116th community partition applied to both congresses;
+        firms without a 116th community label are dropped for regression C only)
 
-Also reports OLS with a top-quartile binary outcome (indicator for net_influence ≥ 75th
-percentile) for interpretability alongside the continuous-outcome regressions.
+top_q_ns = 1 if net_strength ≥ 75th percentile within-congress, else 0.
 
 Covariates sourced from:
   - data/congress/{num}/opensecrets_lda_reports.csv  → total_spend, num_bills
@@ -128,14 +128,18 @@ def compute_wc_pagerank_116():
 def build_wc_net_strength(congress, partition):
     """
     Within-community net_strength for a given congress.
-    Uses the stored 116th-Congress affiliation community partition.
-    Firms without a partition label are returned as NaN.
+    wc_net_strength = Σ_j∈same_community [RBO(i,j) × net_temporal(i,j)].
+    Returns NaN for all firms if edge CSV predates bidirectional redesign (no rbo column).
     """
-    directed = pd.read_csv(DATA_DIR / f"congress/{congress}/rbo_directed_influence.csv")
-    directed = directed[directed["balanced"] == 0].copy()
+    all_edges = pd.read_csv(DATA_DIR / f"congress/{congress}/rbo_directed_influence.csv")
+    nodes     = pd.read_csv(DATA_DIR / f"congress/{congress}/node_attributes.csv")
+    firms     = nodes["firm"].tolist()
 
-    nodes = pd.read_csv(DATA_DIR / f"congress/{congress}/node_attributes.csv")
-    firms = nodes["firm"].tolist()
+    if "rbo" not in all_edges.columns:
+        print(f"  WARNING: congress/{congress}/rbo_directed_influence.csv has no 'rbo' column. "
+              f"Re-run multi_congress_pipeline.py to regenerate. Spec C will be skipped.")
+        return (pd.Series(np.nan, index=pd.Index(firms, name="firm"), name="wc_net_strength")
+                  .reset_index())
 
     def comm(f):
         return partition.get(f)
@@ -146,15 +150,11 @@ def build_wc_net_strength(congress, partition):
         if my_comm is None:
             results[firm] = np.nan
             continue
-        as_src = directed[
-            (directed["source"] == firm) &
-            (directed["target"].map(comm) == my_comm)
+        same_comm_out = all_edges[
+            (all_edges["source"] == firm) &
+            (all_edges["target"].map(comm) == my_comm)
         ]
-        as_tgt = directed[
-            (directed["target"] == firm) &
-            (directed["source"].map(comm) == my_comm)
-        ]
-        results[firm] = as_src["weight"].sum() - as_tgt["weight"].sum()
+        results[firm] = float((same_comm_out["rbo"] * same_comm_out["net_temporal"]).sum())
 
     return (pd.Series(results, name="wc_net_strength")
               .rename_axis("firm").reset_index())
@@ -171,12 +171,8 @@ def _top_quartile_indicator(series):
 
 
 def run_ols(df, formula, label, top_q_outcome=None):
-    """
-    Run OLS regression and return a results summary dict.
-    If top_q_outcome is provided, also runs a logit for the binary indicator.
-    Returns (ols_result, logit_result_or_None, summary_rows).
-    """
-    model = smf.ols(formula=formula, data=df.dropna()).fit(
+    """Run OLS; statsmodels drops only rows where formula variables are NaN (missing='drop')."""
+    model = smf.ols(formula=formula, data=df, missing="drop").fit(
         cov_type="HC3"  # heteroskedasticity-robust standard errors
     )
     return model
@@ -231,8 +227,8 @@ def main():
     print("VALIDATION 14: INFLUENCER REGRESSION (116th AND 117th CONGRESS)")
     print("=" * 75)
     print()
-    print("Outcomes:  net_influence, net_strength, wc_net_strength")
-    print("Also runs: top-quartile OLS for net_influence (binary indicator)")
+    print("Outcomes:  net_strength [primary], net_influence [reference], wc_net_strength")
+    print("Also runs: top-quartile OLS for net_strength (top_q_ns binary indicator)")
     print("Covariates: log_spend, log_bills, katz_centrality,")
     print("            participation_coeff, within_comm_eigenvector, wc_pagerank")
     print("Note: centrality covariates are from the 116th-Congress affiliation")
@@ -277,8 +273,8 @@ def main():
               .merge(cent_merged, on="firm", how="left")
               .merge(wc_ns_df,    on="firm", how="left"))
 
-        # Top-quartile indicator for net_influence
-        df["top_q_ni"] = _top_quartile_indicator(df["net_influence"])
+        # Top-quartile indicators
+        df["top_q_ns"] = _top_quartile_indicator(df["net_strength"])   # primary
 
         print(f"  Merged dataset: {len(df)} firms")
         print(f"  Complete cases (all regressors): "
@@ -286,36 +282,40 @@ def main():
 
         print(f"\n  --- {congress}th Congress ---")
 
-        # Spec A: net_influence ~ log_spend + log_bills + katz + P
-        formulaA = ("net_influence ~ log_spend + log_bills "
-                    "+ katz_centrality + participation_coeff")
-        resA = run_ols(df, formulaA, f"(A) net_influence ~ log_spend + log_bills + katz + P")
-        print_ols_table(resA, f"(A) net_influence [{congress}th]")
-        all_rows.append(ols_to_row(resA, congress, "net_influence", "A"))
-
-        # Spec A2: top-quartile indicator (OLS linear probability)
-        formulaA2 = ("top_q_ni ~ log_spend + log_bills "
-                     "+ katz_centrality + participation_coeff")
-        resA2 = run_ols(df, formulaA2, f"(A2) top_quartile_ni ~ log_spend + log_bills + katz + P")
-        print_ols_table(resA2, f"(A2) top_quartile net_influence [{congress}th]")
-        all_rows.append(ols_to_row(resA2, congress, "top_quartile_net_influence", "A2"))
-
-        # Spec B: net_strength ~ log_spend + log_bills + katz + P
+        # Spec B: net_strength ~ log_spend + log_bills + katz + P  [primary]
         formulaB = ("net_strength ~ log_spend + log_bills "
                     "+ katz_centrality + participation_coeff")
         resB = run_ols(df, formulaB, f"(B) net_strength ~ log_spend + log_bills + katz + P")
         print_ols_table(resB, f"(B) net_strength [{congress}th]")
         all_rows.append(ols_to_row(resB, congress, "net_strength", "B"))
 
+        # Spec B2: top-quartile net_strength (OLS linear probability)
+        formulaB2 = ("top_q_ns ~ log_spend + log_bills "
+                     "+ katz_centrality + participation_coeff")
+        resB2 = run_ols(df, formulaB2, f"(B2) top_q_ns ~ log_spend + log_bills + katz + P")
+        print_ols_table(resB2, f"(B2) top_quartile net_strength [{congress}th]")
+        all_rows.append(ols_to_row(resB2, congress, "top_quartile_net_strength", "B2"))
+
+        # Spec A: net_influence ~ log_spend + log_bills + katz + P  [reference]
+        formulaA = ("net_influence ~ log_spend + log_bills "
+                    "+ katz_centrality + participation_coeff")
+        resA = run_ols(df, formulaA, f"(A) net_influence ~ log_spend + log_bills + katz + P")
+        print_ols_table(resA, f"(A) net_influence [{congress}th]")
+        all_rows.append(ols_to_row(resA, congress, "net_influence", "A"))
+
         # Spec C: wc_net_strength ~ log_spend + log_bills + wc_eigenvector + wc_pagerank
-        # Drop firms with no community label (117th firms absent from 116th partition)
+        # Requires edge CSV with rbo column; skipped if wc_net_strength unavailable
         df_c = df.dropna(subset=["wc_net_strength", "wc_pagerank", "within_comm_eigenvector"])
         print(f"\n  Spec C (within-community): {len(df_c)} firms with community labels")
-        formulaC = ("wc_net_strength ~ log_spend + log_bills "
-                    "+ within_comm_eigenvector + wc_pagerank")
-        resC = run_ols(df_c, formulaC, f"(C) wc_net_strength ~ log_spend + log_bills + wc_eigen + wc_pr")
-        print_ols_table(resC, f"(C) wc_net_strength [{congress}th]")
-        all_rows.append(ols_to_row(resC, congress, "wc_net_strength", "C"))
+        if len(df_c) >= 10:
+            formulaC = ("wc_net_strength ~ log_spend + log_bills "
+                        "+ within_comm_eigenvector + wc_pagerank")
+            resC = run_ols(df_c, formulaC, f"(C) wc_net_strength ~ log_spend + log_bills + wc_eigen + wc_pr")
+            print_ols_table(resC, f"(C) wc_net_strength [{congress}th]")
+            all_rows.append(ols_to_row(resC, congress, "wc_net_strength", "C"))
+        else:
+            print(f"  Spec C skipped — insufficient observations (n={len(df_c)}). "
+                  f"Re-run multi_congress_pipeline.py to generate edge CSV with rbo column.")
 
         # Descriptive summary of outcome variables
         print(f"\n  Outcome descriptives [{congress}th]:")
@@ -336,8 +336,31 @@ def main():
 
     print("\n  --- Interpretation summary ---")
     print()
-    print("  Covariates that consistently predict influencer status:")
+    print("  Covariates that consistently predict net_strength [primary, Spec B]:")
 
+    for congress in CONGRESSES:
+        sub = results_df[
+            (results_df["congress"] == congress) &
+            (results_df["outcome"] == "net_strength")
+        ]
+        if sub.empty:
+            continue
+        row = sub.iloc[0]
+        sig_vars = []
+        for col in ["coef_log_spend", "coef_log_bills", "coef_katz_centrality",
+                    "coef_participation_coeff"]:
+            pval_col = col.replace("coef_", "pval_")
+            if pval_col in row and not pd.isna(row[pval_col]) and row[pval_col] < 0.10:
+                sig_vars.append(
+                    f"{col.replace('coef_','')} (β={row[col]:.3f}, p={row[pval_col]:.3f})"
+                )
+        label = "significant" if sig_vars else "none significant at p<0.10"
+        print(f"  [{congress}th] net_strength: {label}")
+        for v in sig_vars:
+            print(f"    · {v}")
+
+    print()
+    print("  [Reference Spec A: net_influence]")
     for congress in CONGRESSES:
         sub = results_df[
             (results_df["congress"] == congress) &

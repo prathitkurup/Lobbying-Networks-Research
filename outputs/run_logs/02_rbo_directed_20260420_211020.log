@@ -1,0 +1,38 @@
+Loaded 23,535 rows  |  309 firms  |  2245 bills
+  Warning: 1 firm(s) excluded (zero total budget).
+
+[prevalence filter] bill_number: removed 11 / 2245 units with df > 50 (0.5%)
+  After prevalence filter: 2,234 bills
+  Firms with ranked lists: 293
+  Ranked lists CSV -> ranked_bill_lists.csv  (293 firms, 4092 rows)
+  (firm, bill) first-quarter entries: 7,136
+
+Building edges (RBO p=0.85, top_bills=30, MAX_BILL_DF=50)...
+  Done.
+
+  Total edges in DiGraph: 7,738  (3,869 unique pairs: decisive=1,890  balanced=1,979)
+  Mean RBO:               0.0622
+  Mean net_temporal (decisive pairs): 1.47
+  Mean shared_bills (decisive pairs): 2.8
+
+  Top 8 agenda-setters (net_strength):
+    Firm                                          net_str   net_inf   Firsts   Losses
+    DTE ENERGY                                     5.8428       +43       53       10
+    CUMMINS                                        5.3093       +58       75       17
+    CALPINE                                        4.9431       +53       58        5
+    ABBVIE                                         4.1670       +36       40        4
+    CMS ENERGY                                     3.8887       +31       31        0
+    BERKSHIRE HATHAWAY                             3.7763       +11       24       13
+    MICROSOFT                                      3.3167       +23       29        6
+    LABORATORY CORP. OF AMERICA                    2.8698       +18       29       11
+
+  Top 5 followers (lowest net_strength):
+    MUTUAL OF OMAHA INSURANCE                     -5.2195      -115       13      128
+    ORACLE                                        -5.2279       -22       17       39
+    PPL                                           -5.2932       -21       38       59
+    CSX                                           -6.1999       -15        6       21
+    AMERICAN ELECTRIC POWER                       -8.5146       -43       32       75
+
+  Edges CSV -> rbo_directed_influence.csv
+  GML written (293 nodes, 7738 edges) -> /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/visualizations/gml/rbo_directed_influence.gml
+  PNG saved -> /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/visualizations/png/rbo_directed_influence.png

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/07_composite_network_validation.py", line 44, in <module>
+    from composite_similarity_network import build_composite_edges
+ModuleNotFoundError: No module named 'composite_similarity_network'

@@ -4,7 +4,7 @@ INFLATION DIAGNOSIS: Cartesian Product Bug in Edge Construction
 
 -- Step 1: Quantify Raw Duplication --
   Rows per (firm, bill) pair:
-    Mean:   3.27
+    Mean:   3.30
     Median: 3.0
     Max:    20
   Under the bug, for a pair of firms with R_A and R_B rows on a
@@ -15,10 +15,10 @@ INFLATION DIAGNOSIS: Cartesian Product Bug in Edge Construction
   Building edges with buggy code (no dedup)...
   Building edges with fixed code (dedup + canonical)...
 
-  BUGGY edges:  42,405 pairs
-    weight stats:  mean=12.7  median=6.0  max=1197
+  BUGGY edges:  43,892 pairs
+    weight stats:  mean=12.9  median=6.0  max=1197
 
-  FIXED edges:  24,039 pairs
+  FIXED edges:  24,831 pairs
     weight stats:  mean=2.8  median=2.0  max=125
 
   Inflation factor at median: 3.0x  (6 buggy / 2 fixed)
@@ -30,14 +30,14 @@ INFLATION DIAGNOSIS: Cartesian Product Bug in Edge Construction
     Buggy weight:  112 (≈112x inflated)
 
 -- Step 4: Canonical Pair Ordering --
-  Non-canonical pairs in buggy output: 21,216
+  Non-canonical pairs in buggy output: 21,959
   (source > target — these are stored separately from their
    canonical counterpart, causing double-counting.)
   Fixed output: 0 non-canonical pairs (guaranteed by src<tgt constraint).
 
 -- Summary of Fixes --
   1. drop_duplicates(subset=['fortune_name','bill_number'])
-     Reduces 24,977 raw rows to 7,253 unique (firm, bill) pairs.
+     Reduces 25,676 raw rows to 7,392 unique (firm, bill) pairs.
   2. src, tgt = (a,b) if a<b else (b,a)
      Canonical ordering ensures (A,B) and (B,A) always merge.
   Result: median shared-bill count corrected from 6 → 2.

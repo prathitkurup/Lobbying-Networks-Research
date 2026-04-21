@@ -6,7 +6,7 @@ Checks:
   2.  116th Congress quarter coverage — all 8 quarters present
 
 Statistics & Visualizations:
-  3.  Agenda-setters per community (116th and 117th) — top firms by net_influence
+  3.  Agenda-setters per community (116th and 117th) — top firms by net_strength
       per community, with all centrality metrics from the bill affiliation GML
   4.  Bill affiliation GML centrality vs RBO agenda-setter alignment
   5.  Power-law evidence — in-degree, out-degree, and PageRank distributions;
@@ -54,7 +54,7 @@ from config import DATA_DIR, ROOT
 CONGRESS_DIR  = DATA_DIR / "congress"
 FIGURES_DIR   = ROOT / "outputs" / "validation" / "figures"
 OUTPUT_PATH   = ROOT / "outputs" / "validation" / "12_congress_statistics.txt"
-BILL_AFF_GML  = ROOT / "visualizations" / "gml" / "bill_affiliation_network.gml"
+BILL_AFF_GML  = ROOT / "visualizations" / "archive" / "undirected" / "bill_affiliation_network.gml"
 RBO_GML       = ROOT / "visualizations" / "gml" / "rbo_directed_influence.gml"
 
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)
@@ -170,12 +170,15 @@ def print_quarter_check(congress_num, per_q_df):
 # ---------------------------------------------------------------------------
 
 def build_rbo_graph_from_edges(congress_num):
-    """Build directed graph from per-congress RBO edge CSV."""
+    """Build directed graph from per-congress RBO edge CSV; uses only columns present in file."""
     edges = load_rbo_edges(congress_num)
     na    = load_node_attributes(congress_num)
+    # Use only edge attribute columns that actually exist in this CSV
+    wanted = ["weight", "rbo", "source_firsts", "target_firsts", "net_temporal"]
+    edge_attr = [c for c in wanted if c in edges.columns]
     G     = nx.from_pandas_edgelist(
         edges, source="source", target="target",
-        edge_attr=["weight", "source_firsts", "target_firsts", "net_temporal", "balanced"],
+        edge_attr=edge_attr,
         create_using=nx.DiGraph(),
     )
     # Attach net_influence and net_strength from node_attributes
@@ -205,7 +208,7 @@ def detect_communities(G):
 
 
 def top_agenda_setters_per_community(G, partition, na_df, k=TOP_K):
-    """Return DataFrame: top-k firms per community by net_influence."""
+    """Return DataFrame: top-k firms per community by net_strength."""
     rows = []
     for node in G.nodes():
         rows.append({
@@ -215,7 +218,7 @@ def top_agenda_setters_per_community(G, partition, na_df, k=TOP_K):
             "net_strength":  G.nodes[node].get("net_strength", 0.0),
         })
     df = pd.DataFrame(rows)
-    top = (df.sort_values("net_influence", ascending=False)
+    top = (df.sort_values("net_strength", ascending=False)
              .groupby("community")
              .head(k)
              .reset_index(drop=True))
@@ -582,10 +585,10 @@ def main():
                 sub = top[top["community"] == cid]
                 n_in_comm = list(partition.values()).count(cid)
                 print(f"\n  Community {cid}  ({n_in_comm} firms):")
-                print(f"  {'Firm':<40} {'Net-Inf':>8}  {'Net-Str':>8}")
+                print(f"  {'Firm':<40} {'Net-Str':>10}  {'Net-Inf':>8}")
                 for _, r in sub.iterrows():
-                    print(f"  {r['firm']:<40} {r['net_influence']:>8}  "
-                          f"{r['net_strength']:>8.4f}")
+                    print(f"  {r['firm']:<40} {r['net_strength']:>10.4f}  "
+                          f"{int(r['net_influence']):>8}")
 
         # =================================================================
         # CHECK 4: Bill affiliation GML centrality vs RBO agenda-setters
@@ -614,23 +617,25 @@ def main():
                 print(f"  {r['firm']:<38} {r[metric]:>12.5f}  "
                       f"{int(r['net_influence']):>8}  {comm_str:>5}")
 
-        # Correlation table
-        print("\n  Pearson correlation with RBO net_influence:")
-        print(f"  {'Metric':<30} {'r':>6}  {'p-val':>8}  {'n':>5}")
+        # Correlation table — net_strength (primary) and net_influence (reference)
+        print("\n  Pearson correlations with RBO agenda-setter metrics:")
+        print(f"  {'Metric':<30} {'r(net_str)':>10}  {'p':>7} | {'r(net_inf)':>10}  {'p':>7}  {'n':>5}")
         for metric, label in CENT_METRICS:
-            sub = merged.dropna(subset=[metric, "net_influence"])
-            if len(sub) < 5:
+            sub_ns = merged.dropna(subset=[metric, "net_strength"])
+            sub_ni = merged.dropna(subset=[metric, "net_influence"])
+            if len(sub_ns) < 5 or len(sub_ni) < 5:
                 continue
-            r, p = stats.pearsonr(sub[metric], sub["net_influence"])
-            print(f"  {label:<30} {r:>6.3f}  {p:>8.4f}  {len(sub):>5}")
+            r_ns, p_ns = stats.pearsonr(sub_ns[metric], sub_ns["net_strength"])
+            r_ni, p_ni = stats.pearsonr(sub_ni[metric], sub_ni["net_influence"])
+            print(f"  {label:<30} {r_ns:>10.3f}  {p_ns:>7.4f} | {r_ni:>10.3f}  {p_ni:>7.4f}  {len(sub_ns):>5}")
 
-        # Scatter plots
-        plot_centrality_scatter(merged, "global_pagerank", "net_influence",
-            "Bill-Affil PageRank vs RBO Net Influence",
-            "12e_scatter_pagerank_vs_netinf.png")
-        plot_centrality_scatter(merged, "katz_centrality", "net_influence",
-            "Bill-Affil Katz-Bonacich vs RBO Net Influence",
-            "12f_scatter_katz_vs_netinf.png")
+        # Scatter plots — y-axis: net_strength (primary)
+        plot_centrality_scatter(merged, "global_pagerank", "net_strength",
+            "Bill-Affil PageRank vs RBO Net Strength",
+            "12e_scatter_pagerank_vs_netstr.png")
+        plot_centrality_scatter(merged, "katz_centrality", "net_strength",
+            "Bill-Affil Katz-Bonacich vs RBO Net Strength",
+            "12f_scatter_katz_vs_netstr.png")
 
         # Bar charts by centrality metric
         for metric, label in CENT_METRICS[:3]:
@@ -766,7 +771,7 @@ def main():
               f"min={ni116_vals.min()}  max={ni116_vals.max()}")
         print(f"    positive (agenda-setters): {(ni116_vals > 0).sum()}")
         print(f"    negative (net followers):  {(ni116_vals < 0).sum()}")
-        print(f"    neutral (balanced):        {(ni116_vals == 0).sum()}")
+        print(f"    neutral (net_inf=0):        {(ni116_vals == 0).sum()}")
 
         print(f"\n  117th Congress net_influence:")
         print(f"    n={len(ni117_vals)}  mean={ni117_vals.mean():.2f}  "
@@ -774,7 +779,7 @@ def main():
               f"min={ni117_vals.min()}  max={ni117_vals.max()}")
         print(f"    positive (agenda-setters): {(ni117_vals > 0).sum()}")
         print(f"    negative (net followers):  {(ni117_vals < 0).sum()}")
-        print(f"    neutral (balanced):        {(ni117_vals == 0).sum()}")
+        print(f"    neutral (net_inf=0):        {(ni117_vals == 0).sum()}")
 
         ks_stat, ks_p = stats.ks_2samp(ni116_vals, ni117_vals)
         print(f"\n  KS test (116 vs 117 net_influence):  D={ks_stat:.4f}, p={ks_p:.4f}")
@@ -786,20 +791,20 @@ def main():
         plot_net_influence_comparison(ni116_vals, ni117_vals,
                                       "12n_netinf_116_vs_117.png")
 
-        # Top 10 agenda-setters per congress
-        print(f"\n  Top {TOP_K} Agenda-Setters — 116th Congress (by net_influence):")
-        print(f"  {'Firm':<40} {'Net-Inf':>8}  {'Net-Str':>8}")
-        top116 = na116.nlargest(TOP_K, "net_influence")
+        # Top 10 agenda-setters per congress — sorted by net_strength (primary)
+        print(f"\n  Top {TOP_K} Agenda-Setters — 116th Congress (by net_strength):")
+        print(f"  {'Firm':<40} {'Net-Str':>10}  {'Net-Inf':>8}")
+        top116 = na116.nlargest(TOP_K, "net_strength")
         for _, r in top116.iterrows():
-            print(f"  {r['firm']:<40} {int(r['net_influence']):>8}  "
-                  f"{r['net_strength']:>8.4f}")
+            print(f"  {r['firm']:<40} {r['net_strength']:>10.4f}  "
+                  f"{int(r['net_influence']):>8}")
 
-        print(f"\n  Top {TOP_K} Agenda-Setters — 117th Congress (by net_influence):")
-        print(f"  {'Firm':<40} {'Net-Inf':>8}  {'Net-Str':>8}")
-        top117 = na117.nlargest(TOP_K, "net_influence")
+        print(f"\n  Top {TOP_K} Agenda-Setters — 117th Congress (by net_strength):")
+        print(f"  {'Firm':<40} {'Net-Str':>10}  {'Net-Inf':>8}")
+        top117 = na117.nlargest(TOP_K, "net_strength")
         for _, r in top117.iterrows():
-            print(f"  {r['firm']:<40} {int(r['net_influence']):>8}  "
-                  f"{r['net_strength']:>8.4f}")
+            print(f"  {r['firm']:<40} {r['net_strength']:>10.4f}  "
+                  f"{int(r['net_influence']):>8}")
 
         # =================================================================
         # CHECK 10: Quarter-level summary (117th)

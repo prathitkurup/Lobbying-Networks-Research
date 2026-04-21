@@ -17,9 +17,9 @@ Community labels (Leiden, affiliation network):
 [2/6] Analysis 1: Edge-level distributions (cross vs. intra-sector)
 
   weight:
-    Cross-sector  — mean=0.03315,  median=0.00825
-    Intra-sector  — mean=0.07667, median=0.03583
-    Mann-Whitney U=247353.5, p=2.9110e-45
+    Cross-sector  — mean=0.02775,  median=0.00659
+    Intra-sector  — mean=0.05963, median=0.02841
+    Mann-Whitney U=255519.5, p=8.0068e-41
     → Cross-sector weight is lower (significant)
 
   net_temporal:
@@ -42,11 +42,11 @@ Tech/Telecom                        48                26                 50     
   Mean RBO weight by community pair (rows=source, cols=target):
 tgt_label           Defense/Industrial  Energy/Utilities  Finance/Insurance  Health/Pharma  Tech/Telecom
 src_label                                                                                               
-Defense/Industrial              0.0601            0.0265             0.0358         0.0233        0.0535
-Energy/Utilities                0.0417            0.0721             0.0222         0.0225        0.0235
-Finance/Insurance               0.0133            0.0446             0.0761         0.0207        0.0182
-Health/Pharma                   0.0604            0.0439             0.0178         0.0793        0.0299
-Tech/Telecom                    0.0528            0.0350             0.0365         0.0230        0.0950
+Defense/Industrial              0.0444            0.0212             0.0296         0.0217        0.0448
+Energy/Utilities                0.0303            0.0524             0.0208         0.0198        0.0192
+Finance/Insurance               0.0122            0.0413             0.0600         0.0161        0.0160
+Health/Pharma                   0.0482            0.0393             0.0175         0.0603        0.0236
+Tech/Telecom                    0.0423            0.0299             0.0329         0.0193        0.0809
 
   Net directional flow between community pairs (positive = row dominates):
   Community A               Community B                  A→B    B→A  Net (A-B) Dominant
@@ -67,21 +67,21 @@ Tech/Telecom                    0.0528            0.0350             0.0365     
   Top 15 cross-sector agenda-setters (net_cs_influence):
   Firm                                       Sector                  CS-NI    CS-NS     NI  CSout  CSin
   ----------------------------------------------------------------------------------------------------
-  CUMMINS                                    Defense/Industrial         48    2.629     58     34     3
-  FORD                                       Finance/Insurance          20    0.759     27     13     0
-  IBM                                        Tech/Telecom               19    0.260     48     19     2
-  3M                                         Defense/Industrial         17    0.065     21     20     8
-  LOCKHEED MARTIN                            Defense/Industrial         17    0.254     27     12     0
-  BALL                                       Defense/Industrial         15    0.215     44     13     1
-  LEIDOS HOLDINGS                            Defense/Industrial         15    0.058     34     11     1
-  AMERICAN FAMILY INSURANCE GROUP            Finance/Insurance          15    0.234     30     11     0
-  BOEING                                     Defense/Industrial         14    0.128     13     13     0
-  UNION PACIFIC                              Defense/Industrial         14    0.086     10     13     3
-  PRINCIPAL FINANCIAL                        Finance/Insurance          14    0.101     25     13     5
-  EXXONMOBIL                                 Energy/Utilities           13    0.142     44      9     2
-  COGNIZANT TECHNOLOGY SOLUTIONS             Defense/Industrial         12    1.183     13      7     0
-  GENERAL DYNAMICS                           Defense/Industrial         12    0.183     27      9     0
-  CATERPILLAR                                Health/Pharma              12    0.948      7     21    11
+  CUMMINS                                    Defense/Industrial         48    4.867     58     34     3
+  FORD                                       Finance/Insurance          20    1.346     27     13     0
+  IBM                                        Tech/Telecom               19    0.386     48     19     2
+  3M                                         Defense/Industrial         17    0.145     21     20     8
+  LOCKHEED MARTIN                            Defense/Industrial         17    0.279     27     12     0
+  BALL                                       Defense/Industrial         15    0.252     44     13     1
+  LEIDOS HOLDINGS                            Defense/Industrial         15    0.130     34     11     1
+  AMERICAN FAMILY INSURANCE GROUP            Finance/Insurance          15    0.423     30     11     0
+  BOEING                                     Defense/Industrial         14    0.141     13     13     0
+  UNION PACIFIC                              Defense/Industrial         14    0.124     10     13     3
+  PRINCIPAL FINANCIAL                        Finance/Insurance          14    0.169     25     13     5
+  EXXONMOBIL                                 Energy/Utilities           13    0.212     44      9     2
+  COGNIZANT TECHNOLOGY SOLUTIONS             Defense/Industrial         12    2.052     13      7     0
+  GENERAL DYNAMICS                           Defense/Industrial         12    0.319     27      9     0
+  CATERPILLAR                                Health/Pharma              12    1.319      7     21    11
 
   Top 10 cross-sector followers (most negative net_cs_influence):
   Firm                                       Sector                  CS-NI     NI
@@ -98,11 +98,11 @@ Tech/Telecom                    0.0528            0.0350             0.0365     
   FACEBOOK                                   Tech/Telecom              -13    -15
 
   Mean net_cs_influence by community:
-    Defense/Industrial    : n=40, mean CS-NI= +4.15, mean CS-NS=+0.0705, pct_positive=67.5%
-    Energy/Utilities      : n=37, mean CS-NI= -0.32, mean CS-NS=-0.0224, pct_positive=45.9%
-    Finance/Insurance     : n=33, mean CS-NI= +0.09, mean CS-NS=-0.0424, pct_positive=51.5%
-    Health/Pharma         : n=29, mean CS-NI= -3.62, mean CS-NS=-0.0047, pct_positive=37.9%
-    Tech/Telecom          : n=41, mean CS-NI= -1.27, mean CS-NS=-0.0111, pct_positive=41.5%
+    Defense/Industrial    : n=40, mean CS-NI= +4.15, mean CS-NS=+0.0782, pct_positive=67.5%
+    Energy/Utilities      : n=37, mean CS-NI= -0.32, mean CS-NS=+0.0261, pct_positive=45.9%
+    Finance/Insurance     : n=33, mean CS-NI= +0.09, mean CS-NS=-0.0580, pct_positive=51.5%
+    Health/Pharma         : n=29, mean CS-NI= -3.62, mean CS-NS=-0.0157, pct_positive=37.9%
+    Tech/Telecom          : n=41, mean CS-NI= -1.27, mean CS-NS=-0.0421, pct_positive=41.5%
 
 [5/6] Analysis 4: Bridge firms (highest cross-sector edge fraction)
 
@@ -130,16 +130,16 @@ Tech/Telecom                    0.0528            0.0350             0.0365     
   Top 10 cross-sector dyads by net_temporal:
   Source                         Target                         Src-Sect               Tgt-Sect                 NT     RBO  CosSim
   -----------------------------------------------------------------------------------------------------------------------------
-  BERKSHIRE HATHAWAY             CSX                            Energy/Utilities       Defense/Industrial        5  0.6531  0.4975
-  AMERIPRISE FINANCIAL           MUTUAL OF OMAHA INSURANCE      Finance/Insurance      Health/Pharma             4  0.0100  0.6318
-  DELTA AIR LINES                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0325  0.3183
-  EXXONMOBIL                     GENERAL ELECTRIC               Energy/Utilities       Defense/Industrial        4  0.0019  0.4557
-  GENERAL DYNAMICS               GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0453  0.1453
+  BERKSHIRE HATHAWAY             CSX                            Energy/Utilities       Defense/Industrial        5  0.4226  0.4975
+  AMERIPRISE FINANCIAL           MUTUAL OF OMAHA INSURANCE      Finance/Insurance      Health/Pharma             4  0.0083  0.6318
+  DELTA AIR LINES                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0292  0.3183
+  EXXONMOBIL                     GENERAL ELECTRIC               Energy/Utilities       Defense/Industrial        4  0.0017  0.4557
+  GENERAL DYNAMICS               GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0408  0.1453
   LEIDOS HOLDINGS                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0178  0.4053
-  LOCKHEED MARTIN                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0009  0.3506
-  HILTON WORLDWIDE HOLDINGS      LOEWS                          Finance/Insurance      Energy/Utilities          4  0.0515  0.4060
+  LOCKHEED MARTIN                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0008  0.3506
+  HILTON WORLDWIDE HOLDINGS      LOEWS                          Finance/Insurance      Energy/Utilities          4  0.0360  0.4060
   3M                             SOUTHERN                       Defense/Industrial     Energy/Utilities          3  0.0074  0.3815
-  AIG                            MUTUAL OF OMAHA INSURANCE      Finance/Insurance      Health/Pharma             3  0.0407  0.5345
+  AIG                            MUTUAL OF OMAHA INSURANCE      Finance/Insurance      Health/Pharma             3  0.0306  0.5345
 
   Issue code profiles for top cross-sector dyads:
   Source → Target                                         Src top-3 issues          Tgt top-3 issues          Shared
@@ -155,10 +155,10 @@ Tech/Telecom                    0.0528            0.0350             0.0365     
   3M → SOUTHERN                                           HCR, MMM, BUD             BUD, CAW, CDT             BUD
   AIG → MUTUAL OF OMAHA INSURANCE                         AUT, FIN, INS             RET, SCI, INS             INS
 
-  Edge table    → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_edge_table.csv
-  Firm table    → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_firm_table.csv
-  Pair matrix   → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_pair_matrix.csv
-  Log           → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_directed_edges.txt
+  Edge table    → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_edge_table.csv
+  Firm table    → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_firm_table.csv
+  Pair matrix   → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_pair_matrix.csv
+  Log           → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_directed_edges.txt
 
   Validation complete.
 ========================================================================

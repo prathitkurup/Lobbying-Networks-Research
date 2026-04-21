@@ -267,7 +267,7 @@ def fig_network(enr):
         for _, row in enr.iterrows():
             G.add_edge(row["source"], row["target"],
                        weight=float(row["weight"]),
-                       balanced=int(row["balanced"]))
+                       net_temporal=int(row["net_temporal"]))
         print("  [network] GML not found; built from enriched CSV (no node attrs)")
 
     # Identify mediated pairs from enriched CSV

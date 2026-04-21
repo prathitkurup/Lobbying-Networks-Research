@@ -90,10 +90,11 @@ def load_data():
 
 def tag_edges(directed_raw, comm_map):
     """
-    Keep only directed (balanced=0) edges where both endpoints have community
-    labels. Add src_comm, tgt_comm, cross_sector, community_pair columns.
+    Keep one decisive edge per pair (net_temporal > 0: source is net first-mover)
+    where both endpoints have community labels. Add src_comm, tgt_comm, cross_sector,
+    community_pair columns.
     """
-    df = directed_raw[directed_raw["balanced"] == 0].copy()
+    df = directed_raw[directed_raw["net_temporal"] > 0].copy()
     df["src_comm"] = df["source"].map(comm_map)
     df["tgt_comm"] = df["target"].map(comm_map)
     df = df.dropna(subset=["src_comm", "tgt_comm"])
@@ -181,11 +182,17 @@ def analysis_firm_cs_influence(df, nodes, comm_map):
     """Net cross-sector influence and strength per firm."""
     cs = df[df["cross_sector"]].copy()
 
+    # net_temporal > 0 edges only: source is the decisive leader in each pair.
+    # Precompute rbo×net_temporal per edge for net_cs_strength aggregation.
+    cs = cs.copy()
+    cs["rbo_nt"] = cs["rbo"] * cs["net_temporal"]   # source perspective: always > 0
+
     as_src = cs.groupby("source").agg(
         cs_out_edges    = ("weight", "count"),
         cs_out_firsts   = ("source_firsts", "sum"),
         cs_out_losses   = ("target_firsts", "sum"),
         cs_out_weight   = ("weight", "sum"),
+        cs_out_rbo_nt   = ("rbo_nt", "sum"),
     ).rename_axis("firm")
 
     as_tgt = cs.groupby("target").agg(
@@ -193,6 +200,7 @@ def analysis_firm_cs_influence(df, nodes, comm_map):
         cs_in_wins    = ("target_firsts", "sum"),
         cs_in_losses  = ("source_firsts", "sum"),
         cs_in_weight  = ("weight", "sum"),
+        cs_in_rbo_nt  = ("rbo_nt", "sum"),   # same value; target loses this amount
     ).rename_axis("firm")
 
     firm_cs = as_src.join(as_tgt, how="outer").fillna(0)
@@ -200,7 +208,8 @@ def analysis_firm_cs_influence(df, nodes, comm_map):
         firm_cs["cs_out_firsts"] + firm_cs["cs_in_wins"]
         - firm_cs["cs_out_losses"] - firm_cs["cs_in_losses"]
     )
-    firm_cs["net_cs_strength"] = firm_cs["cs_out_weight"] - firm_cs["cs_in_weight"]
+    # net_cs_strength = Σ rbo×nt where source leads − Σ rbo×nt where target leads over firm
+    firm_cs["net_cs_strength"] = firm_cs["cs_out_rbo_nt"] - firm_cs["cs_in_rbo_nt"]
     firm_cs["community"] = pd.Series(firm_cs.index).map(comm_map).values
     firm_cs["community_label"] = firm_cs["community"].map(
         lambda x: COMMUNITY_LABELS.get(int(x), "unknown") if pd.notna(x) else "unknown"

@@ -55,7 +55,7 @@ def load_data():
         "net_lob_connected", "net_firm_connected", "net_any_connected",
     ]
     required_enr = [
-        "source", "target", "balanced", "weight",
+        "source", "target", "net_temporal", "weight",
         "any_mediation_rate", "lobbyist_mediation_rate", "firm_mediation_rate",
     ]
     for col in required_med:
@@ -107,8 +107,8 @@ def section_by_edge_type(df):
     print("  Directed (lag > 0) bill pairs within each edge type:\n")
 
     directed = df[df["is_bill_directed"]]
-    for edge_type, label in [(0, "Directed RBO edge (balanced=0)"),
-                              (1, "Balanced RBO edge (balanced=1)")]:
+    for edge_type, label in [(0, "Decisive RBO pair (net_temporal ≠ 0)"),
+                              (1, "Balanced RBO pair (net_temporal = 0)")]:
         sub = directed[directed["rbo_balanced"] == edge_type]
         if len(sub) == 0:
             continue
@@ -271,7 +271,7 @@ def section_edge_distribution(rbo):
     print("  For each directed RBO edge: fraction of its directed bills that are")
     print("  affiliation-mediated (any channel).\n")
 
-    directed_rbo = rbo[rbo["balanced"] == 0].dropna(subset=["any_mediation_rate"])
+    directed_rbo = rbo[rbo["net_temporal"] != 0].dropna(subset=["any_mediation_rate"])
 
     print(f"  Directed RBO edges with >= 1 directed bill:  {len(directed_rbo):,}")
     print(f"  Mean any_mediation_rate:   {directed_rbo['any_mediation_rate'].mean():.3f}")

@@ -6,8 +6,12 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 import os
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import ROOT
 
-OUT_DIR = "/sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/visualizations/png"
+OUT_DIR = str(ROOT / "visualizations" / "png")
 DPI = 150
 PAL = {
     "blue":   "#2196F3",

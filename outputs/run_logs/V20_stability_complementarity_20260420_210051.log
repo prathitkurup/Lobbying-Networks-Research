@@ -1,0 +1,304 @@
+========================================================================
+VALIDATION 20: INFLUENCE STABILITY & STRATEGIC COMPLEMENTARITY
+             111th–117th Congress — consecutive session pairs
+========================================================================
+
+Primary metric : net_strength = Σ_j [RBO(i,j) × net_temporal(i,j)]
+Reference metric: net_influence (unweighted first-mover count)
+Communities    : fixed 116th-Congress Leiden partition
+
+Global top-K: 10   Community top-K: 5
+
+[1/4] Loading congress data ...
+  111th:  272 firms,   6,165 edges
+  112th:  277 firms,   6,267 edges
+  113th:  282 firms,   6,148 edges
+  114th:  284 firms,   7,418 edges
+  115th:  291 firms,   5,528 edges
+  116th:  293 firms,   3,869 edges
+  117th:  286 firms,   3,558 edges
+
+[2/4] Analyzing consecutive session pairs ...
+
+========================================================================
+  111th Congress  →  112th Congress
+========================================================================
+
+  1. GLOBAL TOP-10 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Top-10 in 111th  ('+' = retained in 112th):
+     Firm                                         net_str   net_inf
+  + XCEL ENERGY                                   4.1034        90
+    DOMINION ENERGY                               3.5008        78
+    HERSHEY                                       3.4217        33
+    LOCKHEED MARTIN                               3.3529       112
+    BOEING                                        3.2090        58
+  + DUKE ENERGY                                   2.6884        90
+    DARDEN RESTAURANTS                            2.4658        26
+    AMERICAN FAMILY INSURANCE GROUP               2.3656        70
+    DEERE                                         2.3602        71
+    THERMO FISHER SCIENTIFIC                      2.2730        25
+
+  Jaccard (top-10):         0.1111  (2/10 firms retained)
+  Spearman rho (net_strength): rho=0.0727  p=2.5431e-01  n=248 common firms
+  Leaving  top-10: AMERICAN FAMILY INSURANCE GROUP, BOEING, DARDEN RESTAURANTS, DEERE, DOMINION ENERGY, HERSHEY, LOCKHEED MARTIN, THERMO FISHER SCIENTIFIC
+  Entering top-10: BERKSHIRE HATHAWAY, CBS, ENTERGY, EXELON, INTEL, L3HARRIS TECHNOLOGIES, MICROSOFT, UNITED AIRLINES HOLDINGS
+
+  2. COMMUNITY TOP-5 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Community               Jaccard   Retained  New entrants in 112th
+  ------------------------------------------------------------------------
+  Finance/Insurance        0.1111  1/5  BANK OF AMERICA, INTERNATIONAL PAPER, PRINCIPAL FINANCIAL +1 more
+  Tech/Telecom             0.0000  0/5  CBS, HONEYWELL INTERNATIONAL, INTEL +2 more
+  Defense/Industrial       0.1111  1/5  GENERAL DYNAMICS, GENERAL ELECTRIC, L3HARRIS TECHNOLOGIES +1 more
+  Energy/Utilities         0.2500  2/5  BERKSHIRE HATHAWAY, ENTERGY, EXELON
+  Health/Pharma            0.1111  1/5  ELI LILLY, JOHNSON & JOHNSON, MERCK +1 more
+
+  Mean community Jaccard: 0.1167
+
+  3. STRATEGIC COMPLEMENTARITY PERSISTENCE
+  ----------------------------------------------------------
+  WARNING: edge CSV lacks 'rbo' column — complementarity test skipped. Re-run multi_congress_pipeline.py.
+
+========================================================================
+  112th Congress  →  113th Congress
+========================================================================
+
+  1. GLOBAL TOP-10 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Top-10 in 112th  ('+' = retained in 113th):
+     Firm                                         net_str   net_inf
+  + DUKE ENERGY                                   4.1951        81
+    MICROSOFT                                     3.8573        96
+    EXELON                                        3.1777        72
+    UNITED AIRLINES HOLDINGS                      3.0030        18
+    BERKSHIRE HATHAWAY                            2.8404        45
+    L3HARRIS TECHNOLOGIES                         2.7270        36
+    INTEL                                         2.5064        67
+  + XCEL ENERGY                                   2.2468        68
+    ENTERGY                                       2.0825        79
+    CBS                                           1.9969        72
+
+  Jaccard (top-10):         0.1111  (2/10 firms retained)
+  Spearman rho (net_strength): rho=0.1131  p=7.1453e-02  n=255 common firms
+  Leaving  top-10: BERKSHIRE HATHAWAY, CBS, ENTERGY, EXELON, INTEL, L3HARRIS TECHNOLOGIES, MICROSOFT, UNITED AIRLINES HOLDINGS
+  Entering top-10: APPLE, CMS ENERGY, FIRSTENERGY, IBM, LOCKHEED MARTIN, NORFOLK SOUTHERN, ORACLE, TEXAS INSTRUMENTS
+
+  2. COMMUNITY TOP-5 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Community               Jaccard   Retained  New entrants in 113th
+  ------------------------------------------------------------------------
+  Finance/Insurance        0.1111  1/5  AMERICAN FAMILY INSURANCE GROUP, CAPITAL ONE FINANCIAL, FIFTH THIRD BANCORP +1 more
+  Tech/Telecom             0.0000  0/5  APPLE, IBM, ORACLE +2 more
+  Defense/Industrial       0.2500  2/5  EMERSON ELECTRIC, NORFOLK SOUTHERN, RAYTHEON
+  Energy/Utilities         0.2500  2/5  CMS ENERGY, EDISON INTERNATIONAL, FIRSTENERGY
+  Health/Pharma            0.0000  0/5  ABBOTT LABORATORIES, AMERISOURCEBERGEN, BLACKSTONE GROUP +2 more
+
+  Mean community Jaccard: 0.1222
+
+  3. STRATEGIC COMPLEMENTARITY PERSISTENCE
+  ----------------------------------------------------------
+  WARNING: edge CSV lacks 'rbo' column — complementarity test skipped. Re-run multi_congress_pipeline.py.
+
+========================================================================
+  113th Congress  →  114th Congress
+========================================================================
+
+  1. GLOBAL TOP-10 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Top-10 in 113th  ('+' = retained in 114th):
+     Firm                                         net_str   net_inf
+    ORACLE                                        4.2959       171
+    FIRSTENERGY                                   3.0578        67
+    APPLE                                         3.0570        50
+    TEXAS INSTRUMENTS                             2.8159        68
+    NORFOLK SOUTHERN                              2.7029        61
+    DUKE ENERGY                                   2.4801        42
+    IBM                                           2.1794        81
+  + LOCKHEED MARTIN                               2.0673        49
+    CMS ENERGY                                    2.0218        46
+  + XCEL ENERGY                                   1.8247        45
+
+  Jaccard (top-10):         0.1111  (2/10 firms retained)
+  Spearman rho (net_strength): rho=0.1539  p=1.4638e-02  n=251 common firms
+  Leaving  top-10: APPLE, CMS ENERGY, DUKE ENERGY, FIRSTENERGY, IBM, NORFOLK SOUTHERN, ORACLE, TEXAS INSTRUMENTS
+  Entering top-10: AT&T, COCA-COLA, CORNING, DTE ENERGY, GENERAL ELECTRIC, NORTHROP GRUMMAN, NORTHWESTERN MUTUAL, U.S. BANCORP
+
+  2. COMMUNITY TOP-5 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Community               Jaccard   Retained  New entrants in 114th
+  ------------------------------------------------------------------------
+  Finance/Insurance        0.1111  1/5  CITIZENS FINANCIAL GROUP, METLIFE, U.S. BANCORP +1 more
+  Tech/Telecom             0.0000  0/5  AT&T, CISCO SYSTEMS, COCA-COLA +2 more
+  Defense/Industrial       0.2500  2/5  BOEING, CORNING, NORTHROP GRUMMAN
+  Energy/Utilities         0.2500  2/5  DTE ENERGY, EXXONMOBIL, PHILLIPS 66
+  Health/Pharma            0.1111  1/5  HCA HEALTHCARE, JOHNSON & JOHNSON, MCKESSON +1 more
+
+  Mean community Jaccard: 0.1444
+
+  3. STRATEGIC COMPLEMENTARITY PERSISTENCE
+  ----------------------------------------------------------
+  WARNING: edge CSV lacks 'rbo' column — complementarity test skipped. Re-run multi_congress_pipeline.py.
+
+========================================================================
+  114th Congress  →  115th Congress
+========================================================================
+
+  1. GLOBAL TOP-10 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Top-10 in 114th  ('+' = retained in 115th):
+     Firm                                         net_str   net_inf
+    XCEL ENERGY                                   3.8646        77
+    NORTHWESTERN MUTUAL                           3.5584        76
+    NORTHROP GRUMMAN                              3.3257        83
+    DTE ENERGY                                    3.2929        90
+    LOCKHEED MARTIN                               3.1649       135
+  + AT&T                                          3.1221        91
+    COCA-COLA                                     2.7573        42
+    U.S. BANCORP                                  2.3216        53
+    GENERAL ELECTRIC                              2.2904        39
+    CORNING                                       2.1267        48
+
+  Jaccard (top-10):         0.0526  (1/10 firms retained)
+  Spearman rho (net_strength): rho=0.1773  p=4.5220e-03  n=255 common firms
+  Leaving  top-10: COCA-COLA, CORNING, DTE ENERGY, GENERAL ELECTRIC, LOCKHEED MARTIN, NORTHROP GRUMMAN, NORTHWESTERN MUTUAL, U.S. BANCORP, XCEL ENERGY
+  Entering top-10: BOSTON SCIENTIFIC, CUMMINS, EXELON, HARTFORD FINANCIAL SERVICES, KEYCORP, LEIDOS HOLDINGS, MICROSOFT, REGIONS FINANCIAL, STATE FARM INSURANCE
+
+  2. COMMUNITY TOP-5 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Community               Jaccard   Retained  New entrants in 115th
+  ------------------------------------------------------------------------
+  Finance/Insurance        0.0000  0/5  ALLSTATE, HARTFORD FINANCIAL SERVICES, KEYCORP +2 more
+  Tech/Telecom             0.2500  2/5  ADVANCED MICRO DEVICES, AMERICAN TOWER, BOSTON SCIENTIFIC
+  Defense/Industrial       0.0000  0/5  CUMMINS, GENERAL DYNAMICS, JETBLUE AIRWAYS +2 more
+  Energy/Utilities         0.1111  1/5  BERKSHIRE HATHAWAY, DUKE ENERGY, EXELON +1 more
+  Health/Pharma            0.0000  0/5  ABBVIE, CENTENE, CIGNA +2 more
+
+  Mean community Jaccard: 0.0722
+
+  3. STRATEGIC COMPLEMENTARITY PERSISTENCE
+  ----------------------------------------------------------
+  WARNING: edge CSV lacks 'rbo' column — complementarity test skipped. Re-run multi_congress_pipeline.py.
+
+========================================================================
+  115th Congress  →  116th Congress
+========================================================================
+
+  1. GLOBAL TOP-10 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Top-10 in 115th  ('+' = retained in 116th):
+     Firm                                         net_str   net_inf
+    STATE FARM INSURANCE                          3.3630        59
+    AT&T                                          3.2517        54
+    BOSTON SCIENTIFIC                             2.7286        59
+  + EXELON                                        2.5623        46
+    HARTFORD FINANCIAL SERVICES                   2.3929        23
+    LEIDOS HOLDINGS                               2.2923        91
+    KEYCORP                                       2.2890        16
+  + MICROSOFT                                     2.1102        40
+    REGIONS FINANCIAL                             1.9153        15
+  + CUMMINS                                       1.8444        59
+
+  Jaccard (top-10):         0.1765  (3/10 firms retained)
+  Spearman rho (net_strength): rho=0.1474  p=1.6730e-02  n=263 common firms
+  Leaving  top-10: AT&T, BOSTON SCIENTIFIC, HARTFORD FINANCIAL SERVICES, KEYCORP, LEIDOS HOLDINGS, REGIONS FINANCIAL, STATE FARM INSURANCE
+  Entering top-10: ABBVIE, CALPINE, CMS ENERGY, CVS HEALTH, HEWLETT PACKARD ENTERPRISE, NORTHWESTERN MUTUAL, WELLS FARGO
+
+  2. COMMUNITY TOP-5 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Community               Jaccard   Retained  New entrants in 116th
+  ------------------------------------------------------------------------
+  Finance/Insurance        0.1111  1/5  CITIGROUP, NORTHWESTERN MUTUAL, PNC FINANCIAL SERVICES +1 more
+  Tech/Telecom             0.1111  1/5  APPLIED MATERIALS, CARDINAL HEALTH, HEWLETT PACKARD ENTERPRISE +1 more
+  Defense/Industrial       0.1111  1/5  BALL, COGNIZANT TECHNOLOGY SOLUTIONS, NORTHROP GRUMMAN +1 more
+  Energy/Utilities         0.4286  3/5  CMS ENERGY, PG&E
+  Health/Pharma            0.4286  3/5  GILEAD SCIENCES, RITE AID
+
+  Mean community Jaccard: 0.2381
+
+  3. STRATEGIC COMPLEMENTARITY PERSISTENCE
+  ----------------------------------------------------------
+  WARNING: edge CSV lacks 'rbo' column — complementarity test skipped. Re-run multi_congress_pipeline.py.
+
+========================================================================
+  116th Congress  →  117th Congress
+========================================================================
+
+  1. GLOBAL TOP-10 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Top-10 in 116th  ('+' = retained in 117th):
+     Firm                                         net_str   net_inf
+    CUMMINS                                       2.9281        58
+    CMS ENERGY                                    1.7612        31
+    CALPINE                                       1.7324        53
+    NORTHWESTERN MUTUAL                           1.4368        24
+    MICROSOFT                                     1.4365        23
+    WELLS FARGO                                   1.4360        12
+    CVS HEALTH                                    1.4144        26
+    EXELON                                        1.3168        26
+    ABBVIE                                        1.3038        36
+  + HEWLETT PACKARD ENTERPRISE                    1.2894        14
+
+  Jaccard (top-10):         0.0526  (1/10 firms retained)
+  Spearman rho (net_strength): rho=0.1497  p=1.7392e-02  n=252 common firms
+  Leaving  top-10: ABBVIE, CALPINE, CMS ENERGY, CUMMINS, CVS HEALTH, EXELON, MICROSOFT, NORTHWESTERN MUTUAL, WELLS FARGO
+  Entering top-10: AMAZON, DTE ENERGY, LOCKHEED MARTIN, MERCK, NEW YORK LIFE INSURANCE, SHERWIN-WILLIAMS, STATE FARM INSURANCE, UNITED AIRLINES HOLDINGS, WALGREENS BOOTS ALLIANCE
+
+  2. COMMUNITY TOP-5 NET_STRENGTH STABILITY
+  ----------------------------------------------------------
+
+  Community               Jaccard   Retained  New entrants in 117th
+  ------------------------------------------------------------------------
+  Finance/Insurance        0.0000  0/5  AIG, BLACKROCK, CAPITAL ONE FINANCIAL +2 more
+  Tech/Telecom             0.4286  3/5  AMAZON, IBM
+  Defense/Industrial       0.0000  0/5  GENERAL DYNAMICS, GRAPHIC PACKAGING HOLDING, LOCKHEED MARTIN +2 more
+  Energy/Utilities         0.2500  2/5  DTE ENERGY, PUBLIC SERVICE ENTERPRISE GROUP, SHERWIN-WILLIAMS
+  Health/Pharma            0.1111  1/5  JOHNSON & JOHNSON, LABORATORY CORP. OF AMERICA, MERCK +1 more
+
+  Mean community Jaccard: 0.1579
+
+  3. STRATEGIC COMPLEMENTARITY PERSISTENCE
+  ----------------------------------------------------------
+  WARNING: edge CSV lacks 'rbo' column — complementarity test skipped. Re-run multi_congress_pipeline.py.
+
+========================================================================
+[3/4] SUMMARY ACROSS ALL CONSECUTIVE SESSION PAIRS
+========================================================================
+
+  Pair          GlobJ   rho(ns)   CommJ  PersistR  RBO-rho   Fisher-p
+  -----------------------------------------------------------------
+  111->112     0.1111    0.0727  0.1167         —        —          —
+  112->113     0.1111    0.1131  0.1222         —        —          —
+  113->114     0.1111    0.1539  0.1444         —        —          —
+  114->115     0.0526    0.1773  0.0722         —        —          —
+  115->116     0.1765    0.1474  0.2381         —        —          —
+  116->117     0.0526    0.1497  0.1579         —        —          —
+
+  Mean global Jaccard:       0.1025
+  Mean Spearman rho(ns):     0.1357
+  Mean community Jaccard:    0.1419
+  Mean persist rate:         nan
+  Mean RBO Spearman rho:     nan
+  Fisher p < 0.05 (complementarity supported): 0/6 session pairs
+
+  Interpretation (complementarity hypothesis):
+  Overall direction persistence rate: nan%
+
+[4/4] Saving outputs ...
+  Summary CSV  -> 20_stability_summary.csv
+  Log          -> 20_influence_stability_complementarity.txt
+
+========================================================================
+Validation complete.
+========================================================================

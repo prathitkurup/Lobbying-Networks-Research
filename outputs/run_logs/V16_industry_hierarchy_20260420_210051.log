@@ -1,0 +1,227 @@
+/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/16_industry_influencer_hierarchy.py:311: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(v1[common], v2[common])
+/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/16_industry_influencer_hierarchy.py:311: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(v1[common], v2[common])
+========================================================================
+VALIDATION 16: WITHIN-COMMUNITY INFLUENCER HIERARCHY (111th-117th)
+========================================================================
+
+Community labels (Leiden, 116th affiliation network):
+  0: Finance/Insurance
+  1: Tech/Telecom
+  2: Defense/Industrial
+  3: Energy/Utilities
+  4: Health/Pharma
+
+Top-N leaderboard: 5 firms per community per congress
+Primary metric: wc_net_strength (RBO-weighted intra-sector temporal dominance).
+Reference metric: wc_net_influence (unweighted first-mover count).
+
+[1/3] Computing wc_net_strength and wc_net_influence for all congresses ...
+  WARNING: congress/111 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      111th: 170 firms with intra-community edges
+  WARNING: congress/112 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      112th: 178 firms with intra-community edges
+  WARNING: congress/113 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      113th: 183 firms with intra-community edges
+  WARNING: congress/114 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      114th: 186 firms with intra-community edges
+  WARNING: congress/115 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      115th: 190 firms with intra-community edges
+  WARNING: congress/116 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      116th: 217 firms with intra-community edges
+  WARNING: congress/117 edge CSV has no 'rbo' column — re-run multi_congress_pipeline.py. Returning empty wc_net_strength.
+      117th: 188 firms with intra-community edges
+
+[2/3] Per-community leaderboards and rank stability ...
+
+====================================================================
+  Community 0: Finance/Insurance
+  Total members: 72 | Stable across all 7 congresses: 28
+====================================================================
+
+  Top-5 within-community agenda-setters by congress (wc_net_strength):
+
+  Rank   111th                                  112th                                  113th                                  114th                                  115th                                  116th                                  117th                                
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      GENWORTH FINANCIAL (ns=+0.00/ni=+7)   GENWORTH FINANCIAL (ns=+0.00/ni=+3)   ASSURANT (ns=+0.00/ni=+3)             GENWORTH FINANCIAL (ns=+0.00/ni=+0)   BORGWARNER (ns=+0.00/ni=+3)           GENWORTH FINANCIAL (ns=+0.00/ni=+1)   GENWORTH FINANCIAL (ns=+0.00/ni=+0) 
+  2      ASSURANT (ns=+0.00/ni=+30)            ASSURANT (ns=+0.00/ni=+6)             LIBERTY MUTUAL INSUR (ns=+0.00/ni=+15)  ASSURANT (ns=+0.00/ni=+1)             ASSURANT (ns=+0.00/ni=+2)             BORGWARNER (ns=+0.00/ni=+1)           LIBERTY MUTUAL INSUR (ns=+0.00/ni=+0)
+  3      LIBERTY MUTUAL INSUR (ns=+0.00/ni=+28)  LIBERTY MUTUAL INSUR (ns=+0.00/ni=+4)  PNC FINANCIAL SERVIC (ns=+0.00/ni=+2)  LIBERTY MUTUAL INSUR (ns=+0.00/ni=+24)  LIBERTY MUTUAL INSUR (ns=+0.00/ni=+4)  ASSURANT (ns=+0.00/ni=+0)             PNC FINANCIAL SERVIC (ns=+0.00/ni=+4)
+  4      PNC FINANCIAL SERVIC (ns=+0.00/ni=+11)  PNC FINANCIAL SERVIC (ns=+0.00/ni=+3)  LAND O'LAKES (ns=+0.00/ni=+2)         PNC FINANCIAL SERVIC (ns=+0.00/ni=+8)  LAND O'LAKES (ns=+0.00/ni=+1)         LIBERTY MUTUAL INSUR (ns=+0.00/ni=+7)  BANK OF AMERICA (ns=+0.00/ni=+3)    
+  5      LAND O'LAKES (ns=+0.00/ni=+3)         LAND O'LAKES (ns=+0.00/ni=+3)         BANK OF AMERICA (ns=+0.00/ni=+22)     LAND O'LAKES (ns=+0.00/ni=+3)         BANK OF AMERICA (ns=+0.00/ni=+20)     PNC FINANCIAL SERVIC (ns=+0.00/ni=+15)  TIAA (ns=+0.00/ni=+12)              
+
+  Rank stability (within-community net_strength, n=28 stable firms):
+
+    Kendall's W = 0.0  (chi2=0.0, p=1.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+nan  p=nan 
+      112→113: rho=+nan  p=nan 
+      113→114: rho=+nan  p=nan 
+      114→115: rho=+nan  p=nan 
+      115→116: rho=+nan  p=nan 
+      116→117: rho=+nan  p=nan 
+
+  Persistent leaders (top-5 by wc_net_strength in ≥4 of 7 congresses):
+    LIBERTY MUTUAL INSURANCE GROUP             7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    ASSURANT                                   6/7 congresses  (111, 112, 113, 114, 115, 116th)
+    PNC FINANCIAL SERVICES                     6/7 congresses  (111, 112, 113, 114, 116, 117th)
+    GENWORTH FINANCIAL                         5/7 congresses  (111, 112, 114, 116, 117th)
+    LAND O'LAKES                               5/7 congresses  (111, 112, 113, 114, 115th)
+
+====================================================================
+  Community 1: Tech/Telecom
+  Total members: 64 | Stable across all 7 congresses: 20
+====================================================================
+
+  Top-5 within-community agenda-setters by congress (wc_net_strength):
+
+  Rank   111th                                  112th                                  113th                                  114th                                  115th                                  116th                                  117th                                
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      MCDONALD'S (ns=+0.00/ni=+0)           MCDONALD'S (ns=+0.00/ni=+0)           INTUIT (ns=+0.00/ni=+3)               MCDONALD'S (ns=+0.00/ni=+0)           PEPSICO (ns=+0.00/ni=+6)              MCDONALD'S (ns=+0.00/ni=+2)           PEPSICO (ns=+0.00/ni=+2)            
+  2      PEPSICO (ns=+0.00/ni=+2)              INTUIT (ns=+0.00/ni=+4)               PEPSICO (ns=+0.00/ni=+14)             INTUIT (ns=+0.00/ni=+4)               CBS (ns=+0.00/ni=+5)                  HARLEY-DAVIDSON (ns=+0.00/ni=+0)      SYSCO (ns=+0.00/ni=+0)              
+  3      CBS (ns=+0.00/ni=+23)                 PEPSICO (ns=+0.00/ni=+9)              CBS (ns=+0.00/ni=+24)                 PEPSICO (ns=+0.00/ni=+2)              FACEBOOK (ns=+0.00/ni=+11)            PEPSICO (ns=+0.00/ni=+4)              CBS (ns=+0.00/ni=+15)               
+  4      CAMPBELL SOUP (ns=+0.00/ni=+14)       CBS (ns=+0.00/ni=+30)                 FACEBOOK (ns=+0.00/ni=+12)            SYSCO (ns=+0.00/ni=+2)                CAMPBELL SOUP (ns=+0.00/ni=+0)        SYSCO (ns=+0.00/ni=+2)                CARDINAL HEALTH (ns=+0.00/ni=+10)   
+  5      COMCAST (ns=+0.00/ni=+23)             FACEBOOK (ns=+0.00/ni=+10)            CAMPBELL SOUP (ns=+0.00/ni=+1)        CBS (ns=+0.00/ni=+12)                 COMCAST (ns=+0.00/ni=+3)              CBS (ns=+0.00/ni=+9)                  FOX CORP (ns=+0.00/ni=+3)           
+
+  Rank stability (within-community net_strength, n=20 stable firms):
+
+    Kendall's W = 0.0  (chi2=0.0, p=1.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+nan  p=nan 
+      112→113: rho=+nan  p=nan 
+      113→114: rho=+nan  p=nan 
+      114→115: rho=+nan  p=nan 
+      115→116: rho=+nan  p=nan 
+      116→117: rho=+nan  p=nan 
+
+  Persistent leaders (top-5 by wc_net_strength in ≥4 of 7 congresses):
+    PEPSICO                                    7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    CBS                                        7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    MCDONALD'S                                 4/7 congresses  (111, 112, 114, 116th)
+
+====================================================================
+  Community 2: Defense/Industrial
+  Total members: 49 | Stable across all 7 congresses: 18
+====================================================================/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/16_industry_influencer_hierarchy.py:311: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(v1[common], v2[common])
+/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/16_industry_influencer_hierarchy.py:311: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(v1[common], v2[common])
+/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/16_industry_influencer_hierarchy.py:311: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rho, pval = spearmanr(v1[common], v2[common])
+
+
+  Top-5 within-community agenda-setters by congress (wc_net_strength):
+
+  Rank   111th                                  112th                                  113th                                  114th                                  115th                                  116th                                  117th                                
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      AIR PRODUCTS & CHEMI (ns=+0.00/ni=+0)  AIR PRODUCTS & CHEMI (ns=+0.00/ni=+6)  AIR PRODUCTS & CHEMI (ns=+0.00/ni=+1)  LOCKHEED MARTIN (ns=+0.00/ni=+40)     AIR PRODUCTS & CHEMI (ns=+0.00/ni=+0)  AIR PRODUCTS & CHEMI (ns=+0.00/ni=+1)  LOCKHEED MARTIN (ns=+0.00/ni=+29)   
+  2      LOCKHEED MARTIN (ns=+0.00/ni=+30)     MASCO (ns=+0.00/ni=+1)                MASCO (ns=+0.00/ni=+1)                3M (ns=+0.00/ni=+5)                   LOCKHEED MARTIN (ns=+0.00/ni=+22)     LOCKHEED MARTIN (ns=+0.00/ni=+11)     GRAPHIC PACKAGING HO (ns=+0.00/ni=+9)
+  3      3M (ns=+0.00/ni=+1)                   LOCKHEED MARTIN (ns=+0.00/ni=+24)     LOCKHEED MARTIN (ns=+0.00/ni=+17)     LEIDOS HOLDINGS (ns=+0.00/ni=+20)     GRAPHIC PACKAGING HO (ns=+0.00/ni=+1)  GRAPHIC PACKAGING HO (ns=+0.00/ni=+5)  3M (ns=+0.00/ni=+5)                 
+  4      MOTOROLA SOLUTIONS (ns=+0.00/ni=+8)   3M (ns=+0.00/ni=+2)                   3M (ns=+0.00/ni=+8)                   CSX (ns=+0.00/ni=+5)                  3M (ns=+0.00/ni=+0)                   3M (ns=+0.00/ni=+9)                   MOTOROLA SOLUTIONS (ns=+0.00/ni=+4) 
+  5      CSX (ns=+0.00/ni=+10)                 MOTOROLA SOLUTIONS (ns=+0.00/ni=+1)   MOTOROLA SOLUTIONS (ns=+0.00/ni=+4)   CORNING (ns=+0.00/ni=+15)             LEIDOS HOLDINGS (ns=+0.00/ni=+24)     MOTOROLA SOLUTIONS (ns=+0.00/ni=+1)   LEIDOS HOLDINGS (ns=+0.00/ni=+2)    
+
+  Rank stability (within-community net_strength, n=18 stable firms):
+
+    Kendall's W = 0.0  (chi2=0.0, p=1.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+nan  p=nan 
+      112→113: rho=+nan  p=nan 
+      113→114: rho=+nan  p=nan 
+      114→115: rho=+nan  p=nan 
+      115→116: rho=+nan  p=nan 
+      116→117: rho=+nan  p=nan 
+
+  Persistent leaders (top-5 by wc_net_strength in ≥4 of 7 congresses):
+    LOCKHEED MARTIN                            7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    3M                                         7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    AIR PRODUCTS & CHEMICALS                   5/7 congresses  (111, 112, 113, 115, 116th)
+    MOTOROLA SOLUTIONS                         5/7 congresses  (111, 112, 113, 116, 117th)
+
+====================================================================
+  Community 3: Energy/Utilities
+  Total members: 49 | Stable across all 7 congresses: 22
+====================================================================
+
+  Top-5 within-community agenda-setters by congress (wc_net_strength):
+
+  Rank   111th                                  112th                                  113th                                  114th                                  115th                                  116th                                  117th                                
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      NRG ENERGY (ns=+0.00/ni=+3)           NRG ENERGY (ns=+0.00/ni=+6)           ECOLAB (ns=+0.00/ni=+5)               ECOLAB (ns=+0.00/ni=+19)              ECOLAB (ns=+0.00/ni=+5)               ECOLAB (ns=+0.00/ni=+4)               SHERWIN-WILLIAMS (ns=+0.00/ni=+7)   
+  2      PPL (ns=+0.00/ni=+17)                 PPL (ns=+0.00/ni=+30)                 PPL (ns=+0.00/ni=+15)                 PPL (ns=+0.00/ni=+20)                 PPL (ns=+0.00/ni=+14)                 PPL (ns=+0.00/ni=+12)                 PPL (ns=+0.00/ni=+27)               
+  3      EDISON INTERNATIONAL (ns=+0.00/ni=+19)  CONSOLIDATED EDISON (ns=+0.00/ni=+1)  CONSOLIDATED EDISON (ns=+0.00/ni=+12)  CONSOLIDATED EDISON (ns=+0.00/ni=+8)  CONSOLIDATED EDISON (ns=+0.00/ni=+7)  CONSOLIDATED EDISON (ns=+0.00/ni=+5)  CONSOLIDATED EDISON (ns=+0.00/ni=+3)
+  4      DUKE ENERGY (ns=+0.00/ni=+54)         EDISON INTERNATIONAL (ns=+0.00/ni=+20)  EDISON INTERNATIONAL (ns=+0.00/ni=+23)  EDISON INTERNATIONAL (ns=+0.00/ni=+2)  EDISON INTERNATIONAL (ns=+0.00/ni=+8)  EDISON INTERNATIONAL (ns=+0.00/ni=+15)  EDISON INTERNATIONAL (ns=+0.00/ni=+5)
+  5      FIRSTENERGY (ns=+0.00/ni=+32)         DUKE ENERGY (ns=+0.00/ni=+43)         WHIRLPOOL (ns=+0.00/ni=+2)            WHIRLPOOL (ns=+0.00/ni=+2)            DUKE ENERGY (ns=+0.00/ni=+25)         DUKE ENERGY (ns=+0.00/ni=+33)         DUKE ENERGY (ns=+0.00/ni=+27)       
+
+  Rank stability (within-community net_strength, n=22 stable firms):
+
+    Kendall's W = 0.0  (chi2=0.0, p=1.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+nan  p=nan 
+      112→113: rho=+nan  p=nan 
+      113→114: rho=+nan  p=nan 
+      114→115: rho=+nan  p=nan 
+      115→116: rho=+nan  p=nan 
+      116→117: rho=+nan  p=nan 
+
+  Persistent leaders (top-5 by wc_net_strength in ≥4 of 7 congresses):
+    PPL                                        7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    EDISON INTERNATIONAL                       7/7 congresses  (111, 112, 113, 114, 115, 116, 117th)
+    CONSOLIDATED EDISON                        6/7 congresses  (112, 113, 114, 115, 116, 117th)
+    DUKE ENERGY                                5/7 congresses  (111, 112, 115, 116, 117th)
+    ECOLAB                                     4/7 congresses  (113, 114, 115, 116th)
+
+====================================================================
+  Community 4: Health/Pharma
+  Total members: 43 | Stable across all 7 congresses: 10
+====================================================================
+
+  Top-5 within-community agenda-setters by congress (wc_net_strength):
+
+  Rank   111th                                  112th                                  113th                                  114th                                  115th                                  116th                                  117th                                
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1      CATERPILLAR (ns=+0.00/ni=+6)          CATERPILLAR (ns=+0.00/ni=+0)          CATERPILLAR (ns=+0.00/ni=+1)          CATERPILLAR (ns=+0.00/ni=+6)          CATERPILLAR (ns=+0.00/ni=+8)          CATERPILLAR (ns=+0.00/ni=+3)          CENTENE (ns=+0.00/ni=+0)            
+  2      CENTENE (ns=+0.00/ni=+1)              QUEST DIAGNOSTICS (ns=+0.00/ni=+0)    CENTENE (ns=+0.00/ni=+1)              GILEAD SCIENCES (ns=+0.00/ni=+0)      GILEAD SCIENCES (ns=+0.00/ni=+1)      GILEAD SCIENCES (ns=+0.00/ni=+16)     QUEST DIAGNOSTICS (ns=+0.00/ni=+3)  
+  3      MAGELLAN HEALTH (ns=+0.00/ni=+0)      MERCK (ns=+0.00/ni=+10)               QUEST DIAGNOSTICS (ns=+0.00/ni=+1)    CENTENE (ns=+0.00/ni=+0)              CENTENE (ns=+0.00/ni=+14)             CENTENE (ns=+0.00/ni=+15)             MERCK (ns=+0.00/ni=+27)             
+  4      MERCK (ns=+0.00/ni=+8)                ZIMMER BIOMET HOLDIN (ns=+0.00/ni=+2)  MERCK (ns=+0.00/ni=+10)               MERCK (ns=+0.00/ni=+4)                MAGELLAN HEALTH (ns=+0.00/ni=+8)      MAGELLAN HEALTH (ns=+0.00/ni=+16)     ABBVIE (ns=+0.00/ni=+3)             
+  5      ZIMMER BIOMET HOLDIN (ns=+0.00/ni=+1)  MOLINA HEALTHCARE (ns=+0.00/ni=+1)    ABBVIE (ns=+0.00/ni=+4)               ABBVIE (ns=+0.00/ni=+8)               MERCK (ns=+0.00/ni=+7)                QUEST DIAGNOSTICS (ns=+0.00/ni=+0)    MOLINA HEALTHCARE (ns=+0.00/ni=+1)  
+
+  Rank stability (within-community net_strength, n=10 stable firms):
+
+    Kendall's W = 0.0  (chi2=0.0, p=1.0)
+
+    Adjacent-congress Spearman rho:
+      111→112: rho=+nan  p=nan 
+      112→113: rho=+nan  p=nan 
+      113→114: rho=+nan  p=nan 
+      114→115: rho=+nan  p=nan 
+      115→116: rho=+nan  p=nan 
+      116→117: rho=+nan  p=nan 
+
+  Persistent leaders (top-5 by wc_net_strength in ≥4 of 7 congresses):
+    CATERPILLAR                                6/7 congresses  (111, 112, 113, 114, 115, 116th)
+    CENTENE                                    6/7 congresses  (111, 113, 114, 115, 116, 117th)
+    MERCK                                      6/7 congresses  (111, 112, 113, 114, 115, 117th)
+    QUEST DIAGNOSTICS                          4/7 congresses  (112, 113, 116, 117th)
+
+========================================================================
+  Summary: Kendall's W by community
+========================================================================
+
+  Community               n_stable        W          p  interpretation
+  -----------------------------------------------------------------
+  Finance/Insurance             28   0.0000    1.00000  not significant
+  Tech/Telecom                  20   0.0000    1.00000  not significant
+  Defense/Industrial            18   0.0000    1.00000  not significant
+  Energy/Utilities              22   0.0000    1.00000  not significant
+  Health/Pharma                 10   0.0000    1.00000  not significant
+
+  Rank table (firm × congress)  → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/16_within_community_ns_by_congress.csv
+  Stability summary             → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/16_within_community_rank_stability.csv
+  Log                           → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/16_industry_influencer_hierarchy.txt
+
+  Validation complete.
+========================================================================

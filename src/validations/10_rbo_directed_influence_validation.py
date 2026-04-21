@@ -4,16 +4,15 @@ Validation suite for rbo_directed_influence.py outputs.
 Checks:
   1.  Edge CSV schema — all required columns present, correct dtypes
   2.  RBO weight range — all weights in (0, 1]
-  3.  Direction integrity — directed edges have source_firsts > target_firsts
+  3.  Bidirectional structure — every edge (A→B) has antiparallel (B→A); weights sum to rbo
   4.  net_temporal arithmetic — net_temporal == source_firsts - target_firsts
-  5.  Balanced edge uniqueness — each firm pair appears at most once; canonical
-      direction is min(A,B)→max(A,B) (source < target alphabetically)
-  6.  Balanced net_temporal is zero — all balanced edges have net_temporal == 0
-  7.  Node net_influence arithmetic — matches (out_sf + in_tf) - (out_tf + in_sf)
-  8.  Node color consistency — green/red/gray matches sign of net_influence
+  5.  Weight formula — weight ≈ ((source_firsts + tie_count/2) / shared_bills) × rbo
+  6.  Balanced edge weights — net_temporal=0 edges have weight ≈ rbo/2
+  7.  Node net_influence arithmetic — matches Σ(source_firsts − target_firsts) over out-edges
+  8.  Node color consistency — hex color matches sign of net_strength
   9.  Ranked-list CSV integrity — contiguous ranks, no gaps or duplicates per firm
-  10. RBO spot-check — recompute RBO for 20 random pairs; values match CSV
-  11. Node net_strength arithmetic — matches out_strength(directed) - in_strength(directed)
+  10. RBO spot-check — recompute RBO for 20 random pairs; rbo column values match
+  11. Node net_strength arithmetic — matches Σ_j [rbo × net_temporal] over out-edges
 
 Run from src/ directory:
   python validations/10_rbo_directed_influence_validation.py
@@ -47,10 +46,15 @@ PASS = "  PASS"
 FAIL = "  FAIL"
 
 EDGE_COLS = [
-    "source", "target", "weight", "source_firsts", "target_firsts",
-    "tie_count", "shared_bills", "net_temporal", "balanced",
+    "source", "target", "weight", "rbo", "source_firsts", "target_firsts",
+    "tie_count", "shared_bills", "net_temporal",
 ]
 RANKED_COLS = ["company", "rank", "bill_number", "total_amount", "budget_fraction"]
+
+# Hex color constants matching rbo_directed_influence.py build_graph()
+COLOR_GREEN = "#2ECC71"
+COLOR_RED   = "#E74C3C"
+COLOR_GRAY  = "#95A5A6"
 
 
 def _load():
@@ -68,10 +72,13 @@ def check_edge_schema(edges):
         return False, f"missing columns: {missing}"
     if not pd.api.types.is_float_dtype(edges["weight"]):
         return False, "weight column is not float"
-    for col in ("source_firsts", "target_firsts", "tie_count",
-                "shared_bills", "net_temporal", "balanced"):
+    if not pd.api.types.is_float_dtype(edges["rbo"]):
+        return False, "rbo column is not float"
+    for col in ("source_firsts", "target_firsts", "tie_count", "shared_bills", "net_temporal"):
         if not pd.api.types.is_integer_dtype(edges[col]):
             return False, f"{col} is not integer dtype"
+    if "balanced" in edges.columns:
+        return False, "stale 'balanced' column present — regenerate from rbo_directed_influence.py"
     return True, f"{len(edges):,} rows, {len(edges.columns)} columns"
 
 
@@ -83,13 +90,26 @@ def check_weight_range(edges):
     return True, f"min={edges['weight'].min():.6f}  max={edges['weight'].max():.6f}"
 
 
-def check_direction_integrity(edges):
-    """Check 3: directed edges (balanced=0) always have source_firsts > target_firsts."""
-    directed = edges[edges["balanced"] == 0]
-    bad      = directed[directed["source_firsts"] <= directed["target_firsts"]]
+def check_bidirectional_structure(edges):
+    """Check 3: every edge (A→B) has antiparallel (B→A); within each pair, weights sum to rbo."""
+    edge_set = set(zip(edges["source"], edges["target"]))
+    missing_antiparallel = [
+        (u, v) for u, v in edge_set if (v, u) not in edge_set
+    ]
+    if missing_antiparallel:
+        return False, f"{len(missing_antiparallel)} edges missing antiparallel: {missing_antiparallel[:3]}"
+
+    # For each canonical pair (source < target), check weight_ab + weight_ba ≈ rbo
+    canon = edges[edges["source"] < edges["target"]].copy()
+    anti  = edges[edges["source"] > edges["target"]].copy()
+    anti["_src"] = anti["target"]; anti["_tgt"] = anti["source"]
+    anti = anti.rename(columns={"weight": "weight_ba"})[["_src", "_tgt", "weight_ba"]]
+    merged = canon.merge(anti, left_on=["source","target"], right_on=["_src","_tgt"])
+    merged["weight_sum"] = merged["weight"] + merged["weight_ba"]
+    bad = merged[abs(merged["weight_sum"] - merged["rbo"]) > 1e-4]
     if not bad.empty:
-        return False, f"{len(bad)} directed edges where source_firsts <= target_firsts"
-    return True, f"{len(directed):,} directed edges all have source_firsts > target_firsts"
+        return False, f"{len(bad)} pairs where weight_ab + weight_ba ≠ rbo (tolerance 1e-4)"
+    return True, f"{len(canon):,} pairs; all bidirectional, weights sum to rbo"
 
 
 def check_net_temporal(edges):
@@ -101,51 +121,36 @@ def check_net_temporal(edges):
     return True, "all rows consistent"
 
 
-def check_balanced_uniqueness(edges):
-    """Check 5: each firm pair appears at most once; balanced edges run source < target (alphabetical)."""
-    bal = edges[edges["balanced"] == 1].copy()
-    if bal.empty:
-        return True, "no balanced edges (vacuously true)"
-
-    # Each pair should appear exactly once (no antiparallel duplicate)
-    pairs = list(zip(bal["source"], bal["target"]))
-    seen, dupes = set(), []
-    for p in pairs:
-        if p in seen or (p[1], p[0]) in seen:
-            dupes.append(p)
-        seen.add(p)
-    if dupes:
-        return False, f"{len(dupes)} duplicate balanced pairs (antiparallel still present): {dupes[:3]}"
-
-    # Canonical direction: source < target alphabetically
-    wrong_dir = bal[bal["source"] > bal["target"]]
-    if not wrong_dir.empty:
-        sample = list(zip(wrong_dir["source"], wrong_dir["target"]))[:3]
-        return False, f"{len(wrong_dir)} balanced edges with source > target (non-canonical): {sample}"
-
-    return True, f"{len(bal):,} balanced edges; each pair once, all source < target"
-
-
-def check_balanced_zero_net(edges):
-    """Check 6: all balanced edges have net_temporal == 0."""
-    bal = edges[edges["balanced"] == 1]
-    if bal.empty:
-        return True, "no balanced edges (vacuously true)"
-    bad = bal[bal["net_temporal"] != 0]
+def check_weight_formula(edges):
+    """Check 5: weight ≈ ((source_firsts + tie_count/2) / shared_bills) × rbo for all rows."""
+    expected = ((edges["source_firsts"] + edges["tie_count"] / 2) / edges["shared_bills"]) * edges["rbo"]
+    delta    = (edges["weight"] - expected).abs()
+    bad      = edges[delta > 1e-4]
     if not bad.empty:
-        return False, f"{len(bad)} balanced edges with non-zero net_temporal"
-    return True, "all balanced edges have net_temporal == 0"
+        return False, f"{len(bad)} rows where weight deviates from formula by > 1e-4"
+    return True, f"all {len(edges):,} rows satisfy weight formula within 1e-4"
+
+
+def check_balanced_weight_half(edges):
+    """Check 6: balanced edges (net_temporal == 0) have weight ≈ rbo / 2."""
+    bal = edges[edges["net_temporal"] == 0]
+    if bal.empty:
+        return True, "no balanced edges (vacuously true)"
+    expected = bal["rbo"] / 2
+    bad = bal[(bal["weight"] - expected).abs() > 1e-4]
+    if not bad.empty:
+        return False, f"{len(bad)} balanced edges where weight ≠ rbo/2 (tolerance 1e-4)"
+    return True, f"{len(bal):,} balanced edges all have weight ≈ rbo/2"
 
 
 def check_node_net_influence(G):
-    """Check 7: node net_influence equals (out_sf + in_tf) - (out_tf + in_sf) from edge data."""
+    """Check 7: stored net_influence == Σ(source_firsts − target_firsts) over out-edges."""
     errors = []
     for node in G.nodes():
+        # Out-edges only: each pair appears once as source, so no double-counting
         out_sf = sum(d["source_firsts"] for _, _, d in G.out_edges(node, data=True))
         out_tf = sum(d["target_firsts"] for _, _, d in G.out_edges(node, data=True))
-        in_sf  = sum(d["source_firsts"] for _, _, d in G.in_edges(node, data=True))
-        in_tf  = sum(d["target_firsts"] for _, _, d in G.in_edges(node, data=True))
-        expected = (out_sf + in_tf) - (out_tf + in_sf)
+        expected = int(out_sf - out_tf)
         stored   = G.nodes[node].get("net_influence")
         if stored != expected:
             errors.append((node, stored, expected))
@@ -155,14 +160,14 @@ def check_node_net_influence(G):
 
 
 def check_node_colors(G):
-    """Check 8: node color matches sign of net_influence (green/red/gray)."""
+    """Check 8: node hex color matches sign of net_strength (green/red/gray)."""
     errors = []
     for node in G.nodes():
-        net   = G.nodes[node].get("net_influence", 0)
+        ns    = G.nodes[node].get("net_strength", 0)
         color = G.nodes[node].get("color", "")
-        expected = "green" if net > 0 else ("red" if net < 0 else "gray")
+        expected = COLOR_GREEN if ns > 0 else (COLOR_RED if ns < 0 else COLOR_GRAY)
         if color != expected:
-            errors.append((node, color, expected, net))
+            errors.append((node, color, expected, ns))
     if errors:
         return False, f"{len(errors)} nodes with wrong color: {errors[:3]}"
     return True, f"all {G.number_of_nodes()} nodes correctly colored"
@@ -175,7 +180,7 @@ def check_ranked_csv(ranked):
         return False, f"missing columns: {missing}"
     errors = []
     for firm, grp in ranked.groupby("company"):
-        ranks = sorted(grp["rank"].tolist())
+        ranks    = sorted(grp["rank"].tolist())
         expected = list(range(1, len(ranks) + 1))
         if ranks != expected:
             errors.append((firm, ranks[:5]))
@@ -186,26 +191,49 @@ def check_ranked_csv(ranked):
                   f"max rank per firm: {ranked.groupby('company')['rank'].max().max()}")
 
 
-def check_net_strength(G):
-    """
-    Check 11: node net_strength == out_strength(directed) - in_strength(directed).
+def check_rbo_spot(edges, ranked_csv, n_samples=20, seed=42):
+    """Check 10: recompute RBO for n_samples random pairs; rbo column values match."""
+    ranked_dict = (
+        ranked_csv.sort_values(["company", "rank"])
+        .groupby("company")["bill_number"]
+        .apply(list)
+        .to_dict()
+    )
+    # Sample from decisive edges (one direction per pair: net_temporal > 0)
+    decisive = edges[edges["net_temporal"] > 0].copy()
+    if len(decisive) == 0:
+        return False, "no decisive edges to sample"
+    sample = decisive.sample(min(n_samples, len(decisive)), random_state=seed)
+    rbo_errors = []
+    w_errors   = []
+    for _, row in sample.iterrows():
+        src, tgt = row["source"], row["target"]
+        if src not in ranked_dict or tgt not in ranked_dict:
+            continue
+        recomputed = rbo_score(ranked_dict[src], ranked_dict[tgt], p=0.85)
+        if abs(recomputed - row["rbo"]) > 1e-4:
+            rbo_errors.append((src, tgt, row["rbo"], recomputed))
+        # Verify weight formula
+        n_shared = row["shared_bills"]
+        expected_w = ((row["source_firsts"] + row["tie_count"] / 2) / n_shared) * row["rbo"]
+        if abs(row["weight"] - expected_w) > 1e-4:
+            w_errors.append((src, tgt, row["weight"], round(expected_w, 6)))
+    if rbo_errors:
+        return False, f"{len(rbo_errors)} RBO column mismatches: {rbo_errors[:3]}"
+    if w_errors:
+        return False, f"{len(w_errors)} weight formula mismatches in spot-check: {w_errors[:3]}"
+    return True, f"{len(sample)} random decisive pairs verified (rbo column + weight formula)"
 
-    Balanced edges (balanced=1) are intentionally excluded from net_strength because
-    their canonical direction is alphabetical (arbitrary) and would produce a spurious
-    RBO signal unrelated to actual temporal influence.
-    """
+
+def check_net_strength(G):
+    """Check 11: stored net_strength == Σ_j [rbo × net_temporal] over out-edges."""
     errors = []
     for node in G.nodes():
-        dir_out = sum(
-            (d["weight"] for _, _, d in G.out_edges(node, data=True) if d.get("balanced") == 0),
-            0.0,
+        expected = round(
+            sum(d["rbo"] * d["net_temporal"] for _, _, d in G.out_edges(node, data=True)),
+            4,
         )
-        dir_in = sum(
-            (d["weight"] for _, _, d in G.in_edges(node, data=True) if d.get("balanced") == 0),
-            0.0,
-        )
-        expected = round(dir_out - dir_in, 4)
-        stored   = G.nodes[node].get("net_strength")
+        stored = G.nodes[node].get("net_strength")
         if stored is None:
             errors.append((node, "missing", expected))
         elif abs(stored - expected) > 1e-3:
@@ -213,33 +241,6 @@ def check_net_strength(G):
     if errors:
         return False, f"{len(errors)} nodes with wrong net_strength: {errors[:3]}"
     return True, f"all {G.number_of_nodes()} nodes consistent"
-
-
-def check_rbo_spot(edges, ranked_csv, n_samples=20, seed=42):
-    """Check 10: recompute RBO for n_samples random directed pairs; values match CSV."""
-    # Reconstruct ranked dict from CSV
-    ranked_dict = (
-        ranked_csv.sort_values(["company", "rank"])
-        .groupby("company")["bill_number"]
-        .apply(list)
-        .to_dict()
-    )
-    # Sample from directed edges (balanced=0) to test a mix of weights
-    directed = edges[edges["balanced"] == 0].copy()
-    if len(directed) == 0:
-        return False, "no directed edges to sample"
-    sample = directed.sample(min(n_samples, len(directed)), random_state=seed)
-    errors = []
-    for _, row in sample.iterrows():
-        src, tgt = row["source"], row["target"]
-        if src not in ranked_dict or tgt not in ranked_dict:
-            continue   # firm not in ranked CSV (should not happen)
-        recomputed = rbo_score(ranked_dict[src], ranked_dict[tgt], p=0.85)
-        if abs(recomputed - row["weight"]) > 1e-4:
-            errors.append((src, tgt, row["weight"], recomputed))
-    if errors:
-        return False, f"{len(errors)} RBO mismatches: {errors[:3]}"
-    return True, f"{len(sample)} random pairs recomputed; all within 1e-4"
 
 
 def main():
@@ -261,17 +262,17 @@ def main():
             sys.exit(1)
 
         checks = [
-            ("Edge CSV schema",             lambda: check_edge_schema(edges)),
-            ("RBO weight range",            lambda: check_weight_range(edges)),
-            ("Direction integrity",         lambda: check_direction_integrity(edges)),
-            ("net_temporal arithmetic",     lambda: check_net_temporal(edges)),
-            ("Balanced edge uniqueness",    lambda: check_balanced_uniqueness(edges)),
-            ("Balanced net_temporal=0",     lambda: check_balanced_zero_net(edges)),
-            ("Node net_influence math",     lambda: check_node_net_influence(G)),
-            ("Node color consistency",      lambda: check_node_colors(G)),
-            ("Ranked-list CSV integrity",   lambda: check_ranked_csv(ranked)),
-            ("RBO spot-check (n=20)",       lambda: check_rbo_spot(edges, ranked)),
-            ("Node net_strength math",      lambda: check_net_strength(G)),
+            ("Edge CSV schema",              lambda: check_edge_schema(edges)),
+            ("RBO weight range",             lambda: check_weight_range(edges)),
+            ("Bidirectional structure",      lambda: check_bidirectional_structure(edges)),
+            ("net_temporal arithmetic",      lambda: check_net_temporal(edges)),
+            ("Weight formula",               lambda: check_weight_formula(edges)),
+            ("Balanced edge weights",        lambda: check_balanced_weight_half(edges)),
+            ("Node net_influence math",      lambda: check_node_net_influence(G)),
+            ("Node color consistency",       lambda: check_node_colors(G)),
+            ("Ranked-list CSV integrity",    lambda: check_ranked_csv(ranked)),
+            ("RBO spot-check (n=20)",        lambda: check_rbo_spot(edges, ranked)),
+            ("Node net_strength math",       lambda: check_net_strength(G)),
         ]
 
         passed = 0

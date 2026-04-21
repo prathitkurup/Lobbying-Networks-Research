@@ -201,28 +201,27 @@ opensecrets_lda_reports.csv
 
 ### Edge construction (`build_edges()`)
 
-For every pair (A, B) with RBO > 0:
-1. Compute `rbo_score(list_A, list_B, p=0.85)` → edge weight.
-2. Identify shared top-30 bills: `set(list_A) & set(list_B)`.
-3. For each shared bill, compare `first_quarter[(A, bill)]` vs `first_quarter[(B, bill)]`. Increment `a_firsts` or `b_firsts`; ties increment `tie_count`.
-4. Direction rule:
-   - `a_firsts > b_firsts` → single directed A→B edge, `balanced=0`
-   - `b_firsts > a_firsts` → single directed B→A edge, `balanced=0`
-   - `a_firsts == b_firsts` → single canonical edge `min(A,B)→max(A,B)`, `balanced=1` (direction is alphabetical/arbitrary; balanced edges are excluded from directional metrics)
+For every pair (A, B) with RBO > 0, **two directed edges** are produced (bidirectional design per §37):
+1. Compute `rbo_score(list_A, list_B, p=0.85)` → `rbo`.
+2. Identify shared top-30 bills; for each, compare `first_quarter[(A, bill)]` vs `first_quarter[(B, bill)]`. Increment `a_firsts` or `b_firsts`; ties increment `tie_count` (each tie contributes 0.5 to each side).
+3. Edge weights: `weight(A→B) = [(a_firsts + ties/2) / shared_bills] × rbo`; `weight(B→A) = [(b_firsts + ties/2) / shared_bills] × rbo`. Both weights sum to `rbo`.
+4. `net_temporal(A→B) = a_firsts − b_firsts` (signed; positive when A is net first-mover).
 
-Edge columns: `source, target, weight, source_firsts, target_firsts, tie_count, shared_bills, net_temporal, balanced`.
+Edge columns: `source, target, weight, rbo, source_firsts, target_firsts, tie_count, shared_bills, net_temporal`.
+
+> **Schema note:** Edge CSVs generated before April 2026 (congresses 111–117) use the old schema (`source, target, weight, source_firsts, target_firsts, tie_count, shared_bills, net_temporal, balanced`) and lack the `rbo` column. Re-run `src/multi_congress_pipeline.py` to regenerate with the new schema. Validation scripts that require `rbo` from edge files contain graceful fallbacks (WARNING + skip).
 
 ### Node attributes (`build_graph()`)
 
 | Attribute | Description |
 |---|---|
-| `net_influence` | Total first-mover wins minus losses across all pairings (count-based). Used for Gephi node sizing. |
+| `net_strength` | **PRIMARY** agenda-setter proxy: `Σ_j [RBO(i,j) × net_temporal(i,j)]` over all out-edges — RBO-weighted temporal dominance; positive = net agenda-setter |
+| `net_influence` | **Reference** metric: total first-mover wins minus losses across all pairings (unweighted count); positive = net agenda-setter |
 | `total_firsts` | Total bills this firm lobbied first across all pairings |
 | `total_losses` | Total bills this firm lobbied second across all pairings |
 | `out_strength` | Sum of RBO weights on outgoing edges |
 | `in_strength` | Sum of RBO weights on incoming edges |
-| `net_strength` | `out_strength − in_strength` on directed (balanced=0) edges only; balanced edges excluded (arbitrary canonical direction) |
-| `color` | `#2ECC71` green (net > 0), `#E74C3C` red (net < 0), `#95A5A6` gray (net = 0) |
+| `color` | `#2ECC71` green (net_strength > 0), `#E74C3C` red (net_strength < 0), `#95A5A6` gray (= 0 or isolated) |
 | `label` | Firm name string |
 
 ### Key parameters
@@ -522,21 +521,21 @@ For each canonical pair (firm_a < firm_b alphabetically) with ≥2 directed sess
 
 Pairwise Spearman ρ on net_temporal scores for all stable-set pairs sharing edges in both congresses. Adjacent-congress Spearman values are the primary evidence.
 
-**Analysis 3 — Firm Rank Stability (net_influence)**
+**Analysis 3 — Firm net_strength Rank Stability [PRIMARY]**
 
-Adjacent-congress Spearman ρ on firm-level net_influence ranks across the 135-firm stable set.
+Adjacent-congress Spearman ρ on firm-level net_strength ranks across the 135-firm stable set. net_strength = Σ_j [RBO(i,j) × net_temporal(i,j)] — the primary agenda-setter proxy.
 
-**Analysis 4 — Firm net_strength Rank Stability**
+**Analysis 4 — Firm net_influence Rank Stability [REFERENCE]**
 
-Mirrors Analysis 3 using net_strength (RBO-weighted directed score) instead of net_influence (raw win/loss count). `run_firm_stability` is parameterized by `metric` and called once for each. The figure uses a 2×2 grid: direction histogram (top-left), temporal Spearman heatmap (top-right), net_influence bar chart (bottom-left), net_strength bar chart (bottom-right).
+Mirrors Analysis 3 using net_influence (raw win/loss count) as the reference metric. `run_firm_stability` is parameterized by `metric` and called once for each. The figure uses a 2×2 grid: direction histogram (top-left), temporal Spearman heatmap (top-right), net_strength bar chart (bottom-left; primary), net_influence bar chart (bottom-right; reference).
 
 ### Key Empirical Findings
 
 - **Stable set:** 135 firms (all 7 congresses); 6,783 canonical pairs; 277 in all 7 sessions.
 - **Direction:** Mean consistency 0.770; 73.9% majority-direction; only 2.4% of pairs reach individual binomial significance (most significant: BALL/IBM, 5 directed sessions, p=0.031).
 - **Magnitude:** Spearman ρ range 0.037–0.218; highest: 116–117 (ρ=0.218). All significant except some involving 113th Congress.
-- **net_influence ranks (Analysis 3):** 5 of 6 adjacent-congress ρ significant; range 0.134–0.310. Top persistent influencers: Lockheed Martin (+72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4). Top persistent followers: Consolidated Edison (−55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
-- **net_strength ranks (Analysis 4):** 3 of 6 adjacent-congress ρ significant (114–115, 115–116, 116–117). Top high-strength firms: Xcel Energy (2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top low-strength firms: Ally Financial (−1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
+- **net_strength ranks (Analysis 3, primary):** 3 of 6 adjacent-congress ρ significant (114–115, 115–116, 116–117). Top high-strength firms: Xcel Energy (2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top low-strength firms: Ally Financial (−1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
+- **net_influence ranks (Analysis 4, reference):** 5 of 6 adjacent-congress ρ significant; range 0.134–0.310. Top persistent influencers: Lockheed Martin (+72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4). Top persistent followers: Consolidated Edison (−55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
 
 ### Methodology Reference
 
@@ -580,7 +579,7 @@ Formal rank-correlation analysis between bill-affiliation-network centrality mea
 
 ### Key Findings (116th Congress)
 
-BCZ intercentrality is dominated by energy utilities (CMS Energy, DTE Energy, Exelon, Xcel Energy, PPL) — firms with the largest affiliation footprints. Empirical agenda-setters (net_influence) are concentrated among defense/tech/industrial firms. Full-sample Spearman ρ between BCZ intercentrality and net_influence = **0.178 (p=0.003)** — significant but weak; top-30 ρ = **−0.107 (p=0.575)** — non-significant. The within-community PageRank provides the strongest signal: top-30 ρ with net_influence = **0.501 (p=0.005)** and with within-community net_influence = **0.558 (p=0.001)**. Interpretation: structural key players in the complementarity graph ≠ temporal first-movers. See `docs/design_decisions.md §29` for full detail.
+BCZ intercentrality is dominated by energy utilities (CMS Energy, DTE Energy, Exelon, Xcel Energy, PPL) — firms with the largest affiliation footprints. Empirical agenda-setters (net_strength [primary]) are concentrated among the same energy/utility firms at the top end, but diverge from BCZ rankings at the firm level. Primary comparison: full-sample Spearman ρ between BCZ intercentrality and **net_strength** (primary); reference comparison: BCZ ↔ **net_influence**. BCZ ↔ net_influence full-sample ρ = **0.178 (p=0.003)** — significant but weak; top-30 ρ = **−0.107 (p=0.575)** — non-significant. The within-community PageRank provides the strongest signal: top-30 ρ with net_influence = **0.501 (p=0.005)** and with within-community net_influence = **0.558 (p=0.001)**. Interpretation: structural key players in the complementarity graph ≠ temporal first-movers. **Note:** V13 requires full-machine execution (BCZ intercentrality computation times out in sandboxed environments). See `docs/design_decisions.md §29` for full detail.
 
 ---
 
@@ -594,14 +593,14 @@ OLS regressions predicting firm influencer status from observable covariates, ru
 
 ### Specifications
 
-| Spec | Outcome | Covariates |
-|---|---|---|
-| A | `net_influence` | log_spend, log_bills, katz_centrality |
-| A2 | top-quartile `net_influence` (binary, OLS LPM) | same |
-| B | `net_strength` | same as A |
-| C | `wc_net_strength` | log_spend, log_bills, within_comm_eigenvector, wc_pagerank |
+| Spec | Outcome | Covariates | Role |
+|---|---|---|---|
+| B | `net_strength` | log_spend, log_bills, katz_centrality | **Primary** continuous outcome |
+| B2 | top-quartile `net_strength` (binary, OLS LPM) | same | **Primary** binary outcome |
+| A | `net_influence` | same as B | Reference continuous outcome |
+| C | `wc_net_strength` | log_spend, log_bills, within_comm_eigenvector, wc_pagerank | Within-community (requires rbo column in edge CSVs) |
 
-All models use HC3 heteroskedasticity-robust standard errors.
+All models use HC3 heteroskedasticity-robust standard errors. Spec C is skipped with a WARNING when edge CSVs lack the `rbo` column (old schema); re-run `src/multi_congress_pipeline.py` to enable it.
 
 ### Covariate Sources
 
@@ -623,7 +622,7 @@ All models use HC3 heteroskedasticity-robust standard errors.
 
 ### Key Findings
 
-Spec A2 (top-quartile binary indicator) is the best-fitting and most consistent specification (R²≈0.19–0.28 vs. 0.03–0.06 for continuous outcomes). `log_bills` is the single most robust predictor across both congresses (β≈0.15–0.16, p<0.001): firms lobbying more unique bills are more likely to be top-quartile agenda-setters. `log_spend` is consistently *negative* — higher raw spend is associated with lower influencer probability, consistent with high-spending firms dispersing effort broadly rather than setting agendas. `katz_centrality` predicts top-quartile status in the 116th (p=0.049) but not robustly in the 117th. Low R² in continuous specs (0.03–0.06) indicates substantial unobserved variance in net_influence/strength beyond observable capacity. See `docs/design_decisions.md §30` for full detail.
+Spec B2 (top-quartile `net_strength` binary indicator) is the best-fitting and most consistent specification (R²≈0.19–0.28 vs. 0.03–0.06 for continuous outcomes). `log_bills` is the single most robust predictor across both congresses (β≈0.15–0.16, p<0.001): firms lobbying more unique bills are more likely to be top-quartile agenda-setters by net_strength. `log_spend` is consistently *negative* — higher raw spend is associated with lower influencer probability, consistent with high-spending firms dispersing effort broadly rather than setting agendas. `katz_centrality` predicts top-quartile net_strength status in the 116th (p=0.049) but not robustly in the 117th. Low R² in continuous Spec B (0.03–0.06) indicates substantial unobserved variance in net_strength beyond observable capacity. Spec C is currently skipped due to missing `rbo` column in old edge CSVs; results require pipeline re-run. See `docs/design_decisions.md §30` and `§38` for full detail.
 
 ---
 
@@ -666,15 +665,16 @@ Identifies the top within-community agenda-setters per Leiden community across a
 
 ### What it does
 
-For each of the 5 affiliation communities, computes within-community net_influence (from intra-sector directed edges only) per firm per congress; prints a top-5 leaderboard per community × congress; computes adjacent-congress Spearman ρ on the stable-firm subset; identifies firms appearing in top-5 in ≥4 of 7 congresses.
+For each of the 5 affiliation communities, computes **within-community net_strength** (`wc_net_strength`, primary) and within-community net_influence (`wc_net_influence`, secondary) from intra-sector directed edges per firm per congress; prints a leaderboard per community × congress sorted by wc_net_strength; computes adjacent-congress Spearman ρ on the stable-firm subset; identifies firms appearing in the leaderboard in ≥4 of 7 congresses.
 
-Reads community labels from `data/archive/communities/communities_affiliation.csv`.
+Reads community labels from `data/archive/communities/communities_affiliation.csv`. `wc_net_strength` requires the `rbo` column in per-congress edge CSVs; a WARNING is printed and wc_net_strength falls back to 0.0 for all firms when the old schema is detected (re-run `src/multi_congress_pipeline.py` to fix).
 
 ### Outputs
 
 | File | Description |
 |---|---|
-| `outputs/validation/16_within_community_ni_by_congress.csv` | Firm × congress within-community net_influence (wide format) |
+| `outputs/validation/16_within_community_ns_by_congress.csv` | Firm × congress within-community net_strength (wide format; primary) |
+| `outputs/validation/16_within_community_ni_by_congress.csv` | Firm × congress within-community net_influence (wide format; reference) |
 | `outputs/validation/16_within_community_rank_stability.csv` | Adjacent-congress Spearman ρ per community |
 | `outputs/validation/16_industry_influencer_hierarchy.txt` | Full leaderboard tables, stability stats, persistent leaders |
 

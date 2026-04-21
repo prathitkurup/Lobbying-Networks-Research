@@ -32,7 +32,7 @@ from opensecrets_extraction import (
 )
 from rbo_directed_influence import build_edges, build_graph, print_stats, export_ranked_lists, write_gml
 from utils.visualization import plot_directed_circular
-from utils.data_loading import load_bills_data
+from utils.data_loading import load_bills_data, assign_quarters, congress_year_range
 from utils.filtering import filter_bills_by_prevalence
 from utils.similarity import aggregate_per_firm_bill, compute_zero_budget_fracs, build_ranked_lists
 
@@ -40,7 +40,7 @@ from utils.similarity import aggregate_per_firm_bill, compute_zero_budget_fracs,
 # Configuration
 # ---------------------------------------------------------------------------
 CONGRESSES    = [111, 112, 113, 114, 115, 116, 117]  # congresses to run
-SKIP_EXISTING = True   # skip congress if rbo_directed_influence.csv already exists
+SKIP_EXISTING = False  # skip congress if rbo_directed_influence.csv already exists
 RBO_P         = 0.85   # matches 116th calibration (§18)
 TOP_BILLS     = 30
 
@@ -54,21 +54,6 @@ BILLS_FILE      = OPENSECRETS_DIR / "lob_bills.txt"
 # ---------------------------------------------------------------------------
 # Congress utilities
 # ---------------------------------------------------------------------------
-
-def congress_year_range(congress_num):
-    """Return (start_year, end_year) ints for a given congress number."""
-    start = 2009 + 2 * (congress_num - 111)
-    return start, start + 1
-
-
-def assign_quarters(df, congress_num):
-    """Add 'quarter' col: year1 Q1-4 → 1-4, year2 Q1-4 → 5-8."""
-    start, end = congress_year_range(congress_num)
-    df = df.copy()
-    base_q   = df["report_type"].str[1].astype(int)
-    year_off = df["year"].map({start: 0, end: 4})
-    df["quarter"] = base_q + year_off
-    return df
 
 
 # ---------------------------------------------------------------------------
@@ -274,7 +259,7 @@ def run_rbo_influence(congress_num, out_dir):
         for n in G.nodes()
     ]
     (pd.DataFrame(node_records)
-     .sort_values("net_influence", ascending=False)
+     .sort_values("net_strength", ascending=False)
      .reset_index(drop=True)
      .to_csv(out_dir / "node_attributes.csv", index=False))
     print(f"  Node attrs CSV written         : {len(node_records)} nodes")

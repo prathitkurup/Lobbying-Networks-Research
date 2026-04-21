@@ -465,10 +465,11 @@ def main():
         DATA_DIR / "congress" / "116" / "node_attributes.csv"
     )
 
-    # Directed (non-balanced) edges only — A is the net influencer
+    # Decisive edges only (net_temporal > 0): A is the net first-mover over B.
+    # Use 'rbo' column (full RBO similarity) as the structural weight for regression.
     directed = (
-        rbo[rbo["balanced"] == 0][["source", "target", "weight"]]
-        .rename(columns={"source": "A", "target": "B", "weight": "rbo_weight"})
+        rbo[rbo["net_temporal"] > 0][["source", "target", "rbo"]]
+        .rename(columns={"source": "A", "target": "B", "rbo": "rbo_weight"})
         .copy()
     )
     print(f"  Directed (A→B) edges:   {len(directed):,}")

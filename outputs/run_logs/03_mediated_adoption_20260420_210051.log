@@ -1,0 +1,18 @@
+Loading data...
+  Reports: 23,535 rows  |  RBO edges: 7,738  |  Firms in ranked lists: 292
+Building lookups...
+Traceback (most recent call last):
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/affiliation_mediated_adoption.py", line 317, in <module>
+    main()
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/affiliation_mediated_adoption.py", line 263, in main
+    first_q   = build_first_quarter_lookup(reports)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/affiliation_mediated_adoption.py", line 48, in build_first_quarter_lookup
+    reports.groupby(["fortune_name", "bill_number"])["quarter"]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/groupby/generic.py", line 1951, in __getitem__
+    return super().__getitem__(key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/base.py", line 244, in __getitem__
+    raise KeyError(f"Column not found: {key}")
+KeyError: 'Column not found: quarter'

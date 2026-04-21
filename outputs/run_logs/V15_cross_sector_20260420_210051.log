@@ -1,0 +1,92 @@
+========================================================================
+VALIDATION 15: CROSS-SECTOR DIRECTED EDGE ANALYSIS (116th CONGRESS)
+========================================================================
+
+Community labels (Leiden, affiliation network):
+  0: Finance/Insurance
+  1: Tech/Telecom
+  2: Defense/Industrial
+  3: Energy/Utilities
+  4: Health/Pharma
+
+[1/6] Loading data ...
+      Directed edges with community labels: 1813
+      Cross-sector: 783 (43.2%)
+      Intra-sector: 1030 (56.8%)
+
+[2/6] Analysis 1: Edge-level distributions (cross vs. intra-sector)
+
+  weight:
+    Cross-sector  — mean=0.03315,  median=0.00825
+    Intra-sector  — mean=0.07667, median=0.03583
+    Mann-Whitney U=247353.5, p=2.9110e-45
+    → Cross-sector weight is lower (significant)
+
+  net_temporal:
+    Cross-sector  — mean=1.24649,  median=1.00000
+    Intra-sector  — mean=1.63204, median=1.00000
+    Mann-Whitney U=323337.5, p=3.3230e-19
+    → Cross-sector net_temporal is lower (significant)
+
+[3/6] Analysis 2: Community-pair flow matrix
+
+  Directed edge counts by community pair (rows=source, cols=target):
+tgt_label           Defense/Industrial  Energy/Utilities  Finance/Insurance  Health/Pharma  Tech/Telecom
+src_label                                                                                               
+Defense/Industrial                 173               100                 37             67            74
+Energy/Utilities                    62               254                 26             21            48
+Finance/Insurance                   26                22                225             20            45
+Health/Pharma                       20                24                 13            178            20
+Tech/Telecom                        48                26                 50             34           200
+
+  Mean RBO weight by community pair (rows=source, cols=target):
+tgt_label           Defense/Industrial  Energy/Utilities  Finance/Insurance  Health/Pharma  Tech/Telecom
+src_label                                                                                               
+Defense/Industrial              0.0601            0.0265             0.0358         0.0233        0.0535
+Energy/Utilities                0.0417            0.0721             0.0222         0.0225        0.0235
+Finance/Insurance               0.0133            0.0446             0.0761         0.0207        0.0182
+Health/Pharma                   0.0604            0.0439             0.0178         0.0793        0.0299
+Tech/Telecom                    0.0528            0.0350             0.0365         0.0230        0.0950
+
+  Net directional flow between community pairs (positive = row dominates):
+  Community A               Community B                  A→B    B→A  Net (A-B) Dominant
+  ------------------------------------------------------------------------------------------
+  Defense/Industrial        Health/Pharma                 67     20         47 Defense/Industrial
+  Defense/Industrial        Energy/Utilities             100     62         38 Defense/Industrial
+  Tech/Telecom              Health/Pharma                 34     20         14 Tech/Telecom
+  Finance/Insurance         Health/Pharma                 20     13          7 Finance/Insurance
+  Energy/Utilities          Health/Pharma                 21     24         -3 Health/Pharma
+  Finance/Insurance         Energy/Utilities              22     26         -4 Energy/Utilities
+  Finance/Insurance         Tech/Telecom                  45     50         -5 Tech/Telecom
+  Finance/Insurance         Defense/Industrial            26     37        -11 Defense/Industrial
+  Tech/Telecom              Energy/Utilities              26     48        -22 Energy/Utilities
+  Tech/Telecom              Defense/Industrial            48     74        -26 Defense/Industrial
+
+[4/6] Analysis 3: Firm-level cross-sector influence
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'rbo'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/15_cross_sector_directed_edges.py", line 471, in <module>
+    main()
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/15_cross_sector_directed_edges.py", line 378, in main
+    firm_cs = analysis_firm_cs_influence(df, nodes, comm_map)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/src/validations/15_cross_sector_directed_edges.py", line 188, in analysis_firm_cs_influence
+    cs["rbo_nt"] = cs["rbo"] * cs["net_temporal"]   # source perspective: always > 0
+                   ~~^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'rbo'

@@ -1,0 +1,222 @@
+
+════════════════════════════════════════════════════════════════════════
+AFFILIATION-MEDIATED ADOPTION — VALIDATION REPORT
+════════════════════════════════════════════════════════════════════════
+
+  Grounding: Carpenter et al. (1998), Koger & Victor (2009),
+  Hojnacki & Kimball (1998). Shared lobbyists and lobbying firms
+  create information bridges; bill-level adoption ordering tests
+  whether those bridges predict the direction of legislative adoption.
+
+  Loaded 8,173 (edge, bill) records  and 3,712 RBO edge records.
+
+------------------------------------------------------------------------
+1. OVERALL MEDIATION RATES
+------------------------------------------------------------------------
+  Total (edge, bill) records:     8,173
+  Directed (lag > 0):             3,184  (39.0%)
+  Tied (lag == 0):                4,989  (61.0%)
+
+  Directed pairs (n=3,184):
+    Lobbyist-mediated: 6  (0.2%)
+    Firm-mediated:     3  (0.1%)
+    Any-mediated:      7  (0.2%)
+  Tied pairs (n=4,989):
+    Lobbyist-mediated: 18  (0.4%)
+    Firm-mediated:     19  (0.4%)
+    Any-mediated:      19  (0.4%)
+
+------------------------------------------------------------------------
+2. MEDIATION RATE BY RBO EDGE TYPE (directed vs balanced edge)
+------------------------------------------------------------------------
+  Directed (lag > 0) bill pairs within each edge type:
+
+  Decisive RBO pair (net_temporal ≠ 0)  (n=2,960):
+    Any-mediated:      7  (0.2%)
+    Lobbyist-mediated: 6  (0.2%)
+    Firm-mediated:     3  (0.1%)
+  Balanced RBO pair (net_temporal = 0)  (n=224):
+    Any-mediated:      0  (0.0%)
+    Lobbyist-mediated: 0  (0.0%)
+    Firm-mediated:     0  (0.0%)
+
+------------------------------------------------------------------------
+3. LAG DISTRIBUTION: MEDIATED vs NON-MEDIATED
+------------------------------------------------------------------------
+  Hypothesis (Carpenter et al. 1998): shared affiliation compresses
+  the adoption lag — signals travel faster through a live channel.
+
+  Any-mediated (n=7)  vs  Non-mediated (n=3,177):
+    Mean lag  — mediated: 1.86 q  |  non-mediated: 2.05 q
+    Median    — mediated: 2.0 q  |  non-mediated: 1.0 q
+    Mann-Whitney U (one-sided, mediated < non-mediated): U=11518  p=0.5708
+    Lag distribution (mediated=True):
+      lag=1 q:     3  ████████████████████
+      lag=2 q:     2  █████████████
+      lag=3 q:     2  █████████████
+
+  Lobbyist-mediated (n=6)  vs  Non-mediated (n=3,178):
+    Mean lag  — mediated: 2.00 q  |  non-mediated: 2.04 q
+    Median    — mediated: 2.0 q  |  non-mediated: 1.0 q
+    Mann-Whitney U (one-sided, mediated < non-mediated): U=10703  p=0.7136
+    Lag distribution (mediated=True):
+      lag=1 q:     2  ████████████████████
+      lag=2 q:     2  ████████████████████
+      lag=3 q:     2  ████████████████████
+
+  Firm-mediated (n=3)  vs  Non-mediated (n=3,181):
+    Mean lag  — mediated: 2.33 q  |  non-mediated: 2.04 q
+    Median    — mediated: 3.0 q  |  non-mediated: 1.0 q
+    Mann-Whitney U (one-sided, mediated < non-mediated): U=5910  p=0.7812
+    Lag distribution (mediated=True):
+      lag=1 q:     1  ██████████
+      lag=3 q:     2  ████████████████████
+
+------------------------------------------------------------------------
+4. TOP BROKER LOBBYISTS AND FIRMS
+------------------------------------------------------------------------
+  Brokers: intermediaries whose affiliation appears in mediated
+  directed adoptions — the proposed transmission conduit.
+
+  Top 15 broker lobbyists:
+  Lobbyist                                      Adoptions   Bills   Pairs
+  Coffin, Elizabeth                                     6       6       1
+  Holladay, Krister                                     6       6       1
+  Jimenez, Cindy M                                      6       6       1
+  McBride, Timothy J                                    6       6       1
+  Peterson, Timothy A                                   6       6       1
+  Thompson, Allen                                       6       6       1
+  Thornblad, Matthew                                    6       6       1
+  Jadotte, Marcus                                       4       4       1
+  Veklich, Maria                                        2       2       1
+
+  Top 15 broker lobbying firms:
+  Firm                                               Adoptions   Bills   Pairs
+  AJW Group                                                  2       2       1
+  Ogilvy Government Relations                                1       1       1
+
+------------------------------------------------------------------------
+5. PER-BILL MEDIATION FREQUENCY (top 20 most-transmitted bills)
+------------------------------------------------------------------------
+  Bills with the highest lobbyist-mediated directed adoption count.
+
+  Bill            Dir.Pairs  Lob.Med  Firm.Med  Any.Med    Rate   MeanLag
+  S.4178                  1        0         1        1    1.00      1.00
+  H.R.5119                8        1         0        1    0.12      1.00
+  S.2754                 10        1         0        1    0.10      1.10
+  H.R.302                 3        1         0        1    0.33      2.67
+  S.2160                  1        1         0        1    1.00      2.00
+  S.1706                  3        1         1        1    0.33      3.00
+  H.R.3079                7        1         1        1    0.14      2.71
+  H.R.8406                2        0         0        0    0.00      1.00
+  S.1895                120        0         0        0    0.00      2.99
+  S.2178                  1        0         0        0    0.00      1.00
+  H.R.7809                1        0         0        0    0.00      1.00
+  S.2155                 19        0         0        0    0.00      3.42
+  S.2137                  7        0         0        0    0.00      2.00
+  S.1989                  3        0         0        0    0.00      2.00
+  S.1982                 13        0         0        0    0.00      1.15
+  S.1979                  3        0         0        0    0.00      1.00
+  S.1968                  1        0         0        0    0.00      1.00
+  S.1953                  1        0         0        0    0.00      2.00
+  S.189                   6        0         0        0    0.00      1.00
+  S.1625                 10        0         0        0    0.00      1.90
+
+------------------------------------------------------------------------
+6. EDGE-LEVEL MEDIATION RATE DISTRIBUTION
+------------------------------------------------------------------------
+  For each directed RBO edge: fraction of its directed bills that are
+  affiliation-mediated (any channel).
+
+  Directed RBO edges with >= 1 directed bill:  1,812
+  Mean any_mediation_rate:   0.001
+  Median:                    0.000
+  Edges with rate > 0:       2  (0.1%)
+  Edges with rate == 1.0:    2
+
+  Distribution of any_mediation_rate:
+    0             1810  █████████████████████████
+    (0–0.1]          0  
+    (0.1–0.25]       0  
+    (0.25–0.5]       0  
+    (0.5–0.75]       0  
+    (0.75–1.0]       2  
+
+  Top 10 directed edges by any_mediation_rate:
+  Source                                   Target                                     Rate  DirBills
+  LOEWS                                    ECOLAB                                     1.00         1
+  UNITED TECHNOLOGIES                      RAYTHEON                                   1.00         6
+  3M                                       AMEREN                                     0.00         1
+  BALL                                     3M                                         0.00         1
+  BECTON DICKINSON                         3M                                         0.00         1
+  BERKSHIRE HATHAWAY                       3M                                         0.00         1
+  3M                                       BIOGEN                                     0.00         1
+  BOSTON SCIENTIFIC                        3M                                         0.00         1
+  CARDINAL HEALTH                          3M                                         0.00         1
+  CATERPILLAR                              3M                                         0.00         1
+
+------------------------------------------------------------------------
+7. NETWORK-LEVEL CONNECTIVITY vs BILL-LEVEL CO-AFFILIATION
+------------------------------------------------------------------------
+  Bill-level: same lobbyist/firm appears on both companies' first-quarter
+  reports FOR THAT SPECIFIC BILL. Network-level: companies share any
+  lobbyist/firm across their FULL lobbying portfolios.
+
+  Finding: direct bill-level co-affiliation is rare; most RBO influence
+  pairs are not connected even at the portfolio level — the RBO network
+  captures a broader coordination signal (Carpenter et al. 1998).
+
+  Directed bill pairs (n=3,184):
+  Channel                                    Bill-level    Network-level
+  --------------------------------------------------------------------
+  Lobbyist                                     6 ( 0.2%)      19 ( 0.6%)
+  Firm (external K-street)                     3 ( 0.1%)      13 ( 0.4%)
+  Any                                          7 ( 0.2%)      20 ( 0.6%)
+
+  Lobbyist-network lag (n=19):  mean=2.37 q  vs  non-connected mean=2.04 q
+    Mann-Whitney U (connected < non-connected):  p=0.6496
+  Firm-network lag (n=13):  mean=1.92 q  vs  non-connected mean=2.05 q
+    Mann-Whitney U (connected < non-connected):  p=0.4522
+
+------------------------------------------------------------------------
+8. ALIGNMENT TEST: DO MEDIATED BILLS CONFIRM THE RBO EDGE DIRECTION?
+------------------------------------------------------------------------
+  For directed RBO edges (balanced=0), check whether the bill-level
+  leader (first adopter) is also the RBO edge source — i.e., whether
+  affiliation-mediated bills are consistent with the aggregate direction.
+
+  If shared affiliation channels information from influencer to follower,
+  mediated bills should more often have rbo_source as the leader.
+
+  All directed bills (n=2,960):
+    Leader == RBO source:  2,808 / 2,960  (94.9%)
+    Binomial test (rate > 0.5):  p=0.0000
+  Non-mediated directed bills (n=2,953):
+    Leader == RBO source:  2,801 / 2,953  (94.9%)
+    Binomial test (rate > 0.5):  p=0.0000
+  Any-mediated directed bills (n=7):
+    Leader == RBO source:  7 / 7  (100.0%)
+    Binomial test (rate > 0.5):  p=0.0078
+  Lobbyist-mediated bills (n=6):
+    Leader == RBO source:  6 / 6  (100.0%)
+    Binomial test (rate > 0.5):  p=0.0156
+  Firm-mediated bills (n=3):
+    Leader == RBO source:  3 / 3  (100.0%)
+    Binomial test (rate > 0.5):  p=0.1250
+
+------------------------------------------------------------------------
+9. CO-MEDIATION: LOBBYIST AND FIRM CHANNEL OVERLAP
+------------------------------------------------------------------------
+  How often do both channels fire on the same directed adoption?
+
+  Category                       Count      Pct
+  Lobbyist only                      4     0.1%
+  Firm only                          1     0.0%
+  Both channels                      2     0.1%
+  Neither (unmediated)            3177    99.8%
+  TOTAL                           3184  100.0%
+
+════════════════════════════════════════════════════════════════════════
+END OF REPORT
+════════════════════════════════════════════════════════════════════════
+

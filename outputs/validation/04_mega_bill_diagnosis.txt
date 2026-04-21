@@ -3,10 +3,10 @@ MEGA-BILL DIAGNOSIS: Prevalence Filtering Rationale
 ======================================================================
 
 -- Step 1: Bill Prevalence Distribution --
-  Unique firms: 376  |  Unique bills: 2,219
+  Unique firms: 381  |  Unique bills: 2,245
 
   Distribution of firms-per-bill:
-  p100: 168 firms
+  p100: 170 firms
   p 95: 9 firms
   p 90: 6 firms
   p 75: 3 firms
@@ -14,48 +14,48 @@ MEGA-BILL DIAGNOSIS: Prevalence Filtering Rationale
   p 25: 1 firms
   p 10: 1 firms
 
-  Bills lobbied by exactly 1 firm (singletons): 1,207  (54.4%)
-  Bills lobbied by 2–9 firms: 903  (40.7%)
-  Bills lobbied by 10–49 firms: 98  (4.4%)
+  Bills lobbied by exactly 1 firm (singletons): 1,208  (53.8%)
+  Bills lobbied by 2–9 firms: 925  (41.2%)
+  Bills lobbied by 10–49 firms: 101  (4.5%)
   Bills lobbied by ≥ 50 firms (mega-bills): 11  (0.5%)
 
 -- Step 2: Top 20 Most-Prevalent Bills --
   Bill Number                           # Firms   % of firms   Clique edges
   -----------------------------------  --------  -----------  -------------
-  H.R.748                                   168        44.7%         14,028
-  H.R.133                                   137        36.4%          9,316
-  H.R.6800                                  106        28.2%          5,565
-  H.R.1865                                   79        21.0%          3,081
-  H.R.6395                                   76        20.2%          2,850
-  S.3548                                     74        19.7%          2,701
-  H.R.6201                                   71        18.9%          2,485
-  S.4049                                     69        18.4%          2,346
-  H.R.2                                      69        18.4%          2,346
-  H.R.2500                                   58        15.4%          1,653
-  S.1790                                     53        14.1%          1,378
-  H.R.1158                                   44        11.7%            946
-  H.R.2740                                   40        10.6%            780
-  H.R.1                                      37         9.8%            666
-  H.R.6074                                   37         9.8%            666
-  H.R.7617                                   34         9.0%            561
-  H.R.8337                                   33         8.8%            528
-  H.R.3055                                   31         8.2%            465
-  H.R.5430                                   27         7.2%            351
-  S.2657                                     26         6.9%            325
+  H.R.748                                   170        44.6%         14,365
+  H.R.133                                   138        36.2%          9,453
+  H.R.6800                                  110        28.9%          5,995
+  H.R.1865                                   82        21.5%          3,321
+  H.R.6395                                   77        20.2%          2,926
+  S.3548                                     75        19.7%          2,775
+  H.R.6201                                   72        18.9%          2,556
+  H.R.2                                      70        18.4%          2,415
+  S.4049                                     69        18.1%          2,346
+  H.R.2500                                   58        15.2%          1,653
+  S.1790                                     53        13.9%          1,378
+  H.R.1158                                   44        11.5%            946
+  H.R.2740                                   40        10.5%            780
+  H.R.1                                      38        10.0%            703
+  H.R.6074                                   37         9.7%            666
+  H.R.7617                                   34         8.9%            561
+  H.R.8337                                   33         8.7%            528
+  H.R.3055                                   31         8.1%            465
+  H.R.5430                                   27         7.1%            351
+  S.2657                                     27         7.1%            351
 
 -- Step 3: Edge Concentration at Each Threshold --
    Threshold   Bills removed   % Bills   Edges from removed    % Edges
   ----------  --------------  --------  -------------------  ---------
-          10              97      4.4%               62,136      90.8%
-          20              28      1.3%               55,251      80.7%
-          30              18      0.8%               52,361      76.5%
-          50              11      0.5%               47,749      69.7%
-          75               5      0.2%               34,840      50.9%
-         100               3      0.1%               28,909      42.2%
+          10             102      4.5%               64,384      91.1%
+          20              29      1.3%               57,126      80.8%
+          30              18      0.8%               53,832      76.2%
+          50              11      0.5%               49,183      69.6%
+          75               5      0.2%               36,060      51.0%
+         100               3      0.1%               29,813      42.2%
 
   ★ Chosen threshold: MAX_BILL_DF = 50
     Removes 11 bills (0.5% of all bills)
-    Accounts for 69.7% of all co-lobbying edges
+    Accounts for 69.6% of all co-lobbying edges
     Natural break: bills with df > 50 are 50–198 firm omnibus bills;
     bills with df ≤ 45 are industry-specific legislation.
 

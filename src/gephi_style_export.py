@@ -1,8 +1,9 @@
 """
 Read rbo_directed_influence.gml and write a filtered, colored GEXF for Gephi.
 
-Removes balanced edges and directed edges below median RBO weight; drops isolated nodes.
-Node colors use a red→yellow→green diverging map on net_strength; edge colors match target node.
+Removes balanced edges (net_temporal == 0) and decisive edges below median weight;
+drops isolated nodes. Node colors use a red→yellow→green diverging map on net_strength;
+edge colors match target node.
 Output: visualizations/gexf/rbo_directed_influence.gexf
 """
 
@@ -25,7 +26,7 @@ VIZ_NS  = "http://gexf.net/1.3/viz"
 RED    = (214,  39,  40)   # Tableau red
 YELLOW = (255, 215,   0)   # gold midpoint
 GREEN  = ( 44, 160,  44)   # Tableau green
-GRAY   = (150, 150, 150)   # balanced-edge color
+GRAY   = (150, 150, 150)   # neutral color
 
 # -- Attribute schemas (hardcoded for clarity; types verified against GML) ----
 #    (title, gexf_type, id_string)
@@ -44,12 +45,12 @@ NODE_ATTR_SCHEMA = [
 ]
 # weight is the native GEXF edge attribute; remaining attrs go into attvalues
 EDGE_ATTR_SCHEMA = [
-    ("source_firsts", "integer", "e0"),
-    ("target_firsts", "integer", "e1"),
-    ("tie_count",     "integer", "e2"),
-    ("shared_bills",  "integer", "e3"),
-    ("net_temporal",  "integer", "e4"),
-    ("balanced",      "integer", "e5"),
+    ("rbo",           "float",   "e0"),
+    ("source_firsts", "integer", "e1"),
+    ("target_firsts", "integer", "e2"),
+    ("tie_count",     "integer", "e3"),
+    ("shared_bills",  "integer", "e4"),
+    ("net_temporal",  "integer", "e5"),
 ]
 
 
@@ -58,18 +59,16 @@ EDGE_ATTR_SCHEMA = [
 # ---------------------------------------------------------------------------
 
 def remove_balanced_edges(G):
-    """Remove all balanced=1 edges; returns count removed."""
-    to_drop = [(u, v) for u, v, d in G.edges(data=True) if d.get("balanced", 0) == 1]
+    """Remove balanced edges (net_temporal == 0); returns count removed."""
+    to_drop = [(u, v) for u, v, d in G.edges(data=True) if d.get("net_temporal", 0) == 0]
     G.remove_edges_from(to_drop)
     return len(to_drop)
 
 
 def filter_directed_below_median(G):
     """
-    Remove directed edges below the median RBO weight of the current edge set
-    (all remaining edges are directed after remove_balanced_edges).
+    Remove decisive edges below the median weight of the current edge set.
     Median uses the lower value for even-length lists (conservative).
-
     Returns (n_edges_removed, median_weight).
     """
     weights = sorted(d["weight"] for _, _, d in G.edges(data=True))
@@ -266,9 +265,9 @@ def main():
     G = nx.read_gml(str(GML_IN), label="label")
     print(f"  Input: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 
-    # Step 1: drop all balanced edges
+    # Step 1: drop balanced edges (net_temporal == 0; both directions have equal weight)
     n_bal = remove_balanced_edges(G)
-    print(f"  Removed {n_bal} balanced edges  ({G.number_of_edges()} directed remain)")
+    print(f"  Removed {n_bal} balanced edges  ({G.number_of_edges()} decisive remain)")
 
     # Step 2: drop directed edges below their median weight
     n_edge_drop, median_w = filter_directed_below_median(G)
@@ -297,7 +296,7 @@ def main():
     size_kb = GEXF_OUT.stat().st_size / 1024
     print(f"\n  Written -> {GEXF_OUT.name}  ({size_kb:.1f} KB)")
     print(f"  Nodes:             {G.number_of_nodes()}")
-    print(f"  Directed edges:    {G.number_of_edges()}  (colored by target node)")
+    print(f"  Decisive edges:    {G.number_of_edges()}  (colored by target node)")
     print(f"  Median weight cut: {median_w:.6f}")
     print(f"  net_strength range: [{vmin:.4f}, {vmax:.4f}]  (color anchor)")
 

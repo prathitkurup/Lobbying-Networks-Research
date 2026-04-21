@@ -161,11 +161,10 @@ def compute_within_community_pagerank(G, partition):
 def compute_within_community_directed(nodes_df, partition):
     """
     Compute within-community net_influence and net_strength from directed
-    edge file (116th congress). For each firm, sums only edges where both
-    endpoints share the same affiliation community.
+    edge file (116th congress). Uses out-edges only (both directions present);
+    wc_net_strength = Σ_j∈same_community [RBO(i,j) × net_temporal(i,j)].
     """
-    directed = pd.read_csv(DATA_DIR / "congress" / "116" / "rbo_directed_influence.csv")
-    directed = directed[directed["balanced"] == 0].copy()
+    all_edges = pd.read_csv(DATA_DIR / "congress" / "116" / "rbo_directed_influence.csv")
 
     # Map each firm to community
     def comm(f):
@@ -180,22 +179,17 @@ def compute_within_community_directed(nodes_df, partition):
             results[firm] = {"wc_net_influence": np.nan, "wc_net_strength": np.nan}
             continue
 
-        # Edges where firm is source and target is in same community
-        as_src = directed[
-            (directed["source"] == firm) &
-            (directed["target"].map(comm) == my_comm)
-        ]
-        # Edges where firm is target and source is in same community
-        as_tgt = directed[
-            (directed["target"] == firm) &
-            (directed["source"].map(comm) == my_comm)
+        # Out-edges where firm is source and target is in same community
+        # (both directions exist in CSV; out-edges cover all pairs without double-counting)
+        same_comm_out = all_edges[
+            (all_edges["source"] == firm) &
+            (all_edges["target"].map(comm) == my_comm)
         ]
 
-        wc_ni = (
-            as_src["source_firsts"].sum() + as_tgt["target_firsts"].sum()
-            - as_src["target_firsts"].sum() - as_tgt["source_firsts"].sum()
+        wc_ni = int(
+            same_comm_out["source_firsts"].sum() - same_comm_out["target_firsts"].sum()
         )
-        wc_ns = as_src["weight"].sum() - as_tgt["weight"].sum()
+        wc_ns = float((same_comm_out["rbo"] * same_comm_out["net_temporal"]).sum())
         results[firm] = {"wc_net_influence": wc_ni, "wc_net_strength": wc_ns}
 
     return pd.DataFrame(results).T.rename_axis("firm").reset_index()
@@ -393,28 +387,34 @@ def main():
     _top_list(global_pr_s,  "Global PageRank")
     _top_list(wc_eigen_s,   "Within-Community Eigenvector")
     _top_list(wc_pr_s,      "Within-Community PageRank")
-    _top_list(net_inf_s,    "Net Influence (directed)")
-    _top_list(net_str_s,    "Net Strength (directed)")
-    _top_list(wc_ni_s,      "Within-Community Net Influence")
+    _top_list(net_str_s,    "Net Strength (directed, primary)")
     _top_list(wc_ns_s,      "Within-Community Net Strength")
+    _top_list(net_inf_s,    "Net Influence (directed, reference)")
+    _top_list(wc_ni_s,      "Within-Community Net Influence")
 
     # -- Interpretation flags ------------------------------------------------
 
     print("\n  --- Interpretation summary ---")
+    # Primary: BCZ ↔ net_strength (RBO-weighted temporal dominance — BCZ theoretical bridge)
+    bcz_ns = corr_df.loc[
+        (corr_df["centrality_measure"] == "bcz_intercentrality") &
+        (corr_df["agenda_measure"] == "net_strength"), "spearman_rho_full"
+    ].values[0]
     bcz_ni = corr_df.loc[
         (corr_df["centrality_measure"] == "bcz_intercentrality") &
         (corr_df["agenda_measure"] == "net_influence"), "spearman_rho_full"
     ].values[0]
-    print(f"\n  BCZ intercentrality ↔ net_influence (full, Spearman ρ = {bcz_ni}):")
-    if abs(bcz_ni) >= 0.5:
+    print(f"\n  BCZ intercentrality ↔ net_strength [primary] (Spearman ρ = {bcz_ns}):")
+    if abs(bcz_ns) >= 0.5:
         print("  STRONG alignment: structural key-players (BCZ) ≈ empirical "
-              "agenda-setters. Supports BCZ theoretical bridge.")
-    elif abs(bcz_ni) >= 0.3:
+              "agenda-setters by RBO-weighted temporal dominance. Supports BCZ bridge.")
+    elif abs(bcz_ns) >= 0.3:
         print("  MODERATE alignment: partial overlap between BCZ key-players "
-              "and empirical agenda-setters.")
+              "and net_strength agenda-setters.")
     else:
-        print("  WEAK alignment: BCZ key-players and empirical agenda-setters "
-              "diverge. BCZ undirected position ≠ directed influence role.")
+        print("  WEAK alignment: BCZ undirected position does not predict "
+              "RBO-weighted temporal leadership (net_strength).")
+    print(f"\n  BCZ intercentrality ↔ net_influence [reference] (Spearman ρ = {bcz_ni}):")
 
     # -- Save outputs --------------------------------------------------------
 

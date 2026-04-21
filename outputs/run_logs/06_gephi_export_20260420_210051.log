@@ -1,0 +1,16 @@
+Loading GML...
+  Input: 293 nodes, 7738 edges
+  Removed 3958 balanced edges  (3780 decisive remain)
+  Removed 1889 directed edges below median weight 0.005850
+  Removed 59 zero-strength nodes  (234 remain)
+  Retained: 234 nodes, 1891 edges
+  net_strength range: [-8.5146, 5.8428]
+  Color: RED(vmin) → YELLOW(0) → GREEN(vmax)
+
+Building GEXF...
+
+  Written -> rbo_directed_influence.gexf  (1016.8 KB)
+  Nodes:             234
+  Decisive edges:    1891  (colored by target node)
+  Median weight cut: 0.005850
+  net_strength range: [-8.5146, 5.8428]  (color anchor)

@@ -731,6 +731,8 @@ Mian, A., Sufi, A., & Trebbi, F. (2010). The political economy of the US
 
 ## §21 — Congress-wide Directed RBO Influence Network: Single Aggregate Design
 
+> **Superseded (partially) by §37 (April 2026).** The edge structure and `net_strength` formula have been redesigned. The temporal first-mover logic, RBO computation, and `net_influence` definition remain valid. See §37 for the new bidirectional edge weights and `net_strength = Σ_j [RBO(i,j) × net_temporal(i,j)]`.
+
 **Script:** `src/rbo_directed_influence.py`
 
 ### Motivation
@@ -801,7 +803,9 @@ the RBO score, i.e., the strategic-priority bills that define the similarity edg
 
 ### Node Attributes
 
-`net_influence` (integer) is the primary node metric and is computed as the
+> **Superseded (partially) by §37 and §38 (April 2026).** `net_strength` is now the **primary** agenda-setter proxy; `net_influence` is the **reference/secondary** metric. The definitions below remain valid; the primacy designation has changed.
+
+`net_influence` (integer) is the **reference** node metric and is computed as the
 net count of bills where a firm was the first mover across **all** its pairwise
 comparisons:
 
@@ -1304,3 +1308,82 @@ Early-phase work on a Fortune 20 subset and PSNE game-theoretic model. Scripts: 
 ### Channel Tests (deleted)
 
 `src/channel_tests/` and `outputs/channel_tests/` have been copied to `src/archive/channel_tests/` and `outputs/archive/channel_tests/`. The originals require manual deletion from the filesystem.
+
+---
+
+## §37 — RBO Directed Influence Network: Bidirectional Edge Redesign (April 2026)
+
+**Problem identified:** The original formulation (§21) allocated the full RBO weight to whichever firm had the higher first-mover count in each pair, treating marginal temporal differences (e.g., 16 vs 14 firsts out of 30 shared bills) as categorical distinctions. Near-ties produced disproportionate influence asymmetries, and `net_strength` (out_strength − in_strength on decisive edges) was theoretically weakly grounded.
+
+**New edge structure:**
+
+Every pair (i, j) with RBO > 0 now produces **two directed edges** instead of one:
+
+- i→j with weight = `[(i_firsts + ties/2) / shared_bills] × RBO`
+- j→i with weight = `[(j_firsts + ties/2) / shared_bills] × RBO`
+- Constraint: `weight(i→j) + weight(j→i) = RBO`
+
+Each edge also stores `rbo` (full RBO similarity, same for both directions) and `net_temporal = source_firsts − target_firsts` (signed, from source's perspective). The `balanced` column is removed; balanced pairs (net_temporal = 0) now appear as two equal-weight edges rather than a single canonical edge.
+
+**net_strength redefined:**
+
+```
+net_strength(i) = Σ_j [RBO(i,j) × net_temporal(i,j)]
+```
+
+where j ranges over all neighbors and net_temporal(i,j) = i_firsts − j_firsts. In graph terms, this is computed by summing `rbo × net_temporal` over all out-edges of node i (out-edges cover all pairs without double-counting, since both directions are present). Within-community variant restricts the sum to same-community neighbors.
+
+**Interpretation:** net_strength captures "aggregate agenda-setting leverage through strategically aligned relationships." High RBO × high net_temporal = strong influence through strong alignment; near-ties contribute proportionally rather than zero. net_strength is zero-sum across each pair: net_strength(i) contribution from pair (i,j) equals −[contribution to net_strength(j)].
+
+**net_influence unchanged:** Still defined as `Σ_j (i_firsts_j − j_firsts_j)` across all pairings. With bidirectional edges, this is computed from out-edges only (`Σ source_firsts − Σ target_firsts`) to avoid double-counting.
+
+**Node coloring updated:** Nodes colored by net_strength (not net_influence): green if net_strength > 0, red if < 0, gray if = 0 or isolated.
+
+**"Decisive" edge selection in downstream scripts:** Validations and stability scripts that previously filtered `balanced == 0` now use `net_temporal > 0` to select the dominant-direction edge for each pair (one per decisive pair; equivalent set). Functions that computed within-community metrics using both out- and in-edges now use out-edges only (same result without double-counting).
+
+**Theoretical grounding:** Aligns with the directed BCZ framework where equilibrium effort responds to weighted complementarity structure. The product `RBO × net_temporal` directly captures both alignment strength and temporal dominance, making net_strength a natural measure of influence in a complementarity network.
+
+**Tradeoffs:** Edge count doubles (two per pair). Old GML files and any downstream code using the `balanced` column or old `net_strength` formula are incompatible and must be regenerated.
+
+**Scripts updated:**
+- `src/rbo_directed_influence.py` — core edge and graph construction
+- `src/enrich_directed_gml.py` — within-community metrics
+- `src/multi_congress_pipeline.py` — calls updated functions (no structural changes)
+- `src/cross_congressional_stability.py` — pair matrix and coverage counts
+- `src/validations/13_centrality_vs_agenda_setter.py` — wc_net_strength formula
+- `src/validations/14_influencer_regression.py` — wc_net_strength formula
+- `src/validations/15_cross_sector_directed_edges.py` — decisive edge filter, net_cs_strength
+- `src/validations/16_industry_influencer_hierarchy.py` — wc_net_influence from out-edges
+- `src/validations/19_bill_adoption_diffusion.py` — decisive edge filter, use rbo column
+
+---
+
+## §38 — net_strength as Primary Agenda-Setter Proxy (April 2026)
+
+**Decision:** Designate `net_strength` as the **primary** agenda-setter proxy and `net_influence` as the **reference/secondary** metric throughout all analyses and downstream scripts. This reverses the original primacy assignment in §21.
+
+**Rationale:**
+
+`net_strength = Σ_j [RBO(i,j) × net_temporal(i,j)]` — introduced in §37 — is a better operationalization of BCZ strategic complementarity than the unweighted `net_influence`. Specifically:
+
+- It weights each pairwise first-mover score by the RBO similarity of the pair. A decisive win against a high-RBO neighbor (strong strategic alignment) contributes more than a win against a low-RBO neighbor.
+- It directly implements the BCZ equilibrium notion: in BCZ, equilibrium effort is proportional to a weighted sum of neighbors' efforts, where weights are complementarity strengths. `net_strength` replaces the complementarity weight with RBO and the effort difference with net_temporal, making it the empirical analog of BCZ-weighted aggregate influence.
+- `net_influence` (raw win/loss count) is informative but treats all pairings as equally important regardless of portfolio similarity, which is theoretically weaker.
+
+**Scope of change:**
+
+| Component | Change |
+|---|---|
+| `src/rbo_directed_influence.py` | `print_stats()` sorts and displays by `net_strength` first |
+| `src/multi_congress_pipeline.py` | Node table sorted by `net_strength` |
+| `src/cross_congressional_stability.py` | Analysis 3 = net_strength [PRIMARY]; Analysis 4 = net_influence [REFERENCE] |
+| `src/validations/12_congress_statistics.py` | Top agenda-setters, correlations, scatters by `net_strength` first |
+| `src/validations/13_centrality_vs_agenda_setter.py` | BCZ ↔ net_strength is the primary comparison; BCZ ↔ net_influence is reference |
+| `src/validations/14_influencer_regression.py` | Spec B (net_strength) primary; Spec B2 (top_q_ns binary LPM) primary; Spec A (net_influence) reference; ordering B → B2 → A → C |
+| `src/validations/16_industry_influencer_hierarchy.py` | wc_net_strength leaderboard primary; wc_net_influence secondary |
+
+**Dependency note:** All existing congress edge CSVs (111th–117th) were produced under the old pipeline and lack the `rbo` column required to compute `wc_net_strength` and the complementarity tests in V14 Spec C and V20. Scripts that require `rbo` from edge files contain graceful fallbacks (WARNING + skip/NaN). To fully populate these analyses, re-run `src/multi_congress_pipeline.py` to regenerate per-congress edge CSVs with the new schema (`source, target, weight, rbo, source_firsts, target_firsts, tie_count, shared_bills, net_temporal`).
+
+**Note on V13:** The BCZ intercentrality computation (277 node-removal Katz reruns) times out in the sandboxed environment. This validation must be run on the full local machine; its outputs remain valid from the prior run.
+
+**GML files to regenerate:** `visualizations/gml/rbo_directed_influence.gml` (116th), and all per-congress GMLs via `multi_congress_pipeline.py`. Old GML files are structurally incompatible (missing `rbo` edge attribute, has stale `balanced` attribute).

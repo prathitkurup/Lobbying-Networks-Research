@@ -164,10 +164,10 @@ Horizons: Q+1, Q+2, Q+3 (a_entry_q + k ≤ 8)
   Q4 (strong)              18,252       533   0.0292
   Figure → 19_bill_adoption_diffusion.png
 
-  Candidate set CSV → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_candidates.csv
-  Adoption rates CSV → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_rates.csv
-  Regression CSV    → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_regression.csv
-  Log               → /sessions/compassionate-awesome-curie/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/19_bill_adoption_diffusion.txt
+  Candidate set CSV → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_candidates.csv
+  Adoption rates CSV → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_rates.csv
+  Regression CSV    → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/19_adoption_regression.csv
+  Log               → /Users/prathitkurup/Library/CloudStorage/OneDrive-BowdoinCollege/Desktop/Independent Study/Lobbying-Networks-Research/outputs/validation/19_bill_adoption_diffusion.txt
 
   Validation complete.
 ========================================================================

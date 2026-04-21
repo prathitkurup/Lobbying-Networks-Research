@@ -60,7 +60,7 @@ def load_bill_aff_communities(path):
 # ---------------------------------------------------------------------------
 
 def compute_within_community_metrics(G, community_map):
-    """Compute within-community net RBO strength and net influence for each node, restricted to directed same-community edges.
+    """Compute within-community net_strength and net_influence for each node, restricted to same-community out-edges.
 
     Returns (wc_net_str: {node: float}, wc_net_inf: {node: int}).
     """
@@ -70,31 +70,19 @@ def compute_within_community_metrics(G, community_map):
     for node in G.nodes():
         c_v = community_map.get(node)
 
-        dir_out_str  = 0.0
-        dir_in_str   = 0.0
-        out_sf_wc = out_tf_wc = 0
-        in_sf_wc  = in_tf_wc  = 0
+        net_str_wc = 0.0
+        out_sf_wc  = out_tf_wc = 0
 
+        # Sum over out-edges only; both directions exist, so out-edges cover all pairs
         for _, u, d in G.out_edges(node, data=True):
-            if d.get("balanced", 1) == 1:
-                continue                            # skip balanced edges
             if community_map.get(u) != c_v:
                 continue                            # skip cross-community edges
-            dir_out_str += d["weight"]
-            out_sf_wc   += d["source_firsts"]
-            out_tf_wc   += d["target_firsts"]
+            net_str_wc += d["rbo"] * d["net_temporal"]
+            out_sf_wc  += d["source_firsts"]
+            out_tf_wc  += d["target_firsts"]
 
-        for u, _, d in G.in_edges(node, data=True):
-            if d.get("balanced", 1) == 1:
-                continue
-            if community_map.get(u) != c_v:
-                continue
-            dir_in_str += d["weight"]
-            in_sf_wc   += d["source_firsts"]
-            in_tf_wc   += d["target_firsts"]
-
-        wc_net_str[node] = round(dir_out_str - dir_in_str, 4)
-        wc_net_inf[node] = int((out_sf_wc + in_tf_wc) - (out_tf_wc + in_sf_wc))
+        wc_net_str[node] = round(net_str_wc, 4)
+        wc_net_inf[node] = int(out_sf_wc - out_tf_wc)
 
     return wc_net_str, wc_net_inf
 
