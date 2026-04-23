@@ -1,0 +1,46 @@
+======================================================================
+ANALYSIS 06: CENTRALITY VS. AGENDA-SETTERS — 116th CONGRESS
+======================================================================
+
+Question: Do structurally central firms in the bill affiliation
+network also tend to be the top agenda-setters in the directed
+influence network?
+
+  Firms with all centrality measures: 276
+  Firms with wc_net_strength:          247
+
+[1/2] Spearman correlations ...
+
+  Centrality measure        Outcome                          ρ_full     p_full  ρ_top30   p_top30  top30_overlap
+  ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Global PageRank           net_strength (global)            0.2019*** 7.4301e-04   0.3621 5.3595e-02         0.3667
+  Global PageRank           wc_net_strength (within-comm)    0.1818** 4.1493e-03   0.0038 9.8418e-01         0.3667
+  Katz centrality           net_strength (global)            0.1851** 2.0171e-03   0.3261 8.4266e-02         0.3667
+  Katz centrality           wc_net_strength (within-comm)    0.1769** 5.3037e-03   0.0843 6.5778e-01         0.3667
+  WC eigenvector            net_strength (global)            0.2096*** 4.5546e-04   0.3793 4.2423e-02         0.3333
+  WC eigenvector            wc_net_strength (within-comm)    0.1752** 5.7749e-03  -0.0189 9.2099e-01         0.4333
+  Participation coeff       net_strength (global)            0.0584  3.3365e-01  -0.2635 1.6716e-01         0.0667
+  Participation coeff       wc_net_strength (within-comm)    0.0017  9.7903e-01   0.0194 9.1914e-01         0.0667
+
+[2/2] Generating top-30 ranked heatmap ...
+  Heatmap saved: 06_top30_heatmap.png
+
+  Key findings:
+  Highest |ρ| with net_strength: WC eigenvector  ρ=0.2096  p=4.6000e-04
+  Top-30 overlap (best measure):  33%
+  → Centrality and agenda-setting are weakly correlated at best,
+    consistent with directed influence reflecting dynamic temporal
+    leadership rather than static structural position.
+
+[3/3] Generating correlation heatmap and scatter ...
+  Saved: 06_corr_heatmap.png, 06_wc_eigen_scatter.png
+
+  Outputs:
+    06_centrality_vs_ns_correlations.csv
+    06_top30_heatmap.png
+    06_corr_heatmap.png
+    06_wc_eigen_scatter.png
+    06_centrality_vs_agenda_setters.txt
+
+======================================================================
+Analysis complete.

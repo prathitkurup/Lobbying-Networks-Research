@@ -42,6 +42,7 @@ NODE_ATTR_SCHEMA = [
     ("bill_aff_community",  "integer", "n8"),
     ("within_comm_net_str", "float",   "n9"),
     ("within_comm_net_inf", "integer", "n10"),
+    ("net_weight",          "float",   "n11"),
 ]
 # weight is the native GEXF edge attribute; remaining attrs go into attvalues
 EDGE_ATTR_SCHEMA = [
@@ -52,6 +53,18 @@ EDGE_ATTR_SCHEMA = [
     ("shared_bills",  "integer", "e4"),
     ("net_temporal",  "integer", "e5"),
 ]
+
+
+# ---------------------------------------------------------------------------
+# Precomputation (before filtering)
+# ---------------------------------------------------------------------------
+
+def compute_net_weight(G):
+    """Compute net_weight = in_weighted_degree + out_weighted_degree for each node."""
+    for node in G.nodes():
+        in_w = sum(d["weight"] for _, _, d in G.in_edges(node, data=True))
+        out_w = sum(d["weight"] for _, _, d in G.out_edges(node, data=True))
+        G.nodes[node]["net_weight"] = in_w + out_w
 
 
 # ---------------------------------------------------------------------------
@@ -264,6 +277,9 @@ def main():
     print("Loading GML...")
     G = nx.read_gml(str(GML_IN), label="label")
     print(f"  Input: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
+
+    # Precompute net_weight on original unfiltered network
+    compute_net_weight(G)
 
     # Step 1: drop balanced edges (net_temporal == 0; both directions have equal weight)
     n_bal = remove_balanced_edges(G)

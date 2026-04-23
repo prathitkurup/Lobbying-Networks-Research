@@ -540,6 +540,36 @@ concentration vs. RBO weight curve comparison across p ∈ {0.70, 0.80, 0.85, 0.
 
 ---
 
+## §39 — Analysis Scripts: Rewrite from Validations to Focused Analyses (April 2026)
+
+**Decision:** Archive the entire `src/validations/` directory to `src/archive/validations/` and create a new `src/analysis/` directory with eight focused, self-contained analysis scripts (01–08). Scripts are written from scratch, not refactored from validations.
+
+**Rationale:** The validation scripts (V01–V20) were designed for incremental debugging and pipeline verification. They contain redundant scaffolding, verbose logging, and mixed concerns (pipeline checks + scientific results). The analysis scripts address specific research questions directly, output clean CSVs and summary text files, and are readable in isolation without pipeline context. Parameters are constants at the top of each file (no CLI parsers); output goes to `outputs/analysis/`.
+
+**Analyses implemented:**
+- `01_primary_directed_influence.py` — top-30 global agenda-setters (116th), agenda-setting vs. spend/portfolio comparison, within-community top-10 per sector, top-20 pair case studies
+- `02_mediation.py` — bill-level and network-level lobbyist mediation test (decisive vs. balanced pairs, χ²)
+- `03_industry_hierarchy.py` — within-community leaderboards for all 5 sectors across 111th–117th, Kendall's W, persistent leaders
+- `04_cross_congressional.py` — Spearman correlation heatmap of net_strength for stable top-30 firms, RBO list similarity between consecutive sessions
+- `05_multi_congress.py` — Jaccard of top-N (10/20/30) firm sets between consecutive sessions, entry/exit transitions
+- `06_centrality_vs_agenda_setters.py` — Spearman ρ between centrality measures (global PageRank, Katz, WC eigenvector, participation coeff) and net_strength/wc_net_strength; top-30 ranked heatmap PNG
+- `07_strategic_complementarity.py` — Part A: BCZ payoff complementarity regression (116th); Part B: direction persistence by RBO quartile (111th–117th)
+- `08_bill_adoption_cascading.py` — bill adoption diffusion: candidate (A, B, bill) set, adoption rates by RBO quartile and horizon Q+1/2/3, LPM regression, cascade case studies
+
+**Key findings:** See `outputs/analysis/` for full results. Highlights: DTE Energy #1 global agenda-setter (ns=5.843), ρ(ns,spend)=−0.14; mediation rate 0.21% (not driven by shared lobbyists); Energy/Utilities most stable sector (W=0.446); no firm in global top-30 all 7 sessions; BCZ complementarity confirmed for high-RBO pairs (β₃=+0.147, p=0.003); bill adoption 1.75× higher for high-RBO followers at Q+1.
+
+**Output directory:** `outputs/analysis/` — all CSVs, TXT summaries, and two PNG heatmaps (04, 06).
+
+---
+
+## §40 — Analysis Report Word Document (April 2026)
+
+**Decision:** Produce `outputs/analysis/lobbying_networks_analysis_report.docx` covering methods and results of all 8 analyses. Document generated programmatically using docx-js (`build_analysis_doc.js` in the outputs working directory). Intended audience: readers without deep project familiarity who require both methodological detail and quantitative results.
+
+**Structure:** Title page → Project Overview → Analyses 01–08 (each with Overview, Methods, Results subsections) → Synthesis. Uses US Letter format, Arial font, page headers/footers, color-coded result tables.
+
+---
+
 ## References
 
 Bonacich, P. (1987). Power and centrality: A family of measures. American Journal

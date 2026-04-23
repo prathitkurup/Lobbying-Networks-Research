@@ -1,0 +1,81 @@
+======================================================================
+ANALYSIS 02: MEDIATION — IS IT JUST SHARED LOBBYISTS?
+======================================================================
+
+Question: Do influencer→follower pairs share specific lobbyists on
+the bills where one leads, or does influence flow through the broader
+underlying lobbyist network (industry ties, revolving door)?
+
+  affiliation_mediated_adoption rows: 8,596
+  rbo_edges_enriched rows:            7,738
+
+──────────────────────────────────────────────────────────────────────
+PART 1: BILL-LEVEL MEDIATION (strict — shared lobbyist on that bill)
+──────────────────────────────────────────────────────────────────────
+
+  Decisive pairs (influencer leads on bill):   3,347
+  Balanced pairs (tied on bill):               5,249
+
+  Channel                         Decisive rate  Balanced rate    Ratio
+  ──────────────────────────────────────────────────────────────────────
+  Shared specific lobbyist              0.0018         0.0034     0.523x
+  Shared lobbying firm                  0.0009         0.0036     0.248x
+  Any bill-level sharing                0.0021         0.0036     0.578x
+
+  χ² test (decisive vs balanced, any_mediated): χ²=1.117, p=0.2906
+  → Bill-level mediation is nearly absent in both groups; no significant difference.
+
+──────────────────────────────────────────────────────────────────────
+PART 2: NETWORK-LEVEL CONNECTIVITY (broad — any shared affiliation)
+──────────────────────────────────────────────────────────────────────
+
+  Channel                         Decisive rate  Balanced rate    Ratio
+  ──────────────────────────────────────────────────────────────────────
+  Firm network connected                0.0039         0.0048     0.816x
+  Any network connected                 0.0039         0.0048     0.816x
+
+  → Network connectivity is also low across both groups,
+    consistent with influence flowing through structural portfolio
+    similarity (RBO) rather than identifiable shared intermediaries.
+
+──────────────────────────────────────────────────────────────────────
+PART 3: MEDIATION BY RBO QUARTILE (from enriched edge file)
+──────────────────────────────────────────────────────────────────────
+
+  Directed edges (net_temporal ≠ 0): 3,780
+
+  Quartile              n   mean_rbo   lob_med%  firm_med%   any_med%
+  ─────────────────────────────────────────────────────────────────
+  Q1 (low RBO)        948     0.0018      0.00%      0.21%      0.21%
+  Q2                  942     0.0115      0.00%      0.00%      0.00%
+  Q3                  946     0.0427      0.21%      0.07%      0.21%
+  Q4 (high RBO)       944     0.1796      0.00%      0.00%      0.00%
+
+──────────────────────────────────────────────────────────────────────
+SUMMARY: THE BROADER LOBBYIST NETWORK MECHANISM
+──────────────────────────────────────────────────────────────────────
+
+  Bill-level mediation rate (decisive pairs):   0.21%
+  Network-level connection rate (decisive):     0.39%
+
+  These numbers show that agenda-setting influence is almost never
+  mediated by a directly shared lobbyist or lobbying firm on a specific
+  bill. Influencers and followers are also rarely connected through the
+  broader firm affiliation network in a detectable way.
+
+  The implication is that influence flows through the structural
+  similarity of lobbying portfolios — captured by the RBO metric — which
+  reflects shared issue prioritization arising from industry-level
+  conditions, revolving door dynamics, and political economy, rather
+  than traceable bilateral intermediary relationships.
+
+  This is consistent with the BCZ (Ballester, Calvó-Armengol & Zenou 2006)
+  framework: complementarities emerge from network position and strategic
+  substitutes/complements in payoffs, not direct coordination.
+
+  Outputs:
+    02_mediation_summary.csv
+    02_mediation.txt
+
+======================================================================
+Analysis complete.

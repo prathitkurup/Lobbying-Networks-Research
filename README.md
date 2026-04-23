@@ -115,34 +115,26 @@ python multi_congress_pipeline.py
 python cross_congressional_stability.py
 ```
 
-### Validations
+### Validations (archived)
+
+Validation scripts (V01–V19) are archived to `src/archive/validations/`. They remain fully reproducible but are superseded by the focused analysis scripts. To run them: `python archive/validations/XX_*.py` from `src/`. All outputs go to `outputs/validation/`.
+
+### Analyses
 
 ```bash
-# Core pipeline validations (V01–V11)
-python validations/01_extraction_audit.py         # bill-expanded CSV structure audit
-python validations/02_inflation_diagnosis.py       # cartesian product inflation check
-python validations/03_sparsity_analysis.py         # null model co-lobbying signal
-python validations/04_mega_bill_diagnosis.py       # mega-bill prevalence distribution
-python validations/05_ind_filter_validation.py     # ind='y' deduplication filter
-python validations/06_rbo_cosine_unit_tests.py     # RBO and cosine unit tests
-python validations/07_composite_network_validation.py
-python validations/08_rbo_p_calibration.py         # RBO p-parameter calibration
-python validations/10_rbo_directed_influence_validation.py
-python validations/11_mediated_adoption_validation.py
-
-# Congress statistics (V12)
-python validations/12_congress_statistics.py
-
-# Directed network analyses (V13–V16, V18–V19; require multi_congress_pipeline.py first)
-python validations/13_centrality_vs_agenda_setter.py
-python validations/14_influencer_regression.py
-python validations/15_cross_sector_directed_edges.py
-python validations/16_industry_influencer_hierarchy.py
-python validations/18_payoff_complementarity.py
-python validations/19_bill_adoption_diffusion.py
+# Run all focused analyses (require multi_congress_pipeline.py data first)
+cd src/analysis
+python 01_primary_directed_influence.py   # Top-30 agenda-setters, spend comparison, sector leaderboards
+python 02_mediation.py                    # Shared-lobbyist mediation test
+python 03_industry_hierarchy.py           # Kendall's W rank stability by sector
+python 04_cross_congressional.py          # Spearman ρ heatmap, RBO list similarity
+python 05_multi_congress.py               # Jaccard top-set overlap, entry/exit transitions
+python 06_centrality_vs_agenda_setters.py # Centrality vs. net_strength Spearman ρ
+python 07_strategic_complementarity.py    # BCZ payoff complementarity + direction persistence
+python 08_bill_adoption_cascading.py      # Bill adoption diffusion, LPM regression
 ```
 
-All validation outputs are written to `outputs/validation/`.
+All analysis outputs are written to `outputs/analysis/` (CSVs, TXT summaries, PNGs, DOCX report).
 
 ---
 
@@ -168,9 +160,17 @@ src/
     community.py                    Leiden detection and resolution sweep
     visualization.py                Circular layout plots
     bc_diagnostics.py               Betweenness-centrality diagnostics
-  validations/
-    01_extraction_audit.py          ...
-    19_bill_adoption_diffusion.py   (V17 not present; all outputs → outputs/validation/)
+  analysis/
+    01_primary_directed_influence.py
+    02_mediation.py
+    03_industry_hierarchy.py
+    04_cross_congressional.py
+    05_multi_congress.py
+    06_centrality_vs_agenda_setters.py
+    07_strategic_complementarity.py
+    08_bill_adoption_cascading.py
+  archive/
+    validations/                    Archived V01–V19 pipeline validation scripts
   archive/
     networks/                       Archived supporting network scripts
       bill_affiliation_network.py
@@ -228,10 +228,11 @@ visualizations/
     undirected/                     Supporting network GMLs, PNGs, and PDFs
 
 outputs/
-  validation/                       All validation script outputs (.txt, .csv, .png)
-  cross_congressional/              Stability report (.txt, .png, .docx)
+  analysis/                         All analysis script outputs (.csv, .txt, .png, .docx)
+  validation/                       Legacy validation outputs (archived)
+  cross_congressional/              Legacy stability report
   archive/
-    channel_tests/                  Archived channel test outputs (to be manually deleted from outputs/channel_tests/)
+    channel_tests/                  Archived channel test outputs
 
 docs/
   design_decisions.md               Methodology and design decision log (§0–§35+)

@@ -1,0 +1,77 @@
+======================================================================
+ANALYSIS 07: STRATEGIC COMPLEMENTARITY
+======================================================================
+
+──────────────────────────────────────────────────────────────────────
+PART A: BCZ PAYOFF COMPLEMENTARITY (116th Congress)
+──────────────────────────────────────────────────────────────────────
+
+  Specification:
+    Δlog_spend_{i,b,t+1} = β₁ entry_j + β₂ rbo_ij + β₃ (entry_j × rbo_ij)
+                          + firm-bill FE + quarter FE + ε
+  Positive, significant β₃ → spending increases more in response to a
+  co-lobbyist's entry when the pair has higher RBO similarity (BCZ-style
+  strategic complementarity).
+
+
+  116th Congress panel: 134,388 obs  | 250 firm_i  | 3960 firm-bill groups
+  RBO p25=0.0072  p75=0.1307
+
+  Spec                                N    β₁(entry)    β₃(inter)     SE(β₃)      p(β₃) Interp
+  ──────────────────────────────────────────────────────────────────────────────────────────────
+  A — full RBO-linked           134,388      -0.0133      -0.1252     0.0233     0.0000***  negative
+  B — high-RBO (≥p75)            33,690      -0.1248       0.1470     0.0487     0.0025**  complementarity
+  C — low-RBO (<p25)             33,592      -0.0002      -8.0008     2.1057     0.0001***  negative
+
+──────────────────────────────────────────────────────────────────────
+PART B: DIRECTION PERSISTENCE BY RBO QUARTILE (111th–117th)
+──────────────────────────────────────────────────────────────────────
+
+  For each consecutive congress pair, decisive pairs (A leads B in session N)
+  are split by RBO quartile. Fisher's exact test (one-sided):
+  H1: high-RBO pairs (Q4) persist significantly more than low-RBO pairs (Q1).
+
+  111→112:  decisive=1,897  in_next=996  persist=354  (35.5%)  |  High-RBO persist: 0.341  Low-RBO persist: 0.362  Fisher p=0.7196
+  112→113:  decisive=1,882  in_next=853  persist=244  (28.6%)  |  High-RBO persist: 0.360  Low-RBO persist: 0.200  Fisher p=0.0002
+  113→114:  decisive=1,592  in_next=790  persist=255  (32.3%)  |  High-RBO persist: 0.360  Low-RBO persist: 0.287  Fisher p=0.0716
+  114→115:  decisive=2,090  in_next=794  persist=255  (32.1%)  |  High-RBO persist: 0.365  Low-RBO persist: 0.256  Fisher p=0.0129
+  115→116:  decisive=1,494  in_next=467  persist=150  (32.1%)  |  High-RBO persist: 0.367  Low-RBO persist: 0.172  Fisher p=0.0008
+  116→117:  decisive=966  in_next=399  persist=144  (36.1%)  |  High-RBO persist: 0.422  Low-RBO persist: 0.323  Fisher p=0.0952
+
+  Summary (Part B):
+  Mean overall persistence rate:        0.328
+  Mean high-RBO (Q4) persistence rate:  0.369
+  Mean low-RBO (Q1) persistence rate:   0.267
+  Mean differential (high − low):       +0.103
+  Fisher p < 0.05:  3/6 consecutive pairs
+  → Consistent with complementarity
+
+──────────────────────────────────────────────────────────────────────
+PART C: DIRECTION CONSISTENCY ACROSS ALL SESSIONS (111th–117th)
+──────────────────────────────────────────────────────────────────────
+
+  For each canonical pair (A, B) that appears as decisive (net_temporal ≠ 0)
+  in ≥2 sessions, the consistency score is the fraction of those sessions
+  where A leads B (net_temporal > 0).  A score of 1.0 = always same leader;
+  0.5 = coin-flip.  This is a different question from Part B: it asks whether
+  direction is stable across the full run of sessions a pair co-occurs, not
+  just between consecutive session pairs.
+
+
+  Pairs with ≥2 directed sessions: 5,123
+  Mean consistency:   0.7731
+  Median consistency: 0.7500
+  Pairs ≥ 0.80 consistent: 2,402 / 5,123  (46.9%)
+  Perfectly consistent (1.00): 2,270 / 5,123  (44.3%)
+  Pairs with majority-direction (>0.5): 3,647 / 5,123  (71.2%)
+
+  Outputs:
+    07_complementarity_regression.csv
+    07_persistence_summary.csv
+    07_direction_consistency.csv
+    07_strategic_complementarity.txt
+    07_persistence_bar.png
+    07_consistency_hist.png
+
+======================================================================
+Analysis complete.

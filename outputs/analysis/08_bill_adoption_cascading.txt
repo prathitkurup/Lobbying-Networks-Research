@@ -1,0 +1,94 @@
+======================================================================
+ANALYSIS 08: BILL ADOPTION CASCADING — 116th CONGRESS
+======================================================================
+
+Question: Is a follower B more likely to adopt a bill that influencer
+A lobbied, and does higher RBO amplify that adoption probability?
+
+[1/4] Building candidate set ...
+  Directed (A→B) pairs:  1,890
+  Candidate (A, B, bill) rows:  80,384
+  A firms:                      213
+  B firms:                      199
+  Observable at Q+1: 75,850
+  Observable at Q+2: 67,745
+  Observable at Q+3: 58,362
+
+[2/4] Adoption rates by RBO quartile and horizon ...
+
+  RBO median: 0.0140
+
+  Horizon  Group                 N     Rate
+  ────────────────────────────────────────────
+  Q+1      All              75,850   0.0308
+  Q+1      Q1 (low)         18,921   0.0204
+  Q+1      Q2               19,023   0.0242
+  Q+1      Q3               18,872   0.0330
+  Q+1      Q4 (high)        19,034   0.0455
+  Q+2      All              67,745   0.0484
+  Q+2      Q1 (low)         16,922   0.0335
+  Q+2      Q2               16,883   0.0379
+  Q+2      Q3               16,921   0.0514
+  Q+2      Q4 (high)        17,019   0.0707
+  Q+3      All              58,362   0.0573
+  Q+3      Q1 (low)         14,634   0.0392
+  Q+3      Q2               14,489   0.0458
+  Q+3      Q3               14,528   0.0611
+  Q+3      Q4 (high)        14,711   0.0831
+
+  Median-split adoption rates:
+  Horizon      High RBO      Low RBO    Ratio
+  ────────────────────────────────────────────
+  Q+1            0.0392       0.0223    1.754x
+  Q+2            0.0609       0.0357    1.707x
+  Q+3            0.0720       0.0424    1.697x
+
+  χ² test (high vs low RBO, Q+1): χ²=179.376, p=0.0000
+
+[3/4] LPM regressions ...
+
+  Horizon         N   coef_log_rbo          p
+  ────────────────────────────────────────────
+  Q+1        75,850        0.00418     0.0000 ***
+  Q+2        67,745        0.00616     0.0000 ***
+  Q+3        58,362        0.00763     0.0000 ***
+
+[4/4] Case study cascade chains ...
+
+  Top influencer cascades (A→B, adopted within Q+1):
+  A (influencer)                         B (follower)                                rbo bill                 q_A   q_B
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ABBVIE                                 BIOGEN                                   0.2278 H.R.19                 4     5
+  ABBVIE                                 BIOGEN                                   0.2278 S.2543                 3     4
+  ABBVIE                                 GILEAD SCIENCES                          0.1411 H.R.2740               2     3
+  ABBVIE                                 GILEAD SCIENCES                          0.1411 S.1416                 2     3
+  ABBVIE                                 GILEAD SCIENCES                          0.1411 S.1895                 2     3
+  ABBVIE                                 CATERPILLAR                              0.1308 H.R.3                  3     4
+  ABBVIE                                 CENTENE                                  0.1251 H.R.1425               6     7
+  ABBVIE                                 CENTENE                                  0.1251 H.R.2740               2     3
+  ABBVIE                                 CENTENE                                  0.1251 S.2543                 3     4
+  ABBVIE                                 HUMANA                                   0.0848 H.R.965                1     2
+  ABBVIE                                 HUMANA                                   0.0848 S.3129                 7     8
+  ABBVIE                                 AMGEN                                    0.0683 H.R.1344               1     2
+  ABBVIE                                 AMGEN                                    0.0683 H.R.1503               1     2
+  ABBVIE                                 AMGEN                                    0.0683 S.2543                 3     4
+  ABBVIE                                 AMGEN                                    0.0683 S.474                  1     2
+  ABBVIE                                 AMGEN                                    0.0683 S.476                  1     2
+  ABBVIE                                 AMGEN                                    0.0683 S.659                  1     2
+  ABBVIE                                 NAVISTAR INTERNATIONAL                   0.0285 S.1895                 2     3
+  ABBVIE                                 JOHNSON & JOHNSON                        0.0260 H.R.3                  3     4
+  ABBVIE                                 JOHNSON & JOHNSON                        0.0260 S.2543                 3     4
+  ABBVIE                                 WALGREENS BOOTS ALLIANCE                 0.0141 H.R.3                  3     4
+  ABBVIE                                 ENTERGY                                  0.0065 S.1895                 2     3
+  ABBVIE                                 GENERAL MOTORS                           0.0016 H.R.3                  3     4
+  AT&T                                   VERIZON                                  0.2359 H.R.1869               2     3
+  AT&T                                   VERIZON                                  0.2359 H.R.4194               4     5
+
+  Outputs:
+    08_adoption_rates.csv
+    08_adoption_regression.csv
+    08_cascade_case_studies.csv
+    08_bill_adoption_cascading.txt
+
+======================================================================
+Analysis complete.

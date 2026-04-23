@@ -1,75 +1,130 @@
-## Directed Influence Network — Full Summary
+## RBO Directed Influence Network — Summary
 
 ### Concept
-Influence is operationalized as agenda-setting: if Firm A consistently lobbies a bill before Firm B across their shared bill portfolio, A is the agenda-setter and B is the follower. Priority rankings are defined by spend fractions (amount_allocated / total_budget per firm per bill). The proximate mechanism is lobbyist networks but that is out of scope — the network captures the observable outcome.
 
-### What Was Built
-Two new scripts: `src/directed_influence_network.py` and `src/utils/visualization.py` (extended).
+Influence is operationalized as agenda-setting: if Firm A consistently lobbies a bill before Firm B across their shared bill portfolio, A is the agenda-setter and B is the follower. Priority rankings are defined by spend fractions (`amount_allocated / total_budget` per firm per bill). The proximate mechanism is shared lobbyists — lobbyists working for both firms transmit bill priorities from the influencer to the follower. The network captures the observable outcome of that mechanism.
 
-### Core Logic (directed_influence_network.py)
+---
 
-Input: `opensecrets_lda_reports.csv` (22,860 rows, 305 firms, 2219 bills). Quarter assignment: `base_q = int(report_type[1])`, year_offset = 0 (2019) or 4 (2020), quarter = base_q + year_offset → values 1–8.
+### Construction (`src/rbo_directed_influence.py`)
 
-Pipeline per quarter q:
-1. Filter to quarter q rows only (independent windows, not cumulative)
-2. Apply MAX_BILL_DF = 50 prevalence filter (remove mega-bills)
-3. Aggregate per (firm, bill) by summing amount_allocated
-4. Compute fracs; exclude zero-budget firms
-5. Build ranked bill lists (top 30 by spend)
-6. Load all RBO pairs from `rbo_edges_q{q}.csv` (pre-computed undirected RBO network)
-7. For each RBO pair (A, B): look up `bill_first = {(firm, bill): first_quarter}` using causal window Q1..q only
-8. Score over shared top-30 bills: A gets +1 if first_q(A,bill) < first_q(B,bill), B gets +1 if opposite, tie if equal
-9. If A_firsts > B_firsts: emit A→B with weight = A_firsts − B_firsts; if equal (all ties or balanced): no edge
-10. Build DiGraph, tag nodes with out_strength, in_strength, net_influence = out − in, community
-11. Write edges CSV, GML, PNG
+**Input:** `data/opensecrets_lda_reports.csv` — one row per (firm, bill, quarter); filtered to Fortune 500 firms, `ind='y'` records, at least one named lobbyist.
 
-Aggregate: Sum source_firsts and target_firsts per canonical pair (min(A,B), max(A,B)) across all 8 quarters, apply net-direction rule to totals.
+**Pipeline:**
 
-### Key Design Decisions
-- Causal window Q1..q only — no future information leakage (temporal exogeneity)
-- Edge weight = source_firsts − target_firsts (net first-mover margin, not RBO weight)
-- RBO weight stored separately as `rbo_weight` edge attribute — not incorporated into directed weight
-- Ties skipped — simultaneous bill adoption is exogenous co-response, not influence signal
-- Q1 always empty — all first_quarters = 1 in Q1 by construction, so every pair ties
-- Independent quarterly windows — each quarter uses only that quarter's filings; preserves COVID structural shock detection at Q4→Q5
-- Node color in PNG: green = net agenda-setter (out > in), red = net follower (in > out), gray = balanced
+1. Build ranked bill lists: for each firm, rank top-30 bills by `amount_allocated / total_budget` share across the full Congress.
+2. Filter mega-bills: bills lobbied by >50 firms excluded (`MAX_BILL_DF = 50` in `config.py`) — analogous to stop-word removal.
+3. For every pair of firms sharing ≥1 top-30 bill: compute RBO (p=0.85) over their bill-priority rankings.
+4. For each shared bill, compare first-quarter adoption: the firm that first appears lobbying the bill gets a first-mover credit. Ties (same quarter) split as 0.5 each.
+5. Aggregate credits across all shared bills per pair → `source_firsts`, `target_firsts`, `net_temporal = source_firsts − target_firsts`.
+6. Emit two directed edges per pair: weight = `(source_firsts + ties/2) / shared_bills × rbo` (proportional RBO, sums to `rbo` across both edges).
 
-### Visualization (utils/visualization.py)
-`plot_directed_circular(G, title, path, top_k=20)` — circular layout, top-k nodes by total involvement (out_strength + in_strength), curved edges (arc3,rad=0.15) to prevent A→B and B→A arrows from overlapping, arrow width ∝ edge weight, legend via mpatches. Originally local to `directed_influence_network.py`, moved to `utils/visualization.py`; numpy and matplotlib.pyplot imports removed from main script.
+**Key node attribute — `net_strength` (primary):**
+`net_strength = Σ_j [rbo(i,j) × net_temporal(i,j)]`
+RBO-weighted temporal dominance across all pairings. Positive = net agenda-setter; negative = net follower.
 
-### Empirical Results
-- Q1: 0 edges (expected)
-- Q2: 303 edges / 2,091 RBO pairs (14.5% decisive), mean net weight 1.39
-- Q3: 854 / 2,187 (39.0%)
-- Q4: 1,287 / 2,801 (45.9%)
-- Q5–Q8: 613–1,039 edges, 40–48% decisive
-- Aggregate: 2,822 edges / 6,265 RBO pairs (45.0%), mean net weight 2.50
-- Top aggregate agenda-setters: BALL (+132), NORTHROP GRUMMAN (+131), FORD (+112), CUMMINS (+103), BOEING (+99), EXXONMOBIL (+97)
-- Top aggregate followers: STATE FARM (−149), ENTERGY (−143), AEP (−117), PPL (−122), AMAZON (−93)
+**Supporting attributes:**
+- `net_influence`: total first-mover wins minus losses (unweighted bill count; reference only)
+- `wc_net_strength`: within-community variant of `net_strength` (same-community neighbors only)
 
-### Validation (src/validations/09_directed_influence_validation.py)
-8 checks, all pass:
-1. Quarter values exactly 1–8; 2019→Q1-4, 2020→Q5-8
-2. Q1 CSV absent (no decisive pairs)
-3. weight == source_firsts − target_firsts for all edges Q2–Q8
-4. source_firsts > target_firsts for all directed edges
-5. rbo_weight > 0 on all edges
-6. Coverage rises Q2 (14.5%) → Q8 (48.1%)
-7. Aggregate first-mover totals ≥ per-quarter totals for all 5,539 checked pairs
-8. Aggregate schema complete (2,822 rows, all required columns including quarters_active)
+Node color in PNG: green = `net_strength > 0`, red = `net_strength < 0`, gray = neutral/isolated.
+
+---
+
+### Empirical Highlights (116th Congress)
+
+| Statistic | Value |
+|---|---|
+| Fortune 500 firms with ≥1 lobbying report | 305 |
+| Firms in directed network (≥1 edge) | 293 |
+| Directed edges | 5,612 |
+| Median `net_strength` | −0.01 |
+
+**Top agenda-setters by `net_strength`:**
+
+| Firm | net_strength |
+|---|---|
+| Cummins | +13.4 |
+| IBM | +12.6 |
+| DTE Energy | +11.8 |
+| Northrop Grumman | +11.2 |
+| Boeing | +10.9 |
+
+**Top followers by `net_strength`:**
+
+| Firm | net_strength |
+|---|---|
+| State Farm | −14.2 |
+| Entergy | −13.9 |
+| Amazon | −12.7 |
+| AEP | −11.4 |
+| PPL | −10.8 |
+
+(Exact values from `data/congress/116/node_attributes.csv`.)
+
+---
+
+### Mediation (`src/affiliation_mediated_adoption.py`)
+
+Tests whether directed adoption pairs (A→B, bill) are mediated by shared lobbyists or lobbying firms. Bill-level analysis: ~42% of directed adoption events have a shared lobbyist in the first quarter of bill adoption. Network-level: 89% of directed pairs share at least one lobbyist across their full portfolios. Positive controls (random non-influencer pairs) show significantly lower mediation rates — χ² p < 0.001. See `docs/affiliation_mediated_adoption_summary.md` for full results. Design decision §24.
+
+---
+
+### Enrichment and Export
+
+- `src/enrich_directed_gml.py` — adds `num_bills`, `bill_aff_community`, `within_comm_net_str`, `within_comm_net_inf` to GML node attributes
+- `src/gephi_style_export.py` — writes Gephi-ready GEXF (`visualizations/gexf/rbo_directed_influence.gexf`)
+
+---
+
+### Cross-Congressional Stability (111th–117th Congress)
+
+`src/cross_congressional_stability.py` analyzes direction/magnitude/rank stability for 135 firms present in all 7 congresses (2009–2022).
+
+Key findings:
+- **Direction consistency:** median 77% of cross-session appearances maintain the same direction for multi-session pairs (Analysis 07, Part C). Mean = 77.3%.
+- **Rank stability:** Spearman ρ between adjacent congresses ranges 0.36–0.52 for `net_strength`; stable firms persist in the top tier across congresses.
+- **Agenda-setter identity:** top-5 by `net_strength` has ~40–60% overlap between adjacent congresses (Jaccard ≈ 0.25 on top-20 set).
+
+---
+
+### Focused Analyses (`src/analysis/`)
+
+| Script | Question |
+|---|---|
+| `01_primary_directed_influence.py` | Top-30 agenda-setters, spend comparison, sector leaderboards |
+| `02_mediation.py` | Shared-lobbyist mediation test |
+| `03_industry_hierarchy.py` | Kendall's W rank stability by sector |
+| `04_cross_congressional.py` | Spearman ρ heatmap, RBO list similarity |
+| `05_multi_congress.py` | Jaccard top-set overlap, entry/exit transitions |
+| `06_centrality_vs_agenda_setters.py` | Centrality vs. net_strength Spearman ρ |
+| `07_strategic_complementarity.py` | BCZ payoff complementarity + direction persistence |
+| `08_bill_adoption_cascading.py` | Bill adoption diffusion, LPM regression |
+
+All outputs written to `outputs/analysis/`.
+
+---
 
 ### Output Files
 
 | File | Contents |
 |---|---|
-| data/directed_influence_q{2..8}.csv | Per-quarter directed edges (source, target, weight, rbo_weight, source_firsts, target_firsts, tie_count, shared_bills) |
-| data/directed_influence_agg.csv | Aggregate directed edges (same columns + quarters_active) |
-| visualizations/gml/directed_influence_q{1..8}.gml | Per-quarter directed GMLs for Gephi |
-| visualizations/gml/directed_influence_agg.gml | Aggregate GML |
-| visualizations/png/directed_influence_q{1..8}.png | Directed circular plots (Q1 skipped, empty) |
-| visualizations/png/directed_influence_agg.png | Aggregate circular plot |
+| `data/congress/116/rbo_directed_influence.csv` | Edge list (source, target, weight, rbo, net_temporal, source_firsts, target_firsts, shared_bills) |
+| `data/congress/116/node_attributes.csv` | Node attributes (net_strength, net_influence, total_spend, sector, …) |
+| `data/congress/116/ranked_bill_lists.csv` | Per-firm top-30 bill rankings |
+| `data/affiliation_mediated_adoption.csv` | Bill-level mediated adoption dataset |
+| `data/rbo_edges_enriched.csv` | RBO edges with mediation rates and connectivity |
+| `visualizations/gml/rbo_directed_influence.gml` | Enriched GML for Gephi |
+| `visualizations/gexf/rbo_directed_influence.gexf` | Gephi-ready GEXF |
+| `visualizations/png/rbo_directed_influence.png` | Directed circular plot (top-20 firms) |
 
-### Documentation
-- design_decisions.md §0 — conceptual framework (influence = agenda-setting)
-- design_decisions.md §20 — full directed influence methodology, scoring rule, design choices, empirical highlights, references (Carpenter et al. 1998; Granger 1969; LaPira & Thomas 2014; Mian et al. 2010)
-- README.md — "Conceptual Framework" section at top; §0 in Key Design Decisions list; both new scripts listed with run instructions
+---
+
+### Design Decision References
+
+- §0 — influence = agenda-setting (conceptual framework)
+- §20 — full RBO directed influence methodology (scoring rule, temporal precedence, references)
+- §24 — affiliation-mediated adoption findings
+- §37 — redesign from quarterly to full-Congress bill rankings
+- §38 — multi-congress pipeline and 135-firm stable set
+- §39 — analysis scripts (01–08), methods and key findings
