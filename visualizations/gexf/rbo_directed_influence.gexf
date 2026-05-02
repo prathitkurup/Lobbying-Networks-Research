@@ -17,6 +17,8 @@
       <attribute id="n8" title="bill_aff_community" type="integer" />
       <attribute id="n9" title="within_comm_net_str" type="float" />
       <attribute id="n10" title="within_comm_net_inf" type="integer" />
+      <attribute id="n11" title="net_weight" type="float" />
+      <attribute id="n12" title="total_spend" type="float" />
     </attributes>
     <attributes class="edge" mode="static">
       <attribute id="e0" title="rbo" type="float" />
@@ -40,6 +42,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1663" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="1.7402489999999995" />
+          <attvalue for="n12" value="9750000.0" />
         </attvalues>
         <viz:color r="243" g="212" b="2" a="1.0" />
       </node>
@@ -56,6 +60,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.1466" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="0.395897" />
+          <attvalue for="n12" value="7930000.0" />
         </attvalues>
         <viz:color r="250" g="213" b="0" a="1.0" />
       </node>
@@ -72,6 +78,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="4.1" />
           <attvalue for="n10" value="32" />
+          <attvalue for="n11" value="8.437275000000001" />
+          <attvalue for="n12" value="12100000.0" />
         </attvalues>
         <viz:color r="104" g="175" b="31" a="1.0" />
       </node>
@@ -88,6 +96,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.2051" />
           <attvalue for="n10" value="-3" />
+          <attvalue for="n11" value="0.410219" />
+          <attvalue for="n12" value="40000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
       </node>
@@ -104,6 +114,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.272" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="0.235896" />
+          <attvalue for="n12" value="1030000.0" />
         </attvalues>
         <viz:color r="245" g="212" b="2" a="1.0" />
       </node>
@@ -120,6 +132,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.2343" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="2.3052440000000005" />
+          <attvalue for="n12" value="3140000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
       </node>
@@ -136,6 +150,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-2.6184" />
           <attvalue for="n10" value="-35" />
+          <attvalue for="n11" value="1.5934899999999996" />
+          <attvalue for="n12" value="1050000.0" />
         </attvalues>
         <viz:color r="239" g="148" b="15" a="1.0" />
       </node>
@@ -152,6 +168,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0748" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.074825" />
+          <attvalue for="n12" value="11770000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -168,6 +186,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.8246" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="1.77001" />
+          <attvalue for="n12" value="3460000.0" />
         </attvalues>
         <viz:color r="210" g="203" b="9" a="1.0" />
       </node>
@@ -184,6 +204,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.1183" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="1.2440250000000002" />
+          <attvalue for="n12" value="160000.0" />
         </attvalues>
         <viz:color r="253" g="207" b="1" a="1.0" />
       </node>
@@ -200,6 +222,8 @@
           <attvalue for="n8" value="-1" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.497841" />
+          <attvalue for="n12" value="919000.0" />
         </attvalues>
         <viz:color r="216" g="204" b="8" a="1.0" />
       </node>
@@ -216,6 +240,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.2566" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="1.9655059999999995" />
+          <attvalue for="n12" value="2230000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -232,6 +258,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.1923" />
           <attvalue for="n10" value="18" />
+          <attvalue for="n11" value="1.9807320000000002" />
+          <attvalue for="n12" value="5990000.0" />
         </attvalues>
         <viz:color r="208" g="202" b="9" a="1.0" />
       </node>
@@ -248,6 +276,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.1155" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="2.989767" />
+          <attvalue for="n12" value="4940000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -264,6 +294,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-1.5572" />
           <attvalue for="n10" value="-11" />
+          <attvalue for="n11" value="3.1059520000000003" />
+          <attvalue for="n12" value="20250000.0" />
         </attvalues>
         <viz:color r="243" g="166" b="10" a="1.0" />
       </node>
@@ -280,6 +312,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.7494" />
           <attvalue for="n10" value="-14" />
+          <attvalue for="n11" value="3.2143689999999996" />
+          <attvalue for="n12" value="34000000.0" />
         </attvalues>
         <viz:color r="248" g="188" b="6" a="1.0" />
       </node>
@@ -296,6 +330,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.5507" />
           <attvalue for="n10" value="-9" />
+          <attvalue for="n11" value="1.535764" />
+          <attvalue for="n12" value="3100000.0" />
         </attvalues>
         <viz:color r="250" g="197" b="3" a="1.0" />
       </node>
@@ -312,6 +348,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.6695" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="0.721074" />
+          <attvalue for="n12" value="9750000.0" />
         </attvalues>
         <viz:color r="230" g="208" b="5" a="1.0" />
       </node>
@@ -328,6 +366,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-8.2323" />
           <attvalue for="n10" value="-39" />
+          <attvalue for="n11" value="2.824413" />
+          <attvalue for="n12" value="16254686.0" />
         </attvalues>
         <viz:color r="214" g="39" b="40" a="1.0" />
       </node>
@@ -344,6 +384,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.2967" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="3.731485" />
+          <attvalue for="n12" value="3140000.0" />
         </attvalues>
         <viz:color r="251" g="200" b="3" a="1.0" />
       </node>
@@ -360,6 +402,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.2817" />
           <attvalue for="n10" value="15" />
+          <attvalue for="n11" value="0.6547999999999999" />
+          <attvalue for="n12" value="840000.0" />
         </attvalues>
         <viz:color r="229" g="208" b="5" a="1.0" />
       </node>
@@ -376,6 +420,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.597" />
           <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="1.1840039999999998" />
+          <attvalue for="n12" value="1780000.0" />
         </attvalues>
         <viz:color r="218" g="205" b="7" a="1.0" />
       </node>
@@ -392,6 +438,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.2289" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="0.8907470000000002" />
+          <attvalue for="n12" value="5155000.0" />
         </attvalues>
         <viz:color r="246" g="212" b="1" a="1.0" />
       </node>
@@ -408,6 +456,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.1389" />
           <attvalue for="n10" value="14" />
+          <attvalue for="n11" value="0.641467" />
+          <attvalue for="n12" value="22090000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -424,6 +474,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-1.6434" />
           <attvalue for="n10" value="-15" />
+          <attvalue for="n11" value="1.9571599999999998" />
+          <attvalue for="n12" value="1450000.0" />
         </attvalues>
         <viz:color r="245" g="173" b="9" a="1.0" />
       </node>
@@ -440,6 +492,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="1.9229" />
           <attvalue for="n10" value="12" />
+          <attvalue for="n11" value="8.092690000000001" />
+          <attvalue for="n12" value="1780000.0" />
         </attvalues>
         <viz:color r="185" g="196" b="14" a="1.0" />
       </node>
@@ -456,6 +510,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.0211" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="0.7699020000000001" />
+          <attvalue for="n12" value="750000.0" />
         </attvalues>
         <viz:color r="201" g="201" b="11" a="1.0" />
       </node>
@@ -472,6 +528,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.059165" />
+          <attvalue for="n12" value="243962.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -488,6 +546,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="1.6863" />
           <attvalue for="n10" value="24" />
+          <attvalue for="n11" value="1.286428" />
+          <attvalue for="n12" value="24150000.0" />
         </attvalues>
         <viz:color r="190" g="198" b="13" a="1.0" />
       </node>
@@ -504,6 +564,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="1.6646" />
           <attvalue for="n10" value="29" />
+          <attvalue for="n11" value="2.216589" />
+          <attvalue for="n12" value="1846000.0" />
         </attvalues>
         <viz:color r="185" g="196" b="14" a="1.0" />
       </node>
@@ -520,6 +582,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-2.4407" />
           <attvalue for="n10" value="-14" />
+          <attvalue for="n11" value="2.066032" />
+          <attvalue for="n12" value="3470000.0" />
         </attvalues>
         <viz:color r="243" g="163" b="11" a="1.0" />
       </node>
@@ -536,6 +600,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.0191" />
           <attvalue for="n10" value="-17" />
+          <attvalue for="n11" value="1.3270110000000002" />
+          <attvalue for="n12" value="2250000.0" />
         </attvalues>
         <viz:color r="250" g="193" b="4" a="1.0" />
       </node>
@@ -552,6 +618,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0924" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="0.096619" />
+          <attvalue for="n12" value="3730000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -568,6 +636,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.1031" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="1.4689" />
+          <attvalue for="n12" value="2995000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -584,6 +654,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0637" />
           <attvalue for="n10" value="5" />
+          <attvalue for="n11" value="1.8849849999999997" />
+          <attvalue for="n12" value="7040000.0" />
         </attvalues>
         <viz:color r="118" g="179" b="28" a="1.0" />
       </node>
@@ -600,6 +672,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.6367" />
           <attvalue for="n10" value="-8" />
+          <attvalue for="n11" value="6.046670000000001" />
+          <attvalue for="n12" value="2200000.0" />
         </attvalues>
         <viz:color r="251" g="199" b="3" a="1.0" />
       </node>
@@ -616,6 +690,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-3.3129" />
           <attvalue for="n10" value="-27" />
+          <attvalue for="n11" value="2.924837" />
+          <attvalue for="n12" value="4996680.0" />
         </attvalues>
         <viz:color r="237" g="140" b="16" a="1.0" />
       </node>
@@ -632,6 +708,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.9647" />
           <attvalue for="n10" value="-13" />
+          <attvalue for="n11" value="1.0759949999999998" />
+          <attvalue for="n12" value="780000.0" />
         </attvalues>
         <viz:color r="249" g="190" b="5" a="1.0" />
       </node>
@@ -648,6 +726,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.686" />
           <attvalue for="n10" value="10" />
+          <attvalue for="n11" value="3.068499" />
+          <attvalue for="n12" value="2610000.0" />
         </attvalues>
         <viz:color r="251" g="200" b="3" a="1.0" />
       </node>
@@ -664,6 +744,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.0101" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="1.9223669999999997" />
+          <attvalue for="n12" value="26440000.0" />
         </attvalues>
         <viz:color r="250" g="213" b="0" a="1.0" />
       </node>
@@ -680,6 +762,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.15" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="0.20435999999999999" />
+          <attvalue for="n12" value="890000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -696,6 +780,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.023" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="4.777407" />
+          <attvalue for="n12" value="360000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -712,6 +798,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.3543" />
           <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="0.9528830000000001" />
+          <attvalue for="n12" value="3200000.0" />
         </attvalues>
         <viz:color r="253" g="207" b="1" a="1.0" />
       </node>
@@ -728,6 +816,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="1.1181" />
           <attvalue for="n10" value="22" />
+          <attvalue for="n11" value="0.894575" />
+          <attvalue for="n12" value="12620000.0" />
         </attvalues>
         <viz:color r="214" g="204" b="8" a="1.0" />
       </node>
@@ -744,6 +834,8 @@
           <attvalue for="n8" value="-1" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="2.3361" />
+          <attvalue for="n12" value="8940000.0" />
         </attvalues>
         <viz:color r="76" g="168" b="37" a="1.0" />
       </node>
@@ -760,6 +852,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.4913" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.34127" />
+          <attvalue for="n12" value="150000.0" />
         </attvalues>
         <viz:color r="252" g="204" b="2" a="1.0" />
       </node>
@@ -776,6 +870,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.0591" />
           <attvalue for="n10" value="-3" />
+          <attvalue for="n11" value="1.778979" />
+          <attvalue for="n12" value="3450000.0" />
         </attvalues>
         <viz:color r="243" g="166" b="10" a="1.0" />
       </node>
@@ -792,6 +888,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.4933" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="2.4500129999999998" />
+          <attvalue for="n12" value="5290000.0" />
         </attvalues>
         <viz:color r="214" g="204" b="8" a="1.0" />
       </node>
@@ -808,6 +906,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.2502" />
           <attvalue for="n10" value="-4" />
+          <attvalue for="n11" value="3.998729000000001" />
+          <attvalue for="n12" value="6470000.0" />
         </attvalues>
         <viz:color r="221" g="206" b="7" a="1.0" />
       </node>
@@ -824,6 +924,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="1.6069" />
           <attvalue for="n10" value="6" />
+          <attvalue for="n11" value="1.020512" />
+          <attvalue for="n12" value="11775060.0" />
         </attvalues>
         <viz:color r="191" g="198" b="13" a="1.0" />
       </node>
@@ -840,6 +942,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.7667" />
           <attvalue for="n10" value="11" />
+          <attvalue for="n11" value="3.161505" />
+          <attvalue for="n12" value="9830000.0" />
         </attvalues>
         <viz:color r="226" g="207" b="5" a="1.0" />
       </node>
@@ -856,6 +960,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-2.6563" />
           <attvalue for="n10" value="-86" />
+          <attvalue for="n11" value="2.6469919999999996" />
+          <attvalue for="n12" value="980000.0" />
         </attvalues>
         <viz:color r="241" g="158" b="12" a="1.0" />
       </node>
@@ -872,6 +978,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.512" />
           <attvalue for="n10" value="-16" />
+          <attvalue for="n11" value="0.5546650000000001" />
+          <attvalue for="n12" value="4400000.0" />
         </attvalues>
         <viz:color r="252" g="204" b="2" a="1.0" />
       </node>
@@ -888,6 +996,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0276" />
           <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="0.128943" />
+          <attvalue for="n12" value="20890000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -904,6 +1014,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.1307" />
           <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="0.841081" />
+          <attvalue for="n12" value="1640000.0" />
         </attvalues>
         <viz:color r="252" g="204" b="2" a="1.0" />
       </node>
@@ -920,6 +1032,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0313" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="0.28001300000000007" />
+          <attvalue for="n12" value="19200000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -936,6 +1050,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.6208" />
           <attvalue for="n10" value="-15" />
+          <attvalue for="n11" value="1.6219480000000002" />
+          <attvalue for="n12" value="2121798.0" />
         </attvalues>
         <viz:color r="247" g="182" b="7" a="1.0" />
       </node>
@@ -952,6 +1068,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="1.5355" />
           <attvalue for="n10" value="20" />
+          <attvalue for="n11" value="2.0057219999999996" />
+          <attvalue for="n12" value="15470000.0" />
         </attvalues>
         <viz:color r="198" g="200" b="11" a="1.0" />
       </node>
@@ -968,6 +1086,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-3.1347" />
           <attvalue for="n10" value="-12" />
+          <attvalue for="n11" value="3.1182279999999998" />
+          <attvalue for="n12" value="4370000.0" />
         </attvalues>
         <viz:color r="235" g="130" b="19" a="1.0" />
       </node>
@@ -984,6 +1104,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.5798" />
           <attvalue for="n10" value="18" />
+          <attvalue for="n11" value="7.525347999999999" />
+          <attvalue for="n12" value="8480000.0" />
         </attvalues>
         <viz:color r="199" g="200" b="11" a="1.0" />
       </node>
@@ -1000,6 +1122,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.2222" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="1.3400290000000004" />
+          <attvalue for="n12" value="660000.0" />
         </attvalues>
         <viz:color r="249" g="189" b="5" a="1.0" />
       </node>
@@ -1016,6 +1140,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.0638" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.12751099999999999" />
+          <attvalue for="n12" value="51664.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -1032,6 +1158,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="3.8885" />
           <attvalue for="n10" value="30" />
+          <attvalue for="n11" value="2.5147120000000003" />
+          <attvalue for="n12" value="2270000.0" />
         </attvalues>
         <viz:color r="114" g="178" b="29" a="1.0" />
       </node>
@@ -1048,6 +1176,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="2.2998" />
           <attvalue for="n10" value="-3" />
+          <attvalue for="n11" value="2.4966089999999994" />
+          <attvalue for="n12" value="12510000.0" />
         </attvalues>
         <viz:color r="186" g="197" b="14" a="1.0" />
       </node>
@@ -1064,6 +1194,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0141" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="3.6420259999999995" />
+          <attvalue for="n12" value="3880000.0" />
         </attvalues>
         <viz:color r="180" g="195" b="15" a="1.0" />
       </node>
@@ -1080,6 +1212,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.2499" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="0.49975099999999995" />
+          <attvalue for="n12" value="27640000.0" />
         </attvalues>
         <viz:color r="245" g="212" b="1" a="1.0" />
       </node>
@@ -1096,6 +1230,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.6236" />
           <attvalue for="n10" value="-8" />
+          <attvalue for="n11" value="1.6633630000000001" />
+          <attvalue for="n12" value="5890000.0" />
         </attvalues>
         <viz:color r="249" g="193" b="4" a="1.0" />
       </node>
@@ -1112,6 +1248,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1542" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="1.6989409999999998" />
+          <attvalue for="n12" value="860000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -1128,6 +1266,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.0432" />
           <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="1.3290739999999999" />
+          <attvalue for="n12" value="700000.0" />
         </attvalues>
         <viz:color r="217" g="205" b="7" a="1.0" />
       </node>
@@ -1144,6 +1284,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-1.7917" />
           <attvalue for="n10" value="-45" />
+          <attvalue for="n11" value="2.281389" />
+          <attvalue for="n12" value="1430000.0" />
         </attvalues>
         <viz:color r="237" g="139" b="17" a="1.0" />
       </node>
@@ -1160,6 +1302,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-2.9349" />
           <attvalue for="n10" value="-11" />
+          <attvalue for="n11" value="1.6115689999999998" />
+          <attvalue for="n12" value="4180588.0" />
         </attvalues>
         <viz:color r="225" g="86" b="29" a="1.0" />
       </node>
@@ -1176,6 +1320,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.4422" />
           <attvalue for="n10" value="10" />
+          <attvalue for="n11" value="4.9741750000000025" />
+          <attvalue for="n12" value="6371495.0" />
         </attvalues>
         <viz:color r="63" g="165" b="39" a="1.0" />
       </node>
@@ -1192,6 +1338,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="2.5397" />
           <attvalue for="n10" value="24" />
+          <attvalue for="n11" value="3.132771" />
+          <attvalue for="n12" value="19677000.0" />
         </attvalues>
         <viz:color r="158" g="189" b="20" a="1.0" />
       </node>
@@ -1208,6 +1356,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.5681" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="1.0889099999999998" />
+          <attvalue for="n12" value="396000.0" />
         </attvalues>
         <viz:color r="234" g="209" b="4" a="1.0" />
       </node>
@@ -1224,6 +1374,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1971" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="1.0711230000000003" />
+          <attvalue for="n12" value="9220000.0" />
         </attvalues>
         <viz:color r="247" g="212" b="1" a="1.0" />
       </node>
@@ -1240,6 +1392,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.3598" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="1.450606" />
+          <attvalue for="n12" value="450000.0" />
         </attvalues>
         <viz:color r="230" g="208" b="5" a="1.0" />
       </node>
@@ -1256,6 +1410,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0387" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="1.6270999999999995" />
+          <attvalue for="n12" value="2010000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -1272,6 +1428,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.9181" />
           <attvalue for="n10" value="5" />
+          <attvalue for="n11" value="4.0948829999999985" />
+          <attvalue for="n12" value="9560000.0" />
         </attvalues>
         <viz:color r="212" g="203" b="8" a="1.0" />
       </node>
@@ -1288,6 +1446,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.5368" />
           <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="1.7094679999999998" />
+          <attvalue for="n12" value="8020000.0" />
         </attvalues>
         <viz:color r="229" g="208" b="5" a="1.0" />
       </node>
@@ -1304,6 +1464,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.192703" />
+          <attvalue for="n12" value="4760000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -1320,6 +1482,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0041" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.153863" />
+          <attvalue for="n12" value="2970000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -1336,6 +1500,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.2063" />
           <attvalue for="n10" value="5" />
+          <attvalue for="n11" value="1.5546499999999999" />
+          <attvalue for="n12" value="5600000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -1352,6 +1518,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="6.1633" />
           <attvalue for="n10" value="42" />
+          <attvalue for="n11" value="3.1838990000000003" />
+          <attvalue for="n12" value="1490000.0" />
         </attvalues>
         <viz:color r="44" g="160" b="44" a="1.0" />
       </node>
@@ -1368,6 +1536,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.693" />
           <attvalue for="n10" value="19" />
+          <attvalue for="n11" value="2.7080480000000002" />
+          <attvalue for="n12" value="9604510.0" />
         </attvalues>
         <viz:color r="222" g="206" b="6" a="1.0" />
       </node>
@@ -1384,6 +1554,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.0805" />
           <attvalue for="n10" value="-8" />
+          <attvalue for="n11" value="0.36854800000000004" />
+          <attvalue for="n12" value="3280000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -1400,6 +1572,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.3277" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="0.177977" />
+          <attvalue for="n12" value="2490000.0" />
         </attvalues>
         <viz:color r="243" g="211" b="2" a="1.0" />
       </node>
@@ -1416,6 +1590,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.1988" />
           <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="2.0672019999999995" />
+          <attvalue for="n12" value="1980000.0" />
         </attvalues>
         <viz:color r="253" g="209" b="1" a="1.0" />
       </node>
@@ -1432,6 +1608,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.43" />
           <attvalue for="n10" value="12" />
+          <attvalue for="n11" value="1.4182510000000002" />
+          <attvalue for="n12" value="3850000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
       </node>
@@ -1448,6 +1626,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.6348" />
           <attvalue for="n10" value="11" />
+          <attvalue for="n11" value="1.8640390000000004" />
+          <attvalue for="n12" value="11270000.0" />
         </attvalues>
         <viz:color r="232" g="209" b="4" a="1.0" />
       </node>
@@ -1464,6 +1644,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1229" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="1.3245809999999998" />
+          <attvalue for="n12" value="600000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -1480,6 +1662,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.3436" />
           <attvalue for="n10" value="-13" />
+          <attvalue for="n11" value="3.7013320000000007" />
+          <attvalue for="n12" value="4620000.0" />
         </attvalues>
         <viz:color r="245" g="175" b="9" a="1.0" />
       </node>
@@ -1496,6 +1680,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.4036" />
           <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="3.3198860000000003" />
+          <attvalue for="n12" value="1160000.0" />
         </attvalues>
         <viz:color r="246" g="176" b="8" a="1.0" />
       </node>
@@ -1512,6 +1698,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="1.7695" />
           <attvalue for="n10" value="18" />
+          <attvalue for="n11" value="2.1320429999999995" />
+          <attvalue for="n12" value="10525000.0" />
         </attvalues>
         <viz:color r="181" g="195" b="15" a="1.0" />
       </node>
@@ -1528,6 +1716,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.935" />
           <attvalue for="n10" value="30" />
+          <attvalue for="n11" value="1.2172059999999998" />
+          <attvalue for="n12" value="18440000.0" />
         </attvalues>
         <viz:color r="211" g="203" b="9" a="1.0" />
       </node>
@@ -1544,6 +1734,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.8682" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="8.103714999999998" />
+          <attvalue for="n12" value="36390000.0" />
         </attvalues>
         <viz:color r="247" g="182" b="7" a="1.0" />
       </node>
@@ -1560,6 +1752,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.2315" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="2.030302" />
+          <attvalue for="n12" value="20506000.0" />
         </attvalues>
         <viz:color r="238" g="210" b="3" a="1.0" />
       </node>
@@ -1576,6 +1770,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.4477" />
           <attvalue for="n10" value="-3" />
+          <attvalue for="n11" value="5.635616000000001" />
+          <attvalue for="n12" value="2387468.0" />
         </attvalues>
         <viz:color r="248" g="185" b="6" a="1.0" />
       </node>
@@ -1592,6 +1788,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="2.855" />
           <attvalue for="n10" value="10" />
+          <attvalue for="n11" value="2.983753" />
+          <attvalue for="n12" value="3680000.0" />
         </attvalues>
         <viz:color r="155" g="189" b="20" a="1.0" />
       </node>
@@ -1608,6 +1806,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.9617" />
           <attvalue for="n10" value="-11" />
+          <attvalue for="n11" value="2.7305070000000002" />
+          <attvalue for="n12" value="5766779.0" />
         </attvalues>
         <viz:color r="246" g="180" b="7" a="1.0" />
       </node>
@@ -1624,6 +1824,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.1701" />
           <attvalue for="n10" value="6" />
+          <attvalue for="n11" value="1.047282" />
+          <attvalue for="n12" value="7450163.0" />
         </attvalues>
         <viz:color r="199" g="200" b="11" a="1.0" />
       </node>
@@ -1640,6 +1842,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-1.8716" />
           <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="0.6394440000000001" />
+          <attvalue for="n12" value="5530000.0" />
         </attvalues>
         <viz:color r="244" g="170" b="10" a="1.0" />
       </node>
@@ -1656,6 +1860,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.6188" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="0.3412700000000001" />
+          <attvalue for="n12" value="980000.0" />
         </attvalues>
         <viz:color r="232" g="209" b="4" a="1.0" />
       </node>
@@ -1672,6 +1878,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.9076" />
           <attvalue for="n10" value="15" />
+          <attvalue for="n11" value="2.689718" />
+          <attvalue for="n12" value="18359045.0" />
         </attvalues>
         <viz:color r="210" g="203" b="9" a="1.0" />
       </node>
@@ -1688,6 +1896,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1453" />
           <attvalue for="n10" value="5" />
+          <attvalue for="n11" value="3.7829279999999996" />
+          <attvalue for="n12" value="11190000.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
       </node>
@@ -1704,6 +1914,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.9569" />
           <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="2.168896" />
+          <attvalue for="n12" value="1190000.0" />
         </attvalues>
         <viz:color r="208" g="202" b="9" a="1.0" />
       </node>
@@ -1720,6 +1932,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.0552" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="2.5807100000000007" />
+          <attvalue for="n12" value="16380000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -1736,6 +1950,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0387" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="2.763171999999999" />
+          <attvalue for="n12" value="3890162.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -1752,6 +1968,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="2.4782" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="2.6065129999999987" />
+          <attvalue for="n12" value="9810000.0" />
         </attvalues>
         <viz:color r="190" g="198" b="13" a="1.0" />
       </node>
@@ -1768,6 +1986,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.3755" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="2.167746" />
+          <attvalue for="n12" value="213853.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
       </node>
@@ -1784,6 +2004,8 @@
           <attvalue for="n8" value="-1" />
           <attvalue for="n9" value="-0.0223" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="7.377462000000001" />
+          <attvalue for="n12" value="4140000.0" />
         </attvalues>
         <viz:color r="251" g="199" b="3" a="1.0" />
       </node>
@@ -1800,6 +2022,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.2" />
           <attvalue for="n10" value="10" />
+          <attvalue for="n11" value="6.998119" />
+          <attvalue for="n12" value="3580000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -1816,6 +2040,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.1484" />
           <attvalue for="n10" value="8" />
+          <attvalue for="n11" value="2.844697" />
+          <attvalue for="n12" value="4000000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -1832,6 +2058,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="2.0417" />
           <attvalue for="n10" value="11" />
+          <attvalue for="n11" value="4.858217000000001" />
+          <attvalue for="n12" value="6410000.0" />
         </attvalues>
         <viz:color r="191" g="198" b="13" a="1.0" />
       </node>
@@ -1848,6 +2076,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.4501" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="0.5605389999999999" />
+          <attvalue for="n12" value="2160000.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
       </node>
@@ -1864,6 +2094,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-2.5582" />
           <attvalue for="n10" value="-36" />
+          <attvalue for="n11" value="2.1427810000000003" />
+          <attvalue for="n12" value="780000.0" />
         </attvalues>
         <viz:color r="240" g="152" b="14" a="1.0" />
       </node>
@@ -1880,6 +2112,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-3.1316" />
           <attvalue for="n10" value="-19" />
+          <attvalue for="n11" value="2.62978" />
+          <attvalue for="n12" value="2505000.0" />
         </attvalues>
         <viz:color r="242" g="159" b="12" a="1.0" />
       </node>
@@ -1887,7 +2121,7 @@
         <attvalues>
           <attvalue for="n0" value="0.6582" />
           <attvalue for="n1" value="0.6404" />
-          <attvalue for="n2" value="-0.0942" />
+          <attvalue for="n2" value="-0.0943" />
           <attvalue for="n3" value="18" />
           <attvalue for="n4" value="28" />
           <attvalue for="n5" value="-10" />
@@ -1896,6 +2130,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.4847" />
           <attvalue for="n10" value="-11" />
+          <attvalue for="n11" value="1.2986810000000002" />
+          <attvalue for="n12" value="10660000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -1912,6 +2148,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.1269" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="0.366607" />
+          <attvalue for="n12" value="3190000.0" />
         </attvalues>
         <viz:color r="251" g="214" b="0" a="1.0" />
       </node>
@@ -1928,6 +2166,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.7463" />
           <attvalue for="n10" value="-17" />
+          <attvalue for="n11" value="1.9320359999999996" />
+          <attvalue for="n12" value="9330000.0" />
         </attvalues>
         <viz:color r="247" g="182" b="7" a="1.0" />
       </node>
@@ -1944,6 +2184,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0199" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="4.636844" />
+          <attvalue for="n12" value="1555000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
       </node>
@@ -1960,6 +2202,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="1.0841" />
           <attvalue for="n10" value="29" />
+          <attvalue for="n11" value="2.0649660000000005" />
+          <attvalue for="n12" value="10600000.0" />
         </attvalues>
         <viz:color r="201" g="201" b="11" a="1.0" />
       </node>
@@ -1976,6 +2220,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0514" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="0.22043999999999997" />
+          <attvalue for="n12" value="7971534.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
       </node>
@@ -1992,6 +2238,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.2386" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="1.475113" />
+          <attvalue for="n12" value="550000.0" />
         </attvalues>
         <viz:color r="244" g="212" b="2" a="1.0" />
       </node>
@@ -2008,6 +2256,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0582" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="3.4243720000000004" />
+          <attvalue for="n12" value="7935000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -2024,6 +2274,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0323" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.787707" />
+          <attvalue for="n12" value="8730000.0" />
         </attvalues>
         <viz:color r="253" g="206" b="1" a="1.0" />
       </node>
@@ -2040,6 +2292,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-1.6611" />
           <attvalue for="n10" value="-24" />
+          <attvalue for="n11" value="1.2646230000000003" />
+          <attvalue for="n12" value="5340000.0" />
         </attvalues>
         <viz:color r="245" g="175" b="8" a="1.0" />
       </node>
@@ -2056,6 +2310,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.2023" />
           <attvalue for="n10" value="-3" />
+          <attvalue for="n11" value="1.1356630000000003" />
+          <attvalue for="n12" value="1180000.0" />
         </attvalues>
         <viz:color r="248" g="188" b="6" a="1.0" />
       </node>
@@ -2072,6 +2328,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.0288" />
           <attvalue for="n10" value="-7" />
+          <attvalue for="n11" value="0.445029" />
+          <attvalue for="n12" value="11300000.0" />
         </attvalues>
         <viz:color r="253" g="210" b="1" a="1.0" />
       </node>
@@ -2088,6 +2346,8 @@
           <attvalue for="n8" value="-1" />
           <attvalue for="n9" value="0.0223" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="2.2579779999999996" />
+          <attvalue for="n12" value="620000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
       </node>
@@ -2104,6 +2364,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.7818" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="2.5338879999999997" />
+          <attvalue for="n12" value="5620000.0" />
         </attvalues>
         <viz:color r="234" g="209" b="4" a="1.0" />
       </node>
@@ -2120,6 +2382,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.8443019999999999" />
+          <attvalue for="n12" value="1330000.0" />
         </attvalues>
         <viz:color r="255" g="215" b="0" a="1.0" />
       </node>
@@ -2136,6 +2400,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.3592" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="2.864538" />
+          <attvalue for="n12" value="1375000.0" />
         </attvalues>
         <viz:color r="253" g="207" b="1" a="1.0" />
       </node>
@@ -2152,6 +2418,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0757" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="0.064618" />
+          <attvalue for="n12" value="1650000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -2168,6 +2436,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.3171" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="1.7330159999999994" />
+          <attvalue for="n12" value="1320000.0" />
         </attvalues>
         <viz:color r="253" g="209" b="1" a="1.0" />
       </node>
@@ -2184,6 +2454,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.5448" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="0.8009850000000001" />
+          <attvalue for="n12" value="5350000.0" />
         </attvalues>
         <viz:color r="252" g="203" b="2" a="1.0" />
       </node>
@@ -2200,6 +2472,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="2.8987" />
           <attvalue for="n10" value="22" />
+          <attvalue for="n11" value="1.8598309999999996" />
+          <attvalue for="n12" value="2570000.0" />
         </attvalues>
         <viz:color r="151" g="187" b="21" a="1.0" />
       </node>
@@ -2216,6 +2490,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.6469" />
           <attvalue for="n10" value="19" />
+          <attvalue for="n11" value="2.367205" />
+          <attvalue for="n12" value="4060000.0" />
         </attvalues>
         <viz:color r="226" g="207" b="5" a="1.0" />
       </node>
@@ -2232,6 +2508,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.277337" />
+          <attvalue for="n12" value="780000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -2248,6 +2526,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.7677" />
           <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="0.30325500000000005" />
+          <attvalue for="n12" value="6390000.0" />
         </attvalues>
         <viz:color r="228" g="208" b="5" a="1.0" />
       </node>
@@ -2264,6 +2544,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.3045" />
           <attvalue for="n10" value="-14" />
+          <attvalue for="n11" value="1.442299" />
+          <attvalue for="n12" value="2340000.0" />
         </attvalues>
         <viz:color r="248" g="189" b="5" a="1.0" />
       </node>
@@ -2280,6 +2562,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.3277" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="0.27004700000000004" />
+          <attvalue for="n12" value="1300000.0" />
         </attvalues>
         <viz:color r="253" g="208" b="1" a="1.0" />
       </node>
@@ -2296,6 +2580,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.249" />
           <attvalue for="n10" value="10" />
+          <attvalue for="n11" value="1.5960779999999999" />
+          <attvalue for="n12" value="25824106.0" />
         </attvalues>
         <viz:color r="235" g="210" b="3" a="1.0" />
       </node>
@@ -2312,6 +2598,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.272" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="1.2277999999999998" />
+          <attvalue for="n12" value="760000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
       </node>
@@ -2328,6 +2616,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.6214" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="2.6482360000000003" />
+          <attvalue for="n12" value="1980000.0" />
         </attvalues>
         <viz:color r="223" g="206" b="6" a="1.0" />
       </node>
@@ -2344,6 +2634,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0217" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="1.043449" />
+          <attvalue for="n12" value="6000000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -2360,6 +2652,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="1.0245" />
           <attvalue for="n10" value="15" />
+          <attvalue for="n11" value="2.5727460000000004" />
+          <attvalue for="n12" value="940000.0" />
         </attvalues>
         <viz:color r="217" g="205" b="7" a="1.0" />
       </node>
@@ -2376,6 +2670,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.2035" />
           <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="1.6733449999999994" />
+          <attvalue for="n12" value="5600000.0" />
         </attvalues>
         <viz:color r="246" g="212" b="1" a="1.0" />
       </node>
@@ -2392,6 +2688,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.4485" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.594748" />
+          <attvalue for="n12" value="2320000.0" />
         </attvalues>
         <viz:color r="253" g="207" b="1" a="1.0" />
       </node>
@@ -2408,6 +2706,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.15" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.15001" />
+          <attvalue for="n12" value="170000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
       </node>
@@ -2424,6 +2724,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.023" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="4.836551000000002" />
+          <attvalue for="n12" value="5450000.0" />
         </attvalues>
         <viz:color r="244" g="212" b="2" a="1.0" />
       </node>
@@ -2440,6 +2742,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0193" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="1.44603" />
+          <attvalue for="n12" value="3660000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -2456,6 +2760,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.0429" />
           <attvalue for="n10" value="-13" />
+          <attvalue for="n11" value="0.23526400000000003" />
+          <attvalue for="n12" value="3435000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -2472,6 +2778,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.6512" />
           <attvalue for="n10" value="-18" />
+          <attvalue for="n11" value="2.345334" />
+          <attvalue for="n12" value="8890000.0" />
         </attvalues>
         <viz:color r="246" g="177" b="8" a="1.0" />
       </node>
@@ -2488,6 +2796,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.023" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="2.3182419999999997" />
+          <attvalue for="n12" value="3550000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -2504,6 +2814,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.9129" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="4.310581" />
+          <attvalue for="n12" value="2850000.0" />
         </attvalues>
         <viz:color r="216" g="204" b="8" a="1.0" />
       </node>
@@ -2520,6 +2832,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="3.1507" />
           <attvalue for="n10" value="16" />
+          <attvalue for="n11" value="4.857197" />
+          <attvalue for="n12" value="19544000.0" />
         </attvalues>
         <viz:color r="135" g="183" b="24" a="1.0" />
       </node>
@@ -2536,6 +2850,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.8202" />
           <attvalue for="n10" value="6" />
+          <attvalue for="n11" value="1.720101" />
+          <attvalue for="n12" value="3500000.0" />
         </attvalues>
         <viz:color r="225" g="207" b="6" a="1.0" />
       </node>
@@ -2552,6 +2868,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.283409" />
+          <attvalue for="n12" value="6052000.0" />
         </attvalues>
         <viz:color r="253" g="210" b="0" a="1.0" />
       </node>
@@ -2568,6 +2886,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.06376" />
+          <attvalue for="n12" value="70000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
       </node>
@@ -2584,6 +2904,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.0918" />
           <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="1.2018399999999998" />
+          <attvalue for="n12" value="3030000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -2600,6 +2922,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-3.3127" />
           <attvalue for="n10" value="-59" />
+          <attvalue for="n11" value="2.4267190000000003" />
+          <attvalue for="n12" value="790000.0" />
         </attvalues>
         <viz:color r="229" g="107" b="24" a="1.0" />
       </node>
@@ -2616,6 +2940,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.2281" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="6.653941000000001" />
+          <attvalue for="n12" value="7640000.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
       </node>
@@ -2632,6 +2958,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.0998" />
           <attvalue for="n10" value="-15" />
+          <attvalue for="n11" value="1.132994" />
+          <attvalue for="n12" value="1197000.0" />
         </attvalues>
         <viz:color r="249" g="190" b="5" a="1.0" />
       </node>
@@ -2648,6 +2976,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.8349" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="2.219854" />
+          <attvalue for="n12" value="6620000.0" />
         </attvalues>
         <viz:color r="210" g="203" b="9" a="1.0" />
       </node>
@@ -2664,6 +2994,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0822" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="4.859591000000001" />
+          <attvalue for="n12" value="7840000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
       </node>
@@ -2680,6 +3012,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0361" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="0.036135" />
+          <attvalue for="n12" value="2320000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -2696,6 +3030,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="1.5657" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="1.176357" />
+          <attvalue for="n12" value="3650000.0" />
         </attvalues>
         <viz:color r="215" g="204" b="8" a="1.0" />
       </node>
@@ -2712,6 +3048,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-2.006" />
           <attvalue for="n10" value="-14" />
+          <attvalue for="n11" value="4.57642" />
+          <attvalue for="n12" value="640000.0" />
         </attvalues>
         <viz:color r="243" g="164" b="11" a="1.0" />
       </node>
@@ -2728,6 +3066,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="1.9234" />
           <attvalue for="n10" value="24" />
+          <attvalue for="n11" value="2.582433" />
+          <attvalue for="n12" value="19860000.0" />
         </attvalues>
         <viz:color r="180" g="195" b="15" a="1.0" />
       </node>
@@ -2744,6 +3084,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.3192" />
           <attvalue for="n10" value="14" />
+          <attvalue for="n11" value="4.103195" />
+          <attvalue for="n12" value="6880000.0" />
         </attvalues>
         <viz:color r="192" g="198" b="13" a="1.0" />
       </node>
@@ -2760,6 +3102,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.42240500000000003" />
+          <attvalue for="n12" value="3340000.0" />
         </attvalues>
         <viz:color r="252" g="204" b="2" a="1.0" />
       </node>
@@ -2776,6 +3120,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1282" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="0.7789440000000001" />
+          <attvalue for="n12" value="595000.0" />
         </attvalues>
         <viz:color r="250" g="213" b="0" a="1.0" />
       </node>
@@ -2792,6 +3138,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-4.5168" />
           <attvalue for="n10" value="-19" />
+          <attvalue for="n11" value="4.707994000000001" />
+          <attvalue for="n12" value="15350000.0" />
         </attvalues>
         <viz:color r="229" g="106" b="24" a="1.0" />
       </node>
@@ -2808,6 +3156,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.4998" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="0.6718950000000001" />
+          <attvalue for="n12" value="260000.0" />
         </attvalues>
         <viz:color r="232" g="209" b="4" a="1.0" />
       </node>
@@ -2824,6 +3174,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.6395" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.559197" />
+          <attvalue for="n12" value="1300000.0" />
         </attvalues>
         <viz:color r="251" g="202" b="2" a="1.0" />
       </node>
@@ -2840,6 +3192,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1335" />
           <attvalue for="n10" value="6" />
+          <attvalue for="n11" value="0.311394" />
+          <attvalue for="n12" value="2080000.0" />
         </attvalues>
         <viz:color r="250" g="213" b="1" a="1.0" />
       </node>
@@ -2856,6 +3210,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.4791" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="2.355968" />
+          <attvalue for="n12" value="7180000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
       </node>
@@ -2872,6 +3228,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="1.6682" />
           <attvalue for="n10" value="15" />
+          <attvalue for="n11" value="1.892665" />
+          <attvalue for="n12" value="6500000.0" />
         </attvalues>
         <viz:color r="191" g="198" b="13" a="1.0" />
       </node>
@@ -2888,6 +3246,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.9708" />
           <attvalue for="n10" value="18" />
+          <attvalue for="n11" value="1.3907239999999992" />
+          <attvalue for="n12" value="6650000.0" />
         </attvalues>
         <viz:color r="218" g="205" b="7" a="1.0" />
       </node>
@@ -2904,6 +3264,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="2.2273" />
           <attvalue for="n10" value="8" />
+          <attvalue for="n11" value="4.561804" />
+          <attvalue for="n12" value="1412000.0" />
         </attvalues>
         <viz:color r="178" g="195" b="15" a="1.0" />
       </node>
@@ -2920,6 +3282,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-1.0039" />
           <attvalue for="n10" value="-6" />
+          <attvalue for="n11" value="0.5176450000000001" />
+          <attvalue for="n12" value="1320000.0" />
         </attvalues>
         <viz:color r="250" g="193" b="4" a="1.0" />
       </node>
@@ -2936,6 +3300,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.3832" />
           <attvalue for="n10" value="-9" />
+          <attvalue for="n11" value="2.447420999999999" />
+          <attvalue for="n12" value="1860000.0" />
         </attvalues>
         <viz:color r="240" g="211" b="2" a="1.0" />
       </node>
@@ -2952,6 +3318,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-4.6419" />
           <attvalue for="n10" value="-19" />
+          <attvalue for="n11" value="3.6538519999999997" />
+          <attvalue for="n12" value="570000.0" />
         </attvalues>
         <viz:color r="229" g="105" b="24" a="1.0" />
       </node>
@@ -2968,6 +3336,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.1294" />
           <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="0.45179700000000006" />
+          <attvalue for="n12" value="4943000.0" />
         </attvalues>
         <viz:color r="243" g="212" b="2" a="1.0" />
       </node>
@@ -2984,6 +3354,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.023" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.479297" />
+          <attvalue for="n12" value="4968734.0" />
         </attvalues>
         <viz:color r="253" g="208" b="1" a="1.0" />
       </node>
@@ -3000,6 +3372,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.5967" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="7.222256000000001" />
+          <attvalue for="n12" value="6200000.0" />
         </attvalues>
         <viz:color r="207" g="202" b="10" a="1.0" />
       </node>
@@ -3016,6 +3390,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.5478" />
           <attvalue for="n10" value="8" />
+          <attvalue for="n11" value="1.885466" />
+          <attvalue for="n12" value="2830000.0" />
         </attvalues>
         <viz:color r="237" g="210" b="3" a="1.0" />
       </node>
@@ -3032,6 +3408,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.689692" />
+          <attvalue for="n12" value="970000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -3048,6 +3426,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0192" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.11360200000000002" />
+          <attvalue for="n12" value="11530000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -3064,6 +3444,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-3.0603" />
           <attvalue for="n10" value="-11" />
+          <attvalue for="n11" value="1.321851" />
+          <attvalue for="n12" value="880000.0" />
         </attvalues>
         <viz:color r="236" g="137" b="17" a="1.0" />
       </node>
@@ -3080,6 +3462,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.8604" />
           <attvalue for="n10" value="-10" />
+          <attvalue for="n11" value="1.2670429999999997" />
+          <attvalue for="n12" value="15483000.0" />
         </attvalues>
         <viz:color r="250" g="194" b="4" a="1.0" />
       </node>
@@ -3096,6 +3480,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.92" />
           <attvalue for="n10" value="-10" />
+          <attvalue for="n11" value="0.9600500000000002" />
+          <attvalue for="n12" value="370000.0" />
         </attvalues>
         <viz:color r="245" g="175" b="9" a="1.0" />
       </node>
@@ -3112,6 +3498,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.15" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="2.4350180000000003" />
+          <attvalue for="n12" value="2430000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -3128,6 +3516,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="1.0743" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="3.876248999999999" />
+          <attvalue for="n12" value="1630000.0" />
         </attvalues>
         <viz:color r="207" g="202" b="9" a="1.0" />
       </node>
@@ -3144,6 +3534,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0111" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="1.4898959999999999" />
+          <attvalue for="n12" value="3504000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -3160,6 +3552,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.6873" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="3.808317" />
+          <attvalue for="n12" value="4080000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -3176,6 +3570,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.1136" />
           <attvalue for="n10" value="-13" />
+          <attvalue for="n11" value="1.2364970000000002" />
+          <attvalue for="n12" value="2850000.0" />
         </attvalues>
         <viz:color r="246" g="179" b="7" a="1.0" />
       </node>
@@ -3192,6 +3588,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.023" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.023039999999999998" />
+          <attvalue for="n12" value="350000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
       </node>
@@ -3208,6 +3606,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="1.83" />
           <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="2.838501000000001" />
+          <attvalue for="n12" value="21380000.0" />
         </attvalues>
         <viz:color r="226" g="207" b="5" a="1.0" />
       </node>
@@ -3224,6 +3624,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.5944" />
           <attvalue for="n10" value="-8" />
+          <attvalue for="n11" value="0.942768" />
+          <attvalue for="n12" value="2520000.0" />
         </attvalues>
         <viz:color r="252" g="206" b="2" a="1.0" />
       </node>
@@ -3240,6 +3642,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.8908" />
           <attvalue for="n10" value="-2" />
+          <attvalue for="n11" value="1.441429" />
+          <attvalue for="n12" value="2860000.0" />
         </attvalues>
         <viz:color r="249" g="191" b="5" a="1.0" />
       </node>
@@ -3256,6 +3660,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.1799" />
           <attvalue for="n10" value="-37" />
+          <attvalue for="n11" value="0.719426" />
+          <attvalue for="n12" value="3676000.0" />
         </attvalues>
         <viz:color r="248" g="188" b="5" a="1.0" />
       </node>
@@ -3272,6 +3678,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.5" />
           <attvalue for="n10" value="-10" />
+          <attvalue for="n11" value="1.5000999999999998" />
+          <attvalue for="n12" value="1640000.0" />
         </attvalues>
         <viz:color r="247" g="183" b="7" a="1.0" />
       </node>
@@ -3288,6 +3696,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.4913" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="3.3223719999999997" />
+          <attvalue for="n12" value="2660000.0" />
         </attvalues>
         <viz:color r="240" g="211" b="2" a="1.0" />
       </node>
@@ -3304,6 +3714,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.4275" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="0.98251" />
+          <attvalue for="n12" value="310000.0" />
         </attvalues>
         <viz:color r="239" g="210" b="3" a="1.0" />
       </node>
@@ -3320,6 +3732,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0101" />
           <attvalue for="n10" value="-3" />
+          <attvalue for="n11" value="0.5656140000000001" />
+          <attvalue for="n12" value="1410000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -3336,6 +3750,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.8335" />
           <attvalue for="n10" value="17" />
+          <attvalue for="n11" value="1.992899" />
+          <attvalue for="n12" value="1000000.0" />
         </attvalues>
         <viz:color r="241" g="211" b="2" a="1.0" />
       </node>
@@ -3352,6 +3768,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="2.5026" />
           <attvalue for="n10" value="8" />
+          <attvalue for="n11" value="4.425931" />
+          <attvalue for="n12" value="2835000.0" />
         </attvalues>
         <viz:color r="166" g="191" b="18" a="1.0" />
       </node>
@@ -3368,6 +3786,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0321" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="0.346705" />
+          <attvalue for="n12" value="5010000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
       </node>
@@ -3384,6 +3804,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0335" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="0.9365300000000001" />
+          <attvalue for="n12" value="2440000.0" />
         </attvalues>
         <viz:color r="219" g="205" b="7" a="1.0" />
       </node>
@@ -3400,6 +3822,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.7621" />
           <attvalue for="n10" value="-7" />
+          <attvalue for="n11" value="1.6800620000000002" />
+          <attvalue for="n12" value="3050000.0" />
         </attvalues>
         <viz:color r="251" g="199" b="3" a="1.0" />
       </node>
@@ -3416,6 +3840,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.15" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="0.45001" />
+          <attvalue for="n12" value="60000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -3432,6 +3858,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.2217" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="3.4823579999999996" />
+          <attvalue for="n12" value="1880000.0" />
         </attvalues>
         <viz:color r="253" g="210" b="1" a="1.0" />
       </node>
@@ -3448,6 +3876,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="1.5049" />
           <attvalue for="n10" value="-4" />
+          <attvalue for="n11" value="1.7088389999999998" />
+          <attvalue for="n12" value="7916734.0" />
         </attvalues>
         <viz:color r="196" g="199" b="12" a="1.0" />
       </node>
@@ -3464,6 +3894,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.4134" />
           <attvalue for="n10" value="6" />
+          <attvalue for="n11" value="0.9720580000000001" />
+          <attvalue for="n12" value="7280000.0" />
         </attvalues>
         <viz:color r="225" g="207" b="6" a="1.0" />
       </node>
@@ -3480,6 +3912,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.6309450000000001" />
+          <attvalue for="n12" value="14381000.0" />
         </attvalues>
         <viz:color r="251" g="197" b="3" a="1.0" />
       </node>
@@ -3496,6 +3930,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1627" />
           <attvalue for="n10" value="-7" />
+          <attvalue for="n11" value="1.8092449999999993" />
+          <attvalue for="n12" value="12740000.0" />
         </attvalues>
         <viz:color r="251" g="214" b="0" a="1.0" />
       </node>
@@ -3512,13 +3948,15 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.1135" />
           <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="1.306473" />
+          <attvalue for="n12" value="7060000.0" />
         </attvalues>
         <viz:color r="250" g="213" b="0" a="1.0" />
       </node>
       <node id="VERIZON" label="VERIZON">
         <attvalues>
           <attvalue for="n0" value="0.8106" />
-          <attvalue for="n1" value="0.5738" />
+          <attvalue for="n1" value="0.5739" />
           <attvalue for="n2" value="-0.2509" />
           <attvalue for="n3" value="29" />
           <attvalue for="n4" value="8" />
@@ -3528,6 +3966,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.5672" />
           <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="1.384581" />
+          <attvalue for="n12" value="21300000.0" />
         </attvalues>
         <viz:color r="253" g="209" b="1" a="1.0" />
       </node>
@@ -3544,6 +3984,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.0665" />
           <attvalue for="n10" value="-16" />
+          <attvalue for="n11" value="1.204209" />
+          <attvalue for="n12" value="390000.0" />
         </attvalues>
         <viz:color r="247" g="181" b="7" a="1.0" />
       </node>
@@ -3560,6 +4002,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.15" />
           <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="1.5000099999999998" />
+          <attvalue for="n12" value="6820000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
       </node>
@@ -3576,6 +4020,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="5.124492999999999" />
+          <attvalue for="n12" value="1650000.0" />
         </attvalues>
         <viz:color r="253" g="209" b="1" a="1.0" />
       </node>
@@ -3592,13 +4038,15 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.9676" />
           <attvalue for="n10" value="-21" />
+          <attvalue for="n11" value="1.4404580000000002" />
+          <attvalue for="n12" value="5330000.0" />
         </attvalues>
         <viz:color r="245" g="174" b="9" a="1.0" />
       </node>
       <node id="WALMART" label="WALMART">
         <attvalues>
           <attvalue for="n0" value="1.0309" />
-          <attvalue for="n1" value="1.1689" />
+          <attvalue for="n1" value="1.169" />
           <attvalue for="n2" value="-0.6452" />
           <attvalue for="n3" value="15" />
           <attvalue for="n4" value="14" />
@@ -3608,6 +4056,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.6137" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="2.1999309999999994" />
+          <attvalue for="n12" value="12830000.0" />
         </attvalues>
         <viz:color r="251" g="201" b="3" a="1.0" />
       </node>
@@ -3624,6 +4074,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0726" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.090495" />
+          <attvalue for="n12" value="4770000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>
@@ -3640,6 +4092,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.9323" />
           <attvalue for="n10" value="12" />
+          <attvalue for="n11" value="2.390065" />
+          <attvalue for="n12" value="9440000.0" />
         </attvalues>
         <viz:color r="185" g="196" b="14" a="1.0" />
       </node>
@@ -3656,6 +4110,8 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.3949" />
           <attvalue for="n10" value="5" />
+          <attvalue for="n11" value="1.3899579999999998" />
+          <attvalue for="n12" value="1380000.0" />
         </attvalues>
         <viz:color r="240" g="211" b="2" a="1.0" />
       </node>
@@ -3672,6 +4128,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1826" />
           <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="1.5957249999999998" />
+          <attvalue for="n12" value="466044.0" />
         </attvalues>
         <viz:color r="240" g="211" b="3" a="1.0" />
       </node>
@@ -3688,6 +4146,8 @@
           <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0684" />
           <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="1.9922640000000003" />
+          <attvalue for="n12" value="4070000.0" />
         </attvalues>
         <viz:color r="248" g="186" b="6" a="1.0" />
       </node>
@@ -3704,6 +4164,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.755903" />
+          <attvalue for="n12" value="1045000.0" />
         </attvalues>
         <viz:color r="253" g="206" b="1" a="1.0" />
       </node>
@@ -3720,6 +4182,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.167029" />
+          <attvalue for="n12" value="270000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
       </node>
@@ -3736,6 +4200,8 @@
           <attvalue for="n8" value="3" />
           <attvalue for="n9" value="2.0434" />
           <attvalue for="n10" value="21" />
+          <attvalue for="n11" value="3.492616" />
+          <attvalue for="n12" value="3420000.0" />
         </attvalues>
         <viz:color r="211" g="203" b="9" a="1.0" />
       </node>
@@ -3752,6 +4218,8 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.7431" />
           <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="1.5456060000000003" />
+          <attvalue for="n12" value="1900000.0" />
         </attvalues>
         <viz:color r="214" g="204" b="8" a="1.0" />
       </node>
@@ -3768,6 +4236,8 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.0638" />
           <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="0.34126" />
+          <attvalue for="n12" value="820000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
       </node>

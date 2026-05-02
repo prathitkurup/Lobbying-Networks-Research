@@ -1,0 +1,382 @@
+fortune_name,primary_catcode,sector_letter,sector_name,total_spend
+3M,M0000,M,Manufacturing & Distribution,9230000.0
+ABBOTT LABORATORIES,H4000,H,Health,7930000.0
+ABBVIE,H4300,H,Health,16290000.0
+ABM INDUSTRIES,H3000,H,Health,50000.0
+ACTIVISION BLIZZARD,C6100,C,"Communications, Electronics & Tech",90000.0
+ADOBE,C5120,C,"Communications, Electronics & Tech",2610000.0
+ADP,G5200,G,General Business & Retail,1330000.0
+ADVANCED MICRO DEVICES,C5110,C,"Communications, Electronics & Tech",4520000.0
+AECOM,B4000,B,Construction & Engineering,3250000.0
+AES,E1630,E,Energy & Natural Resources,1230000.0
+AFLAC,F3200,F,"Finance, Insurance & Real Estate",11770000.0
+AIG,F3100,F,"Finance, Insurance & Real Estate",3460000.0
+AIR PRODUCTS & CHEMICALS,M1000,M,Manufacturing & Distribution,330000.0
+AK STEEL HOLDING,M2100,M,Manufacturing & Distribution,919000.0
+ALASKA AIR GROUP,T1100,T,Transportation & Automotive,2230000.0
+ALCOA,M2250,M,Manufacturing & Distribution,2890000.0
+ALLIANCE DATA SYSTEMS,F5000,F,"Finance, Insurance & Real Estate",734000.0
+ALLSTATE,F3400,F,"Finance, Insurance & Real Estate",5990000.0
+ALLY FINANCIAL,F1100,F,"Finance, Insurance & Real Estate",4940000.0
+ALPHABET,C6300,C,"Communications, Electronics & Tech",19340000.0
+ALTICE USA,C4500,C,"Communications, Electronics & Tech",980000.0
+ALTRIA GROUP,A1300,A,Agribusiness,21060000.0
+AMAZON,C6400,C,"Communications, Electronics & Tech",34000000.0
+AMEREN,E1620,E,Energy & Natural Resources,3100000.0
+AMERICAN AIRLINES GROUP,T1100,T,Transportation & Automotive,9750000.0
+AMERICAN ELECTRIC POWER,E1600,E,Energy & Natural Resources,16254686.0
+AMERICAN EXPRESS,F1400,F,"Finance, Insurance & Real Estate",3140000.0
+AMERICAN FAMILY INSURANCE GROUP,F3400,F,"Finance, Insurance & Real Estate",840000.0
+AMERICAN FINANCIAL GROUP,F3400,F,"Finance, Insurance & Real Estate",480000.0
+AMERICAN TOWER,C4600,C,"Communications, Electronics & Tech",5310000.0
+AMERIPRISE FINANCIAL,F2100,F,"Finance, Insurance & Real Estate",1780000.0
+AMERISOURCEBERGEN,H4400,H,Health,5155000.0
+AMGEN,H4300,H,Health,22090000.0
+APACHE,E1110,E,Energy & Natural Resources,180000.0
+APPLE,C5110,C,"Communications, Electronics & Tech",14060000.0
+APPLIED MATERIALS,C5110,C,"Communications, Electronics & Tech",1780000.0
+ARAMARK,G2910,G,General Business & Retail,910000.0
+ARCHER DANIELS MIDLAND,A4300,A,Agribusiness,4080000.0
+ARCONIC,M5000,M,Manufacturing & Distribution,1840000.0
+ARROW ELECTRONICS,G5200,G,General Business & Retail,160000.0
+ARTHUR J. GALLAGHER,F3100,F,"Finance, Insurance & Real Estate",1173962.0
+ASSURANT,F3400,F,"Finance, Insurance & Real Estate",100000.0
+AT&T,C4100,C,"Communications, Electronics & Tech",22960000.0
+AVIS BUDGET GROUP,T2500,T,Transportation & Automotive,1080000.0
+BALL,M7300,M,Manufacturing & Distribution,2010000.0
+BANK OF AMERICA,F1100,F,"Finance, Insurance & Real Estate",3920000.0
+BANK OF NEW YORK MELLON,F2100,F,"Finance, Insurance & Real Estate",2490000.0
+BAXTER INTERNATIONAL,H4100,H,Health,3760000.0
+BECTON DICKINSON,H4100,H,Health,3115000.0
+BERKSHIRE HATHAWAY,T5100,T,Transportation & Automotive,5610000.0
+BEST BUY,G4200,G,General Business & Retail,2200000.0
+BIOGEN,H4500,H,Health,5806680.0
+BLACKROCK,F2100,F,"Finance, Insurance & Real Estate",4320000.0
+BLACKSTONE GROUP,F2600,F,"Finance, Insurance & Real Estate",6005000.0
+BOEING,T1200,T,Transportation & Automotive,26440000.0
+BOOKING HOLDINGS,T9400,T,Transportation & Automotive,800000.0
+BOOZ ALLEN HAMILTON,D9000,D,Defense & Aerospace,1730000.0
+BORGWARNER,T2200,T,Transportation & Automotive,540000.0
+BOSTON SCIENTIFIC,H4100,H,Health,3200000.0
+BRIGHTHOUSE FINANCIAL,F3300,F,"Finance, Insurance & Real Estate",440000.0
+BRISTOL-MYERS SQUIBB,H4300,H,Health,9490000.0
+BROADCOM,C5110,C,"Communications, Electronics & Tech",4760000.0
+C.H. ROBINSON WORLDWIDE,T7000,T,Transportation & Automotive,605000.0
+CAESARS ENTERTAINMENT,G6500,G,General Business & Retail,1868165.0
+CALPINE,E1630,E,Energy & Natural Resources,8940000.0
+CAMPBELL SOUP,G2100,G,General Business & Retail,280000.0
+CAPITAL ONE FINANCIAL,F1400,F,"Finance, Insurance & Real Estate",3830000.0
+CARDINAL HEALTH,H4400,H,Health,5290000.0
+CATERPILLAR,B6000,B,Construction & Engineering,6470000.0
+CBS,C2000,C,"Communications, Electronics & Tech",6725060.0
+CELANESE,M1000,M,Manufacturing & Distribution,1530640.0
+CENTENE,H3700,H,Health,7510000.0
+CENTERPOINT ENERGY,E1620,E,Energy & Natural Resources,2380000.0
+CHARLES SCHWAB,F2100,F,"Finance, Insurance & Real Estate",4800000.0
+CHARTER COMMUNICATIONS,C4500,C,"Communications, Electronics & Tech",20890000.0
+CHEMOURS,M1000,M,Manufacturing & Distribution,2060000.0
+CHENIERE ENERGY,E1140,E,Energy & Natural Resources,3110000.0
+CHESAPEAKE ENERGY,E1120,E,Energy & Natural Resources,700000.0
+CHEVRON,E1110,E,Energy & Natural Resources,16780000.0
+CHS,A6000,A,Agribusiness,2121798.0
+CIGNA,F3200,F,"Finance, Insurance & Real Estate",15470000.0
+CINTAS,M3100,M,Manufacturing & Distribution,740000.0
+CISCO SYSTEMS,C5300,C,"Communications, Electronics & Tech",4370000.0
+CITIGROUP,F1100,F,"Finance, Insurance & Real Estate",8820000.0
+CITIZENS FINANCIAL GROUP,F1100,F,"Finance, Insurance & Real Estate",1220000.0
+CLOROX,M1300,M,Manufacturing & Distribution,111664.0
+CMS ENERGY,E1620,E,Energy & Natural Resources,2270000.0
+COCA-COLA,G2600,G,General Business & Retail,12510000.0
+COGNIZANT TECHNOLOGY SOLUTIONS,C5130,C,"Communications, Electronics & Tech",3880000.0
+COLGATE-PALMOLIVE,H4200,H,Health,170000.0
+COMCAST,C4500,C,"Communications, Electronics & Tech",27640000.0
+COMMUNITY HEALTH SYSTEMS,H2100,H,Health,55000.0
+CONAGRA BRANDS,G2100,G,General Business & Retail,538964.0
+CONOCOPHILLIPS,E1110,E,Energy & Natural Resources,9060000.0
+CONSOLIDATED EDISON,E1620,E,Energy & Natural Resources,1630000.0
+CONSTELLATION BRANDS,G2800,G,General Business & Retail,1190000.0
+CORNING,C5000,C,"Communications, Electronics & Tech",1430000.0
+COSTCO,G4300,G,General Business & Retail,350000.0
+CSX,T5100,T,Transportation & Automotive,4180588.0
+CUMMINS,M2300,M,Manufacturing & Distribution,6371495.0
+CVS HEALTH,G4900,G,General Business & Retail,19627000.0
+DANAHER,H4100,H,Health,306000.0
+DARDEN RESTAURANTS,G2900,G,General Business & Retail,505000.0
+DAVITA,H3200,H,Health,9220000.0
+DEAN FOODS,A2000,A,Agribusiness,450000.0
+DEERE,A4200,A,Agribusiness,2070000.0
+DELEK US HOLDINGS,E1160,E,Energy & Natural Resources,980000.0
+DELL TECHNOLOGIES,C5110,C,"Communications, Electronics & Tech",7870000.0
+DELTA AIR LINES,T1100,T,Transportation & Automotive,8020000.0
+DEVON ENERGY,E1120,E,Energy & Natural Resources,1290000.0
+DISCOVER FINANCIAL SERVICES,F1400,F,"Finance, Insurance & Real Estate",4760000.0
+DISCOVERY,C2200,C,"Communications, Electronics & Tech",1280000.0
+DISH NETWORK,C4400,C,"Communications, Electronics & Tech",4160000.0
+DOLLAR TREE,G4600,G,General Business & Retail,180000.0
+DOMINION ENERGY,E1620,E,Energy & Natural Resources,5600000.0
+DTE ENERGY,E1620,E,Energy & Natural Resources,1490000.0
+DUKE ENERGY,E1620,E,Energy & Natural Resources,9604510.0
+DUPONT DE NEMOURS,M1000,M,Manufacturing & Distribution,4460000.0
+DXC TECHNOLOGY,C5130,C,"Communications, Electronics & Tech",120000.0
+EASTMAN CHEMICAL,M1000,M,Manufacturing & Distribution,3700000.0
+EBAY,C6400,C,"Communications, Electronics & Tech",2490000.0
+ECOLAB,M1300,M,Manufacturing & Distribution,1760000.0
+EDISON INTERNATIONAL,E1600,E,Energy & Natural Resources,3850000.0
+ELI LILLY,H4300,H,Health,12890000.0
+EMERSON ELECTRIC,M2300,M,Manufacturing & Distribution,1100000.0
+ENERGY TRANSFER,E1140,E,Energy & Natural Resources,1440000.0
+ENTERGY,E1620,E,Energy & Natural Resources,5116600.0
+ENTERPRISE PRODUCTS PARTNERS,E1140,E,Energy & Natural Resources,1500000.0
+EOG RESOURCES,E1120,E,Energy & Natural Resources,170000.0
+ESTEE LAUDER,M3300,M,Manufacturing & Distribution,800000.0
+EVERSOURCE ENERGY,E1620,E,Energy & Natural Resources,1260000.0
+EXELON,E1620,E,Energy & Natural Resources,10710000.0
+EXPEDIA GROUP,T9400,T,Transportation & Automotive,1740000.0
+EXXONMOBIL,E1110,E,Energy & Natural Resources,18440000.0
+FACEBOOK,C6200,C,"Communications, Electronics & Tech",36390000.0
+FEDEX,T7100,T,Transportation & Automotive,20506000.0
+FIDELITY NATIONAL FINANCIAL,F3300,F,"Finance, Insurance & Real Estate",270000.0
+FIDELITY NATIONAL INFORMATION SERVICES,F5500,F,"Finance, Insurance & Real Estate",2510000.0
+FIFTH THIRD BANCORP,F1100,F,"Finance, Insurance & Real Estate",2387468.0
+FIRST AMERICAN FINANCIAL,F4300,F,"Finance, Insurance & Real Estate",90000.0
+FIRSTENERGY,E1600,E,Energy & Natural Resources,3680000.0
+FISERV,F5600,F,"Finance, Insurance & Real Estate",360000.0
+FLUOR,B4000,B,Construction & Engineering,7626642.0
+FORD,T2100,T,Transportation & Automotive,7450163.0
+FORTIVE,M2300,M,Manufacturing & Distribution,30000.0
+FOX CORP,C2100,C,"Communications, Electronics & Tech",5580000.0
+FRANKLIN RESOURCES,F2100,F,"Finance, Insurance & Real Estate",1190000.0
+FREEPORT-MCMORAN,E1220,E,Energy & Natural Resources,130000.0
+FRONTIER COMMUNICATIONS,C4100,C,"Communications, Electronics & Tech",537888.0
+GAP,G4100,G,General Business & Retail,1652000.0
+GENERAL DYNAMICS,D5000,D,Defense & Aerospace,20987072.0
+GENERAL ELECTRIC,M2300,M,Manufacturing & Distribution,9570000.0
+GENERAL MILLS,G2100,G,General Business & Retail,1320000.0
+GENERAL MOTORS,T2100,T,Transportation & Automotive,16380000.0
+GENWORTH FINANCIAL,F3100,F,"Finance, Insurance & Real Estate",3890162.0
+GILEAD SCIENCES,H4500,H,Health,12750000.0
+GOLDMAN SACHS GROUP,F2300,F,"Finance, Insurance & Real Estate",6437000.0
+GOODYEAR TIRE & RUBBER,T2200,T,Transportation & Automotive,4180000.0
+GRAPHIC PACKAGING HOLDING,M7100,M,Manufacturing & Distribution,213853.0
+GUARDIAN LIFE INS. CO. OF AMERICA,F3300,F,"Finance, Insurance & Real Estate",4140000.0
+HALLIBURTON,E1150,E,Energy & Natural Resources,920000.0
+HANESBRANDS,M3100,M,Manufacturing & Distribution,1120000.0
+HARLEY-DAVIDSON,T8100,T,Transportation & Automotive,290000.0
+HARTFORD FINANCIAL SERVICES,F3400,F,"Finance, Insurance & Real Estate",3580000.0
+HCA HEALTHCARE,H2100,H,Health,4030000.0
+HENRY SCHEIN,H4000,H,Health,110000.0
+HERSHEY,G2200,G,General Business & Retail,1146500.0
+HESS,E1120,E,Energy & Natural Resources,790000.0
+HEWLETT PACKARD ENTERPRISE,C5130,C,"Communications, Electronics & Tech",6410000.0
+HILTON WORLDWIDE HOLDINGS,T9100,T,Transportation & Automotive,2160000.0
+HOLLYFRONTIER,E1160,E,Energy & Natural Resources,780000.0
+HOME DEPOT,G4500,G,General Business & Retail,2800000.0
+HONEYWELL INTERNATIONAL,M2300,M,Manufacturing & Distribution,10740000.0
+HORMEL FOODS,G2300,G,General Business & Retail,1236000.0
+HP,C5110,C,"Communications, Electronics & Tech",3190000.0
+HUMANA,H3700,H,Health,9330000.0
+HUNTINGTON INGALLS INDUSTRIES,D5000,D,Defense & Aerospace,10084303.0
+HUNTSMAN,M1500,M,Manufacturing & Distribution,1730000.0
+IBM,C5100,C,"Communications, Electronics & Tech",9990000.0
+IHEARTMEDIA,C2100,C,"Communications, Electronics & Tech",7971534.0
+ILLINOIS TOOL WORKS,M2300,M,Manufacturing & Distribution,550000.0
+INTEL,C5110,C,"Communications, Electronics & Tech",8665000.0
+INTERCONTINENTAL EXCHANGE,F2400,F,"Finance, Insurance & Real Estate",2884840.0
+INTERNATIONAL PAPER,A5200,A,Agribusiness,8730000.0
+INTERPUBLIC GROUP,C5130,C,"Communications, Electronics & Tech",730000.0
+INTUIT,C5120,C,"Communications, Electronics & Tech",5940000.0
+IQVIA HOLDINGS,H4500,H,Health,495000.0
+JABIL,C5000,C,"Communications, Electronics & Tech",30000.0
+JACOBS ENGINEERING GROUP,B4000,B,Construction & Engineering,1180000.0
+JEFFERIES FINANCIAL GROUP,F2100,F,"Finance, Insurance & Real Estate",400000.0
+JETBLUE AIRWAYS,T1100,T,Transportation & Automotive,2730000.0
+JOHNSON & JOHNSON,H4000,H,Health,11300000.0
+JONES FINANCIAL (EDWARD JONES),F2100,F,"Finance, Insurance & Real Estate",980000.0
+JPMORGAN CHASE & CO.,F1100,F,"Finance, Insurance & Real Estate",5620000.0
+KELLOGG,G2100,G,General Business & Retail,1330000.0
+KEURIG DR PEPPER,G2600,G,General Business & Retail,250000.0
+KEYCORP,F1100,F,"Finance, Insurance & Real Estate",1375000.0
+KIMBERLY-CLARK,M3300,M,Manufacturing & Distribution,1150000.0
+KINDER MORGAN,E1140,E,Energy & Natural Resources,40000.0
+KOHL'S,G4300,G,General Business & Retail,320000.0
+KRAFT HEINZ,G2100,G,General Business & Retail,1950000.0
+KROGER,G2400,G,General Business & Retail,1320000.0
+L BRANDS,G4100,G,General Business & Retail,331000.0
+L3HARRIS TECHNOLOGIES,D3000,D,Defense & Aerospace,9030000.0
+LABORATORY CORP. OF AMERICA,H3400,H,Health,3400000.0
+LAM RESEARCH,C5110,C,"Communications, Electronics & Tech",40000.0
+LAND O'LAKES,A2000,A,Agribusiness,3300000.0
+LAS VEGAS SANDS,G6500,G,General Business & Retail,2290000.0
+LEIDOS HOLDINGS,D9000,D,Defense & Aerospace,3460000.0
+LENNAR,B2000,B,Construction & Engineering,390000.0
+LEVI STRAUSS,M3100,M,Manufacturing & Distribution,430000.0
+LIBERTY MEDIA,C2100,C,"Communications, Electronics & Tech",1690000.0
+LIBERTY MUTUAL INSURANCE GROUP,F3400,F,"Finance, Insurance & Real Estate",6390000.0
+LINCOLN NATIONAL,F3300,F,"Finance, Insurance & Real Estate",2340000.0
+LIVE NATION ENTERTAINMENT,C2800,C,"Communications, Electronics & Tech",1480000.0
+LKQ,T2200,T,Transportation & Automotive,630000.0
+LOCKHEED MARTIN,D2000,D,Defense & Aerospace,26007418.0
+LOEWS,F3400,F,"Finance, Insurance & Real Estate",590000.0
+LOWE'S,G4500,G,General Business & Retail,1980000.0
+LUMEN TECHNOLOGIES,C4100,C,"Communications, Electronics & Tech",6130000.0
+M&T BANK CORP.,F1100,F,"Finance, Insurance & Real Estate",640000.0
+MAGELLAN HEALTH,H3700,H,Health,940000.0
+MARATHON OIL,E1110,E,Energy & Natural Resources,320000.0
+MARATHON PETROLEUM,E1160,E,Energy & Natural Resources,6650000.0
+MARRIOTT INTERNATIONAL,T9100,T,Transportation & Automotive,2320000.0
+MARSH & MCLENNAN,F3100,F,"Finance, Insurance & Real Estate",1600000.0
+MASCO,B5000,B,Construction & Engineering,680000.0
+MASSACHUSETTS MUTUAL LIFE INSURANCE,F3300,F,"Finance, Insurance & Real Estate",5450000.0
+MASTERCARD,F1400,F,"Finance, Insurance & Real Estate",5600000.0
+MCDONALD'S,G2900,G,General Business & Retail,3660000.0
+MCKESSON,H4400,H,Health,3435000.0
+MERCK,H4300,H,Health,13935000.0
+METLIFE,F3300,F,"Finance, Insurance & Real Estate",4170000.0
+MGM RESORTS INTERNATIONAL,G6500,G,General Business & Retail,3010000.0
+MICRON TECHNOLOGY,C5110,C,"Communications, Electronics & Tech",3080000.0
+MICROSOFT,C5120,C,"Communications, Electronics & Tech",19544000.0
+MOLINA HEALTHCARE,H3700,H,Health,3500000.0
+MOLSON COORS BEVERAGE,G2810,G,General Business & Retail,6162000.0
+MONDELEZ INTERNATIONAL,G2100,G,General Business & Retail,1340000.0
+MORGAN STANLEY,F2300,F,"Finance, Insurance & Real Estate",4680000.0
+MOSAIC,A4100,A,Agribusiness,1720000.0
+MOTOROLA SOLUTIONS,C4600,C,"Communications, Electronics & Tech",3030000.0
+MURPHY USA,E1170,E,Energy & Natural Resources,30000.0
+MUTUAL OF OMAHA INSURANCE,F3100,F,"Finance, Insurance & Real Estate",790000.0
+NATIONWIDE,F3100,F,"Finance, Insurance & Real Estate",7640000.0
+NAVIENT,F1410,F,"Finance, Insurance & Real Estate",5730000.0
+NAVISTAR INTERNATIONAL,T3200,T,Transportation & Automotive,1217000.0
+NCR,C5100,C,"Communications, Electronics & Tech",720000.0
+NETAPP,C5130,C,"Communications, Electronics & Tech",220000.0
+NETFLIX,C6100,C,"Communications, Electronics & Tech",1600000.0
+NEW YORK LIFE INSURANCE,F3300,F,"Finance, Insurance & Real Estate",6620000.0
+NEWELL BRANDS,M4000,M,Manufacturing & Distribution,420000.0
+NEWMONT,E1220,E,Energy & Natural Resources,2040000.0
+NEWS CORP.,C1100,C,"Communications, Electronics & Tech",1370000.0
+NEXTERA ENERGY,E1600,E,Energy & Natural Resources,8040000.0
+NGL ENERGY PARTNERS,E1100,E,Energy & Natural Resources,20000.0
+NIKE,M3200,M,Manufacturing & Distribution,2400000.0
+NORFOLK SOUTHERN,T5100,T,Transportation & Automotive,3650000.0
+NORTHERN TRUST,F2100,F,"Finance, Insurance & Real Estate",640000.0
+NORTHROP GRUMMAN,D2000,D,Defense & Aerospace,25230000.0
+NORTHWESTERN MUTUAL,F3300,F,"Finance, Insurance & Real Estate",6880000.0
+NRG ENERGY,E1630,E,Energy & Natural Resources,470000.0
+NUCOR,M2100,M,Manufacturing & Distribution,3810000.0
+NVR,B2000,B,Construction & Engineering,130000.0
+OCCIDENTAL PETROLEUM,E1110,E,Energy & Natural Resources,14083102.0
+OLIN,M1000,M,Manufacturing & Distribution,160000.0
+ONEOK,E1140,E,Energy & Natural Resources,595000.0
+ORACLE,C5120,C,"Communications, Electronics & Tech",17780000.0
+OSHKOSH,T3200,T,Transportation & Automotive,655000.0
+OWENS & MINOR,T7000,T,Transportation & Automotive,240000.0
+OWENS CORNING,B5400,B,Construction & Engineering,1300000.0
+OWENS-ILLINOIS,M7200,M,Manufacturing & Distribution,470000.0
+PACCAR,T3200,T,Transportation & Automotive,1070000.0
+PARKER-HANNIFIN,M2300,M,Manufacturing & Distribution,850000.0
+PAYPAL HOLDINGS,F5600,F,"Finance, Insurance & Real Estate",1858727.0
+PBF ENERGY,E1160,E,Energy & Natural Resources,3863500.0
+PEABODY ENERGY,E1210,E,Energy & Natural Resources,2080000.0
+PEPSICO,G2000,G,General Business & Retail,7180000.0
+PERFORMANCE FOOD GROUP,G2500,G,General Business & Retail,120000.0
+PFIZER,H4300,H,Health,21870000.0
+PG&E,E1620,E,Energy & Natural Resources,6500000.0
+PHILIP MORRIS INTERNATIONAL,A1300,A,Agribusiness,12140000.0
+PHILLIPS 66,E1170,E,Energy & Natural Resources,6650000.0
+PIONEER NATURAL RESOURCES,E1120,E,Energy & Natural Resources,240000.0
+PLAINS GP HOLDINGS,E1150,E,Energy & Natural Resources,770000.0
+PNC FINANCIAL SERVICES,F1100,F,"Finance, Insurance & Real Estate",1772000.0
+POLARIS INC,T8100,T,Transportation & Automotive,1760000.0
+PPG INDUSTRIES,M1600,M,Manufacturing & Distribution,1860000.0
+PPL,E1620,E,Energy & Natural Resources,1270000.0
+PRINCIPAL FINANCIAL,F2100,F,"Finance, Insurance & Real Estate",4943000.0
+PROCTER & GAMBLE,M3300,M,Manufacturing & Distribution,6826358.0
+PRUDENTIAL FINANCIAL,F3300,F,"Finance, Insurance & Real Estate",6200000.0
+PUBLIC SERVICE ENTERPRISE GROUP,E1620,E,Energy & Natural Resources,3680000.0
+PUBLIX SUPER MARKETS,G2400,G,General Business & Retail,970000.0
+PVH,M3100,M,Manufacturing & Distribution,10000.0
+QUALCOMM,C5200,C,"Communications, Electronics & Tech",15820000.0
+QUANTA SERVICES,B4000,B,Construction & Engineering,600000.0
+QUEST DIAGNOSTICS,H3400,H,Health,1390000.0
+QURATE RETAIL,C4100,C,"Communications, Electronics & Tech",600000.0
+RAYTHEON,D3000,D,Defense & Aerospace,15413000.0
+REGENERON PHARMACEUTICALS,H4500,H,Health,2570000.0
+REGIONS FINANCIAL,F1100,F,"Finance, Insurance & Real Estate",3120000.0
+REINSURANCE GROUP OF AMERICA,F3100,F,"Finance, Insurance & Real Estate",1160000.0
+REPUBLIC SERVICES,E3000,E,Energy & Natural Resources,1190000.0
+RITE AID,G4900,G,General Business & Retail,1630000.0
+RYDER SYSTEM,T3000,T,Transportation & Automotive,30000.0
+S&P GLOBAL,F5000,F,"Finance, Insurance & Real Estate",3504000.0
+SALESFORCE,C6500,C,"Communications, Electronics & Tech",4080000.0
+SEABOARD,A4300,A,Agribusiness,510000.0
+SEMPRA ENERGY,E1620,E,Energy & Natural Resources,4980000.0
+SHERWIN-WILLIAMS,M1600,M,Manufacturing & Distribution,350000.0
+SOUTHERN,E1620,E,Energy & Natural Resources,21380000.0
+SOUTHWEST AIRLINES,T1100,T,Transportation & Automotive,2520000.0
+SPIRIT AEROSYSTEMS HOLDINGS,T1300,T,Transportation & Automotive,218000.0
+STANLEY BLACK & DECKER,M5100,M,Manufacturing & Distribution,2860000.0
+STARBUCKS,G2900,G,General Business & Retail,2100000.0
+STATE FARM INSURANCE,F3400,F,"Finance, Insurance & Real Estate",4792000.0
+STATE STREET CORP.,F2100,F,"Finance, Insurance & Real Estate",3330000.0
+STRYKER,H4100,H,Health,490000.0
+SUNTRUST BANKS,F1100,F,"Finance, Insurance & Real Estate",4470900.0
+SYNCHRONY FINANCIAL,F1400,F,"Finance, Insurance & Real Estate",2660000.0
+SYSCO,G2500,G,General Business & Retail,310000.0
+TAPESTRY,M3000,M,Manufacturing & Distribution,105000.0
+TARGET,G4300,G,General Business & Retail,2930000.0
+TENET HEALTHCARE,H2100,H,Health,3510000.0
+TENNECO,T2200,T,Transportation & Automotive,480000.0
+TESLA,T2100,T,Transportation & Automotive,1000000.0
+TEXAS INSTRUMENTS,C5110,C,"Communications, Electronics & Tech",2835000.0
+TEXTRON,T1200,T,Transportation & Automotive,7150000.0
+THERMO FISHER SCIENTIFIC,M9000,M,Manufacturing & Distribution,2360000.0
+TIAA,F2000,F,"Finance, Insurance & Real Estate",3050000.0
+TRAVELERS,F3400,F,"Finance, Insurance & Real Estate",6185000.0
+TREEHOUSE FOODS,G2100,G,General Business & Retail,0.0
+TYSON FOODS,G2300,G,General Business & Retail,2625968.0
+U.S. BANCORP,F1100,F,"Finance, Insurance & Real Estate",2130000.0
+UGI,E1620,E,Energy & Natural Resources,160000.0
+UNION PACIFIC,T5100,T,Transportation & Automotive,7916734.0
+UNITED AIRLINES HOLDINGS,T1100,T,Transportation & Automotive,7280000.0
+UNITED HEALTH GROUP,H3700,H,Health,8190000.0
+UNITED NATURAL FOODS,G2100,G,General Business & Retail,180000.0
+UNITED PARCEL SERVICE,T7100,T,Transportation & Automotive,15881000.0
+UNITED RENTALS,G5300,G,General Business & Retail,340000.0
+UNITED STATES STEEL,M2100,M,Manufacturing & Distribution,1500000.0
+UNITED TECHNOLOGIES,D2000,D,Defense & Aerospace,12730000.0
+UNIVERSAL HEALTH SERVICES,H2100,H,Health,240000.0
+UNUM GROUP,F3200,F,"Finance, Insurance & Real Estate",1253000.0
+US FOODS HOLDING,G2500,G,General Business & Retail,120000.0
+USAA,F3100,F,"Finance, Insurance & Real Estate",7060000.0
+VALERO ENERGY,E1160,E,Energy & Natural Resources,3600000.0
+VERIZON,C4100,C,"Communications, Electronics & Tech",20260000.0
+VF,M3100,M,Manufacturing & Distribution,1190000.0
+VISA,F1400,F,"Finance, Insurance & Real Estate",6820000.0
+VISTRA ENERGY,E1600,E,Energy & Natural Resources,1270000.0
+VOYA FINANCIAL,F2100,F,"Finance, Insurance & Real Estate",250000.0
+W.R. BERKLEY,F3400,F,"Finance, Insurance & Real Estate",1650000.0
+W.W. GRAINGER,G4500,G,General Business & Retail,20000.0
+WALGREENS BOOTS ALLIANCE,G4900,G,General Business & Retail,7035000.0
+WALMART,G4300,G,General Business & Retail,12830000.0
+WALT DISNEY,C2000,C,"Communications, Electronics & Tech",8910000.0
+WASTE MANAGEMENT,E3000,E,Energy & Natural Resources,1280000.0
+WAYFAIR,C6400,C,"Communications, Electronics & Tech",160000.0
+WEC ENERGY GROUP,E1620,E,Energy & Natural Resources,1811000.0
+WELLS FARGO,F1100,F,"Finance, Insurance & Real Estate",9440000.0
+WESCO INTERNATIONAL,B5500,B,Construction & Engineering,32703.0
+WESTERN DIGITAL,C5110,C,"Communications, Electronics & Tech",710000.0
+WESTERN UNION,F1400,F,"Finance, Insurance & Real Estate",1380000.0
+WESTLAKE CHEMICAL,M1000,M,Manufacturing & Distribution,1173000.0
+WESTROCK,M7100,M,Manufacturing & Distribution,466044.0
+WEYERHAEUSER,A5000,A,Agribusiness,4070000.0
+WHIRLPOOL,M4300,M,Manufacturing & Distribution,1870000.0
+WILLIAMS,E1140,E,Energy & Natural Resources,1130000.0
+WINDSTREAM HOLDINGS,C4100,C,"Communications, Electronics & Tech",270000.0
+WORLD FUEL SERVICES,E1160,E,Energy & Natural Resources,220000.0
+WYNN RESORTS,G6500,G,General Business & Retail,240000.0
+XCEL ENERGY,E1620,E,Energy & Natural Resources,3420000.0
+XEROX,M4200,M,Manufacturing & Distribution,2645000.0
+XPO LOGISTICS,T7000,T,Transportation & Automotive,590000.0
+YUM BRANDS,G2900,G,General Business & Retail,2410000.0
+YUM CHINA HOLDINGS,G2900,G,General Business & Retail,280000.0
+ZIMMER BIOMET HOLDINGS,H4100,H,Health,950000.0
+ZOETIS,A3100,A,Agribusiness,1270000.0

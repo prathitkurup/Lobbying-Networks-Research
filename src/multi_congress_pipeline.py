@@ -30,7 +30,7 @@ from opensecrets_extraction import (
     _LOB_CLIENT_RAW, _LOB_CLIENT, _LOB_ULTORG, _LOB_AMOUNT, _LOB_SELF,
     _LOB_IND, _LOB_YEAR, _LOB_REPORT_TYPE, _MIN_LOB_COLS,
 )
-from rbo_directed_influence import build_edges, build_graph, print_stats, export_ranked_lists, write_gml
+from rbo_directed_influence import build_edges, build_graph, print_stats, export_ranked_lists, write_gml, compute_total_spend
 from utils.visualization import plot_directed_circular
 from utils.data_loading import load_bills_data, assign_quarters, congress_year_range
 from utils.filtering import filter_bills_by_prevalence
@@ -240,8 +240,9 @@ def run_rbo_influence(congress_num, out_dir):
         .min().to_dict()
     )
 
-    edges_df = build_edges(ranked, bill_first, p=RBO_P)
-    G        = build_graph(edges_df, ranked_firms=set(ranked.keys()))
+    edges_df  = build_edges(ranked, bill_first, p=RBO_P)
+    spend_map = compute_total_spend(df_raw)
+    G         = build_graph(edges_df, ranked_firms=set(ranked.keys()), spend_map=spend_map)
     print_stats(edges_df, G)
 
     edges_df.to_csv(out_dir / "rbo_directed_influence.csv", index=False)

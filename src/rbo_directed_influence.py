@@ -3,11 +3,11 @@ Congress-wide directed RBO influence network — 116th Congress.
 
 Builds a single aggregate network from all 8 quarters of lobbying data where:
   - Each firm pair (i,j) with shared top-30 bills produces TWO directed edges
-  - Edge weight   = proportional RBO: [(source_firsts + ties/2) / shared_bills] × RBO
+  - Edge weight   = proportional RBO: [(source_firsts + ties/2) / shared_bills] x RBO
   - Edge rbo      = full RBO similarity (same for both edge directions of a pair)
-  - Edge net_temporal = source_firsts − target_firsts (signed; from source's perspective)
-  - Node net_strength  = Σ_j [RBO(i,j) × net_temporal(i,j)] — RBO-weighted temporal dominance
-  - Node net_influence = Σ_j (i_firsts_j − j_firsts_j) — unweighted first-mover count
+  - Edge net_temporal = source_firsts - target_firsts (signed; from source's perspective)
+  - Node net_strength  = Σ_j [RBO(i,j) x net_temporal(i,j)] — RBO-weighted temporal dominance
+  - Node net_influence = Σ_j (i_firsts_j - j_firsts_j) — unweighted first-mover count
   - Node color = #2ECC71 green (net_strength > 0), #E74C3C red (net_strength < 0),
                  #95A5A6 gray (net_strength == 0 or isolated)
 
@@ -49,6 +49,12 @@ WRITE_PNG         = True
 
 
 # -- Global first-quarter lookup ----------------------------------------------
+
+def compute_total_spend(df):
+    """Sum lobbying spend per firm from bill-linked reports; deduplicates by uniq_id."""
+    per_report = df.drop_duplicates(subset=["uniq_id"])[["fortune_name", "amount"]]
+    return per_report.groupby("fortune_name")["amount"].sum().to_dict()
+
 
 def build_global_first_quarters(df):
     """Return {(firm, bill): min_quarter} — first quarter each firm lobbied each bill across the full congress."""
@@ -146,7 +152,7 @@ def build_edges(ranked, bill_first, p=RBO_P):
 
 # -- Graph construction -------------------------------------------------------
 
-def build_graph(edges_df, ranked_firms=None):
+def build_graph(edges_df, ranked_firms=None, spend_map=None):
     """Build DiGraph from edge records, adding node attrs: net_influence, total_firsts/losses, out/in/net_strength, color, label.
 
     Isolated firms added as nodes when ranked_firms is provided.
@@ -193,6 +199,7 @@ def build_graph(edges_df, ranked_firms=None):
         G.nodes[node]["total_losses"]  = int(total_losses)
         G.nodes[node]["net_influence"] = int(net)
         G.nodes[node]["label"]         = str(node)
+        G.nodes[node]["total_spend"]   = round(float(spend_map.get(node, -1.0)), 2) if spend_map else -1.0
         # Color by net_strength: green=agenda-setter, red=follower, gray=neutral/isolated
         G.nodes[node]["color"] = (
             "#2ECC71" if net_str > 0 else ("#E74C3C" if net_str < 0 else "#95A5A6")
@@ -316,7 +323,8 @@ def main():
     print(f"  Done.")
 
     # Step 5: build graph and print stats
-    G = build_graph(edges_df, ranked_firms=set(ranked.keys()))
+    spend_map = compute_total_spend(df_raw)
+    G = build_graph(edges_df, ranked_firms=set(ranked.keys()), spend_map=spend_map)
     print_stats(edges_df, G)
 
     # Step 6: outputs

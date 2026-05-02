@@ -43,6 +43,7 @@ NODE_ATTR_SCHEMA = [
     ("within_comm_net_str", "float",   "n9"),
     ("within_comm_net_inf", "integer", "n10"),
     ("net_weight",          "float",   "n11"),
+    ("total_spend",         "float",   "n12"),
 ]
 # weight is the native GEXF edge attribute; remaining attrs go into attvalues
 EDGE_ATTR_SCHEMA = [
