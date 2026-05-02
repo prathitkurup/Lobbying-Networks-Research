@@ -10,3 +10,4 @@ data/__pycache__/
 src/utils/__pycache__/
 src/validations/__pycache__/
 outputs/run_logs
+exploratory/
