@@ -68,7 +68,7 @@ Node color: green = net_strength > 0 (agenda-setter), red = net_strength < 0 (fo
 
 **Outputs:** `data/rbo_directed_influence.csv`, `data/ranked_bill_lists.csv`, `visualizations/gml/rbo_directed_influence.gml`, `visualizations/png/rbo_directed_influence.png`
 
-**Enrichment:** `src/enrich_directed_gml.py` adds `num_bills`, `bill_aff_community`, `within_comm_net_str`, and `within_comm_net_inf` to the GML node attributes. Reads community partition from `data/archive/communities/communities_affiliation.csv` (requires `src/archive/networks/bill_affiliation_network.py` in archive to have produced that file).
+**Enrichment:** `src/enrich_directed_gml.py` adds `num_bills`, `bill_aff_community`, `within_comm_net_str`, and `within_comm_net_inf` to the GML node attributes. Reads community partition from `data/archive/communities/communities_affiliation.csv` (produced by `src/bill_affiliation_network.py`). Leiden detection yields 6 communities: Finance/Insurance (0), Tech/Telecom (1), Energy/Utilities (2), Defense/Industrial (3), Health/Pharma (4), Consumer/Manufacturing (5).
 
 **Gephi export:** `src/gephi_style_export.py` reads the enriched GML and writes a Gephi-ready GEXF to `visualizations/gexf/rbo_directed_influence.gexf`.
 
@@ -94,6 +94,9 @@ cd src
 # 1. Extract data (required first)
 python opensecrets_extraction.py
 
+# 1b. Build bill affiliation network + Leiden communities (required before enrichment)
+python bill_affiliation_network.py
+
 # 2. Build the directed influence network (standalone)
 python rbo_directed_influence.py
 
@@ -102,7 +105,7 @@ python affiliation_mediated_adoption.py
 python visualize_affiliation_mediation.py
 
 # 4. Enrich GML and export for Gephi
-#    (requires bill_affiliation_network.py in archive to have produced communities_affiliation.csv)
+#    (requires bill_affiliation_network.py to have produced communities_affiliation.csv)
 python enrich_directed_gml.py
 python gephi_style_export.py
 
@@ -143,6 +146,7 @@ All analysis outputs are written to `outputs/analysis/` (CSVs, TXT summaries, PN
 ```
 src/
   opensecrets_extraction.py         Extraction pipeline (run first)
+  bill_affiliation_network.py       Shared-bill affiliation network + Leiden community detection (6 communities)
   config.py                         Paths and shared constants
   rbo_directed_influence.py         PRIMARY: directed influence network
   enrich_directed_gml.py            Add enriched node attributes to directed GML
@@ -210,6 +214,7 @@ data/
 visualizations/
   gml/
     rbo_directed_influence.gml      PRIMARY: enriched directed influence GML for Gephi
+    bill_affiliation_network.gml    Undirected bill affiliation network with Leiden communities
     rbo_directed_influence_111.gml  111th Congress directed network
     rbo_directed_influence_117.gml  117th Congress directed network
   gexf/

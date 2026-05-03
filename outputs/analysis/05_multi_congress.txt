@@ -139,8 +139,8 @@ FIRMS IN TOP-30 by net_strength IN ALL 7 CONGRESSES
     XCEL ENERGY                                6/7  (111, 112, 113, 114, 115, 117th)
     DTE ENERGY                                 6/7  (112, 113, 114, 115, 116, 117th)
     CMS ENERGY                                 5/7  (111, 112, 113, 114, 116th)
-    DUKE ENERGY                                5/7  (111, 112, 113, 114, 115th)
     LOCKHEED MARTIN                            5/7  (111, 112, 113, 114, 117th)
+    DUKE ENERGY                                5/7  (111, 112, 113, 114, 115th)
     MICROSOFT                                  5/7  (112, 114, 115, 116, 117th)
 
   Outputs:

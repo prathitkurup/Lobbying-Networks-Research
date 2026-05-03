@@ -1,13 +1,11 @@
 data/archive/LobbyView
 data/OpenSecrets
 .DS_Store
-data/.DS_Store
-src/.DS_Store
-visualizations/.DS_Store
-outputs/.DS_Store
+
 src/__pycache__/
 data/__pycache__/
 src/utils/__pycache__/
 src/validations/__pycache__/
+
 outputs/run_logs
 exploratory/

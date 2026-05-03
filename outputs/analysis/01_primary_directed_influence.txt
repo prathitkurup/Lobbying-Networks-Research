@@ -14,7 +14,7 @@ Rank  Firm                                            ns    ni      $M  #bills  
 ──────────────────────────────────────────────────────────────────────
 1     DTE ENERGY                                   5.843    43    0.05     118     285       6  Energy/Utilities
 2     CUMMINS                                      5.309    58    0.49      51     215      38  Defense/Industrial
-3     CALPINE                                      4.943    53    0.25      52     253      36  nan
+3     CALPINE                                      4.943    53    0.25      52     253      36  Energy/Utilities
 4     ABBVIE                                       4.167    36    5.16      36      19      62  Health/Pharma
 5     CMS ENERGY                                   3.889    31    0.04     143     287       5  Energy/Utilities
 6     BERKSHIRE HATHAWAY                           3.776    11    2.97     163      45       1  Energy/Utilities
@@ -30,7 +30,7 @@ Rank  Firm                                            ns    ni      $M  #bills  
 16    WELLS FARGO                                  1.932    12    3.54       9      35     176  Finance/Insurance
 17    APPLIED MATERIALS                            1.927    12    0.56      10     203     166  Tech/Telecom
 18    BALL                                         1.917    44    0.42      36     228      62  Defense/Industrial
-19    COCA-COLA                                    1.889   -25    1.10      42     120      57  Tech/Telecom
+19    COCA-COLA                                    1.889   -25    1.10      42     120      57  Consumer/Manufacturing
 20    GILEAD SCIENCES                              1.792   -56    3.74      25      33      92  Health/Pharma
 21    AT&T                                         1.778    31    1.09     163     122       1  Tech/Telecom
 22    CBS                                          1.766    13    2.59      56      51      31  Tech/Telecom
@@ -59,34 +59,47 @@ WITHIN-COMMUNITY TOP-10 AGENDA-SETTERS BY SECTOR — 116th
 
   [Finance/Insurance]  (n=72 firms)
   Rank  Firm                                          wc_ns  global_ns
-  1     PNC FINANCIAL SERVICES                        2.227      2.113
+  1     PNC FINANCIAL SERVICES                        2.161      2.113
   2     WELLS FARGO                                   1.932      1.932
   3     CITIGROUP                                     1.580      1.548
-  4     NORTHWESTERN MUTUAL                           1.319      1.740
-  5     ALLSTATE                                      1.192      1.299
-  6     CONSTELLATION BRANDS                          1.043      1.043
-  7     NEW YORK LIFE INSURANCE                       0.835      1.244
-  8     AIG                                           0.825      1.242
-  9     JPMORGAN CHASE & CO.                          0.782      0.556
-  10    LIBERTY MUTUAL INSURANCE GROUP                0.768      0.723
+  4     NORTHWESTERN MUTUAL                           1.523      1.740
+  5     PRUDENTIAL FINANCIAL                          1.320      1.329
+  6     ALLSTATE                                      1.314      1.299
+  7     NEW YORK LIFE INSURANCE                       1.289      1.244
+  8     AIG                                           1.231      1.242
+  9     CONSTELLATION BRANDS                          1.043      1.043
+  10    AMERIPRISE FINANCIAL                          0.975      1.006
 
-  [Tech/Telecom]  (n=64 firms)
+  [Tech/Telecom]  (n=55 firms)
   Rank  Firm                                          wc_ns  global_ns
-  1     MICROSOFT                                     3.151      3.317
+  1     MICROSOFT                                     3.150      3.317
   2     TEXAS INSTRUMENTS                             2.503      2.450
-  3     COCA-COLA                                     2.300      1.889
-  4     HEWLETT PACKARD ENTERPRISE                    2.042      1.763
-  5     APPLIED MATERIALS                             1.923      1.927
-  6     AT&T                                          1.686      1.778
-  7     CBS                                           1.607      1.766
-  8     IBM                                           1.084      1.470
-  9     GENERAL MILLS                                 0.957      1.283
-  10    DELL TECHNOLOGIES                             0.918      1.183
+  3     HEWLETT PACKARD ENTERPRISE                    2.042      1.763
+  4     APPLIED MATERIALS                             1.923      1.927
+  5     AT&T                                          1.686      1.778
+  6     CBS                                           1.612      1.766
+  7     IBM                                           1.084      1.470
+  8     GENERAL MILLS                                 0.957      1.283
+  9     DELL TECHNOLOGIES                             0.918      1.183
+  10    MICRON TECHNOLOGY                             0.913      1.079
 
-  [Defense/Industrial]  (n=49 firms)
+  [Energy/Utilities]  (n=49 firms)
+  Rank  Firm                                          wc_ns  global_ns
+  1     DTE ENERGY                                    5.828      5.843
+  2     CALPINE                                       4.861      4.943
+  3     CMS ENERGY                                    3.889      3.889
+  4     FIRSTENERGY                                   2.751      2.748
+  5     EXELON                                        1.919      2.041
+  6     PG&E                                          1.638      1.757
+  7     XCEL ENERGY                                   1.249      1.206
+  8     EXXONMOBIL                                    1.000      1.212
+  9     SOUTHERN                                      0.957      0.777
+  10    PHILLIPS 66                                   0.949      1.021
+
+  [Defense/Industrial]  (n=46 firms)
   Rank  Firm                                          wc_ns  global_ns
   1     NORTHROP GRUMMAN                              1.923      2.055
-  2     BALL                                          1.665      1.917
+  2     BALL                                          1.617      1.917
   3     NORFOLK SOUTHERN                              1.566      1.094
   4     UNION PACIFIC                                 1.505      1.629
   5     GENERAL DYNAMICS                              0.908      1.226
@@ -96,31 +109,31 @@ WITHIN-COMMUNITY TOP-10 AGENDA-SETTERS BY SECTOR — 116th
   9     OSHKOSH                                       0.500      0.636
   10    CUMMINS                                       0.442      5.309
 
-  [Energy/Utilities]  (n=49 firms)
+  [Health/Pharma]  (n=41 firms)
   Rank  Firm                                          wc_ns  global_ns
-  1     DTE ENERGY                                    6.163      5.843
-  2     CMS ENERGY                                    3.889      3.889
-  3     FIRSTENERGY                                   2.855      2.748
-  4     XCEL ENERGY                                   2.043      1.206
-  5     SOUTHERN                                      1.830      0.777
-  6     EXELON                                        1.770      2.041
-  7     PG&E                                          1.668      1.757
-  8     PHILLIPS 66                                   0.971      1.021
-  9     EXXONMOBIL                                    0.935      1.212
-  10    TESLA                                         0.834      0.387
+  1     ABBVIE                                        3.905      4.167
+  2     LABORATORY CORP. OF AMERICA                   2.892      2.870
+  3     CVS HEALTH                                    2.345      2.683
+  4     GILEAD SCIENCES                               2.118      1.792
+  5     CIGNA                                         1.466      1.570
+  6     BRISTOL-MYERS SQUIBB                          1.046      1.118
+  7     MAGELLAN HEALTH                               0.998      1.027
+  8     RITE AID                                      0.977      1.320
+  9     ELI LILLY                                     0.602      0.624
+  10    DANAHER                                       0.568      0.574
 
-  [Health/Pharma]  (n=42 firms)
+  [Consumer/Manufacturing]  (n=17 firms)
   Rank  Firm                                          wc_ns  global_ns
-  1     ABBVIE                                        4.100      4.167
-  2     LABORATORY CORP. OF AMERICA                   2.899      2.870
-  3     CVS HEALTH                                    2.540      2.683
-  4     GILEAD SCIENCES                               2.478      1.792
-  5     CIGNA                                         1.536      1.570
-  6     BRISTOL-MYERS SQUIBB                          1.118      1.118
-  7     RITE AID                                      1.074      1.320
-  8     MAGELLAN HEALTH                               1.024      1.027
-  9     MOLINA HEALTHCARE                             0.820      0.820
-  10    CENTENE                                       0.767      0.787
+  1     AK STEEL HOLDING                              1.032      1.065
+  2     COCA-COLA                                     0.738      1.889
+  3     GAP                                           0.555      0.619
+  4     ILLINOIS TOOL WORKS                           0.156      0.297
+  5     DEAN FOODS                                    0.003      0.675
+  6     SYSCO                                         0.000      0.427
+  7     KEURIG DR PEPPER                              0.000      0.000
+  8     WASTE MANAGEMENT                              0.000      0.000
+  9     KELLOGG                                       0.000      0.000
+  10    ARCONIC                                       0.000      0.000
 
 ──────────────────────────────────────────────────────────────────────
 TOP 20 INFLUENCER→FOLLOWER PAIRS (by rbo × net_temporal)
@@ -134,15 +147,15 @@ TOP 20 INFLUENCER→FOLLOWER PAIRS (by rbo × net_temporal)
   ABBVIE                                 MERCK                                   1.7980       9          Health/Pharma          Health/Pharma
   MICROSOFT                              ORACLE                                  1.7861       8           Tech/Telecom           Tech/Telecom
   CBS                                    FOX CORP                                1.5911      10           Tech/Telecom           Tech/Telecom
-  COCA-COLA                              PEPSICO                                 1.3947       5           Tech/Telecom           Tech/Telecom
+  COCA-COLA                              PEPSICO                                 1.3947       5 Consumer/Manufacturing Consumer/Manufacturing
   CMS ENERGY                             XCEL ENERGY                             1.0245      12       Energy/Utilities       Energy/Utilities
-  CENTENE                                MUTUAL OF OMAHA INSURANCE               1.0076       6          Health/Pharma          Health/Pharma
+  CENTENE                                MUTUAL OF OMAHA INSURANCE               1.0076       6          Health/Pharma      Finance/Insurance
   AT&T                                   VERIZON                                 0.9435      15           Tech/Telecom           Tech/Telecom
   DTE ENERGY                             XCEL ENERGY                             0.9119      17       Energy/Utilities       Energy/Utilities
   ABBVIE                                 BIOGEN                                  0.9110      10          Health/Pharma          Health/Pharma
-  COCA-COLA                              HOME DEPOT                              0.9108       2           Tech/Telecom           Tech/Telecom
-  MOLINA HEALTHCARE                      MUTUAL OF OMAHA INSURANCE               0.8852       4          Health/Pharma          Health/Pharma
-  CALPINE                                SOUTHERN                                0.8726       7                    nan       Energy/Utilities
+  COCA-COLA                              HOME DEPOT                              0.9108       2 Consumer/Manufacturing           Tech/Telecom
+  MOLINA HEALTHCARE                      MUTUAL OF OMAHA INSURANCE               0.8852       4          Health/Pharma      Finance/Insurance
+  CALPINE                                SOUTHERN                                0.8726       7       Energy/Utilities       Energy/Utilities
   ARAMARK                                JACOBS ENGINEERING GROUP                0.8502       3          Health/Pharma     Defense/Industrial
   DTE ENERGY                             FIRSTENERGY                             0.8275      11       Energy/Utilities       Energy/Utilities
   CMS ENERGY                             FIRSTENERGY                             0.8229       8       Energy/Utilities       Energy/Utilities

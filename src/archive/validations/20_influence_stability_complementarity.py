@@ -50,9 +50,10 @@ CONGRESSES = [111, 112, 113, 114, 115, 116, 117]
 COMMUNITY_LABELS = {
     0: "Finance/Insurance",
     1: "Tech/Telecom",
-    2: "Defense/Industrial",
-    3: "Energy/Utilities",
+    2: "Energy/Utilities",
+    3: "Defense/Industrial",
     4: "Health/Pharma",
+    5: "Consumer/Manufacturing",
 }
 
 TOP_K_GLOBAL = 10   # top-K global firms for net_strength stability

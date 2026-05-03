@@ -1,0 +1,149 @@
+===========================================================================
+VALIDATION 14: INFLUENCER REGRESSION (116th AND 117th CONGRESS)
+===========================================================================
+
+Outcomes:  net_strength [primary], net_influence [reference], wc_net_strength
+Also runs: top-quartile OLS for net_strength (top_q_ns binary indicator)
+Covariates: log_spend, log_bills, katz_centrality,
+            participation_coeff, within_comm_eigenvector, wc_pagerank
+Note: centrality covariates are from the 116th-Congress affiliation
+      network (structural baseline for both congresses).
+SE: HC3 heteroskedasticity-robust throughout.
+
+[1/4] Loading shared covariates ...
+      Centrality (116th affiliation): 281 firms
+      Computing within-community PageRank (116th affiliation) ...
+      WC PageRank computed: 281 firms
+
+[2–3/4] Congress: 116th
+  Merged dataset: 293 firms
+  Complete cases (all regressors): 280
+
+  --- 116th Congress ---
+
+  (B) net_strength [116th]
+  N=280, R²=0.0506, adj-R²=0.0368, F(HC3-adj) p=0.0759
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               1.4762     0.9995    1.477   0.1397 
+  log_spend                              -0.1313     0.0723   -1.816   0.0694 *
+  log_bills                               0.0104     0.0833    0.125   0.9008 
+  katz_centrality                         6.6770     5.2325    1.276   0.2019 
+  participation_coeff                     0.0145     0.3735    0.039   0.9690 
+  -----------------------------------------------------------------------
+
+  (B2) top_quartile net_strength [116th]
+  N=280, R²=0.1972, adj-R²=0.1856, F(HC3-adj) p=0.0000
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               0.2588     0.2610    0.992   0.3214 
+  log_spend                              -0.0299     0.0183   -1.634   0.1024 
+  log_bills                               0.1126     0.0232    4.846   0.0000 ***
+  katz_centrality                         1.5856     0.6131    2.586   0.0097 ***
+  participation_coeff                     0.1010     0.1037    0.974   0.3301 
+  -----------------------------------------------------------------------
+
+  (A) net_influence [116th]
+  N=280, R²=0.0498, adj-R²=0.0359, F(HC3-adj) p=0.0327
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                              20.1298    12.7644    1.577   0.1148 
+  log_spend                              -1.7797     0.9583   -1.857   0.0633 *
+  log_bills                               1.3483     0.9798    1.376   0.1688 
+  katz_centrality                        50.1799    38.4808    1.304   0.1922 
+  participation_coeff                    -2.8270     4.7506   -0.595   0.5518 
+  -----------------------------------------------------------------------
+
+  Spec C (within-community): 280 firms with community labels
+
+  (C) wc_net_strength [116th]
+  N=280, R²=0.0526, adj-R²=0.0389, F(HC3-adj) p=0.0115
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               1.9253     0.8814    2.185   0.0289 **
+  log_spend                              -0.1492     0.0652   -2.287   0.0222 **
+  log_bills                              -0.0334     0.0720   -0.464   0.6426 
+  within_comm_eigenvector                 2.4364     1.6658    1.463   0.1436 
+  wc_pagerank                            -1.5981     4.7390   -0.337   0.7359 
+  -----------------------------------------------------------------------
+
+  Outcome descriptives [116th]:
+    net_influence         : n=293, mean=0.000, sd=17.966, p25=-5.000, p75=6.000
+    net_strength          : n=293, mean=0.000, sd=1.509, p25=-0.226, p75=0.556
+    wc_net_strength       : n=280, mean=-0.000, sd=1.297, p25=-0.224, p75=0.335
+
+[2–3/4] Congress: 117th
+  Merged dataset: 286 firms
+  Complete cases (all regressors): 246
+
+  --- 117th Congress ---
+
+  (B) net_strength [117th]
+  N=246, R²=0.0343, adj-R²=0.0182, F(HC3-adj) p=0.1635
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               1.6657     1.6928    0.984   0.3251 
+  log_spend                              -0.1377     0.1129   -1.219   0.2227 
+  log_bills                               0.0126     0.1246    0.101   0.9192 
+  katz_centrality                         5.6639     3.4169    1.658   0.0974 *
+  participation_coeff                    -0.0140     0.5139   -0.027   0.9783 
+  -----------------------------------------------------------------------
+
+  (B2) top_quartile net_strength [117th]
+  N=246, R²=0.1974, adj-R²=0.1841, F(HC3-adj) p=0.0000
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               1.2062     0.3661    3.295   0.0010 ***
+  log_spend                              -0.0893     0.0244   -3.666   0.0002 ***
+  log_bills                               0.1168     0.0289    4.043   0.0001 ***
+  katz_centrality                         0.8580     0.7736    1.109   0.2674 
+  participation_coeff                    -0.0894     0.1238   -0.722   0.4701 
+  -----------------------------------------------------------------------
+
+  (A) net_influence [117th]
+  N=246, R²=0.0442, adj-R²=0.0283, F(HC3-adj) p=0.1089
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               5.2917    17.1516    0.309   0.7577 
+  log_spend                              -0.7769     1.1428   -0.680   0.4966 
+  log_bills                               0.9097     1.2693    0.717   0.4735 
+  katz_centrality                        62.8842    33.0421    1.903   0.0570 *
+  participation_coeff                     1.1813     5.4474    0.217   0.8283 
+  -----------------------------------------------------------------------
+
+  Spec C (within-community): 246 firms with community labels
+
+  (C) wc_net_strength [117th]
+  N=246, R²=0.0305, adj-R²=0.0144, F(HC3-adj) p=0.0495
+  Variable                                  Coef  Robust SE        t        p
+  -----------------------------------------------------------------------
+  Intercept                               1.1664     1.1081    1.053   0.2925 
+  log_spend                              -0.0877     0.0766   -1.144   0.2525 
+  log_bills                              -0.0580     0.1149   -0.505   0.6137 
+  within_comm_eigenvector                 2.5105     2.9937    0.839   0.4017 
+  wc_pagerank                            -2.7947    19.8508   -0.141   0.8880 
+  -----------------------------------------------------------------------
+
+  Outcome descriptives [117th]:
+    net_influence         : n=286, mean=0.000, sd=16.849, p25=-5.000, p75=5.000
+    net_strength          : n=286, mean=-0.000, sd=1.686, p25=-0.305, p75=0.389
+    wc_net_strength       : n=246, mean=0.000, sd=1.336, p25=-0.075, p75=0.163
+
+[4/4] Regression results CSV → /sessions/peaceful-youthful-pascal/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/14_influencer_regression.csv
+
+  --- Interpretation summary ---
+
+  Covariates that consistently predict net_strength [primary, Spec B]:
+  [116th] net_strength: significant
+    · log_spend (β=-0.131, p=0.069)
+  [117th] net_strength: significant
+    · katz_centrality (β=5.664, p=0.097)
+
+  [Reference Spec A: net_influence]
+  [116th] net_influence: significant
+    · log_spend (β=-1.780, p=0.063)
+  [117th] net_influence: significant
+    · katz_centrality (β=62.884, p=0.057)
+
+  Validation complete.
+===========================================================================

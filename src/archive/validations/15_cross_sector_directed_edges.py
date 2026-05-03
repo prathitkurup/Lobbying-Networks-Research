@@ -55,9 +55,10 @@ PAIR_CSV  = OUT_DIR / "15_cross_sector_pair_matrix.csv"
 COMMUNITY_LABELS = {
     0: "Finance/Insurance",
     1: "Tech/Telecom",
-    2: "Defense/Industrial",
-    3: "Energy/Utilities",
+    2: "Energy/Utilities",
+    3: "Defense/Industrial",
     4: "Health/Pharma",
+    5: "Consumer/Manufacturing",
 }
 
 # ---------------------------------------------------------------------------

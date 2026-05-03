@@ -56,9 +56,10 @@ CSV_STAB  = OUT_DIR / "16_within_community_rank_stability.csv"
 COMMUNITY_LABELS = {
     0: "Finance/Insurance",
     1: "Tech/Telecom",
-    2: "Defense/Industrial",
-    3: "Energy/Utilities",
+    2: "Energy/Utilities",
+    3: "Defense/Industrial",
     4: "Health/Pharma",
+    5: "Consumer/Manufacturing",
 }
 
 CONGRESSES = [111, 112, 113, 114, 115, 116, 117]

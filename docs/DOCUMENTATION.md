@@ -115,13 +115,14 @@ All bill-level networks follow the same preprocessing sequence before building e
 
 **Two-stage filtering for cosine/RBO:** fracs are computed on *all* bills (stage 1), then mega-bills are excluded only for building ranked lists / similarity pairs (stage 2). This preserves economically correct frac denominators.
 
-### Bill Affiliation Network (`src/archive/networks/bill_affiliation_network.py`)
+### Bill Affiliation Network (`src/bill_affiliation_network.py`)
 
 - Deduplicates to presence/absence: `df.drop_duplicates(["fortune_name", "bill_number"])`.
 - Edge weight = `shared_bills(i,j)` (raw count) and `affil_norm = shared_bills / N_total_bills`.
 - Uses `affil_norm` as primary weight for community detection and GML export.
 - Canonical pair ordering throughout: `src, tgt = (a,b) if a < b else (b,a)`.
-- Outputs to `data/archive/network_edges/`, `data/archive/communities/`, `data/archive/centralities/`.
+- Outputs to `data/archive/network_edges/`, `data/archive/communities/`, `data/archive/centralities/`, `visualizations/gml/bill_affiliation_network.gml`.
+- Leiden detection at γ=1.0 yields 6 communities: Finance/Insurance (0), Tech/Telecom (1), Energy/Utilities (2), Defense/Industrial (3), Health/Pharma (4), Consumer/Manufacturing (5).
 
 ### RBO Similarity Network (`src/archive/networks/rbo_similarity_network.py`)
 
@@ -248,7 +249,7 @@ Edge columns: `source, target, weight, rbo, source_firsts, target_firsts, tie_co
 
 ### Enrichment (`src/enrich_directed_gml.py`)
 
-Reads `rbo_directed_influence.gml` and adds four node attributes in-place. **Requires `src/archive/networks/bill_affiliation_network.py` to have been run first** to produce `data/archive/communities/communities_affiliation.csv`.
+Reads `rbo_directed_influence.gml` and adds four node attributes in-place. **Requires `src/bill_affiliation_network.py` to have been run first** to produce `data/archive/communities/communities_affiliation.csv`.
 
 | Attribute | Source | Description |
 |---|---|---|
@@ -820,7 +821,7 @@ The following components were built as supporting analyses during earlier phases
 
 Six undirected similarity and affiliation networks were constructed to characterize co-lobbying structure from different angles and serve as structural inputs to the directed analysis. Their scripts live in `src/archive/networks/` and their data outputs in `data/archive/`.
 
-**Bill Affiliation Network** (`bill_affiliation_network.py`): Firms connected by shared bill lobbying (presence/absence). Used to produce the Leiden community partition (`data/archive/communities/communities_affiliation.csv`) and centrality table (`data/archive/centralities/centrality_affiliation.csv`) that feed into validations 13–16. Run this script to regenerate those archived files.
+**Bill Affiliation Network** (`src/bill_affiliation_network.py`): Firms connected by shared bill lobbying (presence/absence). Produces the Leiden community partition (6 communities; `data/archive/communities/communities_affiliation.csv`) and centrality table (`data/archive/centralities/centrality_affiliation.csv`) that feed into the enrichment step and validations 13–16. Included in `run_pipeline.sh` Phase 1 as step 01b.
 
 **RBO Similarity Network** (`rbo_similarity_network.py`): Undirected version of RBO agenda overlap; predated the directed influence network.
 

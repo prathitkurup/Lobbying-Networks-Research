@@ -1,10 +1,10 @@
 """
-[ARCHIVED] Supporting network: shared-bill affiliation between Fortune 500 firms.
+Supporting network: shared-bill affiliation between Fortune 500 firms.
 
 Outputs (archived): data/archive/network_edges/affiliation_edges.csv,
 data/archive/communities/communities_affiliation.csv,
 data/archive/centralities/centrality_affiliation.csv,
-visualizations/archive/undirected/bill_affiliation_network.gml
+visualizations/gml/bill_affiliation_network.gml
 """
 
 import sys
@@ -22,7 +22,7 @@ from utils.centrality import compute_community_centralities, print_community_cen
 from utils.community import detect_communities, print_community_summary, sweep_resolution
 
 ARCHIVE        = DATA_DIR / "archive"
-GML_PATH       = str(ROOT / "visualizations" / "archive" / "undirected" / "bill_affiliation_network.gml")
+GML_PATH       = str(ROOT / "visualizations" / "gml" / "bill_affiliation_network.gml")
 PNG_PATH       = str(ROOT / "visualizations" / "archive" / "undirected" / "bill_affiliation_network.png")
 
 TOP_K             = 20

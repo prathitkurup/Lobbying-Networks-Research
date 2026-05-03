@@ -215,6 +215,27 @@ communities at γ = 1.0 are too granular to interpret.
 
 ---
 
+## §6a — Community Structure Update: 5 → 6 Communities (2026-05-02)
+
+**Decision:** Re-run `bill_affiliation_network.py` with the finalized name mapping (`manual_opensecrets_name_mapping.json`), producing 281 firms in the affiliation network (up from 277). Leiden detection at γ=1.0 now yields 6 communities instead of 5. The 4 previously missing firms — Calpine, AK Steel Holding, Guardian Life Ins. Co. of America, Jones Financial (Edward Jones) — are now included.
+
+**New community mapping:**
+
+| ID | Label | Size | Notes |
+|----|-------|------|-------|
+| 0 | Finance/Insurance | 72 | Stable core |
+| 1 | Tech/Telecom | 55 | Stable core |
+| 2 | Energy/Utilities | 49 | Was ID 3; gained Calpine + Berkshire Hathaway |
+| 3 | Defense/Industrial | 46 | Was ID 2 |
+| 4 | Health/Pharma | 42 | Stable core (lost Aramark to Health/Pharma was 41→42) |
+| 5 | Consumer/Manufacturing | 17 | **NEW** — Coca-Cola, PepsiCo, Nike, Kellogg, Campbell Soup, International Paper, etc. |
+
+**Impact on analyses:** Community-independent results (Analyses 04, 05, 07 Part A/B/C, 08) are unchanged. Community-dependent results (Analyses 01, 03, 06) show expected shifts: Energy/Utilities retains the highest Kendall's W (0.446, unchanged); all other W values decreased slightly due to firm redistribution. Consumer/Manufacturing has only 2 firms stable across all 7 congresses, so Kendall's W cannot be computed. The overall narrative — Energy is the most hierarchically stable sector, Health/Pharma is the least — is preserved.
+
+**Scripts updated:** `COMMUNITY_LABELS` and `SECTOR_COLORS` dicts updated in `src/analysis/01_primary_directed_influence.py`, `src/analysis/03_industry_hierarchy.py`, and `src/archive/validations/15_cross_sector_directed_edges.py`, `16_industry_influencer_hierarchy.py`, `20_influence_stability_complementarity.py`, `gen_figs_13_19.py`. The `bill_affiliation_network.py` GML output path moved from `visualizations/archive/undirected/` to `visualizations/gml/`; V12 path updated accordingly.
+
+---
+
 ## §7 — Centrality Measures
 
 **Decision:** Compute four centrality measures, all used in validation analyses.
@@ -549,14 +570,14 @@ concentration vs. RBO weight curve comparison across p ∈ {0.70, 0.80, 0.85, 0.
 **Analyses implemented:**
 - `01_primary_directed_influence.py` — top-30 global agenda-setters (116th), agenda-setting vs. spend/portfolio comparison, within-community top-10 per sector, top-20 pair case studies
 - `02_mediation.py` — bill-level and network-level lobbyist mediation test (decisive vs. balanced pairs, χ²)
-- `03_industry_hierarchy.py` — within-community leaderboards for all 5 sectors across 111th–117th, Kendall's W, persistent leaders
+- `03_industry_hierarchy.py` — within-community leaderboards for all 6 sectors across 111th–117th, Kendall's W, persistent leaders
 - `04_cross_congressional.py` — Spearman correlation heatmap of net_strength for stable top-30 firms, RBO list similarity between consecutive sessions
 - `05_multi_congress.py` — Jaccard of top-N (10/20/30) firm sets between consecutive sessions, entry/exit transitions
 - `06_centrality_vs_agenda_setters.py` — Spearman ρ between centrality measures (global PageRank, Katz, WC eigenvector, participation coeff) and net_strength/wc_net_strength; top-30 ranked heatmap PNG
 - `07_strategic_complementarity.py` — Part A: BCZ payoff complementarity regression (116th); Part B: direction persistence by RBO quartile (111th–117th)
 - `08_bill_adoption_cascading.py` — bill adoption diffusion: candidate (A, B, bill) set, adoption rates by RBO quartile and horizon Q+1/2/3, LPM regression, cascade case studies
 
-**Key findings:** See `outputs/analysis/` for full results. Highlights: DTE Energy #1 global agenda-setter (ns=5.843), ρ(ns,spend)=−0.14; mediation rate 0.21% (not driven by shared lobbyists); Energy/Utilities most stable sector (W=0.446); no firm in global top-30 all 7 sessions; BCZ complementarity confirmed for high-RBO pairs (β₃=+0.147, p=0.003); bill adoption 1.75× higher for high-RBO followers at Q+1.
+**Key findings:** See `outputs/analysis/` for full results. Highlights: DTE Energy #1 global agenda-setter (ns=5.843), ρ(ns,spend)=−0.14; mediation rate 0.21% (not driven by shared lobbyists); Energy/Utilities most stable sector (W=0.446); no firm in global top-30 all 7 sessions; BCZ complementarity confirmed for high-RBO pairs (β₃=+0.147, p=0.003); bill adoption 1.75× higher for high-RBO followers at Q+1. Leiden community detection on the bill affiliation network produces 6 communities (see §6a).
 
 **Output directory:** `outputs/analysis/` — all CSVs, TXT summaries, and two PNG heatmaps (04, 06).
 
@@ -1144,7 +1165,7 @@ Webber, W., Moffat, A., & Zobel, J. (2010). A similarity measure for indefinite
 - **net_strength**: RBO-weighted directed score (out-strength minus in-strength on directed edges).
 - **Within-community net_influence/net_strength**: restricted to directed edges where both endpoints share the same affiliation community label. Computed in the validation script from `data/congress/116/rbo_directed_influence.csv`.
 
-**Community labels:** Stored affiliation Leiden partition (`communities_affiliation.csv`) reused throughout; 5 communities. No re-detection.
+**Community labels:** Stored affiliation Leiden partition (`communities_affiliation.csv`) reused throughout; 6 communities (see §6a). No re-detection.
 
 **Comparisons:** Full-sample Spearman ρ and restricted top-30 Spearman ρ for every centrality–agenda measure pair. Top-30 overlap fraction (Jaccard of top-30 sets). The within-community centrality measures are also correlated with within-community agenda-setter measures.
 

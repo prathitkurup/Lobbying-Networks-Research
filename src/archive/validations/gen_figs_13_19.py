@@ -225,10 +225,12 @@ def fig15():
 # ─────────────────────────────────────────────
 
 def fig16():
-    communities  = ["Finance/Ins", "Tech/Telecom", "Defense/Ind", "Energy/Utils", "Health/Pharma"]
-    W_values     = [0.284, 0.431, 0.367, 0.553, 0.146]
-    p_values_str = ["0.002", "<0.0001", "0.0001", "<0.0001", "0.428"]
-    p_float      = [0.002, 0.00001, 0.0001, 0.00001, 0.428]
+    # NOTE: W-values below are placeholders from old 5-community run.
+    # Re-run Analysis 03 to get updated values for 6 communities.
+    communities  = ["Finance/Ins", "Tech/Telecom", "Energy/Utils", "Defense/Ind", "Health/Pharma", "Consumer/Mfg"]
+    W_values     = [0.284, 0.431, 0.553, 0.367, 0.146, 0.0]
+    p_values_str = ["0.002", "<0.0001", "<0.0001", "0.0001", "0.428", "1.0"]
+    p_float      = [0.002, 0.00001, 0.00001, 0.0001, 0.428, 1.0]
 
     def bar_color(p):
         if p < 0.001:  return "#2196F3"

@@ -54,7 +54,7 @@ from config import DATA_DIR, ROOT
 CONGRESS_DIR  = DATA_DIR / "congress"
 FIGURES_DIR   = ROOT / "outputs" / "validation" / "figures"
 OUTPUT_PATH   = ROOT / "outputs" / "validation" / "12_congress_statistics.txt"
-BILL_AFF_GML  = ROOT / "visualizations" / "archive" / "undirected" / "bill_affiliation_network.gml"
+BILL_AFF_GML  = ROOT / "visualizations" / "gml" / "bill_affiliation_network.gml"
 RBO_GML       = ROOT / "visualizations" / "gml" / "rbo_directed_influence.gml"
 
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)

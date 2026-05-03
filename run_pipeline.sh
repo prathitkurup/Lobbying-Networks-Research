@@ -54,6 +54,7 @@ hr
 
 cd "$SRC"
 run_script "01_extraction"         "opensecrets_extraction.py"
+run_script "01b_bill_affiliation"  "bill_affiliation_network.py"
 run_script "02_rbo_directed"       "rbo_directed_influence.py"
 run_script "03_mediated_adoption"  "affiliation_mediated_adoption.py"
 run_script "04_viz_mediation"      "visualize_affiliation_mediation.py"

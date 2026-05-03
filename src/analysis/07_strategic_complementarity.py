@@ -22,13 +22,21 @@ Three complementary tests:
     max(n_leads, n_follows) / n_sessions.  Score ∈ [0.5, 1.0] where
     1.0 = same firm always leads, 0.5 = coin-flip.  Mean ≈ 0.77, median = 0.75.
 
+  Part D — Robustness: lagged (115th Congress) RBO (116th Congress spend):
+    Replaces contemporaneous 116th Congress RBO with predetermined 115th Congress
+    RBO throughout — both as the continuous regressor and for quartile splits.
+    Breaks simultaneity between the RBO measure and regression outcomes.
+    Three specs mirror Part A (full, high-RBO ≥p75, low-RBO <p25).
+
 Outputs (outputs/analysis/):
   07_complementarity_regression.csv
+  07_complementarity_regression_partd.csv
   07_persistence_summary.csv
   07_direction_consistency.csv
   07_strategic_complementarity.txt
   07_persistence_bar.png
   07_consistency_hist.png
+  07_robustness_coef_plot.png
 """
 
 import sys
@@ -57,7 +65,8 @@ CONGRESS    = 116
 CONGRESSES  = [111, 112, 113, 114, 115, 116, 117]
 HIGH_RBO_Q  = 75   # top-quartile for Spec B
 LOW_RBO_Q   = 25   # bottom-quartile for Spec C
-MAX_Q       = 8    # quarters in 116th Congress
+MAX_Q        = 8    # quarters in 116th Congress
+CONGRESS_LAG = 115  # lagged congress for Part D robustness (predetermined RBO)
 
 OUT_DIR = ROOT / "outputs" / "analysis"
 
@@ -106,8 +115,9 @@ def plot_persistence_bar(pers_df, out_dir):
     ax.set_xticklabels(pairs, rotation=20, ha="right", fontsize=9)
     ax.set_ylabel("Direction Persistence Rate", fontsize=11)
     ax.set_title("Direction Persistence: High-RBO vs Low-RBO Pairs\n"
-                 "111th–117th Congress  (* p<0.05, ** p<0.01, *** p<0.001, Fisher exact)",
-                 fontsize=11)
+                 "111th–117th Congress | Denominator: pairs decisive in both sessions"
+                 "  (* p<0.05, ** p<0.01, *** p<0.001, Fisher exact)",
+                 fontsize=10)
     ax.legend(fontsize=9, framealpha=0.85)
     ax.grid(axis="y", alpha=0.25, linestyle="--")
     ax.spines["top"].set_visible(False)
@@ -148,6 +158,100 @@ def plot_consistency_hist(cons_df, out_dir):
     ax.spines["right"].set_visible(False)
     fig.tight_layout()
     fig.savefig(out_dir / "07_consistency_hist.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+
+def plot_robustness_coef(reg_a_df, reg_d_df, out_dir):
+    """Coefficient forest plot comparing β₃ across Part A (contemporaneous) and Part D (lagged) specs."""
+    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10})
+
+    groups  = ["Full sample", "High-RBO (≥p75)", "Low-RBO (<p25)"]
+    x       = np.arange(len(groups))
+    YLIM    = (-0.55, 0.55)   # clip axis; extreme low-RBO points annotated separately
+    W       = 0.18            # horizontal jitter between Part A and Part D markers
+
+    def safe(df, row, col):
+        """Return df.iloc[row][col] or NaN if row is out of bounds."""
+        return df.iloc[row][col] if row < len(df) else np.nan
+
+    # Extract β₃, SE, p-value for each spec group
+    a = {k: [safe(reg_a_df, i, k) for i in range(3)]
+         for k in ("coef_entry_x_rbo", "se_entry_x_rbo", "p_entry_x_rbo")}
+    d = {k: [safe(reg_d_df, i, k) for i in range(3)]
+         for k in ("coef_entry_x_rbo", "se_entry_x_rbo", "p_entry_x_rbo")}
+
+    a_ci = [1.96 * s if not np.isnan(s) else np.nan for s in a["se_entry_x_rbo"]]
+    d_ci = [1.96 * s if not np.isnan(s) else np.nan for s in d["se_entry_x_rbo"]]
+
+    # Clip to YLIM; track which points are out of range for annotation
+    def clip_for_plot(coef, ci):
+        """Return (plot_coef, plot_ci, clipped) — clipped=True when outside YLIM."""
+        if np.isnan(coef):
+            return coef, ci, False
+        lo, hi  = YLIM
+        raw_top = coef + ci if not np.isnan(ci) else coef
+        raw_bot = coef - ci if not np.isnan(ci) else coef
+        clipped = raw_top > hi or raw_bot < lo
+        c_coef  = max(lo + 0.02, min(hi - 0.02, coef))
+        c_ci    = min(ci, (hi - lo) / 2 - 0.04) if not np.isnan(ci) else ci
+        return c_coef, c_ci, clipped
+
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+
+    colors = {"A": "#C44E52", "D": "#4C72B0"}
+    fmts   = {"A": "o",       "D": "s"}
+
+    for tag, coefs, cis, ps, off in [
+        ("A", a["coef_entry_x_rbo"], a_ci, a["p_entry_x_rbo"], -W),
+        ("D", d["coef_entry_x_rbo"], d_ci, d["p_entry_x_rbo"], +W),
+    ]:
+        c_coefs, c_cis, clipped_flags = zip(*[clip_for_plot(c, e) for c, e in zip(coefs, cis)])
+
+        ax.errorbar(x + off, c_coefs, yerr=c_cis,
+                    fmt=fmts[tag], capsize=5, color=colors[tag],
+                    label=("Contemporaneous RBO (Part A)" if tag == "A"
+                           else "Lagged 115th Congress RBO (Part D)"),
+                    markersize=8, linewidth=1.5, capthick=1.5, zorder=3)
+
+        # Out-of-range markers and annotations
+        for xi, (raw_c, raw_ci, clipped) in enumerate(
+            zip(coefs, cis, clipped_flags)
+        ):
+            if clipped and not np.isnan(raw_c):
+                direction = "▼" if raw_c < YLIM[0] else "▲"
+                ax.text(xi + off, YLIM[1] - 0.04 if raw_c > 0 else YLIM[0] + 0.04,
+                        f"{direction} β₃={raw_c:.2f}", ha="center", va="center",
+                        fontsize=7.5, color=colors[tag], fontweight="bold")
+
+        # Significance stars (on non-clipped points only)
+        for xi, (c, ci, p, clipped) in enumerate(zip(c_coefs, c_cis, ps, clipped_flags)):
+            if not clipped and not np.isnan(p) and p < 0.05:
+                stars = "***" if p < 0.001 else "**" if p < 0.01 else "*"
+                ypos  = c + (ci if not np.isnan(ci) else 0) + 0.03
+                if ypos < YLIM[1] - 0.05:
+                    ax.text(xi + off, ypos, stars, ha="center", va="bottom",
+                            fontsize=11, color=colors[tag], fontweight="bold")
+
+    ax.axhline(0, color="#888888", linewidth=1.2, linestyle="--", alpha=0.7, zorder=1)
+    ax.set_ylim(YLIM)
+    ax.set_xticks(x)
+    ax.set_xticklabels(groups, fontsize=11)
+    ax.set_ylabel("β₃  (entry_j × RBO interaction)", fontsize=11)
+    ax.set_title(
+        "Strategic Complementarity Robustness — β₃ Across Specifications\n"
+        "Contemporaneous RBO (Part A) vs Lagged 115th Congress RBO (Part D) | "
+        "Error bars: 95% CI  |  * p<0.05  ** p<0.01  *** p<0.001",
+        fontsize=9.5
+    )
+    ax.legend(fontsize=9, framealpha=0.85, loc="upper right")
+    ax.grid(axis="y", alpha=0.20, linestyle="--")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.annotate("▲/▼ = estimate outside axis range",
+                xy=(0.01, 0.02), xycoords="axes fraction",
+                fontsize=8, color="#666666", fontstyle="italic")
+    fig.tight_layout()
+    fig.savefig(out_dir / "07_robustness_coef_plot.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -307,7 +411,10 @@ def run_part_a():
 # ---------------------------------------------------------------------------
 
 def run_part_b():
-    """Test whether high-RBO pairs persist in direction more across sessions."""
+    """Test whether high-RBO pairs persist in direction more across sessions.
+    Denominator restricted to pairs decisive (net_temporal ≠ 0) in both sessions,
+    giving a clean persist-vs-reverse comparison rather than persist-vs-(reverse+undecisive).
+    """
     persistence_rows = []
 
     for i in range(len(CONGRESSES) - 1):
@@ -337,14 +444,17 @@ def run_part_b():
         merged = dec_i.join(lookup, on=["source", "target"], how="left")
         merged["persists"] = (merged["nt_n1"] > 0).astype("Int8")
 
-        # RBO quartile split
+        # RBO quartile split (on full decisive set for stable quartile boundaries)
         merged["rbo_quartile"] = pd.qcut(
             merged["rbo_n"], q=4, labels=["Q1 (low)", "Q2", "Q3", "Q4 (high)"]
         )
 
-        # Fisher's exact: Q4 vs Q1 × persists
-        high = merged[merged["rbo_quartile"] == "Q4 (high)"].dropna(subset=["nt_n1"])
-        low  = merged[merged["rbo_quartile"] == "Q1 (low)"].dropna(subset=["nt_n1"])
+        # Restrict Fisher test to pairs decisive (net_temporal ≠ 0) in BOTH sessions.
+        # This excludes pairs that reappear but become undecisive, giving a clean
+        # persist-vs-reverse comparison rather than persist-vs-(reverse+undecisive).
+        decisive_mask = merged["nt_n1"].notna() & (merged["nt_n1"] != 0)
+        high = merged[(merged["rbo_quartile"] == "Q4 (high)") & decisive_mask]
+        low  = merged[(merged["rbo_quartile"] == "Q1 (low)")  & decisive_mask]
 
         if len(high) < 3 or len(low) < 3:
             continue
@@ -355,24 +465,28 @@ def run_part_b():
         ])
         _, p_fisher = fisher_exact(ct, alternative="greater")
 
-        n_dec   = len(merged)
-        n_in_nj = int(merged["nt_n1"].notna().sum())
-        n_pers  = int(merged["persists"].sum(skipna=True))
+        n_dec           = len(merged)
+        n_in_nj         = int(merged["nt_n1"].notna().sum())         # reappear (any direction)
+        n_decisive_both = int(decisive_mask.sum())                   # decisive in both sessions
+        n_pers          = int(merged["persists"].sum(skipna=True))   # direction maintained
 
-        print(f"  {ci}→{cj}:  decisive={n_dec:,}  in_next={n_in_nj:,}  "
-              f"persist={n_pers:,}  "
-              f"({100*n_pers/max(n_in_nj,1):.1f}%)  |  "
+        print(f"  {ci}→{cj}:  decisive={n_dec:,}  reappear={n_in_nj:,}  "
+              f"decisive_both={n_decisive_both:,}  persist={n_pers:,}  "
+              f"({100*n_pers/max(n_decisive_both,1):.1f}%)  |  "
               f"High-RBO persist: {high['persists'].mean():.3f}  "
               f"Low-RBO persist: {low['persists'].mean():.3f}  "
               f"Fisher p={p_fisher:.4f}")
 
         persistence_rows.append({
-            "pair": f"{ci}->{cj}",
-            "n_decisive": n_dec, "n_in_next": n_in_nj, "n_persist": n_pers,
-            "persist_rate": round(n_pers / max(n_in_nj, 1), 4),
+            "pair":                 f"{ci}->{cj}",
+            "n_decisive":           n_dec,
+            "n_reappear":           n_in_nj,
+            "n_decisive_both":      n_decisive_both,
+            "n_persist":            n_pers,
+            "persist_rate":         round(n_pers / max(n_decisive_both, 1), 4),
             "high_rbo_persist_rate": round(float(high["persists"].mean(skipna=True)), 4),
             "low_rbo_persist_rate":  round(float(low["persists"].mean(skipna=True)), 4),
-            "fisher_p": round(p_fisher, 5),
+            "fisher_p":             round(p_fisher, 5),
         })
 
     return pd.DataFrame(persistence_rows)
@@ -442,6 +556,71 @@ def run_part_c():
 
 
 # ---------------------------------------------------------------------------
+# Part D: Robustness — lagged (115th Congress) RBO
+# ---------------------------------------------------------------------------
+
+def run_part_d():
+    """
+    Robustness check for Part A: replaces contemporaneous 116th Congress RBO with
+    predetermined 115th Congress RBO throughout — both as the continuous regressor
+    and for quartile splits.  Pairs with no 115th RBO record are excluded.
+    """
+    df_raw  = pd.read_csv(DATA_DIR / f"congress/{CONGRESS}/opensecrets_lda_reports.csv")
+    df_raw  = assign_quarters(df_raw)
+    rbo_lag = pd.read_csv(DATA_DIR / f"congress/{CONGRESS_LAG}/rbo_directed_influence.csv")
+
+    panel            = build_spend_panel(df_raw)
+    panel_with_entry = tag_entry_events(panel)
+    delta_df         = build_delta_log_spend(panel)
+    rbo_sym          = build_rbo_lookup(rbo_lag)          # 115th Congress RBO
+    main_panel       = build_regression_panel(delta_df, panel_with_entry, rbo_sym)
+
+    rbo_q75 = np.percentile(main_panel["rbo_ij"], HIGH_RBO_Q)
+    rbo_q25 = np.percentile(main_panel["rbo_ij"], LOW_RBO_Q)
+
+    print(f"\n  Spend data: 116th Congress  |  RBO: {CONGRESS_LAG}th Congress (lagged)")
+    print(f"  Panel: {len(main_panel):,} obs  "
+          f"| {main_panel['firm_i'].nunique()} firm_i  "
+          f"| {main_panel['firm_bill'].nunique()} firm-bill groups")
+    print(f"  (Part A: 134,388 obs; {134388 - len(main_panel):,} dropped — no {CONGRESS_LAG}th RBO record)")
+    print(f"  Lagged RBO p25={rbo_q25:.4f}  p75={rbo_q75:.4f}")
+
+    results = []
+    specs   = [
+        ("D — full (lagged RBO)",      main_panel),
+        ("E — high-RBO lag (≥p75)",    main_panel[main_panel["rbo_ij"] >= rbo_q75].copy()),
+        ("F — low-RBO lag (<p25)",     main_panel[main_panel["rbo_ij"] <  rbo_q25].copy()),
+    ]
+
+    print(f"\n  {'Spec':<28} {'N':>8} {'β₁(entry)':>12} {'β₃(inter)':>12} "
+          f"{'SE(β₃)':>10} {'p(β₃)':>10} {'Interp'}")
+    print(f"  {'─'*94}")
+    for label, df_spec in specs:
+        if len(df_spec) < 50:
+            print(f"  {label:<28} (insufficient obs — skipped)")
+            continue
+        res, n = run_ols_spec(df_spec, label)
+        b1  = res.params.get("entry_j_dm", np.nan)
+        b3  = res.params.get("entry_x_rbo_dm", np.nan)
+        se3 = res.bse.get("entry_x_rbo_dm", np.nan)
+        p3  = res.pvalues.get("entry_x_rbo_dm", np.nan)
+        stars  = "***" if p3 < 0.001 else "**" if p3 < 0.01 else "*" if p3 < 0.05 else ""
+        interp = ("complementarity" if b3 > 0 and p3 < 0.05
+                  else "ns" if p3 >= 0.05 else "negative")
+        print(f"  {label:<28} {n:>8,} {float(b1):>12.4f} {float(b3):>12.4f} "
+              f"{float(se3):>10.4f} {float(p3):>10.4f}{stars}  {interp}")
+        results.append({
+            "spec": label, "n": n,
+            "coef_entry_j":      round(float(b1),  5),
+            "coef_entry_x_rbo":  round(float(b3),  5),
+            "se_entry_x_rbo":    round(float(se3), 5),
+            "p_entry_x_rbo":     round(float(p3),  5),
+            "r2":                round(res.rsquared, 5),
+        })
+    return pd.DataFrame(results)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -467,8 +646,26 @@ def main():
   co-lobbyist's entry when the pair has higher RBO similarity (BCZ-style
   strategic complementarity).
 """)
-    reg_df = run_part_a()
-    reg_df.to_csv(OUT_DIR / "07_complementarity_regression.csv", index=False)
+    reg_a_df = run_part_a()
+    reg_a_df.to_csv(OUT_DIR / "07_complementarity_regression.csv", index=False)
+
+    # -- Part D ----------------------------------------------------------
+    print(f"\n{'─'*70}")
+    print("PART D: ROBUSTNESS — LAGGED 115th CONGRESS RBO (116th Congress spend)")
+    print(f"{'─'*70}")
+    print(f"""
+  Same BCZ specification as Part A, but rbo_ij is sourced from the {CONGRESS_LAG}th
+  Congress (predetermined before the 116th Congress spending decisions).
+  This breaks the simultaneity between the RBO measure and the outcome,
+  addressing the concern that high-RBO selection was defined on the same
+  data as the regression.  Pairs with no {CONGRESS_LAG}th RBO record are excluded.
+""")
+    reg_d_df = run_part_d()
+    reg_d_df.to_csv(OUT_DIR / "07_complementarity_regression_partd.csv", index=False)
+
+    # Robustness coefficient plot — compare Part A vs Part D β₃ side by side
+    if not reg_a_df.empty and not reg_d_df.empty:
+        plot_robustness_coef(reg_a_df, reg_d_df, OUT_DIR)
 
     # -- Part B ----------------------------------------------------------
     print(f"\n{'─'*70}")
@@ -478,6 +675,8 @@ def main():
   For each consecutive congress pair, decisive pairs (A leads B in session N)
   are split by RBO quartile. Fisher's exact test (one-sided):
   H1: high-RBO pairs (Q4) persist significantly more than low-RBO pairs (Q1).
+  Denominator: pairs decisive (net_temporal ≠ 0) in BOTH sessions — pure
+  persist-vs-reverse comparison, excluding pairs that become undecisive.
 """)
     pers_df = run_part_b()
 
@@ -504,7 +703,7 @@ def main():
   1.0 = same firm always leads; 0.5 = coin-flip.
   This differs from Part B: it asks whether direction is stable across all
   sessions a pair co-occurs, not just between consecutive session pairs.
-  (Part B: ~33% of decisive pairs survive into the next specific session;
+  (Part B: among pairs decisive in both sessions, ~50–60% maintain direction;
    Part C: among pairs with ≥2 appearances, direction is consistent 77% of the time.)
 """)
     cons_df = run_part_c()
@@ -514,11 +713,13 @@ def main():
 
     print(f"\n  Outputs:")
     print(f"    07_complementarity_regression.csv")
+    print(f"    07_complementarity_regression_partd.csv")
     print(f"    07_persistence_summary.csv")
     print(f"    07_direction_consistency.csv")
     print(f"    07_strategic_complementarity.txt")
     print(f"    07_persistence_bar.png")
     print(f"    07_consistency_hist.png")
+    print(f"    07_robustness_coef_plot.png")
     print(f"\n{SEP}")
     print("Analysis complete.")
 

@@ -1,0 +1,173 @@
+========================================================================
+VALIDATION 15: CROSS-SECTOR DIRECTED EDGE ANALYSIS (116th CONGRESS)
+========================================================================
+
+Community labels (Leiden, affiliation network):
+  0: Finance/Insurance
+  1: Tech/Telecom
+  2: Energy/Utilities
+  3: Defense/Industrial
+  4: Health/Pharma
+  5: Consumer/Manufacturing
+
+[1/6] Loading data ...
+      Directed edges with community labels: 1890
+      Cross-sector: 834 (44.1%)
+      Intra-sector: 1056 (55.9%)
+
+[2/6] Analysis 1: Edge-level distributions (cross vs. intra-sector)
+
+  weight:
+    Cross-sector  — mean=0.02967,  median=0.00715
+    Intra-sector  — mean=0.05960, median=0.02968
+    Mann-Whitney U=276206.0, p=3.9639e-44
+    → Cross-sector weight is lower (significant)
+
+  net_temporal:
+    Cross-sector  — mean=1.27698,  median=1.00000
+    Intra-sector  — mean=1.63068, median=1.00000
+    Mann-Whitney U=358732.5, p=1.2088e-17
+    → Cross-sector net_temporal is lower (significant)
+
+[3/6] Analysis 2: Community-pair flow matrix
+
+  Directed edge counts by community pair (rows=source, cols=target):
+tgt_label               Consumer/Manufacturing  Defense/Industrial  Energy/Utilities  Finance/Insurance  Health/Pharma  Tech/Telecom
+src_label                                                                                                                           
+Consumer/Manufacturing                       7                  10                 4                  4              1            10
+Defense/Industrial                          13                 166                98                 35             61            70
+Energy/Utilities                            14                  62               276                 21             19            42
+Finance/Insurance                            8                  29                22                265             14            42
+Health/Pharma                                3                  20                24                 32            159            17
+Tech/Telecom                                 6                  44                26                 59             24           183
+
+  Mean RBO weight by community pair (rows=source, cols=target):
+tgt_label               Consumer/Manufacturing  Defense/Industrial  Energy/Utilities  Finance/Insurance  Health/Pharma  Tech/Telecom
+src_label                                                                                                                           
+Consumer/Manufacturing                  0.1669              0.0589            0.0541             0.0163         0.1229        0.1481
+Defense/Industrial                      0.0435              0.0432            0.0195             0.0309         0.0193        0.0467
+Energy/Utilities                        0.0124              0.0304            0.0535             0.0234         0.0218        0.0184
+Finance/Insurance                       0.0166              0.0132            0.0413             0.0610         0.0166        0.0145
+Health/Pharma                           0.0017              0.0482            0.0393             0.0390         0.0612        0.0275
+Tech/Telecom                            0.0007              0.0361            0.0299             0.0326         0.0145        0.0762
+
+  Net directional flow between community pairs (positive = row dominates):
+  Community A               Community B                  A→B    B→A  Net (A-B) Dominant
+  ------------------------------------------------------------------------------------------
+  Defense/Industrial        Health/Pharma                 61     20         41 Defense/Industrial
+  Energy/Utilities          Consumer/Manufacturing        14      4         10 Energy/Utilities
+  Tech/Telecom              Health/Pharma                 24     17          7 Tech/Telecom
+  Finance/Insurance         Consumer/Manufacturing         8      4          4 Finance/Insurance
+  Defense/Industrial        Consumer/Manufacturing        13     10          3 Defense/Industrial
+  Health/Pharma             Consumer/Manufacturing         3      1          2 Health/Pharma
+  Finance/Insurance         Energy/Utilities              22     21          1 Finance/Insurance
+  Tech/Telecom              Consumer/Manufacturing         6     10         -4 Consumer/Manufacturing
+  Energy/Utilities          Health/Pharma                 19     24         -5 Health/Pharma
+  Finance/Insurance         Defense/Industrial            29     35         -6 Defense/Industrial
+  Tech/Telecom              Energy/Utilities              26     42        -16 Energy/Utilities
+  Finance/Insurance         Tech/Telecom                  42     59        -17 Tech/Telecom
+  Finance/Insurance         Health/Pharma                 14     32        -18 Health/Pharma
+  Tech/Telecom              Defense/Industrial            44     70        -26 Defense/Industrial
+  Energy/Utilities          Defense/Industrial            62     98        -36 Defense/Industrial
+
+[4/6] Analysis 3: Firm-level cross-sector influence
+
+  Top 15 cross-sector agenda-setters (net_cs_influence):
+  Firm                                       Sector                  CS-NI    CS-NS     NI  CSout  CSin
+  ----------------------------------------------------------------------------------------------------
+  CUMMINS                                    Defense/Industrial         48    4.867     58     34     3
+  IBM                                        Tech/Telecom               20    0.387     48     20     2
+  FORD                                       Finance/Insurance          20    1.346     27     13     0
+  3M                                         Defense/Industrial         17    0.145     21     20     8
+  LOCKHEED MARTIN                            Defense/Industrial         17    0.279     27     12     0
+  BALL                                       Defense/Industrial         16    0.299     44     14     1
+  GUARDIAN LIFE INS. CO. OF AMERICA          Finance/Insurance          15    0.277     12     14     1
+  LEIDOS HOLDINGS                            Defense/Industrial         15    0.130     34     11     1
+  VERIZON                                    Tech/Telecom               15    0.321     21     11     1
+  UNION PACIFIC                              Defense/Industrial         14    0.124     10     13     3
+  EXXONMOBIL                                 Energy/Utilities           13    0.212     44      9     2
+  AMERICAN FAMILY INSURANCE GROUP            Finance/Insurance          13    0.346     30     10     0
+  PRINCIPAL FINANCIAL                        Finance/Insurance          12    0.161     25     12     5
+  GENERAL DYNAMICS                           Defense/Industrial         12    0.319     27      9     0
+  BOEING                                     Defense/Industrial         12    0.135     13     13     1
+
+  Top 10 cross-sector followers (most negative net_cs_influence):
+  Firm                                       Sector                  CS-NI     NI
+  --------------------------------------------------------------------------------
+  MUTUAL OF OMAHA INSURANCE                  Finance/Insurance         -89   -115
+  GILEAD SCIENCES                            Health/Pharma             -51    -56
+  CORNING                                    Defense/Industrial        -34    -79
+  DELL TECHNOLOGIES                          Tech/Telecom              -24    -19
+  COCA-COLA                                  Consumer/Manufacturing    -18    -25
+  CAPITAL ONE FINANCIAL                      Finance/Insurance         -17    -22
+  CHS                                        Finance/Insurance         -16    -31
+  INTERNATIONAL PAPER                        Consumer/Manufacturing    -16    -16
+  HOME DEPOT                                 Tech/Telecom              -16    -27
+  SOUTHERN                                   Energy/Utilities          -16    -11
+
+  Mean net_cs_influence by community:
+    Consumer/Manufacturing: n=13, mean CS-NI= -1.15, mean CS-NS=+0.2461, pct_positive=69.2%
+    Defense/Industrial    : n=39, mean CS-NI= +3.85, mean CS-NS=+0.0679, pct_positive=64.1%
+    Energy/Utilities      : n=37, mean CS-NI= -0.43, mean CS-NS=+0.0217, pct_positive=45.9%
+    Finance/Insurance     : n=35, mean CS-NI= -2.23, mean CS-NS=-0.1799, pct_positive=45.7%
+    Health/Pharma         : n=31, mean CS-NI= -0.03, mean CS-NS=+0.1430, pct_positive=51.6%
+    Tech/Telecom          : n=37, mean CS-NI= -1.08, mean CS-NS=-0.1293, pct_positive=43.2%
+
+[5/6] Analysis 4: Bridge firms (highest cross-sector edge fraction)
+
+  Top 15 bridge firms by cross-sector edge fraction:
+  Firm                                       Sector                  CS-frac  CS-NI     NI
+  ------------------------------------------------------------------------------------------
+  ARTHUR J. GALLAGHER                        Energy/Utilities          1.000     -1     -1
+  DISCOVER FINANCIAL SERVICES                Finance/Insurance         1.000      1      1
+  INTERNATIONAL PAPER                        Consumer/Manufacturing    1.000    -16    -16
+  LIBERTY MEDIA                              Tech/Telecom              1.000      1      1
+  MOLSON COORS BEVERAGE                      Consumer/Manufacturing    1.000     -3     -3
+  NAVIENT                                    Finance/Insurance         1.000     -1     -1
+  NIKE                                       Consumer/Manufacturing    1.000      1      1
+  PUBLIX SUPER MARKETS                       Finance/Insurance         1.000     -1     -1
+  SYSCO                                      Consumer/Manufacturing    1.000      2      2
+  KELLOGG                                    Consumer/Manufacturing    1.000      0      0
+  WINDSTREAM HOLDINGS                        Tech/Telecom              1.000      1      1
+  WHIRLPOOL                                  Energy/Utilities          1.000     -1     -1
+  ILLINOIS TOOL WORKS                        Consumer/Manufacturing    0.917      6      9
+  PEPSICO                                    Consumer/Manufacturing    0.889      2      0
+  COGNIZANT TECHNOLOGY SOLUTIONS             Defense/Industrial        0.875     12     13
+
+[6/6] Analysis 5: Issue profiles of top cross-sector directed dyads
+
+  Top 10 cross-sector dyads by net_temporal:
+  Source                         Target                         Src-Sect               Tgt-Sect                 NT     RBO  CosSim
+  -----------------------------------------------------------------------------------------------------------------------------
+  BLACKSTONE GROUP               MUTUAL OF OMAHA INSURANCE      Health/Pharma          Finance/Insurance         7  0.0010  0.1693
+  HCA HEALTHCARE                 MUTUAL OF OMAHA INSURANCE      Health/Pharma          Finance/Insurance         6  0.0010  0.0972
+  BERKSHIRE HATHAWAY             CSX                            Energy/Utilities       Defense/Industrial        5  0.4226  0.4975
+  CIGNA                          MUTUAL OF OMAHA INSURANCE      Health/Pharma          Finance/Insurance         5  0.0127  0.2591
+  CVS HEALTH                     MUTUAL OF OMAHA INSURANCE      Health/Pharma          Finance/Insurance         5  0.0357  0.4841
+  CENTENE                        MUTUAL OF OMAHA INSURANCE      Health/Pharma          Finance/Insurance         4  0.2099  0.3146
+  DELTA AIR LINES                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0292  0.3183
+  EXXONMOBIL                     GENERAL ELECTRIC               Energy/Utilities       Defense/Industrial        4  0.0017  0.4557
+  GENERAL DYNAMICS               GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0408  0.1453
+  LEIDOS HOLDINGS                GILEAD SCIENCES                Defense/Industrial     Health/Pharma             4  0.0178  0.4053
+
+  Issue code profiles for top cross-sector dyads:
+  Source → Target                                         Src top-3 issues          Tgt top-3 issues          Shared
+  -----------------------------------------------------------------------------------------------------------------------------
+  BLACKSTONE GROUP → MUTUAL OF OMAHA INSURANCE            FIN, HCR, TAX             RET, SCI, INS             none
+  HCA HEALTHCARE → MUTUAL OF OMAHA INSURANCE              HCR, MMM, COM             RET, SCI, INS             none
+  BERKSHIRE HATHAWAY → CSX                                TRA, TAX, BUD             ENV, GOV, INT             none
+  CIGNA → MUTUAL OF OMAHA INSURANCE                       DEF, PHA, HCR             RET, SCI, INS             none
+  CVS HEALTH → MUTUAL OF OMAHA INSURANCE                  HCR, INS, MMM             RET, SCI, INS             INS
+  CENTENE → MUTUAL OF OMAHA INSURANCE                     MMM, HCR, DEF             RET, SCI, INS             none
+  DELTA AIR LINES → GILEAD SCIENCES                       AVI, BUD, CSP             BUD, CPT, HCR             BUD
+  EXXONMOBIL → GENERAL ELECTRIC                           CHM, ENG, ENV             DEF, HCR, BUD             none
+  GENERAL DYNAMICS → GILEAD SCIENCES                      AER, BUD, DEF             BUD, CPT, HCR             BUD
+  LEIDOS HOLDINGS → GILEAD SCIENCES                       DEF, BUD, HOM             BUD, CPT, HCR             BUD
+
+  Edge table    → /sessions/peaceful-youthful-pascal/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_edge_table.csv
+  Firm table    → /sessions/peaceful-youthful-pascal/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_firm_table.csv
+  Pair matrix   → /sessions/peaceful-youthful-pascal/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_pair_matrix.csv
+  Log           → /sessions/peaceful-youthful-pascal/mnt/Independent Study/Lobbying-Networks-Research/outputs/validation/15_cross_sector_directed_edges.txt
+
+  Validation complete.
+========================================================================

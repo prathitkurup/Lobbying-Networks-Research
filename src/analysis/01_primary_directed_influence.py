@@ -34,11 +34,12 @@ from config import DATA_DIR, ROOT
 
 CONGRESS    = 116
 SECTOR_COLORS = {
-    "Finance/Insurance": "#4C72B0",
-    "Tech/Telecom":      "#DD8452",
-    "Defense/Industrial":"#55A868",
-    "Energy/Utilities":  "#C44E52",
-    "Health/Pharma":     "#8172B2",
+    "Finance/Insurance":      "#4C72B0",
+    "Tech/Telecom":           "#DD8452",
+    "Energy/Utilities":       "#C44E52",
+    "Defense/Industrial":     "#55A868",
+    "Health/Pharma":          "#8172B2",
+    "Consumer/Manufacturing": "#CCB974",
 }
 TOP_N       = 30   # global agenda-setter list length
 TOP_N_COMM  = 10   # within-community agenda-setter list length
@@ -47,9 +48,10 @@ TOP_CASES   = 20   # case study pairs to surface
 COMMUNITY_LABELS = {
     0: "Finance/Insurance",
     1: "Tech/Telecom",
-    2: "Defense/Industrial",
-    3: "Energy/Utilities",
+    2: "Energy/Utilities",
+    3: "Defense/Industrial",
     4: "Health/Pharma",
+    5: "Consumer/Manufacturing",
 }
 
 OUT_DIR = ROOT / "outputs" / "analysis"

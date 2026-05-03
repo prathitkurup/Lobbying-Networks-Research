@@ -39,10 +39,10 @@
           <attvalue for="n5" value="21" />
           <attvalue for="n6" value="#F3D402" />
           <attvalue for="n7" value="36" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1663" />
           <attvalue for="n10" value="4" />
-          <attvalue for="n11" value="1.7402489999999995" />
+          <attvalue for="n11" value="1.740249" />
           <attvalue for="n12" value="9750000.0" />
         </attvalues>
         <viz:color r="243" g="212" b="2" a="1.0" />
@@ -76,8 +76,8 @@
           <attvalue for="n6" value="#68AF1F" />
           <attvalue for="n7" value="34" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="4.1" />
-          <attvalue for="n10" value="32" />
+          <attvalue for="n9" value="3.9053" />
+          <attvalue for="n10" value="29" />
           <attvalue for="n11" value="8.437275000000001" />
           <attvalue for="n12" value="12100000.0" />
         </attvalues>
@@ -93,7 +93,7 @@
           <attvalue for="n5" value="-5" />
           <attvalue for="n6" value="#FED300" />
           <attvalue for="n7" value="7" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.2051" />
           <attvalue for="n10" value="-3" />
           <attvalue for="n11" value="0.410219" />
@@ -129,10 +129,10 @@
           <attvalue for="n5" value="6" />
           <attvalue for="n6" value="#FCD600" />
           <attvalue for="n7" value="22" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.2343" />
           <attvalue for="n10" value="-1" />
-          <attvalue for="n11" value="2.3052440000000005" />
+          <attvalue for="n11" value="2.305244000000001" />
           <attvalue for="n12" value="3140000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
@@ -147,10 +147,10 @@
           <attvalue for="n5" value="-46" />
           <attvalue for="n6" value="#EF940F" />
           <attvalue for="n7" value="9" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-2.6184" />
-          <attvalue for="n10" value="-35" />
-          <attvalue for="n11" value="1.5934899999999996" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-2.9321" />
+          <attvalue for="n10" value="-38" />
+          <attvalue for="n11" value="1.5934899999999999" />
           <attvalue for="n12" value="1050000.0" />
         </attvalues>
         <viz:color r="239" g="148" b="15" a="1.0" />
@@ -184,9 +184,9 @@
           <attvalue for="n6" value="#D2CB09" />
           <attvalue for="n7" value="21" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.8246" />
-          <attvalue for="n10" value="3" />
-          <attvalue for="n11" value="1.77001" />
+          <attvalue for="n9" value="1.2305" />
+          <attvalue for="n10" value="10" />
+          <attvalue for="n11" value="1.7700100000000005" />
           <attvalue for="n12" value="3460000.0" />
         </attvalues>
         <viz:color r="210" g="203" b="9" a="1.0" />
@@ -201,7 +201,7 @@
           <attvalue for="n5" value="-5" />
           <attvalue for="n6" value="#FDCF01" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.1183" />
           <attvalue for="n10" value="-2" />
           <attvalue for="n11" value="1.2440250000000002" />
@@ -219,10 +219,10 @@
           <attvalue for="n5" value="7" />
           <attvalue for="n6" value="#D8CC08" />
           <attvalue for="n7" value="13" />
-          <attvalue for="n8" value="-1" />
-          <attvalue for="n9" value="0.0" />
-          <attvalue for="n10" value="0" />
-          <attvalue for="n11" value="0.497841" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="1.0322" />
+          <attvalue for="n10" value="5" />
+          <attvalue for="n11" value="0.49784100000000003" />
           <attvalue for="n12" value="919000.0" />
         </attvalues>
         <viz:color r="216" g="204" b="8" a="1.0" />
@@ -237,7 +237,7 @@
           <attvalue for="n5" value="13" />
           <attvalue for="n6" value="#FED400" />
           <attvalue for="n7" value="45" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.2566" />
           <attvalue for="n10" value="2" />
           <attvalue for="n11" value="1.9655059999999995" />
@@ -256,8 +256,8 @@
           <attvalue for="n6" value="#D0CA09" />
           <attvalue for="n7" value="62" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="1.1923" />
-          <attvalue for="n10" value="18" />
+          <attvalue for="n9" value="1.3135" />
+          <attvalue for="n10" value="22" />
           <attvalue for="n11" value="1.9807320000000002" />
           <attvalue for="n12" value="5990000.0" />
         </attvalues>
@@ -327,10 +327,10 @@
           <attvalue for="n5" value="-20" />
           <attvalue for="n6" value="#FAC503" />
           <attvalue for="n7" value="28" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-0.5507" />
-          <attvalue for="n10" value="-9" />
-          <attvalue for="n11" value="1.535764" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-0.5579" />
+          <attvalue for="n10" value="-10" />
+          <attvalue for="n11" value="1.5357639999999997" />
           <attvalue for="n12" value="3100000.0" />
         </attvalues>
         <viz:color r="250" g="197" b="3" a="1.0" />
@@ -345,7 +345,7 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#E6D005" />
           <attvalue for="n7" value="52" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.6695" />
           <attvalue for="n10" value="3" />
           <attvalue for="n11" value="0.721074" />
@@ -363,10 +363,10 @@
           <attvalue for="n5" value="-43" />
           <attvalue for="n6" value="#D62728" />
           <attvalue for="n7" value="47" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-8.2323" />
-          <attvalue for="n10" value="-39" />
-          <attvalue for="n11" value="2.824413" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-8.518" />
+          <attvalue for="n10" value="-45" />
+          <attvalue for="n11" value="2.8244130000000007" />
           <attvalue for="n12" value="16254686.0" />
         </attvalues>
         <viz:color r="214" g="39" b="40" a="1.0" />
@@ -400,9 +400,9 @@
           <attvalue for="n6" value="#E5D005" />
           <attvalue for="n7" value="74" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.2817" />
-          <attvalue for="n10" value="15" />
-          <attvalue for="n11" value="0.6547999999999999" />
+          <attvalue for="n9" value="0.3582" />
+          <attvalue for="n10" value="17" />
+          <attvalue for="n11" value="0.6547999999999998" />
           <attvalue for="n12" value="840000.0" />
         </attvalues>
         <viz:color r="229" g="208" b="5" a="1.0" />
@@ -418,8 +418,8 @@
           <attvalue for="n6" value="#DACD07" />
           <attvalue for="n7" value="98" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.597" />
-          <attvalue for="n10" value="9" />
+          <attvalue for="n9" value="0.9749" />
+          <attvalue for="n10" value="16" />
           <attvalue for="n11" value="1.1840039999999998" />
           <attvalue for="n12" value="1780000.0" />
         </attvalues>
@@ -436,8 +436,8 @@
           <attvalue for="n6" value="#F6D401" />
           <attvalue for="n7" value="11" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="0.2289" />
-          <attvalue for="n10" value="3" />
+          <attvalue for="n9" value="0.2182" />
+          <attvalue for="n10" value="2" />
           <attvalue for="n11" value="0.8907470000000002" />
           <attvalue for="n12" value="5155000.0" />
         </attvalues>
@@ -454,9 +454,9 @@
           <attvalue for="n6" value="#F9D501" />
           <attvalue for="n7" value="59" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="0.1389" />
-          <attvalue for="n10" value="14" />
-          <attvalue for="n11" value="0.641467" />
+          <attvalue for="n9" value="0.113" />
+          <attvalue for="n10" value="11" />
+          <attvalue for="n11" value="0.6414670000000001" />
           <attvalue for="n12" value="22090000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
@@ -472,9 +472,9 @@
           <attvalue for="n6" value="#F5AD09" />
           <attvalue for="n7" value="3" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="-1.6434" />
-          <attvalue for="n10" value="-15" />
-          <attvalue for="n11" value="1.9571599999999998" />
+          <attvalue for="n9" value="-1.4798" />
+          <attvalue for="n10" value="-12" />
+          <attvalue for="n11" value="1.95716" />
           <attvalue for="n12" value="1450000.0" />
         </attvalues>
         <viz:color r="245" g="173" b="9" a="1.0" />
@@ -492,7 +492,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="1.9229" />
           <attvalue for="n10" value="12" />
-          <attvalue for="n11" value="8.092690000000001" />
+          <attvalue for="n11" value="8.09269" />
           <attvalue for="n12" value="1780000.0" />
         </attvalues>
         <viz:color r="185" g="196" b="14" a="1.0" />
@@ -525,7 +525,7 @@
           <attvalue for="n5" value="-1" />
           <attvalue for="n6" value="#FED500" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.059165" />
@@ -544,9 +544,9 @@
           <attvalue for="n6" value="#BEC60D" />
           <attvalue for="n7" value="155" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="1.6863" />
-          <attvalue for="n10" value="24" />
-          <attvalue for="n11" value="1.286428" />
+          <attvalue for="n9" value="1.686" />
+          <attvalue for="n10" value="23" />
+          <attvalue for="n11" value="1.2864280000000001" />
           <attvalue for="n12" value="24150000.0" />
         </attvalues>
         <viz:color r="190" g="198" b="13" a="1.0" />
@@ -561,9 +561,9 @@
           <attvalue for="n5" value="44" />
           <attvalue for="n6" value="#B9C40E" />
           <attvalue for="n7" value="29" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="1.6646" />
-          <attvalue for="n10" value="29" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="1.6174" />
+          <attvalue for="n10" value="28" />
           <attvalue for="n11" value="2.216589" />
           <attvalue for="n12" value="1846000.0" />
         </attvalues>
@@ -580,8 +580,8 @@
           <attvalue for="n6" value="#F3A30B" />
           <attvalue for="n7" value="28" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-2.4407" />
-          <attvalue for="n10" value="-14" />
+          <attvalue for="n9" value="-2.4763" />
+          <attvalue for="n10" value="-16" />
           <attvalue for="n11" value="2.066032" />
           <attvalue for="n12" value="3470000.0" />
         </attvalues>
@@ -600,7 +600,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.0191" />
           <attvalue for="n10" value="-17" />
-          <attvalue for="n11" value="1.3270110000000002" />
+          <attvalue for="n11" value="1.327011" />
           <attvalue for="n12" value="2250000.0" />
         </attvalues>
         <viz:color r="250" g="193" b="4" a="1.0" />
@@ -636,7 +636,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.1031" />
           <attvalue for="n10" value="-2" />
-          <attvalue for="n11" value="1.4689" />
+          <attvalue for="n11" value="1.4688999999999999" />
           <attvalue for="n12" value="2995000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
@@ -651,10 +651,10 @@
           <attvalue for="n5" value="11" />
           <attvalue for="n6" value="#76B31C" />
           <attvalue for="n7" value="152" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0637" />
           <attvalue for="n10" value="5" />
-          <attvalue for="n11" value="1.8849849999999997" />
+          <attvalue for="n11" value="1.884985" />
           <attvalue for="n12" value="7040000.0" />
         </attvalues>
         <viz:color r="118" g="179" b="28" a="1.0" />
@@ -706,9 +706,9 @@
           <attvalue for="n6" value="#F9BE05" />
           <attvalue for="n7" value="9" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-0.9647" />
+          <attvalue for="n9" value="-1.078" />
           <attvalue for="n10" value="-13" />
-          <attvalue for="n11" value="1.0759949999999998" />
+          <attvalue for="n11" value="1.0759950000000003" />
           <attvalue for="n12" value="780000.0" />
         </attvalues>
         <viz:color r="249" g="190" b="5" a="1.0" />
@@ -724,8 +724,8 @@
           <attvalue for="n6" value="#FBC803" />
           <attvalue for="n7" value="24" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-0.686" />
-          <attvalue for="n10" value="10" />
+          <attvalue for="n9" value="-0.6933" />
+          <attvalue for="n10" value="3" />
           <attvalue for="n11" value="3.068499" />
           <attvalue for="n12" value="2610000.0" />
         </attvalues>
@@ -741,10 +741,10 @@
           <attvalue for="n5" value="13" />
           <attvalue for="n6" value="#FAD500" />
           <attvalue for="n7" value="70" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="-0.0101" />
-          <attvalue for="n10" value="-1" />
-          <attvalue for="n11" value="1.9223669999999997" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="-0.0042" />
+          <attvalue for="n10" value="1" />
+          <attvalue for="n11" value="1.9223669999999995" />
           <attvalue for="n12" value="26440000.0" />
         </attvalues>
         <viz:color r="250" g="213" b="0" a="1.0" />
@@ -759,7 +759,7 @@
           <attvalue for="n5" value="1" />
           <attvalue for="n6" value="#F9D501" />
           <attvalue for="n7" value="5" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.15" />
           <attvalue for="n10" value="1" />
           <attvalue for="n11" value="0.20435999999999999" />
@@ -798,7 +798,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.3543" />
           <attvalue for="n10" value="-5" />
-          <attvalue for="n11" value="0.9528830000000001" />
+          <attvalue for="n11" value="0.9528829999999999" />
           <attvalue for="n12" value="3200000.0" />
         </attvalues>
         <viz:color r="253" g="207" b="1" a="1.0" />
@@ -814,9 +814,9 @@
           <attvalue for="n6" value="#D6CC08" />
           <attvalue for="n7" value="139" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="1.1181" />
-          <attvalue for="n10" value="22" />
-          <attvalue for="n11" value="0.894575" />
+          <attvalue for="n9" value="1.0457" />
+          <attvalue for="n10" value="20" />
+          <attvalue for="n11" value="0.8945750000000001" />
           <attvalue for="n12" value="12620000.0" />
         </attvalues>
         <viz:color r="214" g="204" b="8" a="1.0" />
@@ -831,9 +831,9 @@
           <attvalue for="n5" value="53" />
           <attvalue for="n6" value="#4CA825" />
           <attvalue for="n7" value="49" />
-          <attvalue for="n8" value="-1" />
-          <attvalue for="n9" value="0.0" />
-          <attvalue for="n10" value="0" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="4.8608" />
+          <attvalue for="n10" value="50" />
           <attvalue for="n11" value="2.3361" />
           <attvalue for="n12" value="8940000.0" />
         </attvalues>
@@ -849,9 +849,9 @@
           <attvalue for="n5" value="-1" />
           <attvalue for="n6" value="#FCCC02" />
           <attvalue for="n7" value="2" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="-0.4913" />
-          <attvalue for="n10" value="-1" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="-0.555" />
+          <attvalue for="n10" value="-2" />
           <attvalue for="n11" value="0.34127" />
           <attvalue for="n12" value="150000.0" />
         </attvalues>
@@ -868,9 +868,9 @@
           <attvalue for="n6" value="#F3A60A" />
           <attvalue for="n7" value="20" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-0.0591" />
-          <attvalue for="n10" value="-3" />
-          <attvalue for="n11" value="1.778979" />
+          <attvalue for="n9" value="-0.0723" />
+          <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="1.7789789999999999" />
           <attvalue for="n12" value="3450000.0" />
         </attvalues>
         <viz:color r="243" g="166" b="10" a="1.0" />
@@ -906,7 +906,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.2502" />
           <attvalue for="n10" value="-4" />
-          <attvalue for="n11" value="3.998729000000001" />
+          <attvalue for="n11" value="3.9987290000000004" />
           <attvalue for="n12" value="6470000.0" />
         </attvalues>
         <viz:color r="221" g="206" b="7" a="1.0" />
@@ -922,9 +922,9 @@
           <attvalue for="n6" value="#BFC60D" />
           <attvalue for="n7" value="56" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="1.6069" />
+          <attvalue for="n9" value="1.6124" />
           <attvalue for="n10" value="6" />
-          <attvalue for="n11" value="1.020512" />
+          <attvalue for="n11" value="1.0205119999999999" />
           <attvalue for="n12" value="11775060.0" />
         </attvalues>
         <viz:color r="191" g="198" b="13" a="1.0" />
@@ -940,9 +940,9 @@
           <attvalue for="n6" value="#E2CF05" />
           <attvalue for="n7" value="39" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="0.7667" />
-          <attvalue for="n10" value="11" />
-          <attvalue for="n11" value="3.161505" />
+          <attvalue for="n9" value="-0.2409" />
+          <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="3.1615049999999996" />
           <attvalue for="n12" value="9830000.0" />
         </attvalues>
         <viz:color r="226" g="207" b="5" a="1.0" />
@@ -957,9 +957,9 @@
           <attvalue for="n5" value="-95" />
           <attvalue for="n6" value="#F19E0C" />
           <attvalue for="n7" value="38" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-2.6563" />
-          <attvalue for="n10" value="-86" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-2.6872" />
+          <attvalue for="n10" value="-93" />
           <attvalue for="n11" value="2.6469919999999996" />
           <attvalue for="n12" value="980000.0" />
         </attvalues>
@@ -978,7 +978,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.512" />
           <attvalue for="n10" value="-16" />
-          <attvalue for="n11" value="0.5546650000000001" />
+          <attvalue for="n11" value="0.554665" />
           <attvalue for="n12" value="4400000.0" />
         </attvalues>
         <viz:color r="252" g="204" b="2" a="1.0" />
@@ -994,8 +994,8 @@
           <attvalue for="n6" value="#FDD600" />
           <attvalue for="n7" value="112" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="0.0276" />
-          <attvalue for="n10" value="9" />
+          <attvalue for="n9" value="0.0247" />
+          <attvalue for="n10" value="8" />
           <attvalue for="n11" value="0.128943" />
           <attvalue for="n12" value="20890000.0" />
         </attvalues>
@@ -1011,10 +1011,10 @@
           <attvalue for="n5" value="-13" />
           <attvalue for="n6" value="#FCCC02" />
           <attvalue for="n7" value="7" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.1307" />
           <attvalue for="n10" value="-5" />
-          <attvalue for="n11" value="0.841081" />
+          <attvalue for="n11" value="0.8410810000000002" />
           <attvalue for="n12" value="1640000.0" />
         </attvalues>
         <viz:color r="252" g="204" b="2" a="1.0" />
@@ -1029,10 +1029,10 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#FED500" />
           <attvalue for="n7" value="45" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.0313" />
-          <attvalue for="n10" value="-2" />
-          <attvalue for="n11" value="0.28001300000000007" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.0223" />
+          <attvalue for="n10" value="-5" />
+          <attvalue for="n11" value="0.280013" />
           <attvalue for="n12" value="19200000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
@@ -1048,7 +1048,7 @@
           <attvalue for="n6" value="#F7B607" />
           <attvalue for="n7" value="7" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-0.6208" />
+          <attvalue for="n9" value="-0.6438" />
           <attvalue for="n10" value="-15" />
           <attvalue for="n11" value="1.6219480000000002" />
           <attvalue for="n12" value="2121798.0" />
@@ -1066,8 +1066,8 @@
           <attvalue for="n6" value="#C6C80B" />
           <attvalue for="n7" value="49" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="1.5355" />
-          <attvalue for="n10" value="20" />
+          <attvalue for="n9" value="1.466" />
+          <attvalue for="n10" value="15" />
           <attvalue for="n11" value="2.0057219999999996" />
           <attvalue for="n12" value="15470000.0" />
         </attvalues>
@@ -1122,7 +1122,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-1.2222" />
           <attvalue for="n10" value="-6" />
-          <attvalue for="n11" value="1.3400290000000004" />
+          <attvalue for="n11" value="1.3400290000000001" />
           <attvalue for="n12" value="660000.0" />
         </attvalues>
         <viz:color r="249" g="189" b="5" a="1.0" />
@@ -1155,7 +1155,7 @@
           <attvalue for="n5" value="31" />
           <attvalue for="n6" value="#72B21D" />
           <attvalue for="n7" value="132" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="3.8885" />
           <attvalue for="n10" value="30" />
           <attvalue for="n11" value="2.5147120000000003" />
@@ -1173,9 +1173,9 @@
           <attvalue for="n5" value="-25" />
           <attvalue for="n6" value="#BAC50E" />
           <attvalue for="n7" value="38" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="2.2998" />
-          <attvalue for="n10" value="-3" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.7384" />
+          <attvalue for="n10" value="-7" />
           <attvalue for="n11" value="2.4966089999999994" />
           <attvalue for="n12" value="12510000.0" />
         </attvalues>
@@ -1191,7 +1191,7 @@
           <attvalue for="n5" value="13" />
           <attvalue for="n6" value="#B4C30F" />
           <attvalue for="n7" value="8" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0141" />
           <attvalue for="n10" value="1" />
           <attvalue for="n11" value="3.6420259999999995" />
@@ -1227,10 +1227,10 @@
           <attvalue for="n5" value="-13" />
           <attvalue for="n6" value="#F9C104" />
           <attvalue for="n7" value="13" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.6236" />
           <attvalue for="n10" value="-8" />
-          <attvalue for="n11" value="1.6633630000000001" />
+          <attvalue for="n11" value="1.663363" />
           <attvalue for="n12" value="5890000.0" />
         </attvalues>
         <viz:color r="249" g="193" b="4" a="1.0" />
@@ -1245,7 +1245,7 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#FDD600" />
           <attvalue for="n7" value="5" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1542" />
           <attvalue for="n10" value="3" />
           <attvalue for="n11" value="1.6989409999999998" />
@@ -1266,7 +1266,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.0432" />
           <attvalue for="n10" value="7" />
-          <attvalue for="n11" value="1.3290739999999999" />
+          <attvalue for="n11" value="1.329074" />
           <attvalue for="n12" value="700000.0" />
         </attvalues>
         <viz:color r="217" g="205" b="7" a="1.0" />
@@ -1281,7 +1281,7 @@
           <attvalue for="n5" value="-79" />
           <attvalue for="n6" value="#ED8B11" />
           <attvalue for="n7" value="33" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.7917" />
           <attvalue for="n10" value="-45" />
           <attvalue for="n11" value="2.281389" />
@@ -1299,7 +1299,7 @@
           <attvalue for="n5" value="-15" />
           <attvalue for="n6" value="#E1561D" />
           <attvalue for="n7" value="26" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-2.9349" />
           <attvalue for="n10" value="-11" />
           <attvalue for="n11" value="1.6115689999999998" />
@@ -1317,7 +1317,7 @@
           <attvalue for="n5" value="58" />
           <attvalue for="n6" value="#3FA527" />
           <attvalue for="n7" value="43" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.4422" />
           <attvalue for="n10" value="10" />
           <attvalue for="n11" value="4.9741750000000025" />
@@ -1336,8 +1336,8 @@
           <attvalue for="n6" value="#9EBD14" />
           <attvalue for="n7" value="51" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="2.5397" />
-          <attvalue for="n10" value="24" />
+          <attvalue for="n9" value="2.3452" />
+          <attvalue for="n10" value="19" />
           <attvalue for="n11" value="3.132771" />
           <attvalue for="n12" value="19677000.0" />
         </attvalues>
@@ -1356,7 +1356,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="0.5681" />
           <attvalue for="n10" value="3" />
-          <attvalue for="n11" value="1.0889099999999998" />
+          <attvalue for="n11" value="1.08891" />
           <attvalue for="n12" value="396000.0" />
         </attvalues>
         <viz:color r="234" g="209" b="4" a="1.0" />
@@ -1371,7 +1371,7 @@
           <attvalue for="n5" value="5" />
           <attvalue for="n6" value="#F7D401" />
           <attvalue for="n7" value="9" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1971" />
           <attvalue for="n10" value="3" />
           <attvalue for="n11" value="1.0711230000000003" />
@@ -1389,9 +1389,9 @@
           <attvalue for="n5" value="6" />
           <attvalue for="n6" value="#E6D005" />
           <attvalue for="n7" value="10" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="0.3598" />
-          <attvalue for="n10" value="2" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.0035" />
+          <attvalue for="n10" value="1" />
           <attvalue for="n11" value="1.450606" />
           <attvalue for="n12" value="450000.0" />
         </attvalues>
@@ -1428,7 +1428,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.9181" />
           <attvalue for="n10" value="5" />
-          <attvalue for="n11" value="4.0948829999999985" />
+          <attvalue for="n11" value="4.094882999999998" />
           <attvalue for="n12" value="9560000.0" />
         </attvalues>
         <viz:color r="212" g="203" b="8" a="1.0" />
@@ -1443,7 +1443,7 @@
           <attvalue for="n5" value="18" />
           <attvalue for="n6" value="#E5D005" />
           <attvalue for="n7" value="44" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.5368" />
           <attvalue for="n10" value="7" />
           <attvalue for="n11" value="1.7094679999999998" />
@@ -1464,7 +1464,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
-          <attvalue for="n11" value="0.192703" />
+          <attvalue for="n11" value="0.19270300000000004" />
           <attvalue for="n12" value="4760000.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
@@ -1482,7 +1482,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.0041" />
           <attvalue for="n10" value="-1" />
-          <attvalue for="n11" value="0.153863" />
+          <attvalue for="n11" value="0.15386299999999997" />
           <attvalue for="n12" value="2970000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
@@ -1497,10 +1497,10 @@
           <attvalue for="n5" value="4" />
           <attvalue for="n6" value="#F9D501" />
           <attvalue for="n7" value="7" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.2063" />
-          <attvalue for="n10" value="5" />
-          <attvalue for="n11" value="1.5546499999999999" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.1484" />
+          <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="1.5546499999999996" />
           <attvalue for="n12" value="5600000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
@@ -1515,10 +1515,10 @@
           <attvalue for="n5" value="43" />
           <attvalue for="n6" value="#2CA02C" />
           <attvalue for="n7" value="111" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="6.1633" />
-          <attvalue for="n10" value="42" />
-          <attvalue for="n11" value="3.1838990000000003" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="5.8276" />
+          <attvalue for="n10" value="40" />
+          <attvalue for="n11" value="3.1838989999999994" />
           <attvalue for="n12" value="1490000.0" />
         </attvalues>
         <viz:color r="44" g="160" b="44" a="1.0" />
@@ -1533,10 +1533,10 @@
           <attvalue for="n5" value="27" />
           <attvalue for="n6" value="#DECE06" />
           <attvalue for="n7" value="62" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.693" />
-          <attvalue for="n10" value="19" />
-          <attvalue for="n11" value="2.7080480000000002" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.584" />
+          <attvalue for="n10" value="18" />
+          <attvalue for="n11" value="2.708048" />
           <attvalue for="n12" value="9604510.0" />
         </attvalues>
         <viz:color r="222" g="206" b="6" a="1.0" />
@@ -1551,10 +1551,10 @@
           <attvalue for="n5" value="-10" />
           <attvalue for="n6" value="#FED400" />
           <attvalue for="n7" value="39" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.0805" />
           <attvalue for="n10" value="-8" />
-          <attvalue for="n11" value="0.36854800000000004" />
+          <attvalue for="n11" value="0.368548" />
           <attvalue for="n12" value="3280000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
@@ -1587,10 +1587,10 @@
           <attvalue for="n5" value="-14" />
           <attvalue for="n6" value="#FDD101" />
           <attvalue for="n7" value="21" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.1988" />
           <attvalue for="n10" value="-5" />
-          <attvalue for="n11" value="2.0672019999999995" />
+          <attvalue for="n11" value="2.067202" />
           <attvalue for="n12" value="1980000.0" />
         </attvalues>
         <viz:color r="253" g="209" b="1" a="1.0" />
@@ -1605,10 +1605,10 @@
           <attvalue for="n5" value="2" />
           <attvalue for="n6" value="#FED300" />
           <attvalue for="n7" value="21" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.43" />
           <attvalue for="n10" value="12" />
-          <attvalue for="n11" value="1.4182510000000002" />
+          <attvalue for="n11" value="1.4182509999999997" />
           <attvalue for="n12" value="3850000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
@@ -1624,8 +1624,8 @@
           <attvalue for="n6" value="#E8D104" />
           <attvalue for="n7" value="6" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="0.6348" />
-          <attvalue for="n10" value="11" />
+          <attvalue for="n9" value="0.6015" />
+          <attvalue for="n10" value="8" />
           <attvalue for="n11" value="1.8640390000000004" />
           <attvalue for="n12" value="11270000.0" />
         </attvalues>
@@ -1641,7 +1641,7 @@
           <attvalue for="n5" value="-2" />
           <attvalue for="n6" value="#FED500" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1229" />
           <attvalue for="n10" value="1" />
           <attvalue for="n11" value="1.3245809999999998" />
@@ -1659,9 +1659,9 @@
           <attvalue for="n5" value="-24" />
           <attvalue for="n6" value="#F5AF09" />
           <attvalue for="n7" value="59" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-1.3436" />
-          <attvalue for="n10" value="-13" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-2.1155" />
+          <attvalue for="n10" value="-20" />
           <attvalue for="n11" value="3.7013320000000007" />
           <attvalue for="n12" value="4620000.0" />
         </attvalues>
@@ -1677,9 +1677,9 @@
           <attvalue for="n5" value="-11" />
           <attvalue for="n6" value="#F6B008" />
           <attvalue for="n7" value="20" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-1.4036" />
-          <attvalue for="n10" value="-5" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-1.8415" />
+          <attvalue for="n10" value="-8" />
           <attvalue for="n11" value="3.3198860000000003" />
           <attvalue for="n12" value="1160000.0" />
         </attvalues>
@@ -1695,9 +1695,9 @@
           <attvalue for="n5" value="26" />
           <attvalue for="n6" value="#B5C30F" />
           <attvalue for="n7" value="109" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="1.7695" />
-          <attvalue for="n10" value="18" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="1.9193" />
+          <attvalue for="n10" value="19" />
           <attvalue for="n11" value="2.1320429999999995" />
           <attvalue for="n12" value="10525000.0" />
         </attvalues>
@@ -1713,10 +1713,10 @@
           <attvalue for="n5" value="44" />
           <attvalue for="n6" value="#D3CB09" />
           <attvalue for="n7" value="85" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.935" />
-          <attvalue for="n10" value="30" />
-          <attvalue for="n11" value="1.2172059999999998" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.9996" />
+          <attvalue for="n10" value="31" />
+          <attvalue for="n11" value="1.2172059999999996" />
           <attvalue for="n12" value="18440000.0" />
         </attvalues>
         <viz:color r="211" g="203" b="9" a="1.0" />
@@ -1734,7 +1734,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.8682" />
           <attvalue for="n10" value="-2" />
-          <attvalue for="n11" value="8.103714999999998" />
+          <attvalue for="n11" value="8.103715" />
           <attvalue for="n12" value="36390000.0" />
         </attvalues>
         <viz:color r="247" g="182" b="7" a="1.0" />
@@ -1749,10 +1749,10 @@
           <attvalue for="n5" value="-3" />
           <attvalue for="n6" value="#EED203" />
           <attvalue for="n7" value="34" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.2315" />
           <attvalue for="n10" value="2" />
-          <attvalue for="n11" value="2.030302" />
+          <attvalue for="n11" value="2.0303019999999994" />
           <attvalue for="n12" value="20506000.0" />
         </attvalues>
         <viz:color r="238" g="210" b="3" a="1.0" />
@@ -1785,10 +1785,10 @@
           <attvalue for="n5" value="6" />
           <attvalue for="n6" value="#9BBD14" />
           <attvalue for="n7" value="38" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="2.855" />
-          <attvalue for="n10" value="10" />
-          <attvalue for="n11" value="2.983753" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="2.751" />
+          <attvalue for="n10" value="9" />
+          <attvalue for="n11" value="2.983752999999999" />
           <attvalue for="n12" value="3680000.0" />
         </attvalues>
         <viz:color r="155" g="189" b="20" a="1.0" />
@@ -1803,10 +1803,10 @@
           <attvalue for="n5" value="-13" />
           <attvalue for="n6" value="#F6B407" />
           <attvalue for="n7" value="16" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.9617" />
           <attvalue for="n10" value="-11" />
-          <attvalue for="n11" value="2.7305070000000002" />
+          <attvalue for="n11" value="2.730507" />
           <attvalue for="n12" value="5766779.0" />
         </attvalues>
         <viz:color r="246" g="180" b="7" a="1.0" />
@@ -1822,8 +1822,8 @@
           <attvalue for="n6" value="#C7C80B" />
           <attvalue for="n7" value="8" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.1701" />
-          <attvalue for="n10" value="6" />
+          <attvalue for="n9" value="0.1902" />
+          <attvalue for="n10" value="7" />
           <attvalue for="n11" value="1.047282" />
           <attvalue for="n12" value="7450163.0" />
         </attvalues>
@@ -1840,8 +1840,8 @@
           <attvalue for="n6" value="#F4AA0A" />
           <attvalue for="n7" value="43" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="-1.8716" />
-          <attvalue for="n10" value="-5" />
+          <attvalue for="n9" value="-1.8702" />
+          <attvalue for="n10" value="-4" />
           <attvalue for="n11" value="0.6394440000000001" />
           <attvalue for="n12" value="5530000.0" />
         </attvalues>
@@ -1857,9 +1857,9 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#E8D104" />
           <attvalue for="n7" value="2" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="0.6188" />
-          <attvalue for="n10" value="3" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.555" />
+          <attvalue for="n10" value="2" />
           <attvalue for="n11" value="0.3412700000000001" />
           <attvalue for="n12" value="980000.0" />
         </attvalues>
@@ -1875,7 +1875,7 @@
           <attvalue for="n5" value="27" />
           <attvalue for="n6" value="#D2CB09" />
           <attvalue for="n7" value="24" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.9076" />
           <attvalue for="n10" value="15" />
           <attvalue for="n11" value="2.689718" />
@@ -1893,10 +1893,10 @@
           <attvalue for="n5" value="7" />
           <attvalue for="n6" value="#E7D004" />
           <attvalue for="n7" value="67" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1453" />
           <attvalue for="n10" value="5" />
-          <attvalue for="n11" value="3.7829279999999996" />
+          <attvalue for="n11" value="3.782927999999999" />
           <attvalue for="n12" value="11190000.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
@@ -1914,7 +1914,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.9569" />
           <attvalue for="n10" value="7" />
-          <attvalue for="n11" value="2.168896" />
+          <attvalue for="n11" value="2.1688959999999997" />
           <attvalue for="n12" value="1190000.0" />
         </attvalues>
         <viz:color r="208" g="202" b="9" a="1.0" />
@@ -1929,7 +1929,7 @@
           <attvalue for="n5" value="-4" />
           <attvalue for="n6" value="#FED500" />
           <attvalue for="n7" value="41" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-1.0552" />
           <attvalue for="n10" value="-6" />
           <attvalue for="n11" value="2.5807100000000007" />
@@ -1950,7 +1950,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0387" />
           <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="2.763171999999999" />
+          <attvalue for="n11" value="2.763172" />
           <attvalue for="n12" value="3890162.0" />
         </attvalues>
         <viz:color r="253" g="214" b="0" a="1.0" />
@@ -1966,8 +1966,8 @@
           <attvalue for="n6" value="#BEC60D" />
           <attvalue for="n7" value="19" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="2.4782" />
-          <attvalue for="n10" value="-2" />
+          <attvalue for="n9" value="2.1181" />
+          <attvalue for="n10" value="-5" />
           <attvalue for="n11" value="2.6065129999999987" />
           <attvalue for="n12" value="9810000.0" />
         </attvalues>
@@ -1983,10 +1983,10 @@
           <attvalue for="n5" value="8" />
           <attvalue for="n6" value="#E7D004" />
           <attvalue for="n7" value="16" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="0.3755" />
-          <attvalue for="n10" value="4" />
-          <attvalue for="n11" value="2.167746" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="0.196" />
+          <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="2.1677459999999997" />
           <attvalue for="n12" value="213853.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
@@ -2001,9 +2001,9 @@
           <attvalue for="n5" value="12" />
           <attvalue for="n6" value="#FBC703" />
           <attvalue for="n7" value="32" />
-          <attvalue for="n8" value="-1" />
-          <attvalue for="n9" value="-0.0223" />
-          <attvalue for="n10" value="-1" />
+          <attvalue for="n8" value="0" />
+          <attvalue for="n9" value="-1.0338" />
+          <attvalue for="n10" value="-3" />
           <attvalue for="n11" value="7.377462000000001" />
           <attvalue for="n12" value="4140000.0" />
         </attvalues>
@@ -2020,9 +2020,9 @@
           <attvalue for="n6" value="#FED500" />
           <attvalue for="n7" value="73" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-0.2" />
-          <attvalue for="n10" value="10" />
-          <attvalue for="n11" value="6.998119" />
+          <attvalue for="n9" value="-0.1974" />
+          <attvalue for="n10" value="11" />
+          <attvalue for="n11" value="6.998118999999999" />
           <attvalue for="n12" value="3580000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
@@ -2038,8 +2038,8 @@
           <attvalue for="n6" value="#FED400" />
           <attvalue for="n7" value="24" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-0.1484" />
-          <attvalue for="n10" value="8" />
+          <attvalue for="n9" value="-0.1546" />
+          <attvalue for="n10" value="2" />
           <attvalue for="n11" value="2.844697" />
           <attvalue for="n12" value="4000000.0" />
         </attvalues>
@@ -2058,7 +2058,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="2.0417" />
           <attvalue for="n10" value="11" />
-          <attvalue for="n11" value="4.858217000000001" />
+          <attvalue for="n11" value="4.858217" />
           <attvalue for="n12" value="6410000.0" />
         </attvalues>
         <viz:color r="191" g="198" b="13" a="1.0" />
@@ -2076,7 +2076,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.4501" />
           <attvalue for="n10" value="2" />
-          <attvalue for="n11" value="0.5605389999999999" />
+          <attvalue for="n11" value="0.560539" />
           <attvalue for="n12" value="2160000.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
@@ -2091,10 +2091,10 @@
           <attvalue for="n5" value="-40" />
           <attvalue for="n6" value="#F0980E" />
           <attvalue for="n7" value="10" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-2.5582" />
           <attvalue for="n10" value="-36" />
-          <attvalue for="n11" value="2.1427810000000003" />
+          <attvalue for="n11" value="2.142781" />
           <attvalue for="n12" value="780000.0" />
         </attvalues>
         <viz:color r="240" g="152" b="14" a="1.0" />
@@ -2110,8 +2110,8 @@
           <attvalue for="n6" value="#F29F0C" />
           <attvalue for="n7" value="41" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="-3.1316" />
-          <attvalue for="n10" value="-19" />
+          <attvalue for="n9" value="-0.5252" />
+          <attvalue for="n10" value="-11" />
           <attvalue for="n11" value="2.62978" />
           <attvalue for="n12" value="2505000.0" />
         </attvalues>
@@ -2130,7 +2130,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.4847" />
           <attvalue for="n10" value="-11" />
-          <attvalue for="n11" value="1.2986810000000002" />
+          <attvalue for="n11" value="1.298681" />
           <attvalue for="n12" value="10660000.0" />
         </attvalues>
         <viz:color r="254" g="213" b="0" a="1.0" />
@@ -2164,8 +2164,8 @@
           <attvalue for="n6" value="#F7B607" />
           <attvalue for="n7" value="22" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-1.7463" />
-          <attvalue for="n10" value="-17" />
+          <attvalue for="n9" value="-1.9894" />
+          <attvalue for="n10" value="-19" />
           <attvalue for="n11" value="1.9320359999999996" />
           <attvalue for="n12" value="9330000.0" />
         </attvalues>
@@ -2181,7 +2181,7 @@
           <attvalue for="n5" value="1" />
           <attvalue for="n6" value="#FCD600" />
           <attvalue for="n7" value="8" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0199" />
           <attvalue for="n10" value="0" />
           <attvalue for="n11" value="4.636844" />
@@ -2200,9 +2200,9 @@
           <attvalue for="n6" value="#C9C90B" />
           <attvalue for="n7" value="90" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="1.0841" />
-          <attvalue for="n10" value="29" />
-          <attvalue for="n11" value="2.0649660000000005" />
+          <attvalue for="n9" value="1.0838" />
+          <attvalue for="n10" value="28" />
+          <attvalue for="n11" value="2.064966" />
           <attvalue for="n12" value="10600000.0" />
         </attvalues>
         <viz:color r="201" g="201" b="11" a="1.0" />
@@ -2235,10 +2235,10 @@
           <attvalue for="n5" value="9" />
           <attvalue for="n6" value="#F4D402" />
           <attvalue for="n7" value="14" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="-0.2386" />
-          <attvalue for="n10" value="4" />
-          <attvalue for="n11" value="1.475113" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.1563" />
+          <attvalue for="n10" value="3" />
+          <attvalue for="n11" value="1.4751129999999997" />
           <attvalue for="n12" value="550000.0" />
         </attvalues>
         <viz:color r="244" g="212" b="2" a="1.0" />
@@ -2256,7 +2256,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.0582" />
           <attvalue for="n10" value="-6" />
-          <attvalue for="n11" value="3.4243720000000004" />
+          <attvalue for="n11" value="3.424372" />
           <attvalue for="n12" value="7935000.0" />
         </attvalues>
         <viz:color r="254" g="212" b="0" a="1.0" />
@@ -2271,10 +2271,10 @@
           <attvalue for="n5" value="-16" />
           <attvalue for="n6" value="#FDCE01" />
           <attvalue for="n7" value="24" />
-          <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.0323" />
-          <attvalue for="n10" value="-1" />
-          <attvalue for="n11" value="0.787707" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.0" />
+          <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.7877069999999999" />
           <attvalue for="n12" value="8730000.0" />
         </attvalues>
         <viz:color r="253" g="206" b="1" a="1.0" />
@@ -2307,10 +2307,10 @@
           <attvalue for="n5" value="-7" />
           <attvalue for="n6" value="#F8BC06" />
           <attvalue for="n7" value="9" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.2023" />
           <attvalue for="n10" value="-3" />
-          <attvalue for="n11" value="1.1356630000000003" />
+          <attvalue for="n11" value="1.135663" />
           <attvalue for="n12" value="1180000.0" />
         </attvalues>
         <viz:color r="248" g="188" b="6" a="1.0" />
@@ -2326,9 +2326,9 @@
           <attvalue for="n6" value="#FDD201" />
           <attvalue for="n7" value="46" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-0.0288" />
-          <attvalue for="n10" value="-7" />
-          <attvalue for="n11" value="0.445029" />
+          <attvalue for="n9" value="-0.0373" />
+          <attvalue for="n10" value="-9" />
+          <attvalue for="n11" value="0.4450290000000001" />
           <attvalue for="n12" value="11300000.0" />
         </attvalues>
         <viz:color r="253" g="210" b="1" a="1.0" />
@@ -2343,10 +2343,10 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#FCD600" />
           <attvalue for="n7" value="18" />
-          <attvalue for="n8" value="-1" />
-          <attvalue for="n9" value="0.0223" />
-          <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="2.2579779999999996" />
+          <attvalue for="n8" value="0" />
+          <attvalue for="n9" value="0.0373" />
+          <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="2.257978" />
           <attvalue for="n12" value="620000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
@@ -2362,8 +2362,8 @@
           <attvalue for="n6" value="#EAD104" />
           <attvalue for="n7" value="27" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.7818" />
-          <attvalue for="n10" value="4" />
+          <attvalue for="n9" value="0.4579" />
+          <attvalue for="n10" value="3" />
           <attvalue for="n11" value="2.5338879999999997" />
           <attvalue for="n12" value="5620000.0" />
         </attvalues>
@@ -2379,7 +2379,7 @@
           <attvalue for="n5" value="0" />
           <attvalue for="n6" value="#FFD700" />
           <attvalue for="n7" value="6" />
-          <attvalue for="n8" value="0" />
+          <attvalue for="n8" value="5" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.8443019999999999" />
@@ -2400,7 +2400,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.3592" />
           <attvalue for="n10" value="-2" />
-          <attvalue for="n11" value="2.864538" />
+          <attvalue for="n11" value="2.8645380000000005" />
           <attvalue for="n12" value="1375000.0" />
         </attvalues>
         <viz:color r="253" g="207" b="1" a="1.0" />
@@ -2436,7 +2436,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.3171" />
           <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="1.7330159999999994" />
+          <attvalue for="n11" value="1.7330159999999997" />
           <attvalue for="n12" value="1320000.0" />
         </attvalues>
         <viz:color r="253" g="209" b="1" a="1.0" />
@@ -2451,10 +2451,10 @@
           <attvalue for="n5" value="-6" />
           <attvalue for="n6" value="#FCCB02" />
           <attvalue for="n7" value="6" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.5448" />
           <attvalue for="n10" value="-6" />
-          <attvalue for="n11" value="0.8009850000000001" />
+          <attvalue for="n11" value="0.800985" />
           <attvalue for="n12" value="5350000.0" />
         </attvalues>
         <viz:color r="252" g="203" b="2" a="1.0" />
@@ -2470,9 +2470,9 @@
           <attvalue for="n6" value="#97BB15" />
           <attvalue for="n7" value="26" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="2.8987" />
-          <attvalue for="n10" value="22" />
-          <attvalue for="n11" value="1.8598309999999996" />
+          <attvalue for="n9" value="2.8919" />
+          <attvalue for="n10" value="18" />
+          <attvalue for="n11" value="1.8598309999999998" />
           <attvalue for="n12" value="2570000.0" />
         </attvalues>
         <viz:color r="151" g="187" b="21" a="1.0" />
@@ -2487,10 +2487,10 @@
           <attvalue for="n5" value="34" />
           <attvalue for="n6" value="#E2CF05" />
           <attvalue for="n7" value="38" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.6469" />
           <attvalue for="n10" value="19" />
-          <attvalue for="n11" value="2.367205" />
+          <attvalue for="n11" value="2.3672050000000002" />
           <attvalue for="n12" value="4060000.0" />
         </attvalues>
         <viz:color r="226" g="207" b="5" a="1.0" />
@@ -2526,7 +2526,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.7677" />
           <attvalue for="n10" value="7" />
-          <attvalue for="n11" value="0.30325500000000005" />
+          <attvalue for="n11" value="0.303255" />
           <attvalue for="n12" value="6390000.0" />
         </attvalues>
         <viz:color r="228" g="208" b="5" a="1.0" />
@@ -2542,9 +2542,9 @@
           <attvalue for="n6" value="#F8BD05" />
           <attvalue for="n7" value="18" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-1.3045" />
-          <attvalue for="n10" value="-14" />
-          <attvalue for="n11" value="1.442299" />
+          <attvalue for="n9" value="-1.263" />
+          <attvalue for="n10" value="-12" />
+          <attvalue for="n11" value="1.4422989999999998" />
           <attvalue for="n12" value="2340000.0" />
         </attvalues>
         <viz:color r="248" g="189" b="5" a="1.0" />
@@ -2562,7 +2562,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-0.3277" />
           <attvalue for="n10" value="-2" />
-          <attvalue for="n11" value="0.27004700000000004" />
+          <attvalue for="n11" value="0.270047" />
           <attvalue for="n12" value="1300000.0" />
         </attvalues>
         <viz:color r="253" g="208" b="1" a="1.0" />
@@ -2577,7 +2577,7 @@
           <attvalue for="n5" value="27" />
           <attvalue for="n6" value="#EBD203" />
           <attvalue for="n7" value="71" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.249" />
           <attvalue for="n10" value="10" />
           <attvalue for="n11" value="1.5960779999999999" />
@@ -2595,10 +2595,10 @@
           <attvalue for="n5" value="-14" />
           <attvalue for="n6" value="#FED300" />
           <attvalue for="n7" value="32" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.272" />
-          <attvalue for="n10" value="-6" />
-          <attvalue for="n11" value="1.2277999999999998" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.1021" />
+          <attvalue for="n10" value="-8" />
+          <attvalue for="n11" value="1.2278" />
           <attvalue for="n12" value="760000.0" />
         </attvalues>
         <viz:color r="254" g="211" b="0" a="1.0" />
@@ -2616,7 +2616,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.6214" />
           <attvalue for="n10" value="3" />
-          <attvalue for="n11" value="2.6482360000000003" />
+          <attvalue for="n11" value="2.648236" />
           <attvalue for="n12" value="1980000.0" />
         </attvalues>
         <viz:color r="223" g="206" b="6" a="1.0" />
@@ -2650,8 +2650,8 @@
           <attvalue for="n6" value="#D9CD07" />
           <attvalue for="n7" value="15" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="1.0245" />
-          <attvalue for="n10" value="15" />
+          <attvalue for="n9" value="0.9983" />
+          <attvalue for="n10" value="12" />
           <attvalue for="n11" value="2.5727460000000004" />
           <attvalue for="n12" value="940000.0" />
         </attvalues>
@@ -2667,7 +2667,7 @@
           <attvalue for="n5" value="13" />
           <attvalue for="n6" value="#F6D401" />
           <attvalue for="n7" value="17" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.2035" />
           <attvalue for="n10" value="9" />
           <attvalue for="n11" value="1.6733449999999994" />
@@ -2703,7 +2703,7 @@
           <attvalue for="n5" value="-1" />
           <attvalue for="n6" value="#FED300" />
           <attvalue for="n7" value="1" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.15" />
           <attvalue for="n10" value="-1" />
           <attvalue for="n11" value="0.15001" />
@@ -2722,9 +2722,9 @@
           <attvalue for="n6" value="#F4D402" />
           <attvalue for="n7" value="4" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.023" />
-          <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="4.836551000000002" />
+          <attvalue for="n9" value="0.2959" />
+          <attvalue for="n10" value="2" />
+          <attvalue for="n11" value="4.836551" />
           <attvalue for="n12" value="5450000.0" />
         </attvalues>
         <viz:color r="244" g="212" b="2" a="1.0" />
@@ -2776,8 +2776,8 @@
           <attvalue for="n6" value="#F6B108" />
           <attvalue for="n7" value="25" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-1.6512" />
-          <attvalue for="n10" value="-18" />
+          <attvalue for="n9" value="-1.714" />
+          <attvalue for="n10" value="-19" />
           <attvalue for="n11" value="2.345334" />
           <attvalue for="n12" value="8890000.0" />
         </attvalues>
@@ -2814,7 +2814,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.9129" />
           <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="4.310581" />
+          <attvalue for="n11" value="4.310580999999999" />
           <attvalue for="n12" value="2850000.0" />
         </attvalues>
         <viz:color r="216" g="204" b="8" a="1.0" />
@@ -2830,8 +2830,8 @@
           <attvalue for="n6" value="#87B718" />
           <attvalue for="n7" value="52" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="3.1507" />
-          <attvalue for="n10" value="16" />
+          <attvalue for="n9" value="3.1504" />
+          <attvalue for="n10" value="15" />
           <attvalue for="n11" value="4.857197" />
           <attvalue for="n12" value="19544000.0" />
         </attvalues>
@@ -2848,9 +2848,9 @@
           <attvalue for="n6" value="#E1CF06" />
           <attvalue for="n7" value="13" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="0.8202" />
-          <attvalue for="n10" value="6" />
-          <attvalue for="n11" value="1.720101" />
+          <attvalue for="n9" value="-0.065" />
+          <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="1.7201009999999999" />
           <attvalue for="n12" value="3500000.0" />
         </attvalues>
         <viz:color r="225" g="207" b="6" a="1.0" />
@@ -2865,7 +2865,7 @@
           <attvalue for="n5" value="-3" />
           <attvalue for="n6" value="#FDD200" />
           <attvalue for="n7" value="5" />
-          <attvalue for="n8" value="1" />
+          <attvalue for="n8" value="5" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.283409" />
@@ -2884,8 +2884,8 @@
           <attvalue for="n6" value="#FED400" />
           <attvalue for="n7" value="2" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.0" />
-          <attvalue for="n10" value="0" />
+          <attvalue for="n9" value="-0.1275" />
+          <attvalue for="n10" value="-2" />
           <attvalue for="n11" value="0.06376" />
           <attvalue for="n12" value="70000.0" />
         </attvalues>
@@ -2901,10 +2901,10 @@
           <attvalue for="n5" value="-4" />
           <attvalue for="n6" value="#FED600" />
           <attvalue for="n7" value="17" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.0918" />
           <attvalue for="n10" value="-5" />
-          <attvalue for="n11" value="1.2018399999999998" />
+          <attvalue for="n11" value="1.20184" />
           <attvalue for="n12" value="3030000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
@@ -2919,9 +2919,9 @@
           <attvalue for="n5" value="-115" />
           <attvalue for="n6" value="#E56B18" />
           <attvalue for="n7" value="32" />
-          <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-3.3127" />
-          <attvalue for="n10" value="-59" />
+          <attvalue for="n8" value="0" />
+          <attvalue for="n9" value="-0.7598" />
+          <attvalue for="n10" value="-26" />
           <attvalue for="n11" value="2.4267190000000003" />
           <attvalue for="n12" value="790000.0" />
         </attvalues>
@@ -2938,9 +2938,9 @@
           <attvalue for="n6" value="#E7D004" />
           <attvalue for="n7" value="144" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.2281" />
-          <attvalue for="n10" value="2" />
-          <attvalue for="n11" value="6.653941000000001" />
+          <attvalue for="n9" value="0.6598" />
+          <attvalue for="n10" value="4" />
+          <attvalue for="n11" value="6.653941" />
           <attvalue for="n12" value="7640000.0" />
         </attvalues>
         <viz:color r="231" g="208" b="4" a="1.0" />
@@ -2958,7 +2958,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.0998" />
           <attvalue for="n10" value="-15" />
-          <attvalue for="n11" value="1.132994" />
+          <attvalue for="n11" value="1.1329940000000003" />
           <attvalue for="n12" value="1197000.0" />
         </attvalues>
         <viz:color r="249" g="190" b="5" a="1.0" />
@@ -2974,8 +2974,8 @@
           <attvalue for="n6" value="#D2CB09" />
           <attvalue for="n7" value="9" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.8349" />
-          <attvalue for="n10" value="4" />
+          <attvalue for="n9" value="1.2893" />
+          <attvalue for="n10" value="7" />
           <attvalue for="n11" value="2.219854" />
           <attvalue for="n12" value="6620000.0" />
         </attvalues>
@@ -2994,7 +2994,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.0822" />
           <attvalue for="n10" value="2" />
-          <attvalue for="n11" value="4.859591000000001" />
+          <attvalue for="n11" value="4.859591" />
           <attvalue for="n12" value="7840000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
@@ -3009,9 +3009,9 @@
           <attvalue for="n5" value="1" />
           <attvalue for="n6" value="#FDD600" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="0.0361" />
-          <attvalue for="n10" value="1" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.0" />
+          <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.036135" />
           <attvalue for="n12" value="2320000.0" />
         </attvalues>
@@ -3027,7 +3027,7 @@
           <attvalue for="n5" value="1" />
           <attvalue for="n6" value="#D7CC08" />
           <attvalue for="n7" value="7" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="1.5657" />
           <attvalue for="n10" value="2" />
           <attvalue for="n11" value="1.176357" />
@@ -3046,9 +3046,9 @@
           <attvalue for="n6" value="#F3A40B" />
           <attvalue for="n7" value="10" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-2.006" />
-          <attvalue for="n10" value="-14" />
-          <attvalue for="n11" value="4.57642" />
+          <attvalue for="n9" value="-2.4279" />
+          <attvalue for="n10" value="-19" />
+          <attvalue for="n11" value="4.576419999999999" />
           <attvalue for="n12" value="640000.0" />
         </attvalues>
         <viz:color r="243" g="164" b="11" a="1.0" />
@@ -3063,7 +3063,7 @@
           <attvalue for="n5" value="30" />
           <attvalue for="n6" value="#B4C30F" />
           <attvalue for="n7" value="22" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="1.9234" />
           <attvalue for="n10" value="24" />
           <attvalue for="n11" value="2.582433" />
@@ -3082,8 +3082,8 @@
           <attvalue for="n6" value="#C0C60D" />
           <attvalue for="n7" value="49" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="1.3192" />
-          <attvalue for="n10" value="14" />
+          <attvalue for="n9" value="1.5226" />
+          <attvalue for="n10" value="17" />
           <attvalue for="n11" value="4.103195" />
           <attvalue for="n12" value="6880000.0" />
         </attvalues>
@@ -3099,8 +3099,8 @@
           <attvalue for="n5" value="2" />
           <attvalue for="n6" value="#FCCC02" />
           <attvalue for="n7" value="11" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.0" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="-0.5357" />
           <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.42240500000000003" />
           <attvalue for="n12" value="3340000.0" />
@@ -3117,7 +3117,7 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#FAD500" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.1282" />
           <attvalue for="n10" value="3" />
           <attvalue for="n11" value="0.7789440000000001" />
@@ -3153,7 +3153,7 @@
           <attvalue for="n5" value="4" />
           <attvalue for="n6" value="#E8D104" />
           <attvalue for="n7" value="3" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.4998" />
           <attvalue for="n10" value="2" />
           <attvalue for="n11" value="0.6718950000000001" />
@@ -3171,10 +3171,10 @@
           <attvalue for="n5" value="3" />
           <attvalue for="n6" value="#FBCA02" />
           <attvalue for="n7" value="11" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="-0.6395" />
-          <attvalue for="n10" value="-1" />
-          <attvalue for="n11" value="0.559197" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="-0.5649" />
+          <attvalue for="n10" value="0" />
+          <attvalue for="n11" value="0.5591969999999999" />
           <attvalue for="n12" value="1300000.0" />
         </attvalues>
         <viz:color r="251" g="202" b="2" a="1.0" />
@@ -3189,9 +3189,9 @@
           <attvalue for="n5" value="7" />
           <attvalue for="n6" value="#FAD501" />
           <attvalue for="n7" value="18" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.1335" />
-          <attvalue for="n10" value="6" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.134" />
+          <attvalue for="n10" value="7" />
           <attvalue for="n11" value="0.311394" />
           <attvalue for="n12" value="2080000.0" />
         </attvalues>
@@ -3207,9 +3207,9 @@
           <attvalue for="n5" value="0" />
           <attvalue for="n6" value="#FED300" />
           <attvalue for="n7" value="23" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="-0.4791" />
-          <attvalue for="n10" value="2" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="-1.3947" />
+          <attvalue for="n10" value="-2" />
           <attvalue for="n11" value="2.355968" />
           <attvalue for="n12" value="7180000.0" />
         </attvalues>
@@ -3225,9 +3225,9 @@
           <attvalue for="n5" value="21" />
           <attvalue for="n6" value="#BFC60D" />
           <attvalue for="n7" value="75" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="1.6682" />
-          <attvalue for="n10" value="15" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="1.6383" />
+          <attvalue for="n10" value="12" />
           <attvalue for="n11" value="1.892665" />
           <attvalue for="n12" value="6500000.0" />
         </attvalues>
@@ -3243,9 +3243,9 @@
           <attvalue for="n5" value="23" />
           <attvalue for="n6" value="#DACD07" />
           <attvalue for="n7" value="42" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.9708" />
-          <attvalue for="n10" value="18" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.9495" />
+          <attvalue for="n10" value="17" />
           <attvalue for="n11" value="1.3907239999999992" />
           <attvalue for="n12" value="6650000.0" />
         </attvalues>
@@ -3262,9 +3262,9 @@
           <attvalue for="n6" value="#B2C30F" />
           <attvalue for="n7" value="24" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="2.2273" />
-          <attvalue for="n10" value="8" />
-          <attvalue for="n11" value="4.561804" />
+          <attvalue for="n9" value="2.1614" />
+          <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="4.561804000000001" />
           <attvalue for="n12" value="1412000.0" />
         </attvalues>
         <viz:color r="178" g="195" b="15" a="1.0" />
@@ -3279,7 +3279,7 @@
           <attvalue for="n5" value="-7" />
           <attvalue for="n6" value="#FAC104" />
           <attvalue for="n7" value="5" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-1.0039" />
           <attvalue for="n10" value="-6" />
           <attvalue for="n11" value="0.5176450000000001" />
@@ -3297,10 +3297,10 @@
           <attvalue for="n5" value="-16" />
           <attvalue for="n6" value="#F0D302" />
           <attvalue for="n7" value="35" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="0.3832" />
-          <attvalue for="n10" value="-9" />
-          <attvalue for="n11" value="2.447420999999999" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="0.421" />
+          <attvalue for="n10" value="-7" />
+          <attvalue for="n11" value="2.4474209999999994" />
           <attvalue for="n12" value="1860000.0" />
         </attvalues>
         <viz:color r="240" g="211" b="2" a="1.0" />
@@ -3315,9 +3315,9 @@
           <attvalue for="n5" value="-21" />
           <attvalue for="n6" value="#E56918" />
           <attvalue for="n7" value="53" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-4.6419" />
-          <attvalue for="n10" value="-19" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-5.2908" />
+          <attvalue for="n10" value="-22" />
           <attvalue for="n11" value="3.6538519999999997" />
           <attvalue for="n12" value="570000.0" />
         </attvalues>
@@ -3334,8 +3334,8 @@
           <attvalue for="n6" value="#F3D402" />
           <attvalue for="n7" value="41" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.1294" />
-          <attvalue for="n10" value="9" />
+          <attvalue for="n9" value="0.1466" />
+          <attvalue for="n10" value="13" />
           <attvalue for="n11" value="0.45179700000000006" />
           <attvalue for="n12" value="4943000.0" />
         </attvalues>
@@ -3370,9 +3370,9 @@
           <attvalue for="n6" value="#CFCA0A" />
           <attvalue for="n7" value="20" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.5967" />
-          <attvalue for="n10" value="4" />
-          <attvalue for="n11" value="7.222256000000001" />
+          <attvalue for="n9" value="1.32" />
+          <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="7.222256" />
           <attvalue for="n12" value="6200000.0" />
         </attvalues>
         <viz:color r="207" g="202" b="10" a="1.0" />
@@ -3387,10 +3387,10 @@
           <attvalue for="n5" value="15" />
           <attvalue for="n6" value="#EDD203" />
           <attvalue for="n7" value="24" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="0.5478" />
-          <attvalue for="n10" value="8" />
-          <attvalue for="n11" value="1.885466" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.5303" />
+          <attvalue for="n10" value="7" />
+          <attvalue for="n11" value="1.8854660000000003" />
           <attvalue for="n12" value="2830000.0" />
         </attvalues>
         <viz:color r="237" g="210" b="3" a="1.0" />
@@ -3459,10 +3459,10 @@
           <attvalue for="n5" value="-10" />
           <attvalue for="n6" value="#FAC204" />
           <attvalue for="n7" value="60" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="-0.8604" />
-          <attvalue for="n10" value="-10" />
-          <attvalue for="n11" value="1.2670429999999997" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="-0.8111" />
+          <attvalue for="n10" value="-8" />
+          <attvalue for="n11" value="1.2670429999999995" />
           <attvalue for="n12" value="15483000.0" />
         </attvalues>
         <viz:color r="250" g="194" b="4" a="1.0" />
@@ -3480,7 +3480,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.92" />
           <attvalue for="n10" value="-10" />
-          <attvalue for="n11" value="0.9600500000000002" />
+          <attvalue for="n11" value="0.9600500000000001" />
           <attvalue for="n12" value="370000.0" />
         </attvalues>
         <viz:color r="245" g="175" b="9" a="1.0" />
@@ -3514,9 +3514,9 @@
           <attvalue for="n6" value="#CFCA09" />
           <attvalue for="n7" value="10" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="1.0743" />
-          <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="3.876248999999999" />
+          <attvalue for="n9" value="0.9765" />
+          <attvalue for="n10" value="-1" />
+          <attvalue for="n11" value="3.8762489999999996" />
           <attvalue for="n12" value="1630000.0" />
         </attvalues>
         <viz:color r="207" g="202" b="9" a="1.0" />
@@ -3532,8 +3532,8 @@
           <attvalue for="n6" value="#F9D501" />
           <attvalue for="n7" value="7" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.0111" />
-          <attvalue for="n10" value="1" />
+          <attvalue for="n9" value="0.0" />
+          <attvalue for="n10" value="0" />
           <attvalue for="n11" value="1.4898959999999999" />
           <attvalue for="n12" value="3504000.0" />
         </attvalues>
@@ -3552,7 +3552,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="0.6873" />
           <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="3.808317" />
+          <attvalue for="n11" value="3.8083169999999997" />
           <attvalue for="n12" value="4080000.0" />
         </attvalues>
         <viz:color r="254" g="214" b="0" a="1.0" />
@@ -3567,9 +3567,9 @@
           <attvalue for="n5" value="-22" />
           <attvalue for="n6" value="#F6B307" />
           <attvalue for="n7" value="7" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="-1.1136" />
-          <attvalue for="n10" value="-13" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="-1.1715" />
+          <attvalue for="n10" value="-14" />
           <attvalue for="n11" value="1.2364970000000002" />
           <attvalue for="n12" value="2850000.0" />
         </attvalues>
@@ -3585,7 +3585,7 @@
           <attvalue for="n5" value="-1" />
           <attvalue for="n6" value="#FED600" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-0.023" />
           <attvalue for="n10" value="-1" />
           <attvalue for="n11" value="0.023039999999999998" />
@@ -3603,9 +3603,9 @@
           <attvalue for="n5" value="-11" />
           <attvalue for="n6" value="#E2CF05" />
           <attvalue for="n7" value="23" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="1.83" />
-          <attvalue for="n10" value="7" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="0.9574" />
+          <attvalue for="n10" value="5" />
           <attvalue for="n11" value="2.838501000000001" />
           <attvalue for="n12" value="21380000.0" />
         </attvalues>
@@ -3621,10 +3621,10 @@
           <attvalue for="n5" value="-7" />
           <attvalue for="n6" value="#FCCE02" />
           <attvalue for="n7" value="27" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="-0.5944" />
           <attvalue for="n10" value="-8" />
-          <attvalue for="n11" value="0.942768" />
+          <attvalue for="n11" value="0.9427679999999999" />
           <attvalue for="n12" value="2520000.0" />
         </attvalues>
         <viz:color r="252" g="206" b="2" a="1.0" />
@@ -3642,7 +3642,7 @@
           <attvalue for="n8" value="1" />
           <attvalue for="n9" value="-0.8908" />
           <attvalue for="n10" value="-2" />
-          <attvalue for="n11" value="1.441429" />
+          <attvalue for="n11" value="1.4414289999999998" />
           <attvalue for="n12" value="2860000.0" />
         </attvalues>
         <viz:color r="249" g="191" b="5" a="1.0" />
@@ -3658,7 +3658,7 @@
           <attvalue for="n6" value="#F8BC05" />
           <attvalue for="n7" value="25" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-1.1799" />
+          <attvalue for="n9" value="-1.1321" />
           <attvalue for="n10" value="-37" />
           <attvalue for="n11" value="0.719426" />
           <attvalue for="n12" value="3676000.0" />
@@ -3711,9 +3711,9 @@
           <attvalue for="n5" value="2" />
           <attvalue for="n6" value="#EFD203" />
           <attvalue for="n7" value="2" />
-          <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="0.4275" />
-          <attvalue for="n10" value="2" />
+          <attvalue for="n8" value="5" />
+          <attvalue for="n9" value="0.0" />
+          <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.98251" />
           <attvalue for="n12" value="310000.0" />
         </attvalues>
@@ -3747,10 +3747,10 @@
           <attvalue for="n5" value="23" />
           <attvalue for="n6" value="#F1D302" />
           <attvalue for="n7" value="21" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.8335" />
           <attvalue for="n10" value="17" />
-          <attvalue for="n11" value="1.992899" />
+          <attvalue for="n11" value="1.9928989999999998" />
           <attvalue for="n12" value="1000000.0" />
         </attvalues>
         <viz:color r="241" g="211" b="2" a="1.0" />
@@ -3783,10 +3783,10 @@
           <attvalue for="n5" value="7" />
           <attvalue for="n6" value="#FCD600" />
           <attvalue for="n7" value="8" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0321" />
           <attvalue for="n10" value="4" />
-          <attvalue for="n11" value="0.346705" />
+          <attvalue for="n11" value="0.34670500000000004" />
           <attvalue for="n12" value="5010000.0" />
         </attvalues>
         <viz:color r="252" g="214" b="0" a="1.0" />
@@ -3801,7 +3801,7 @@
           <attvalue for="n5" value="12" />
           <attvalue for="n6" value="#DBCD07" />
           <attvalue for="n7" value="17" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0335" />
           <attvalue for="n10" value="3" />
           <attvalue for="n11" value="0.9365300000000001" />
@@ -3820,9 +3820,9 @@
           <attvalue for="n6" value="#FBC703" />
           <attvalue for="n7" value="30" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="-0.7621" />
+          <attvalue for="n9" value="-0.7471" />
           <attvalue for="n10" value="-7" />
-          <attvalue for="n11" value="1.6800620000000002" />
+          <attvalue for="n11" value="1.680062" />
           <attvalue for="n12" value="3050000.0" />
         </attvalues>
         <viz:color r="251" g="199" b="3" a="1.0" />
@@ -3840,7 +3840,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.15" />
           <attvalue for="n10" value="1" />
-          <attvalue for="n11" value="0.45001" />
+          <attvalue for="n11" value="0.45000999999999997" />
           <attvalue for="n12" value="60000.0" />
         </attvalues>
         <viz:color r="249" g="213" b="1" a="1.0" />
@@ -3858,7 +3858,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="-0.2217" />
           <attvalue for="n10" value="0" />
-          <attvalue for="n11" value="3.4823579999999996" />
+          <attvalue for="n11" value="3.482358" />
           <attvalue for="n12" value="1880000.0" />
         </attvalues>
         <viz:color r="253" g="210" b="1" a="1.0" />
@@ -3873,10 +3873,10 @@
           <attvalue for="n5" value="10" />
           <attvalue for="n6" value="#C4C70C" />
           <attvalue for="n7" value="65" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="1.5049" />
           <attvalue for="n10" value="-4" />
-          <attvalue for="n11" value="1.7088389999999998" />
+          <attvalue for="n11" value="1.7088389999999993" />
           <attvalue for="n12" value="7916734.0" />
         </attvalues>
         <viz:color r="196" g="199" b="12" a="1.0" />
@@ -3891,10 +3891,10 @@
           <attvalue for="n5" value="12" />
           <attvalue for="n6" value="#E1CF06" />
           <attvalue for="n7" value="50" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.4134" />
           <attvalue for="n10" value="6" />
-          <attvalue for="n11" value="0.9720580000000001" />
+          <attvalue for="n11" value="0.9720580000000002" />
           <attvalue for="n12" value="7280000.0" />
         </attvalues>
         <viz:color r="225" g="207" b="6" a="1.0" />
@@ -3927,10 +3927,10 @@
           <attvalue for="n5" value="-13" />
           <attvalue for="n6" value="#FBD600" />
           <attvalue for="n7" value="27" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.1627" />
           <attvalue for="n10" value="-7" />
-          <attvalue for="n11" value="1.8092449999999993" />
+          <attvalue for="n11" value="1.8092449999999995" />
           <attvalue for="n12" value="12740000.0" />
         </attvalues>
         <viz:color r="251" g="214" b="0" a="1.0" />
@@ -3964,8 +3964,8 @@
           <attvalue for="n6" value="#FDD101" />
           <attvalue for="n7" value="102" />
           <attvalue for="n8" value="1" />
-          <attvalue for="n9" value="-0.5672" />
-          <attvalue for="n10" value="9" />
+          <attvalue for="n9" value="-0.5715" />
+          <attvalue for="n10" value="6" />
           <attvalue for="n11" value="1.384581" />
           <attvalue for="n12" value="21300000.0" />
         </attvalues>
@@ -3981,7 +3981,7 @@
           <attvalue for="n5" value="-20" />
           <attvalue for="n6" value="#F7B507" />
           <attvalue for="n7" value="10" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="-1.0665" />
           <attvalue for="n10" value="-16" />
           <attvalue for="n11" value="1.204209" />
@@ -4018,8 +4018,8 @@
           <attvalue for="n6" value="#FDD101" />
           <attvalue for="n7" value="5" />
           <attvalue for="n8" value="0" />
-          <attvalue for="n9" value="0.0" />
-          <attvalue for="n10" value="0" />
+          <attvalue for="n9" value="-0.2886" />
+          <attvalue for="n10" value="-1" />
           <attvalue for="n11" value="5.124492999999999" />
           <attvalue for="n12" value="1650000.0" />
         </attvalues>
@@ -4038,7 +4038,7 @@
           <attvalue for="n8" value="4" />
           <attvalue for="n9" value="-1.9676" />
           <attvalue for="n10" value="-21" />
-          <attvalue for="n11" value="1.4404580000000002" />
+          <attvalue for="n11" value="1.4404579999999998" />
           <attvalue for="n12" value="5330000.0" />
         </attvalues>
         <viz:color r="245" g="174" b="9" a="1.0" />
@@ -4054,8 +4054,8 @@
           <attvalue for="n6" value="#FBC903" />
           <attvalue for="n7" value="24" />
           <attvalue for="n8" value="4" />
-          <attvalue for="n9" value="-0.6137" />
-          <attvalue for="n10" value="4" />
+          <attvalue for="n9" value="-0.6138" />
+          <attvalue for="n10" value="3" />
           <attvalue for="n11" value="2.1999309999999994" />
           <attvalue for="n12" value="12830000.0" />
         </attvalues>
@@ -4092,7 +4092,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="1.9323" />
           <attvalue for="n10" value="12" />
-          <attvalue for="n11" value="2.390065" />
+          <attvalue for="n11" value="2.3900650000000003" />
           <attvalue for="n12" value="9440000.0" />
         </attvalues>
         <viz:color r="185" g="196" b="14" a="1.0" />
@@ -4110,7 +4110,7 @@
           <attvalue for="n8" value="0" />
           <attvalue for="n9" value="0.3949" />
           <attvalue for="n10" value="5" />
-          <attvalue for="n11" value="1.3899579999999998" />
+          <attvalue for="n11" value="1.389958" />
           <attvalue for="n12" value="1380000.0" />
         </attvalues>
         <viz:color r="240" g="211" b="2" a="1.0" />
@@ -4125,9 +4125,9 @@
           <attvalue for="n5" value="7" />
           <attvalue for="n6" value="#F0D303" />
           <attvalue for="n7" value="15" />
-          <attvalue for="n8" value="2" />
-          <attvalue for="n9" value="0.1826" />
-          <attvalue for="n10" value="4" />
+          <attvalue for="n8" value="3" />
+          <attvalue for="n9" value="0.0031" />
+          <attvalue for="n10" value="3" />
           <attvalue for="n11" value="1.5957249999999998" />
           <attvalue for="n12" value="466044.0" />
         </attvalues>
@@ -4143,10 +4143,10 @@
           <attvalue for="n5" value="-9" />
           <attvalue for="n6" value="#F8BA06" />
           <attvalue for="n7" value="12" />
-          <attvalue for="n8" value="2" />
+          <attvalue for="n8" value="3" />
           <attvalue for="n9" value="0.0684" />
           <attvalue for="n10" value="3" />
-          <attvalue for="n11" value="1.9922640000000003" />
+          <attvalue for="n11" value="1.992264" />
           <attvalue for="n12" value="4070000.0" />
         </attvalues>
         <viz:color r="248" g="186" b="6" a="1.0" />
@@ -4161,7 +4161,7 @@
           <attvalue for="n5" value="-1" />
           <attvalue for="n6" value="#FDCE01" />
           <attvalue for="n7" value="4" />
-          <attvalue for="n8" value="3" />
+          <attvalue for="n8" value="2" />
           <attvalue for="n9" value="0.0" />
           <attvalue for="n10" value="0" />
           <attvalue for="n11" value="0.755903" />
@@ -4197,10 +4197,10 @@
           <attvalue for="n5" value="17" />
           <attvalue for="n6" value="#D3CB09" />
           <attvalue for="n7" value="94" />
-          <attvalue for="n8" value="3" />
-          <attvalue for="n9" value="2.0434" />
-          <attvalue for="n10" value="21" />
-          <attvalue for="n11" value="3.492616" />
+          <attvalue for="n8" value="2" />
+          <attvalue for="n9" value="1.2486" />
+          <attvalue for="n10" value="16" />
+          <attvalue for="n11" value="3.492616000000001" />
           <attvalue for="n12" value="3420000.0" />
         </attvalues>
         <viz:color r="211" g="203" b="9" a="1.0" />

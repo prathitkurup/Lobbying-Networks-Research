@@ -42,16 +42,18 @@ MIN_SESSIONS_W = 3 # min sessions for Kendall's W
 COMMUNITY_LABELS = {
     0: "Finance/Insurance",
     1: "Tech/Telecom",
-    2: "Defense/Industrial",
-    3: "Energy/Utilities",
+    2: "Energy/Utilities",
+    3: "Defense/Industrial",
     4: "Health/Pharma",
+    5: "Consumer/Manufacturing",
 }
 SECTOR_COLORS = {
-    "Finance/Insurance": "#4C72B0",
-    "Tech/Telecom":      "#DD8452",
-    "Defense/Industrial":"#55A868",
-    "Energy/Utilities":  "#C44E52",
-    "Health/Pharma":     "#8172B2",
+    "Finance/Insurance":      "#4C72B0",
+    "Tech/Telecom":           "#DD8452",
+    "Energy/Utilities":       "#C44E52",
+    "Defense/Industrial":     "#55A868",
+    "Health/Pharma":          "#8172B2",
+    "Consumer/Manufacturing": "#CCB974",
 }
 
 OUT_DIR = ROOT / "outputs" / "analysis"
