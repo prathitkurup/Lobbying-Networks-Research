@@ -152,7 +152,7 @@ All bill-level networks follow the same preprocessing sequence before building e
 
 - Edge weight = number of unique named lobbyists shared by two Fortune 500 companies.
 - Reads the `lobbyists` column from `opensecrets_lda_reports.csv`, splits on `|`, deduplicates `(fortune_name, lobbyist)`.
-- Writes `data/network_edges/lobbyist_affiliation_edges.csv` (active path, read by `affiliation_mediated_adoption.py`).
+- Writes `data/archive/network_edges/lobbyist_affiliation_edges.csv` (read by `affiliation_mediated_adoption.py`).
 - Community and centrality outputs go to `data/archive/communities/` and `data/archive/centralities/`.
 
 ### Community Detection (all networks)
@@ -324,7 +324,7 @@ Output: `visualizations/gexf/rbo_directed_influence.gexf`.
 
 ---
 
-## 8. Validation Scripts (`src/validations/`)
+## 8. Validation Scripts (`src/archive/validations/`)
 
 Numbered scripts with increasing specificity. All run from `src/`.
 
@@ -376,7 +376,7 @@ These are the parameters most likely to affect results. All are set as constants
 | `opensecrets_lda_issues.csv` | `opensecrets_extraction.py` | One row per (report, issue_code) |
 | `rbo_directed_influence.csv` | `rbo_directed_influence.py` | Directed influence edge list |
 | `ranked_bill_lists.csv` | `rbo_directed_influence.py` | Per-firm top-30 bill rankings |
-| `network_edges/lobbyist_affiliation_edges.csv` | `archive/networks/lobbyist_affiliation_network.py` | Shared lobbyist edges (active; read by mediation analysis) |
+| `archive/network_edges/lobbyist_affiliation_edges.csv` | `archive/networks/lobbyist_affiliation_network.py` | Shared lobbyist edges (read by mediation analysis) |
 | `archive/network_edges/affiliation_edges.csv` | `archive/networks/bill_affiliation_network.py` | Shared-bill edge list |
 | `archive/network_edges/rbo_edges.csv` | `archive/networks/rbo_similarity_network.py` | RBO similarity edges |
 | `archive/network_edges/cosine_edges.csv` | `archive/networks/cosine_similarity_network.py` | Cosine similarity edges |
@@ -392,9 +392,12 @@ These are the parameters most likely to affect results. All are set as constants
 |---|---|
 | `gml/rbo_directed_influence.gml` | Primary DiGraph GML for Gephi (enriched in-place by `enrich_directed_gml.py`) |
 | `gexf/rbo_directed_influence.gexf` | Filtered, colored GEXF for Gephi |
-| `png/rbo_directed_influence*.png` | Directed network plots (116th, 111th, 117th) |
-| `pdf/rbo_influence.pdf` | Full directed network (publication figure) |
-| `pdf/filtered_rbo_influence.pdf` | Filtered directed network (publication figure) |
+| `png/rbo_directed_influence*.png` | Directed network plots (116th, 111th–117th) |
+| `pdf/bill_affiliation.pdf` | Bill affiliation network |
+| `pdf/complete_influence_network.pdf` | Full directed influence network |
+| `pdf/filtered_influence_network_net_strength.pdf` | Directed network filtered by net_strength |
+| `pdf/filtered_influence_network_wc_strength.pdf` | Directed network filtered by within-community strength |
+| `publication/` | Publication-quality PDF, PNG, SVG for each of the above |
 | `archive/undirected/` | GML, PNG, and PDF for supporting undirected networks |
 
 ---
@@ -408,13 +411,13 @@ Tests whether directed bill-adoption pairs in the RBO network are explained by s
 | Script | Role |
 |---|---|
 | `src/affiliation_mediated_adoption.py` | Core data construction; produces bill-level and edge-level outputs |
-| `src/validations/11_mediated_adoption_validation.py` | 9-section statistical validation report |
+| `src/archive/validations/11_mediated_adoption_validation.py` | 9-section statistical validation report |
 
 Run `affiliation_mediated_adoption.py` first; `11_mediated_adoption_validation.py` reads its outputs.
 
 ### Pipeline (`affiliation_mediated_adoption.py`)
 
-**Inputs:** `data/opensecrets_lda_reports.csv`, `data/rbo_directed_influence.csv`, `data/ranked_bill_lists.csv`, `data/network_edges/lobbyist_affiliation_edges.csv`
+**Inputs:** `data/opensecrets_lda_reports.csv`, `data/rbo_directed_influence.csv`, `data/ranked_bill_lists.csv`, `data/archive/network_edges/lobbyist_affiliation_edges.csv`
 
 **Key constants:**
 
@@ -422,7 +425,7 @@ Run `affiliation_mediated_adoption.py` first; `11_mediated_adoption_validation.p
 |---|---|---|
 | `INCLUDE_BALANCED` | `True` | Include balanced (tied) RBO edges as a comparison group |
 | `FIRM_EXTERNAL_ONLY` | `True` | Firm channel restricted to non-self-filer registrants |
-| `LOB_AFFIL_EDGES` | `data/network_edges/lobbyist_affiliation_edges.csv` | Pre-computed lobbyist adjacency |
+| `LOB_AFFIL_EDGES` | `data/archive/network_edges/lobbyist_affiliation_edges.csv` | Pre-computed lobbyist adjacency |
 
 **Lookups built:**
 
@@ -430,7 +433,7 @@ Run `affiliation_mediated_adoption.py` first; `11_mediated_adoption_validation.p
 - `build_first_q_registrants(reports, external_only)` → `{(firm, bill): set(registrant)}` for first-quarter reports only
 - `build_first_q_lobbyists(reports)` → `{(firm, bill): set(lobbyist_name)}` for first-quarter reports; pipe-separated `lobbyists` column exploded
 - `build_top_bills(ranked)` → `{company: set(bill_number)}` from `ranked_bill_lists.csv`
-- `build_network_adjacency(reports, external_only)` → `(lob_adj, firm_adj)` undirected adjacency sets; lobbyist adjacency from pre-computed edges file, firm adjacency built inline from reports
+- `build_network_adjacency(reports, external_only)` → `(lob_adj, firm_adj)` undirected adjacency sets; lobbyist adjacency from pre-computed `data/archive/network_edges/lobbyist_affiliation_edges.csv`, firm adjacency built inline from reports
 
 **Core loop (`analyze_edges`):** For each RBO edge (A, B), iterates over shared top-30 bills. Per bill: assigns leader/follower by first-quarter, computes lag, intersects first-quarter registrant and lobbyist sets for bill-level mediation, checks pair membership in network adjacency sets for network-level connectivity.
 
@@ -532,15 +535,15 @@ Mirrors Analysis 3 using net_influence (raw win/loss count) as the reference met
 
 ### Key Empirical Findings
 
-- **Stable set:** 135 firms (all 7 congresses); 6,783 canonical pairs; 277 in all 7 sessions.
-- **Direction:** Mean consistency 0.770; 73.9% majority-direction; only 2.4% of pairs reach individual binomial significance (most significant: BALL/IBM, 5 directed sessions, p=0.031).
-- **Magnitude:** Spearman ρ range 0.037–0.218; highest: 116–117 (ρ=0.218). All significant except some involving 113th Congress.
-- **net_strength ranks (Analysis 3, primary):** 3 of 6 adjacent-congress ρ significant (114–115, 115–116, 116–117). Top high-strength firms: Xcel Energy (2.214), Lockheed Martin (2.054), Duke Energy (1.803). Top low-strength firms: Ally Financial (−1.108), Centerpoint Energy (−0.950), Cisco Systems (−0.929).
-- **net_influence ranks (Analysis 4, reference):** 5 of 6 adjacent-congress ρ significant; range 0.134–0.310. Top persistent influencers: Lockheed Martin (+72.1), IBM (+59.4), Xcel Energy (+53.6), CMS Energy (+46.4), Duke Energy (+45.4). Top persistent followers: Consolidated Edison (−55.1), Ameren (−48.3), Centerpoint Energy (−43.0).
+- **Stable set:** 136 firms (all 7 congresses); 6,869 canonical pairs; 285 in all 7 sessions.
+- **Direction:** Mean consistency 0.769; 73.8% majority-direction; only 2.4% of pairs reach individual binomial significance (most significant: Cisco Systems/IBM, 6 directed sessions, p=0.016).
+- **Magnitude:** Spearman ρ range 0.039–0.237; highest: 111–117 (ρ=0.237). Almost all significant; 113th-Congress pairs weakest.
+- **net_strength ranks (Analysis 3, primary):** 3 of 6 adjacent-congress ρ significant (113–114, 114–115, 115–116). Top mean-strength firms: Xcel Energy (4.892), Lockheed Martin (4.565), Duke Energy (4.449). Top low-strength firms: Ameren (−3.319), Consolidated Edison (−3.298), Centerpoint Energy (−3.013).
+- **net_influence ranks (Analysis 4, reference):** 5 of 6 adjacent-congress ρ significant (113–114 not significant); range 0.136–0.302. Top persistent influencers: Lockheed Martin (+71.9), IBM (+58.6), Xcel Energy (+53.3), CMS Energy (+46.4), Duke Energy (+45.6). Top persistent followers: Consolidated Edison (−56.1), Ameren (−49.4), Centerpoint Energy (−43.3).
 
 ### Methodology Reference
 
-See `docs/design_decisions.md §28` for full design rationale and empirical results. See `outputs/cross_congressional/cross_congressional_stability.docx` for the summary document.
+See `docs/design_decisions.md §28` for full design rationale and empirical results. See `outputs/cross_congressional/cross_congressional_stability.txt` for the full output log.
 
 ---
 
@@ -550,7 +553,7 @@ Formal rank-correlation analysis between bill-affiliation-network centrality mea
 
 ### Script
 
-`src/validations/13_centrality_vs_agenda_setter.py`
+`src/archive/validations/13_centrality_vs_agenda_setter.py`
 
 ### What it does
 
@@ -590,7 +593,7 @@ OLS regressions predicting firm influencer status from observable covariates, ru
 
 ### Script
 
-`src/validations/14_influencer_regression.py`
+`src/archive/validations/14_influencer_regression.py`
 
 ### Specifications
 
@@ -633,7 +636,7 @@ Tags each directed RBO edge as intra-sector or cross-sector using Leiden affilia
 
 ### Script
 
-`src/validations/15_cross_sector_directed_edges.py`
+`src/archive/validations/15_cross_sector_directed_edges.py`
 
 ### What it does
 
@@ -662,7 +665,7 @@ Identifies the top within-community agenda-setters per Leiden community across a
 
 ### Script
 
-`src/validations/16_industry_influencer_hierarchy.py`
+`src/archive/validations/16_industry_influencer_hierarchy.py`
 
 ### What it does
 
@@ -691,11 +694,11 @@ Tests for micro-level BCZ strategic complementarity: does firm i increase lobbyi
 
 ### Script
 
-`src/validations/18_payoff_complementarity.py`
+`src/archive/validations/18_payoff_complementarity.py`
 
 Run from `src/` directory:
 ```
-python validations/18_payoff_complementarity.py
+python archive/validations/18_payoff_complementarity.py
 ```
 
 ### Prerequisites
@@ -754,11 +757,11 @@ Tests whether follower firm B is more likely to first lobby a bill X that influe
 
 ### Script
 
-`src/validations/19_bill_adoption_diffusion.py`
+`src/archive/validations/19_bill_adoption_diffusion.py`
 
 Run from `src/` directory:
 ```
-python validations/19_bill_adoption_diffusion.py
+python archive/validations/19_bill_adoption_diffusion.py
 ```
 
 ### Prerequisites
@@ -831,7 +834,7 @@ Six undirected similarity and affiliation networks were constructed to character
 
 **Lobby Firm Affiliation Network** (`lobby_firm_affiliation_network.py`): Firms connected by shared K-street lobbying firms.
 
-**Lobbyist Affiliation Network** (`lobbyist_affiliation_network.py`): Firms connected by shared named lobbyists. Produces `data/network_edges/lobbyist_affiliation_edges.csv` (active path, used by `affiliation_mediated_adoption.py`).
+**Lobbyist Affiliation Network** (`lobbyist_affiliation_network.py`): Firms connected by shared named lobbyists. Produces `data/archive/network_edges/lobbyist_affiliation_edges.csv` (read by `affiliation_mediated_adoption.py`).
 
 Undirected GML, PNG, and PDF files for all these networks are in `visualizations/archive/undirected/`. Design rationale and methodology are documented in `docs/design_decisions.md §5–§11` and §4 above.
 

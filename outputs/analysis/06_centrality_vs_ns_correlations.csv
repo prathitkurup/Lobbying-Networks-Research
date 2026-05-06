@@ -5,5 +5,3 @@ Katz centrality,net_strength (global),0.1876,0.00161,280,0.3664,0.04643,30,0.366
 Katz centrality,wc_net_strength (within-comm),0.1782,0.00454,252,0.2761,0.13973,30,0.3333333333333333
 WC eigenvector,net_strength (global),0.2248,0.00015,280,0.3148,0.0902,30,0.36666666666666664
 WC eigenvector,wc_net_strength (within-comm),0.1752,0.0053,252,0.083,0.66288,30,0.36666666666666664
-Participation coeff,net_strength (global),0.0538,0.37021,280,-0.301,0.10602,30,0.06666666666666667
-Participation coeff,wc_net_strength (within-comm),-0.0102,0.87199,252,0.2454,0.19121,30,0.0

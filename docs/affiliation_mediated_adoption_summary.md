@@ -10,11 +10,11 @@ The RBO directed influence network identifies *which* firm set whose agenda, but
 
 Two scripts:
 - `src/affiliation_mediated_adoption.py` — core data construction
-- `src/validations/11_mediated_adoption_validation.py` — 9-section statistical validation report
+- `src/archive/validations/11_mediated_adoption_validation.py` — 9-section statistical validation report
 
 ### Core Logic (`affiliation_mediated_adoption.py`)
 
-**Inputs:** `data/opensecrets_lda_reports.csv`, `data/rbo_directed_influence.csv`, `data/ranked_bill_lists.csv`, `data/network_edges/lobbyist_affiliation_edges.csv`.
+**Inputs:** `data/opensecrets_lda_reports.csv`, `data/rbo_directed_influence.csv`, `data/ranked_bill_lists.csv`, `data/archive/network_edges/lobbyist_affiliation_edges.csv`.
 
 **Pipeline:**
 
@@ -22,7 +22,7 @@ Two scripts:
 2. Build `{(firm, bill): set(registrant)}` — external registrants (non-self-filers) on each firm's first-quarter reports for each bill. First-quarter only: captures the affiliation at the moment of adoption.
 3. Build `{(firm, bill): set(lobbyist_name)}` — lobbyists from pipe-separated column on each firm's first-quarter reports, exploded to one row per name.
 4. Build `{company: set(bill_number)}` from ranked bill lists — top-30 bill sets per firm.
-5. Build undirected lobbyist-network adjacency set from `lobbyist_affiliation_edges.csv`; build firm-network adjacency inline from `opensecrets_lda_reports.csv` (external registrants only, mirrors `lobby_firm_affiliation_network.py`).
+5. Build undirected lobbyist-network adjacency set from `data/archive/network_edges/lobbyist_affiliation_edges.csv`; build firm-network adjacency inline from `opensecrets_lda_reports.csv` (external registrants only, mirrors `lobby_firm_affiliation_network.py`).
 6. For each RBO edge (A, B), iterate over shared top-30 bills: assign bill-level leader/follower, compute lag, check bill-level and network-level affiliation.
 
 **Output columns per (edge, bill) record:**

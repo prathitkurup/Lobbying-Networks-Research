@@ -19,8 +19,6 @@ influence network?
   Katz centrality           wc_net_strength (within-comm)    0.1782** 4.5439e-03   0.2761 1.3973e-01         0.3333
   WC eigenvector            net_strength (global)            0.2248*** 1.4818e-04   0.3148 9.0205e-02         0.3667
   WC eigenvector            wc_net_strength (within-comm)    0.1752** 5.2954e-03   0.0830 6.6288e-01         0.3667
-  Participation coeff       net_strength (global)            0.0538  3.7021e-01  -0.3010 1.0602e-01         0.0667
-  Participation coeff       wc_net_strength (within-comm)   -0.0102  8.7199e-01   0.2454 1.9121e-01         0.0000
 
 [2/2] Generating top-30 ranked heatmap ...
   Heatmap saved: 06_top30_heatmap.png

@@ -66,7 +66,7 @@ Node color in PNG: green = `net_strength > 0`, red = `net_strength < 0`, gray = 
 
 ### Mediation (`src/affiliation_mediated_adoption.py`)
 
-Tests whether directed adoption pairs (A→B, bill) are mediated by shared lobbyists or lobbying firms. Bill-level analysis: ~42% of directed adoption events have a shared lobbyist in the first quarter of bill adoption. Network-level: 89% of directed pairs share at least one lobbyist across their full portfolios. Positive controls (random non-influencer pairs) show significantly lower mediation rates — χ² p < 0.001. See `docs/affiliation_mediated_adoption_summary.md` for full results. Design decision §24.
+Tests whether directed adoption pairs (A→B, bill) are mediated by shared lobbyists or lobbying firms. Bill-level mediation: 0.2% of directed adoption events (7/3,184) have a shared lobbyist or registrant on first-quarter reports for that specific bill. Network-level connectivity: 0.6% of directed pairs share any lobbyist across their full portfolios. The RBO influence signal is not primarily explained by direct shared-affiliation channels. See `docs/affiliation_mediated_adoption_summary.md` for full results. Design decision §24.
 
 ---
 
@@ -79,11 +79,11 @@ Tests whether directed adoption pairs (A→B, bill) are mediated by shared lobby
 
 ### Cross-Congressional Stability (111th–117th Congress)
 
-`src/cross_congressional_stability.py` analyzes direction/magnitude/rank stability for 135 firms present in all 7 congresses (2009–2022).
+`src/cross_congressional_stability.py` analyzes direction/magnitude/rank stability for 136 firms present in all 7 congresses (2009–2022).
 
 Key findings:
-- **Direction consistency:** median 77% of cross-session appearances maintain the same direction for multi-session pairs (Analysis 07, Part C). Mean = 77.3%.
-- **Rank stability:** Spearman ρ between adjacent congresses ranges 0.36–0.52 for `net_strength`; stable firms persist in the top tier across congresses.
+- **Direction consistency:** median 75% of cross-session appearances maintain the same direction for multi-session pairs. Mean = 76.9%.
+- **Rank stability:** 3 of 6 adjacent-congress Spearman ρ significant for `net_strength` (113–114, 114–115, 115–116); range 0.049–0.293. Stable firms persist in the top tier across congresses.
 - **Agenda-setter identity:** top-5 by `net_strength` has ~40–60% overlap between adjacent congresses (Jaccard ≈ 0.25 on top-20 set).
 
 ---
@@ -126,5 +126,5 @@ All outputs written to `outputs/analysis/`.
 - §20 — full RBO directed influence methodology (scoring rule, temporal precedence, references)
 - §24 — affiliation-mediated adoption findings
 - §37 — redesign from quarterly to full-Congress bill rankings
-- §38 — multi-congress pipeline and 135-firm stable set
+- §38 — multi-congress pipeline and 136-firm stable set
 - §39 — analysis scripts (01–08), methods and key findings

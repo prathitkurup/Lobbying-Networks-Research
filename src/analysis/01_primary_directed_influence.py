@@ -9,11 +9,14 @@ Answers:
 
 Outputs (all to outputs/analysis/):
   01_global_agenda_setters.csv
+  01_global_followers.csv
   01_within_community_agenda_setters.csv
   01_case_studies.csv
   01_primary_directed_influence.txt
   01_ns_vs_spend_scatter.png
   01_top30_bar.png
+  01_top20_bar.png        — top-20 agenda-setters; black outline = low wc_net_strength
+  01_bottom20_bar.png     — top-20 agenda-followers (most negative net_strength)
 """
 
 import sys
@@ -41,9 +44,10 @@ SECTOR_COLORS = {
     "Health/Pharma":          "#8172B2",
     "Consumer/Manufacturing": "#CCB974",
 }
-TOP_N       = 30   # global agenda-setter list length
+TOP_N       = 30   # global agenda-setter list length (CSV)
 TOP_N_COMM  = 10   # within-community agenda-setter list length
 TOP_CASES   = 20   # case study pairs to surface
+PAPER_N     = 20   # figure size for paper bar charts (top/bottom 20)
 
 COMMUNITY_LABELS = {
     0: "Finance/Insurance",
@@ -192,6 +196,78 @@ def plot_figures(nodes, top_global, out_dir):
     fig.tight_layout()
     fig.savefig(out_dir / "01_top30_bar.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
+
+
+# ---------------------------------------------------------------------------
+# Paper figures (top-20 / bottom-20 bar charts)
+# ---------------------------------------------------------------------------
+
+def plot_paper_figures(nodes, out_dir):
+    """Generate 01_top20_bar.png (agenda-setters) and 01_bottom20_bar.png (followers)."""
+    from matplotlib.patches import Patch
+    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10})
+
+    # -- Top-20 agenda-setters; highlight firms with low wc_net_strength ----
+    top20 = nodes.nlargest(PAPER_N, "net_strength").copy()
+
+    # Flag firms in bottom 50% of wc_net_strength within their own community
+    valid = nodes.dropna(subset=["community", "wc_net_strength"])
+    low_wc = set()
+    for cid in valid["community"].unique():
+        comm_vals = valid[valid["community"] == cid]
+        median_wc = comm_vals["wc_net_strength"].median()
+        low_wc |= set(comm_vals[comm_vals["wc_net_strength"] < median_wc]["firm"])
+
+    top20["highlight"] = top20["firm"].isin(low_wc)
+    top20 = top20.iloc[::-1]   # highest net_strength at top when plotted
+    colors  = top20["sector"].map(SECTOR_COLORS).fillna("#AAAAAA").tolist()
+    edges_c = ["black" if h else "white" for h in top20["highlight"]]
+    lws     = [1.6 if h else 0.5 for h in top20["highlight"]]
+
+    fig, ax = plt.subplots(figsize=(8, 7))
+    ax.barh(range(len(top20)), top20["net_strength"].tolist(),
+            color=colors, edgecolor=edges_c, linewidth=lws, height=0.72)
+    ax.set_yticks(range(len(top20)))
+    ax.set_yticklabels(top20["firm"].str.title().tolist(), fontsize=8.5)
+    ax.set_xlabel("Net Strength", fontsize=11)
+    ax.set_title("Top-20 Global Agenda-Setters by Net Strength\n116th Congress\n"
+                 "(black outline = low within-community wc_net_strength)", fontsize=11)
+    legend_handles = [Patch(facecolor=c, label=s) for s, c in SECTOR_COLORS.items()]
+    ax.legend(handles=legend_handles, fontsize=8, loc="lower right", framealpha=0.85)
+    ax.grid(axis="x", alpha=0.25, linestyle="--")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(out_dir / "01_top20_bar.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+    # -- Bottom-20 agenda-followers ----------------------------------------
+    bottom20 = nodes.nsmallest(PAPER_N, "net_strength").copy()
+    bottom20 = bottom20.iloc[::-1]   # least-negative at top when plotted
+    colors_b = bottom20["sector"].map(SECTOR_COLORS).fillna("#AAAAAA").tolist()
+
+    fig, ax = plt.subplots(figsize=(8, 7))
+    ax.barh(range(len(bottom20)), bottom20["net_strength"].tolist(),
+            color=colors_b, edgecolor="white", linewidth=0.5, height=0.72)
+    ax.set_yticks(range(len(bottom20)))
+    ax.set_yticklabels(bottom20["firm"].str.title().tolist(), fontsize=8.5)
+    ax.set_xlabel("Net Strength", fontsize=11)
+    ax.set_title("Top-20 Global Agenda-Followers by Net Strength\n116th Congress", fontsize=11)
+    legend_handles = [Patch(facecolor=c, label=s) for s, c in SECTOR_COLORS.items()]
+    ax.legend(handles=legend_handles, fontsize=8, loc="lower left", framealpha=0.85)
+    ax.grid(axis="x", alpha=0.25, linestyle="--")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(out_dir / "01_bottom20_bar.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+    # Save followers CSV
+    bottom20_csv = nodes.nsmallest(PAPER_N, "net_strength")[
+        ["firm", "net_strength", "net_influence", "total_spend", "num_bills", "sector"]
+    ].reset_index(drop=True)
+    bottom20_csv.index += 1
+    bottom20_csv.to_csv(out_dir / "01_global_followers.csv", index_label="ns_rank")
 
 
 # ---------------------------------------------------------------------------
@@ -348,14 +424,18 @@ def main():
 
     # -- Figures ---------------------------------------------------------
     plot_figures(nodes, top_global, OUT_DIR)
+    plot_paper_figures(nodes, OUT_DIR)
 
     print(f"\n  Outputs:")
     print(f"    01_global_agenda_setters.csv")
+    print(f"    01_global_followers.csv")
     print(f"    01_within_community_agenda_setters.csv")
     print(f"    01_case_studies.csv")
     print(f"    01_primary_directed_influence.txt")
     print(f"    01_ns_vs_spend_scatter.png")
     print(f"    01_top30_bar.png")
+    print(f"    01_top20_bar.png")
+    print(f"    01_bottom20_bar.png")
     print(f"\n{SEP}")
     print("Analysis complete.")
 

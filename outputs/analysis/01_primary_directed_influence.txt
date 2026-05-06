@@ -164,11 +164,14 @@ TOP 20 INFLUENCER→FOLLOWER PAIRS (by rbo × net_temporal)
 
   Outputs:
     01_global_agenda_setters.csv
+    01_global_followers.csv
     01_within_community_agenda_setters.csv
     01_case_studies.csv
     01_primary_directed_influence.txt
     01_ns_vs_spend_scatter.png
     01_top30_bar.png
+    01_top20_bar.png
+    01_bottom20_bar.png
 
 ======================================================================
 Analysis complete.

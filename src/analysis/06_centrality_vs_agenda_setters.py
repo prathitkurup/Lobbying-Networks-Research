@@ -4,10 +4,10 @@ Centrality measures vs. agenda-setter rankings — 116th Congress.
 Answers: Do high-centrality firms in the bill affiliation network also emerge
 as top agenda-setters in the directed influence network?
 
-Compares four centrality measures (global PageRank, BCZ intercentrality
-[precomputed], within-community eigenvector, within-community PageRank from
-stored centrality_affiliation.csv) against net_strength and wc_net_strength
-using Spearman correlations and a ranked heatmap of the top-30 firms.
+Compares three centrality measures (global PageRank, BCZ intercentrality
+[precomputed], within-community eigenvector from centrality_affiliation.csv)
+against net_strength and wc_net_strength using Spearman correlations and a
+ranked heatmap of the top-30 firms.
 
 Data: loads precomputed centrality from data/archive/centralities/ and
 stored correlation results from prior validation outputs where available,
@@ -97,17 +97,16 @@ def main():
     master = (
         nodes
         .merge(cent[["firm", "global_pagerank", "katz_centrality",
-                      "within_comm_eigenvector", "participation_coeff"]], on="firm", how="left")
+                      "within_comm_eigenvector"]], on="firm", how="left")
         .merge(wc_ns, on="firm", how="left")
     )
     master["community"] = master["firm"].map(partition)
 
     # Centrality columns to compare
     cent_cols = {
-        "global_pagerank":       "Global PageRank",
-        "katz_centrality":       "Katz centrality",
-        "within_comm_eigenvector":"WC eigenvector",
-        "participation_coeff":   "Participation coeff",
+        "global_pagerank":        "Global PageRank",
+        "katz_centrality":        "Katz centrality",
+        "within_comm_eigenvector": "WC eigenvector",
     }
     outcome_cols = {
         "net_strength":    "net_strength (global)",
@@ -172,10 +171,10 @@ def main():
     # Columns to show in heatmap (rank-normalise each measure to [0,1])
     hm_cols = ["net_strength", "net_influence", "wc_net_strength",
                "global_pagerank", "katz_centrality",
-               "within_comm_eigenvector", "participation_coeff"]
+               "within_comm_eigenvector"]
     hm_labels = ["net_strength", "net_influence", "wc_net_strength",
                  "Global PageRank", "Katz centrality",
-                 "WC eigenvector", "Participation coeff"]
+                 "WC eigenvector"]
 
     # Rank-normalize: rank ascending so high rank = high value = yellow
     hm_data = pd.DataFrame(index=sub["firm"])
@@ -235,12 +234,11 @@ def main():
 
     # -- Figure 2: clean 4×2 Spearman ρ heatmap -------------------------
     print(f"\n[3/3] Generating correlation heatmap and scatter ...")
-    cent_labels = ["Global PageRank", "Katz centrality",
-                   "WC eigenvector", "Participation coeff"]
+    cent_labels = ["Global PageRank", "Katz centrality", "WC eigenvector"]
     out_labels  = ["net_strength (global)", "wc_net_strength (within-comm)"]
 
-    rho_mat = np.full((4, 2), np.nan)
-    p_mat   = np.full((4, 2), np.nan)
+    rho_mat = np.full((3, 2), np.nan)
+    p_mat   = np.full((3, 2), np.nan)
     for i, cl in enumerate(cent_labels):
         for j, ol in enumerate(out_labels):
             row = corr_df[(corr_df["centrality"] == cl) &
@@ -249,17 +247,17 @@ def main():
                 rho_mat[i, j] = row.iloc[0]["rho_full"]
                 p_mat[i, j]   = row.iloc[0]["p_full"]
 
-    fig, ax = plt.subplots(figsize=(5.5, 4.5))
+    fig, ax = plt.subplots(figsize=(5.5, 3.5))
     im = ax.imshow(rho_mat, cmap="RdYlGn", vmin=-0.3, vmax=0.3, aspect="auto")
     plt.colorbar(im, ax=ax, shrink=0.8, label="Spearman ρ")
     ax.set_xticks([0, 1])
     ax.set_xticklabels(["net_strength\n(global)", "wc_net_strength\n(within-comm)"],
                        fontsize=10)
-    ax.set_yticks(range(4))
+    ax.set_yticks(range(3))
     ax.set_yticklabels(cent_labels, fontsize=10)
     ax.set_title("Centrality vs. Influence: Spearman ρ (full sample)\n116th Congress",
                  fontsize=11, pad=10)
-    for i in range(4):
+    for i in range(3):
         for j in range(2):
             rho = rho_mat[i, j]
             p   = p_mat[i, j]
