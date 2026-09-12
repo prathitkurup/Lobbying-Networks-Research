@@ -29,6 +29,22 @@ All data comes from **OpenSecrets CRP bulk lobbying tables**.
 
 **Name mapping:** `data/manual_opensecrets_name_mapping.json` — manually curated JSON mapping Fortune 500 firm names to their OpenSecrets CRP name variants.
 
+## Data Source
+
+The Lobbying Disclosure Act (LDA) requires all organizations that lobby for federal legislation to publicly disclose these activities every fiscal quarter. We use OpenSecrets bulk lobbying data to access LDA reports. We focus on the 111th through 117th Congresses, spanning from January 2009 through January 2023. We choose this period because the data is available through OpenSecrets' free bulk disclosure files and also because the quarterly reporting standards introduced by the Honest Leadership and Open Government Act of 2007 remains consistent throughout. This facilitates methodological comparability across different Congress sessions. 
+
+We particularly focus on the 116th Congress, which ran from January 2019 through January 2021. We select the 116th Congress as our primary analytical window because it spans both a stable pre-pandemic period and the onset of COVID-19, producing substantive variation in legislative priorities useful for testing the scope of our influence measure. Such changes in legislative priorities have been studied in the literature.
+
+---
+
+## Data Processing
+
+Using the OpenSecrets bulk lobbying data, we extract valid LDA reports following the criteria in the OpenSecrets Data User Guide. We retain only reports flagged with the validity indicator *ind = y*, which identifies the final, correct filing for each report and removes superseded amendments. In addition, we retain only reports listing at least one named lobbyist.
+
+We filter the sample to Fortune 500 companies using the 2019 Fortune 500 ranking (from the beginning of the 116th Congress). Kowal (2018) similarly restricts analysis to Fortune 500 firms, arguing that they constitute a representative cross-industry sample of the largest U.S. corporations with the most consistently disclosed lobbying activity and that data for smaller firms are not publicly available in sufficient detail. Matching LDA records with Fortune 500 firms requires resolving the many variants of client names, subsidiary names, and registrant names under which these large corporations file. We accomplish this through a hand-crafted mapping applied to the *ultorg* and *client* fields in the OpenSecrets data. This helps us identify all valid LDA activities by Fortune 500 companies and subsidiaries across different congressional sessions.
+
+The result is a curated dataset with company, bill, and expenditure amounts as the primary dimensions. For each LDA report, we evenly distribute the reported dollar amount across all bills named in that report.
+
 ---
 
 ## Extraction Pipeline
