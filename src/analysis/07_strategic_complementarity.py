@@ -379,26 +379,32 @@ def run_part_a():
         (f"C — low-RBO (<p25)",   main_panel[main_panel["rbo_ij"] <  rbo_q25].copy()),
     ]
 
-    print(f"\n  {'Spec':<28} {'N':>8} {'β₁(entry)':>12} {'β₃(inter)':>12} "
+    print(f"\n  {'Spec':<28} {'N':>8} {'β₁(entry)':>12} {'β₂(rbo)':>12} {'β₃(inter)':>12} "
           f"{'SE(β₃)':>10} {'p(β₃)':>10} {'Interp'}")
-    print(f"  {'─'*94}")
+    print(f"  {'─'*106}")
     for label, df_spec in specs:
         if len(df_spec) < 50:
             print(f"  {label:<28} (insufficient obs — skipped)")
             continue
         res, n = run_ols_spec(df_spec, label)
         b1  = res.params.get("entry_j_dm", np.nan)
+        b2  = res.params.get("rbo_ij_dm", np.nan)
+        se2 = res.bse.get("rbo_ij_dm", np.nan)
+        p2  = res.pvalues.get("rbo_ij_dm", np.nan)
         b3  = res.params.get("entry_x_rbo_dm", np.nan)
         se3 = res.bse.get("entry_x_rbo_dm", np.nan)
         p3  = res.pvalues.get("entry_x_rbo_dm", np.nan)
         stars = "***" if p3 < 0.001 else "**" if p3 < 0.01 else "*" if p3 < 0.05 else ""
         interp = ("complementarity" if b3 > 0 and p3 < 0.05
                   else "ns" if p3 >= 0.05 else "negative")
-        print(f"  {label:<28} {n:>8,} {float(b1):>12.4f} {float(b3):>12.4f} "
+        print(f"  {label:<28} {n:>8,} {float(b1):>12.4f} {float(b2):>12.4f} {float(b3):>12.4f} "
               f"{float(se3):>10.4f} {float(p3):>10.4f}{stars}  {interp}")
         results.append({
             "spec": label, "n": n,
             "coef_entry_j": round(float(b1), 5),
+            "coef_rbo_ij": round(float(b2), 5),
+            "se_rbo_ij": round(float(se2), 5),
+            "p_rbo_ij": round(float(p2), 5),
             "coef_entry_x_rbo": round(float(b3), 5),
             "se_entry_x_rbo": round(float(se3), 5),
             "p_entry_x_rbo": round(float(p3), 5),
@@ -592,26 +598,32 @@ def run_part_d():
         ("F — low-RBO lag (<p25)",     main_panel[main_panel["rbo_ij"] <  rbo_q25].copy()),
     ]
 
-    print(f"\n  {'Spec':<28} {'N':>8} {'β₁(entry)':>12} {'β₃(inter)':>12} "
+    print(f"\n  {'Spec':<28} {'N':>8} {'β₁(entry)':>12} {'β₂(rbo)':>12} {'β₃(inter)':>12} "
           f"{'SE(β₃)':>10} {'p(β₃)':>10} {'Interp'}")
-    print(f"  {'─'*94}")
+    print(f"  {'─'*106}")
     for label, df_spec in specs:
         if len(df_spec) < 50:
             print(f"  {label:<28} (insufficient obs — skipped)")
             continue
         res, n = run_ols_spec(df_spec, label)
         b1  = res.params.get("entry_j_dm", np.nan)
+        b2  = res.params.get("rbo_ij_dm", np.nan)
+        se2 = res.bse.get("rbo_ij_dm", np.nan)
+        p2  = res.pvalues.get("rbo_ij_dm", np.nan)
         b3  = res.params.get("entry_x_rbo_dm", np.nan)
         se3 = res.bse.get("entry_x_rbo_dm", np.nan)
         p3  = res.pvalues.get("entry_x_rbo_dm", np.nan)
         stars  = "***" if p3 < 0.001 else "**" if p3 < 0.01 else "*" if p3 < 0.05 else ""
         interp = ("complementarity" if b3 > 0 and p3 < 0.05
                   else "ns" if p3 >= 0.05 else "negative")
-        print(f"  {label:<28} {n:>8,} {float(b1):>12.4f} {float(b3):>12.4f} "
+        print(f"  {label:<28} {n:>8,} {float(b1):>12.4f} {float(b2):>12.4f} {float(b3):>12.4f} "
               f"{float(se3):>10.4f} {float(p3):>10.4f}{stars}  {interp}")
         results.append({
             "spec": label, "n": n,
             "coef_entry_j":      round(float(b1),  5),
+            "coef_rbo_ij":       round(float(b2),  5),
+            "se_rbo_ij":         round(float(se2), 5),
+            "p_rbo_ij":          round(float(p2),  5),
             "coef_entry_x_rbo":  round(float(b3),  5),
             "se_entry_x_rbo":    round(float(se3), 5),
             "p_entry_x_rbo":     round(float(p3),  5),
